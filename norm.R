@@ -2,17 +2,12 @@
 #created Sep 2013, M. Beck
 #normalization of tb hirsch model
 
-#######
-
-#import data, salinity grid loaded automatically
-rm(list=ls())
-
 ######
-#normalize estimates by independent variables
-
-###
 #normalize by salinity
 #uses back-trans data based on Moyer et al. 2012
+
+# load salinity inteprolation grid, from 'interp_grid.r')
+load(file='salwt_grd.RData')
 
 segs<-unique(tb.dat$seg)
 

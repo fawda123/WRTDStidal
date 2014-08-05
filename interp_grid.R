@@ -4,14 +4,9 @@
 #used to create heat maps and to get normalization data
 
 ######
-#get interpolation grids
-
-######
-#salinity grid
+#salinity interpolation grids
 #includes beta estimates for weighted regressions for each obs
 #includes back-transformation from Moyer et al. 2012
-
-rm(list=ls())
 
 sal.div<-20 #no. of divisions, range is different for each segment
 

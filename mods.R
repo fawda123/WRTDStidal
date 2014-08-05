@@ -3,14 +3,11 @@
 #estimated data are obtained - from interpolation grid and actual data
 
 ######
-#import data
-
-rm(list=ls())
-
-######
-
 #get estimated data from interpolation grids
 #add obs column to sal.grd to indicate which is matching
+
+# salinity interpolation grid, from 'interp_grid.r'
+load(file='salwt_grd.RData')
 
 obs<-numeric(nrow(sal.grd))
 
