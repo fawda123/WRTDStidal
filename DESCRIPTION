@@ -1,0 +1,19 @@
+Package: WRTDStidal
+Type: Package
+Title: Weighted regression for water quality evaluation in tidal waters
+Version: 0.0.0.9000
+Date: 2015-02-13
+Author: Marcus W. Beck [aut, cre]
+Maintainer: Marcus W. Beck <beck.marcus@epa.gov>
+Description: An adapation for estuaries (tidal waters) of weighted regression on time, discharge, and season to evaluate trends in water quality time series, with specific application to chlorophyll  
+BugReports: https://github.com/fawda123/wtreg_for_estuaries/issues
+License: CC0
+LazyData: true
+Imports:
+    dplyr,
+    quantreg
+Depends:
+    R (>= 3.1.2)
+Authors@R: person(given = "Marcus W.", family = "Beck",
+    role = c("aut","cre"),
+    email = "mbafs2012@gmail.com")
