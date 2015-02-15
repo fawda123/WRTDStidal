@@ -5,15 +5,19 @@
 \alias{getwts.tidal}
 \title{Get weights for regression}
 \usage{
-getwts(tidal_in)
+getwts(tidal_in, ...)
 
-\method{getwts}{tidal}(tidal_in, ref_in, wins = list(0.5, 10, NULL),
-  all = F, min_obs = T)
+\method{getwts}{tidal}(tidal_in, ref_in, wt_vars = c("day_num", "year",
+  "salff"), wins = list(0.5, 10, NULL), all = F, min_obs = T, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
 
+\item{...}{arguments passed to other methods}
+
 \item{ref_in}{row of tidal object as reference for weights}
+
+\item{wt_vars}{chr string of three elements indicatings names of columns in tidal object that are used for reference row weights}
 
 \item{wins}{list of half-window widths for time, year, and salinity}
 
@@ -25,7 +29,7 @@ getwts(tidal_in)
 Some weights
 }
 \description{
-Get weights for regression for a single observation using a tri-cubic weighting function
+Get weights for weighted regression for a single observation using a tri-cubic weighting function
 }
 \examples{
 ##

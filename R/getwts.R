@@ -1,9 +1,15 @@
 ######
 #' Get weights for regression
 #' 
-#' Get weights for regression for a single observation using a tri-cubic weighting function
+#' Get weights for weighted regression for a single observation using a tri-cubic weighting function
 #' 
 #' @param tidal_in input tidal object
+#' @param ref_in row of tidal object as reference for weights
+#' @param wt_vars chr string of three elements indicatings names of columns in tidal object that are used for reference row weights
+#' @param wins list of half-window widths for time, year, and salinity
+#' @param all logical to return individual weights rather than the product of all three, default \code{FALSE}
+#' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
+#' @param ... arguments passed to other methods
 #' 
 #' @return Some weights
 #' 
@@ -11,33 +17,25 @@
 #' 
 #' @examples
 #' ##
-getwts <- function(tidal_in) UseMethods('getwts')
+getwts <- function(tidal_in, ...) UseMethod('getwts')
 
 #' @rdname getwts
-#' 
-#' @param ref_in row of tidal object as reference for weights
-#' @param wins list of half-window widths for time, year, and salinity
-#' @param all logical to return individual weights rather than the product of all three, default \code{FALSE}
-#' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
 #'
 #' @export
 #' 
 #' @method getwts tidal
 getwts.tidal <- function(tidal_in, ref_in,
+  wt_vars = c('day_num', 'year', 'salff'),
   wins = list(0.5, 10, NULL),
   all = F,
-  min_obs = T){
-  
-  #sanity check
-  if(sum(wt_vars %in% names(dat_in)) != length(wt_vars))
-    stop('Weighting variables must be named in "dat_in"')
+  min_obs = T, ...){
   
   #windows for each of three variables
   wins_1 <- wins[[1]]
   wins_2 <- wins[[2]]
   wins_3 <- wins[[3]]
   
-  if(is.null(wins[[3]])) wins_3 <- diff(range(dat_in[, wt_vars[3]]))/2
+  if(is.null(wins[[3]])) wins_3 <- diff(range(tidal_in[, wt_vars[3]]))/2
   
   #weighting tri-cube function
   wt_fun_sub <- function(dat_cal, ref, win, mo = F){
@@ -64,9 +62,9 @@ getwts.tidal <- function(tidal_in, ref_in,
   ref_3 <- as.numeric(ref_in[, wt_vars[3]])
 
   #weights for each observation in relation to reference
-  wts_1 <- sapply(as.numeric(dat_in[, wt_vars[1]]), wt_fun_sub, ref = ref_1, win = wins_1, mo = T)
-  wts_2 <- sapply(as.numeric(dat_in[, wt_vars[2]]), wt_fun_sub, ref = ref_2, win = wins_2)
-  wts_3 <- sapply(as.numeric(dat_in[, wt_vars[3]]), wt_fun_sub, ref = ref_3, win = wins_3)
+  wts_1 <- sapply(as.numeric(tidal_in[, wt_vars[1]]), wt_fun_sub, ref = ref_1, win = wins_1, mo = T)
+  wts_2 <- sapply(as.numeric(tidal_in[, wt_vars[2]]), wt_fun_sub, ref = ref_2, win = wins_2)
+  wts_3 <- sapply(as.numeric(tidal_in[, wt_vars[3]]), wt_fun_sub, ref = ref_3, win = wins_3)
   out <- wts_1 * wts_2 * wts_3
   
   gr_zero <- sum(out>0)
@@ -79,9 +77,9 @@ getwts.tidal <- function(tidal_in, ref_in,
     wins_3 <- 0.1 * wins_3 + wins_3
     
     #weights for each observation in relation to reference
-    wts_1 <- sapply(as.numeric(dat_in[, wt_vars[1]]), wt_fun_sub, ref = ref_1, win = wins_1, mo = T)
-    wts_2 <- sapply(as.numeric(dat_in[, wt_vars[2]]), wt_fun_sub, ref = ref_2, win = wins_2)
-    wts_3 <- sapply(as.numeric(dat_in[, wt_vars[3]]), wt_fun_sub, ref = ref_3, win = wins_3)
+    wts_1 <- sapply(as.numeric(tidal_in[, wt_vars[1]]), wt_fun_sub, ref = ref_1, win = wins_1, mo = T)
+    wts_2 <- sapply(as.numeric(tidal_in[, wt_vars[2]]), wt_fun_sub, ref = ref_2, win = wins_2)
+    wts_3 <- sapply(as.numeric(tidal_in[, wt_vars[3]]), wt_fun_sub, ref = ref_3, win = wins_3)
     
     out <- wts_1 * wts_2 * wts_3
     

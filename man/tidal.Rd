@@ -4,14 +4,14 @@
 \alias{tidal}
 \title{Create a tidal class object}
 \usage{
-tidal(dat_in, ind = c(1, 2, 3), chllog = TRUE)
+tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE)
 }
 \arguments{
 \item{dat_in}{Input data frame for a water quality time series with three columns for date (Y-m-d format), chlorophyll concentation (ug/L), and fraction of freshwater}
 
 \item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
 
-\item{three}{element numeric vector indicating column positions of date, chlorophyll, and salinity of input data frame}
+\item{four}{element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame}
 }
 \value{
 A \code{data.frame} with columns ordered as date, chlorophyll, salinity, and decimal time
@@ -20,7 +20,7 @@ A \code{data.frame} with columns ordered as date, chlorophyll, salinity, and dec
 Prepare water quality data for weighted regression by creating a tidal class object
 }
 \details{
-This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a three-column \code{\link[base]{data.frame}} with date, chlorophyll, and salinity data.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data should be represented as fraction of freshwater.
+This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a three-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data should be represented as fraction of freshwater.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.
 }
 \examples{
 ## raw data
