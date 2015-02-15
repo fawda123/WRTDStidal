@@ -22,9 +22,10 @@
 #' tidal_in <- tidal(chldat)
 #' res <- wrtds(tidal_in)
 #' 
-#' ## different quantiles
-#' res <- wrtds(chldat, tau = c(0.1, 0.9))
-#' 
+#' ## multiple quantiles
+#' \dontrun{
+#' res <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))
+#' }
 wrtds <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T, ...) UseMethod('wrtds')
 
 #' @rdname wrtds
@@ -47,7 +48,7 @@ wrtds.data.frame <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T, ...){
 wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T){
   
   #salinity values to estimate
-  sal_grid <- seq(
+  sal_grd <- seq(
     min(tidal_in$salff, na.rm = T), 
     max(tidal_in$salff, na.rm = T), 
     length = sal_div
@@ -78,14 +79,14 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T){
       if(length(perc) != 0) cat(perc, '\t')
     }
     
-    # then iterate through values in sal_grid
-    for(i in seq_along(sal_grid)){
+    # then iterate through values in sal_grd
+    for(i in seq_along(sal_grd)){
       
-      ref_in$salff <- sal_grid[i]
+      ref_in$salff <- sal_grd[i]
       ref_wts <- getwts(tidal_in, ref_in)
       
       # data to predict
-      pred_dat <- data.frame(salff = sal_grid[i], dec_time = ref_in$dec_time)
+      pred_dat <- data.frame(salff = sal_grd[i], dec_time = ref_in$dec_time)
       
       # crq model, estimates all quants
       mod <- quantreg::crq(
@@ -130,6 +131,7 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T){
   # add grids to tidal object, return
   attr(tidal_in, 'fits') <- fit_grds
   attr(tidal_in, 'betas') <- b_grds
+  attr(tidal_in, 'sal_grd') <- sal_grd
   
   if(trace) cat('\n\nDone')
   

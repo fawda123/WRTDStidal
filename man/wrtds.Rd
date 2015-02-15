@@ -6,11 +6,12 @@
 \alias{wrtds.tidal}
 \title{Get WRTDS prediction grid}
 \usage{
-wrtds(tidal_in, sal_div = 20, ...)
+wrtds(tidal_in, sal_div = 10, tau = 0.5, trace = T, ...)
 
-\method{wrtds}{data.frame}(tidal_in, sal_div = 20, ...)
+\method{wrtds}{data.frame}(tidal_in, sal_div = 10, tau = 0.5, trace = T,
+  ...)
 
-\method{wrtds}{tidal}(tidal_in, sal_div = 20)
+\method{wrtds}{tidal}(tidal_in, sal_div = 10, tau = 0.5, trace = T)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -29,7 +30,14 @@ Get WRTDS prediction grid for chlorophyll observations in a tidal object
 ## load data
 data(chldat)
 
-## get wrtds grid
+## get wrtds grid, as data frame input
 res <- wrtds(chldat)
+
+## as tidal object
+tidal_in <- tidal(chldat)
+res <- wrtds(tidal_in)
+
+## different quantiles
+res <- wrtds(chldat, tau = c(0.1, 0.9))
 }
 

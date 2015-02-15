@@ -9,12 +9,20 @@ tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE)
 \arguments{
 \item{dat_in}{Input data frame for a water quality time series with three columns for date (Y-m-d format), chlorophyll concentation (ug/L), and fraction of freshwater}
 
-\item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
+\item{ind}{four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame}
 
-\item{four}{element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame}
+\item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
 }
 \value{
-A \code{data.frame} with columns ordered as date, chlorophyll, salinity, and decimal time
+A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, year, and decimal time.  The attributes are as follows:
+\describe{
+ \item{names}{Column names of the data frame}
+ \item{row.names}{Row names of the data frame}
+ \item{class}{Class of the object}
+ \item{fits}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+ \item{betas}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+ \item{sal_grd}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
+}
 }
 \description{
 Prepare water quality data for weighted regression by creating a tidal class object

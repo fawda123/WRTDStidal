@@ -4,10 +4,18 @@
 #' Prepare water quality data for weighted regression by creating a tidal class object
 #' 
 #' @param dat_in Input data frame for a water quality time series with three columns for date (Y-m-d format), chlorophyll concentation (ug/L), and fraction of freshwater
-#' @param four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
+#' @param ind four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
 #' 
-#' @return A \code{data.frame} with columns ordered as date, chlorophyll, salinity, and decimal time
+#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, year, and decimal time.  The attributes are as follows:
+#' \describe{
+#'  \item{names}{Column names of the data frame}
+#'  \item{row.names}{Row names of the data frame}
+#'  \item{class}{Class of the object}
+#'  \item{fits}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+#'  \item{betas}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+#'  \item{sal_grd}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
+#' }
 #'
 #' @details
 #' This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a three-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data should be represented as fraction of freshwater.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  
@@ -53,7 +61,8 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE){
     .Data = dat_in, 
     class = c('tidal', 'data.frame'),
     fits = NULL, 
-    betas = NULL
+    betas = NULL, 
+    sal_grd = NULL
     )
   
   return(tidal)
