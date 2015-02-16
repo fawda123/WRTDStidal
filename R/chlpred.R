@@ -18,7 +18,16 @@
 #' # load a tidal object
 #' data(tidobj)
 #' 
+#' # get fitted values for each quantile
 #' res <- chlpred(tidobj)
+#' 
+#' ##
+#' \dontrun{
+#' # fails if wrtds not used
+#' data(chldat)
+#' chldat <- tidal(chldat)
+#' chlpred(chldat)
+#' }
 chlpred <- function(tidal_in, ...) UseMethod('chlpred')
 
 #' @rdname chlpred
@@ -69,10 +78,16 @@ chlpred.tidal <- function(tidal_in, ...){
         # otherwise interpolate
         } else {
   
-          est <- try(approx(bnd_sal, bnd_chl, bnd_sal)$y[2])
+          # try to interpolate if enough values
+          est <- try({
+            approx(bnd_sal, bnd_chl, bnd_sal)$y[2]
+            }, silent = T)
           
         }
-   
+      
+        # est is NA if approx failed
+        if(!'numeric' %in% class(est)) est <- NA
+        
         return(est)
       
     })        
