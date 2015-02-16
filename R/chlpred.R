@@ -8,9 +8,9 @@
 #' @export
 #' 
 #' @details
-#' This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grid.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.  
+#' This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grid of each estimated quantile.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.  
 #' 
-#' @return Appends columns to the data.frame of predicted chlorophyll value for each quantile.
+#' @return Appends columns to the data.frame of predicted chlorophyll values for each quantile.  Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.
 #'  
 #' @examples
 #' ##
@@ -23,7 +23,7 @@
 #' 
 #' ##
 #' \dontrun{
-#' # fails if wrtds not used
+#' # fails if fits attribute not available
 #' data(chldat)
 #' chldat <- tidal(chldat)
 #' chlpred(chldat)
@@ -58,37 +58,7 @@ chlpred.tidal <- function(tidal_in, ...){
       
       function(x){
       
-        # find bounding salinity value
-        min_sal <- rev(which(x['to_pred'] >= sal_grd))[1]
-        max_sal <- which(x['to_pred'] <= sal_grd)[1]
-        
-        # get bounding salinity values
-        bnd_sal <- c(sal_grd[min_sal], x['to_pred'], sal_grd[max_sal])
-        
-        # get bounding chl values
-        bnd_chl <- c(x[min_sal + 1], NA, x[max_sal + 1])
-        
-        chk <- unique(na.omit(bnd_chl))
-        
-        # if sal value is min or max in chl grid...
-        if(length(chk) == 1){ 
-          
-          est <- chk
-        
-        # otherwise interpolate
-        } else {
-  
-          # try to interpolate if enough values
-          est <- try({
-            approx(bnd_sal, bnd_chl, bnd_sal)$y[2]
-            }, silent = T)
-          
-        }
-      
-        # est is NA if approx failed
-        if(!'numeric' %in% class(est)) est <- NA
-        
-        return(est)
+        ##### fix this.................................
       
     })        
 

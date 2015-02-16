@@ -13,13 +13,13 @@ chlpred(tidal_in, ...)
 \item{tidal_in}{input tidal object}
 }
 \value{
-Appends columns to the data.frame of predicted chlorophyll value for each quantile.
+Appends columns to the data.frame of predicted chlorophyll values for each quantile.  Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.
 }
 \description{
 Get model predictions from WRTDS using linear interpolation of values in grids
 }
 \details{
-This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grid.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.
+This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grid of each estimated quantile.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.
 }
 \examples{
 ##
@@ -27,6 +27,15 @@ This function is used after \code{wrtds} to estimate predicted values of chlorop
 # load a tidal object
 data(tidobj)
 
-chlpred(tidobj)
+# get fitted values for each quantile
+res <- chlpred(tidobj)
+
+##
+\dontrun{
+# fails if fits attribute not available
+data(chldat)
+chldat <- tidal(chldat)
+chlpred(chldat)
+}
 }
 

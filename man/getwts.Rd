@@ -13,7 +13,7 @@ getwts(tidal_in, ...)
 \arguments{
 \item{tidal_in}{input tidal object}
 
-\item{...}{arguments passed to other methods}
+\item{...}{arguments passed to or from other methods}
 
 \item{ref_in}{row of tidal object as reference for weights}
 
@@ -26,12 +26,22 @@ getwts(tidal_in, ...)
 \item{min_obs}{logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}}
 }
 \value{
-Some weights
+A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.
 }
 \description{
-Get weights for weighted regression for a single observation using a tri-cubic weighting function
+Get weights for WRTDS for a single observation using a tri-cubic weighting function
+}
+\details{
+The default half-window widths for \code{day_num}, \code{year}, and \code{salff} are half a day (12 hours), 10 years, and half the range of salinity (as fraction of freshwater) in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{all_min = FALSE}.
 }
 \examples{
 ##
+data(tidobj)
+
+# get weights for first row
+first <- tidobj[1, ]
+wts <- getwts(tidobj, first)
+
+plot(wts, type = 'l')
 }
 
