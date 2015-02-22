@@ -58,7 +58,10 @@ chlpred.tidal <- function(tidal_in, ...){
       
       function(x){
       
-        ##### fix this.................................
+        row_in <- x[-1]
+        sal_pred <- x[1]
+        
+        chlinterp(row_in, sal_pred, sal_grd)
       
     })        
 
