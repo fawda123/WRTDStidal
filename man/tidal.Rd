@@ -14,7 +14,7 @@ tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE)
 \item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
 }
 \value{
-A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, year, and decimal time.  The attributes are as follows:
+A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 \describe{
  \item{names}{Column names of the data frame}
  \item{row.names}{Row names of the data frame}

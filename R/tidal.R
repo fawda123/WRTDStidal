@@ -7,7 +7,7 @@
 #' @param ind four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
 #' 
-#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, year, and decimal time.  The attributes are as follows:
+#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 #' \describe{
 #'  \item{names}{Column names of the data frame}
 #'  \item{row.names}{Row names of the data frame}
@@ -49,10 +49,12 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE){
   # get decimal time
   day_num <- as.numeric(strftime(dat_in$Date, '%j')) + 1
   year <- as.numeric(strftime(dat_in$Date, '%Y'))
+  month <- as.numeric(strftime(dat_in$Date, '%m'))
   lp_days <- day_num %in% c(61, 92, 122, 153, 183, 214, 245, 275, 306, 336)
   day_num[lp_days] <- day_num[lp_days] - 1
   day_num <- day_num/365
   dat_in$day_num <- day_num
+  dat_in$month <- month
   dat_in$year <- year
   dat_in$dec_time <- year + day_num
   

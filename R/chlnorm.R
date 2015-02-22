@@ -39,6 +39,7 @@ chlnorm.tidal <- function(tidal_in, ...){
   
   fits <- attr(tidal_in, 'fits')
   sal_grd <- attr(tidal_in, 'sal_grd')
+  num_obs <- nrow(tidal_in)
   
   # stop if no fits attribute
   if(is.null(fits)) stop('No fits attribute in the tidal object, run wrtds function')
@@ -46,27 +47,35 @@ chlnorm.tidal <- function(tidal_in, ...){
   # quantiles to predict
   tau <- names(fits)
   
-  # get predictions for each quantile
+  # normalize predictions for each quantile
   for(i in seq_along(tau)){
   
     # interp grid and salff values to interp
     fit_grd <- fits[[i]]
-    
-    # find all salff values across years here
-    to_pred <- tidal_in$salff
-    fit_grd <- cbind(to_pred, fit_grd)
 
-    preds <- apply(fit_grd, 1, 
-      
-      function(x){
-        
-        ##>>>>>>>>.................. fix this
-      
-    })        
+    norms <- rep(NA_real_, num_obs)
+    for(row in 1:num_obs){
 
-    # append to tidal_in object
-    tidal_in$norm <- preds
-    names(tidal_in)[grepl('^norm$', names(tidal_in))] <- tau[i]
+      # get salff values across all dates for the row
+      sal_vals <- salfind(tidal_in, row)
+      
+      # get interpolated values for each salff value
+      row_in <- fit_grd[row, ]
+      
+      # use chlinterp for all sal_vals 
+      chlpreds <- sapply(sal_vals, 
+        function(x) chlinterp(row_in, x, sal_grd)
+        ) 
+      
+      # average for normalization and append to norms
+      norms[row] <- mean(chlpreds)
+      
+    }    
+
+    # append to tidal_in object for the grid
+    tidal_in$norm <- norms
+    colnm <- gsub('^fit', 'norm', tau[i])
+    names(tidal_in)[grepl('^norm$', names(tidal_in))] <- colnm
     
   }
   
