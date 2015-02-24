@@ -10,7 +10,9 @@
 #' 
 #' @return Predicted chlorophyll values from the interpolation
 #' 
-#' @details This function is primarily used within \code{\link{chlprd}} and \code{\link{chlnorm}}.
+#' @details This function is primarily used within \code{\link{chlpred}} and \code{\link{chlnorm}}.
+#' 
+#' @export
 #' 
 #' @examples
 #' ##

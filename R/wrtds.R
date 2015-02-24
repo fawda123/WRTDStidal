@@ -5,6 +5,8 @@
 #'
 #' @param tidal_in input tidal object
 #' @param sal_div numeric indicating number of divisions across the range of salinity as fraction of freshwater to create interpolation grid
+#' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
+#' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to other methods
 #' 
 #' @export
@@ -26,14 +28,14 @@
 #' \dontrun{
 #' res <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))
 #' }
-wrtds <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T, ...) UseMethod('wrtds')
+wrtds <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...) UseMethod('wrtds')
 
 #' @rdname wrtds
 #'
 #' @export
 #'
 #' @method wrtds data.frame
-wrtds.data.frame <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T, ...){
+wrtds.data.frame <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   
   dat <- tidal(tidal_in)
   wrtds(dat, sal_div, tau, trace, ...)
@@ -43,14 +45,16 @@ wrtds.data.frame <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T, ...){
 #' @rdname wrtds
 #' 
 #' @import quantreg
+#' 
+#' @export
 #'
 #' @method wrtds tidal
-wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T){
+wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   
   #salinity values to estimate
   sal_grd <- seq(
-    min(tidal_in$salff, na.rm = T), 
-    max(tidal_in$salff, na.rm = T), 
+    min(tidal_in$salff, na.rm = TRUE), 
+    max(tidal_in$salff, na.rm = TRUE), 
     length = sal_div
     )
 
@@ -113,7 +117,7 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = T){
       names(fits) <- names(fit_grds)
 
       # model parameters for salff
-      betas <- unlist(c(parms['salff', , drop = T]))
+      betas <- unlist(c(parms['salff', , drop = TRUE]))
       names(betas) <- names(b_grds)
       
       # save output to grids

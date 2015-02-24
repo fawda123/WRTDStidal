@@ -10,8 +10,9 @@ BugReports: https://github.com/fawda123/wtreg_for_estuaries/issues
 License: CC0
 LazyData: true
 Imports:
-    dplyr,
     quantreg
+Suggests:
+    survival
 Depends:
     R (>= 3.1.2)
 Authors@R: person(given = "Marcus W.", family = "Beck",

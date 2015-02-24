@@ -11,6 +11,8 @@ chlpred(tidal_in, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
+
+\item{...}{arguments passed to other methods}
 }
 \value{
 Appends columns to the data.frame of predicted chlorophyll values for each quantile.  Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.

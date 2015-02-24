@@ -5,7 +5,7 @@ library(devtools)
 
 load_all()
 
-load(chldat)
+data(chldat)
 
 tidobj <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))
 

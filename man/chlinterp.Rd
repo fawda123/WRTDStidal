@@ -25,7 +25,7 @@ Predicted chlorophyll values from the interpolation
 Interpolate from a vector of predicted chlorophyll values for a given salinity value (as fraction of freshwater).  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
 }
 \details{
-This function is primarily used within \code{\link{chlprd}} and \code{\link{chlnorm}}.
+This function is primarily used within \code{\link{chlpred}} and \code{\link{chlnorm}}.
 }
 \examples{
 ##

@@ -16,12 +16,12 @@ tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE)
 \value{
 A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 \describe{
- \item{names}{Column names of the data frame}
- \item{row.names}{Row names of the data frame}
- \item{class}{Class of the object}
- \item{fits}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
- \item{betas}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
- \item{sal_grd}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
+ \item{\code{names}}{Column names of the data frame}
+ \item{\code{row.names}}{Row names of the data frame}
+ \item{\code{class}}{Class of the object}
+ \item{\code{fits}}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+ \item{\code{betas}}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+ \item{\code{sal_grd}}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
 }
 }
 \description{

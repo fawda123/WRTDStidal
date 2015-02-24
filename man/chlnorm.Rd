@@ -11,6 +11,8 @@ chlnorm(tidal_in, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
+
+\item{...}{arguments passed to other methods}
 }
 \value{
 Appends columns to the data.frame of normalized chlorophyll values for each quantile.  Columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.

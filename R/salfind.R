@@ -11,6 +11,8 @@
 #' 
 #' @details This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity (as fraction of freshwater) values for a given date for matching months across all years.  For example, the function will return all observed salff values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.
 #' 
+#' @export
+#' 
 #' @examples
 #' ##
 #' 

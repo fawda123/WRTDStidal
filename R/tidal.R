@@ -9,12 +9,12 @@
 #' 
 #' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 #' \describe{
-#'  \item{names}{Column names of the data frame}
-#'  \item{row.names}{Row names of the data frame}
-#'  \item{class}{Class of the object}
-#'  \item{fits}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
-#'  \item{betas}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
-#'  \item{sal_grd}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
+#'  \item{\code{names}}{Column names of the data frame}
+#'  \item{\code{row.names}}{Row names of the data frame}
+#'  \item{\code{class}}{Class of the object}
+#'  \item{\code{fits}}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+#'  \item{\code{betas}}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
+#'  \item{\code{sal_grd}}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
 #' }
 #'
 #' @details
@@ -38,7 +38,7 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE){
   
   # get relevant columns and set names
   dat_in <- dat_in[, ind, drop = F]
-  names(dat_in) <- c('Date', 'chla', 'salff', 'lim')
+  names(dat_in) <- c('date', 'chla', 'salff', 'lim')
   
   # log transform chl if T
   if(!chllog) dat_in$chla <- log(dat_in$chla)
@@ -47,9 +47,9 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE){
   dat_in$not_cens <- with(dat_in, chla > lim)
   
   # get decimal time
-  day_num <- as.numeric(strftime(dat_in$Date, '%j')) + 1
-  year <- as.numeric(strftime(dat_in$Date, '%Y'))
-  month <- as.numeric(strftime(dat_in$Date, '%m'))
+  day_num <- as.numeric(strftime(dat_in$date, '%j')) + 1
+  year <- as.numeric(strftime(dat_in$date, '%Y'))
+  month <- as.numeric(strftime(dat_in$date, '%m'))
   lp_days <- day_num %in% c(61, 92, 122, 153, 183, 214, 245, 275, 306, 336)
   day_num[lp_days] <- day_num[lp_days] - 1
   day_num <- day_num/365

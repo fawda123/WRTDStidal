@@ -4,6 +4,7 @@
 #' Get model predictions from WRTDS using linear interpolation of values in grids
 #' 
 #' @param tidal_in input tidal object
+#' @param ... arguments passed to other methods
 #' 
 #' @export
 #' 

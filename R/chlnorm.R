@@ -4,6 +4,7 @@
 #' Get normalized model predictions from WRTDS to remove the effect of salinity on chlorophyll.  Predicted values in the interpolation grids are averaged across dates.
 #' 
 #' @param tidal_in input tidal object
+#' @param ... arguments passed to other methods
 #' 
 #' @export
 #' 
