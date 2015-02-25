@@ -23,7 +23,7 @@ wrtds(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
 
 \item{trace}{logical indicating if progress is shown in the console}
 
-\item{...}{arguments passed to other methods}
+\item{...}{arguments passed to or from other methods}
 }
 \value{
 Appends a regression grid as an attribute to a tidal object

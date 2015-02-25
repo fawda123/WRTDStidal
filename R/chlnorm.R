@@ -4,7 +4,8 @@
 #' Get normalized model predictions from WRTDS to remove the effect of salinity on chlorophyll.  Predicted values in the interpolation grids are averaged across dates.
 #' 
 #' @param tidal_in input tidal object
-#' @param ... arguments passed to other methods
+#' @param trace logical indicating if progress is shown in the console
+#' @param ... arguments passed to or from other methods
 #' 
 #' @export
 #' 
@@ -36,7 +37,7 @@ chlnorm <- function(tidal_in, ...) UseMethod('chlnorm')
 #' @export
 #'
 #' @method chlnorm tidal
-chlnorm.tidal <- function(tidal_in, ...){
+chlnorm.tidal <- function(tidal_in, trace = TRUE, ...){
   
   fits <- attr(tidal_in, 'fits')
   sal_grd <- attr(tidal_in, 'sal_grd')
@@ -44,6 +45,8 @@ chlnorm.tidal <- function(tidal_in, ...){
   
   # stop if no fits attribute
   if(is.null(fits)) stop('No fits attribute in the tidal object, run wrtds function')
+  
+  if(trace) cat('\nNormalizing chlorophyll predictions\n\n')
   
   # quantiles to predict
   tau <- names(fits)

@@ -6,6 +6,7 @@
 #' @param dat_in Input data frame for a water quality time series with three columns for date (Y-m-d format), chlorophyll concentation (ug/L), and fraction of freshwater
 #' @param ind four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
+#' @param ... arguments passed from other methods
 #' 
 #' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 #' \describe{
@@ -30,7 +31,7 @@
 #' ## format
 #' chldat <- tidal(chldat)
 #' 
-tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE){
+tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   
   # sanity checks
   if(!any(c('Date', 'POSIXct', 'POSIXlt') %in% class(dat_in[, ind[1]])))

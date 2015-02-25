@@ -7,7 +7,7 @@
 #' @param sal_div numeric indicating number of divisions across the range of salinity as fraction of freshwater to create interpolation grid
 #' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
 #' @param trace logical indicating if progress is shown in the console
-#' @param ... arguments passed to other methods
+#' @param ... arguments passed to or from other methods
 #' 
 #' @export
 #' 
@@ -58,6 +58,9 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     length = sal_div
     )
 
+  # sort
+  tau <- sort(tau)
+  
   # output for predictions
   fit_grds <- matrix(nrow = nrow(tidal_in), ncol = sal_div)
   fit_grds <- replicate(length(tau), fit_grds, simplify = FALSE)
@@ -68,7 +71,9 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   names(b_grds) <- paste0('b', tau)
   
   if(trace){
-    cat('Estimating fits, % complete...\n\n')
+    txt <- paste(tau, collapse = ', ')
+    txt <- paste0('\nEstimating interpolation grids for tau = ', txt, ', % complete...\n\n')
+    cat(txt)
     counts <- round(seq(1, nrow(tidal_in), length = 10))
   }
   
@@ -87,7 +92,7 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     for(i in seq_along(sal_grd)){
       
       ref_in$salff <- sal_grd[i]
-      ref_wts <- getwts(tidal_in, ref_in)
+      ref_wts <- getwts(tidal_in, ref_in, ...)
       
       # data to predict
       pred_dat <- data.frame(salff = sal_grd[i], dec_time = ref_in$dec_time)
@@ -137,7 +142,7 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   attr(tidal_in, 'betas') <- b_grds
   attr(tidal_in, 'sal_grd') <- sal_grd
   
-  if(trace) cat('\n\nDone')
+  if(trace) cat('\n')
   
   return(tidal_in)
   

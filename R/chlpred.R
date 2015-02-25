@@ -4,7 +4,8 @@
 #' Get model predictions from WRTDS using linear interpolation of values in grids
 #' 
 #' @param tidal_in input tidal object
-#' @param ... arguments passed to other methods
+#' @param trace logical indicating if progress is shown in the console
+#' @param ... arguments passed to or from other methods
 #' 
 #' @export
 #' 
@@ -36,13 +37,15 @@ chlpred <- function(tidal_in, ...) UseMethod('chlpred')
 #' @export
 #'
 #' @method chlpred tidal
-chlpred.tidal <- function(tidal_in, ...){
+chlpred.tidal <- function(tidal_in, trace = TRUE, ...){
   
   fits <- attr(tidal_in, 'fits')
   sal_grd <- attr(tidal_in, 'sal_grd')
   
   # stop if no fits attribute
   if(is.null(fits)) stop('No fits attribute in the tidal object, run wrtds function')
+  
+  if(trace) cat('\nInterpolating chlorophyll predictions\n')
   
   # quantiles to predict
   tau <- names(fits)

@@ -4,7 +4,7 @@
 \alias{tidal}
 \title{Create a tidal class object}
 \usage{
-tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE)
+tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{Input data frame for a water quality time series with three columns for date (Y-m-d format), chlorophyll concentation (ug/L), and fraction of freshwater}
@@ -12,6 +12,8 @@ tidal(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE)
 \item{ind}{four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame}
 
 \item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
+
+\item{...}{arguments passed from other methods}
 }
 \value{
 A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:

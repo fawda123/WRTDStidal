@@ -7,12 +7,14 @@
 \usage{
 chlpred(tidal_in, ...)
 
-\method{chlpred}{tidal}(tidal_in, ...)
+\method{chlpred}{tidal}(tidal_in, trace = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
 
-\item{...}{arguments passed to other methods}
+\item{...}{arguments passed to or from other methods}
+
+\item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
 Appends columns to the data.frame of predicted chlorophyll values for each quantile.  Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.
