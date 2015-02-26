@@ -10,6 +10,7 @@ BugReports: https://github.com/fawda123/wtreg_for_estuaries/issues
 License: CC0
 LazyData: true
 Imports:
+    ggplot2,
     quantreg
 Suggests:
     survival
