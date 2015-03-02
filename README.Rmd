@@ -36,7 +36,7 @@ str(chldat)
 
 The quickest implementation of WRTDS with an input data frame is to use the `modfit` function which is a wrapoer for several other functions that complete specific tasks.  Executing the function will create a `tidal` object with multiple attributes.  The following text will also be printed in the console that describes current actions and progress. 
 
-```{r echo = FALSE}
+```{r echo = FALSE, message = FALSE}
 devtools::load_all()
 ```
 ```{r message = FALSE}
@@ -46,7 +46,7 @@ res <- modfit(chldat)
 
 The results include the original `data.frame` with additional columns for parameters used to fit the model, model predictions for specified conditional quantiles, and the respective normalized predictions.  The `modfit` function implements four individual functions which can be used separately to create the model. 
 
-```{r message = FALSE}
+```{r message = FALSE, eval = FALSE}
 # this is equivalent to running modfit
 # modfit is a wrapper for tidal, wrtds, chlpred, and chlnorm functions
 
