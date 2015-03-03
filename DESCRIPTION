@@ -10,9 +10,14 @@ BugReports: https://github.com/fawda123/wtreg_for_estuaries/issues
 License: CC0
 LazyData: true
 Imports:
+    dplyr,
     ggplot2,
-    quantreg
+    quantreg,
+    RColorBrewer,
+    tidyr
 Suggests:
+    grDevices,
+    magrittr,
     survival
 Depends:
     R (>= 3.1.2)
