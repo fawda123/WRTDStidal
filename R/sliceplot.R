@@ -10,11 +10,13 @@
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
 #' 
-#' @details Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
+#' @details This is a modification of \code{\link{fitplot}} that can be used to plot selected time slices from the results of a fitted \code{\link{tidal}} object.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
 #' 
 #' @import dplyr ggplot2 RColorBrewer tidyr
 #' 
 #' @export
+#' 
+#' @seealso \code{\link{fitplot}} 
 #' 
 #' @return A \code{\link[ggplot2]{ggplot}} object that can be further modified
 #' 
