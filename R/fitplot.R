@@ -38,9 +38,14 @@
 #' 
 #' # plot as annual aggregations
 #' fitplot(tidfit, annuals = TRUE) 
+#' 
+#' # format the x-axis is using annual aggregations
+#' library(ggplot2)
+#' 
+#' fitplot(tidfit, annual = TRUE) + 
+#'  scale_x_continuous(breaks = seq(2000, 2012, by = 4))
 #'
 #' # modify the plot as needed using ggplot scales, etc.
-#' library(ggplot2)
 #' 
 #' fitplot(tidfit, pretty = FALSE, linetype = 'dashed') + 
 #'  theme_classic() + 
@@ -65,7 +70,7 @@ fitplot <- function(tidal_in, ...) UseMethod('fitplot')
 fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, pretty = TRUE, ...){
  
   # sanity check
-  if(is.null(attr(tidal_in, 'fits')))
+  if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert to df for plotting, get relevant columns
