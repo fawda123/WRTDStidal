@@ -15,6 +15,7 @@
 #' @seealso See the help files for \code{\link{tidal}}, \code{\link{wrtds}}, \code{\link{getwts}}, \code{\link{chlpred}}, and \code{\link{chlnorm}} for arguments that can be passed to this function.
 #'
 #' @examples
+#' \dontrun{
 #' ## load data
 #' data(chldat)
 #' 
@@ -32,6 +33,7 @@
 #' 
 #' ## suppress console output
 #' res <- modfit(chldat, trace = FALSE)
+#' }
 modfit <- function(dat_in, ...) UseMethod('modfit')
 
 #' @rdname modfit

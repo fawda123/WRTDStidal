@@ -47,10 +47,10 @@ str(chldat)
 ```
 
 ```
-## 'data.frame':	156 obs. of  4 variables:
-##  $ date : Date, format: "2000-01-01" "2000-02-01" ...
-##  $ chla : num  2.46 1.09 1.78 1.65 1.77 ...
-##  $ salff: num  0.192 0.157 0.181 0.166 0.146 ...
+## 'data.frame':	452 obs. of  4 variables:
+##  $ date : Date, format: "1974-01-01" "1974-02-01" ...
+##  $ chla : num  3.42 3.86 2.64 2.48 2.71 ...
+##  $ salff: num  0.28 0.347 0.238 0.239 0.228 ...
 ##  $ lim  : num  0.875 0.875 0.875 0.875 0.875 ...
 ```
 
@@ -80,7 +80,7 @@ res <- modfit(chldat)
 ## 
 ## Estimating interpolation grids for tau = 0.5, % complete...
 ## 
-## 10 	20 	30 	40 	50 	60 	70 	80 	90 	100 	
+## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
 ## Interpolating chlorophyll predictions
 ## 
@@ -136,7 +136,14 @@ data(tidfit)
 fitplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-8](README_files/figure-html/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-8](README_files/figure-html/unnamed-chunk-81.png) 
+
+```r
+# plot as annual aggregations
+fitplot(tidfit, annuals = TRUE)
+```
+
+![plot of chunk unnamed-chunk-8](README_files/figure-html/unnamed-chunk-82.png) 
 
 The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.
 
@@ -151,16 +158,31 @@ sliceplot(tidfit)
 ```r
 # a very specific example
 sliceplot(tidfit,
- slices = 1:12,
- size = 1.5,
- tau = 0.9,
- alpha = 0.6,
- predicted = FALSE,
- logspace = TRUE
+  slices = seq(1, 12, by = 3),
+  size = 1.5,
+  tau = 0.9,
+  alpha = 0.6,
+  predicted = FALSE,
+  logspace = TRUE
 ) +
-ggplot2::ggtitle('Normalized predictions for all months, 90th percentile')
+ggplot2::ggtitle('Normalized predictions, 90th percentile')
 ```
 
 ![plot of chunk unnamed-chunk-9](README_files/figure-html/unnamed-chunk-92.png) 
 
+The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
 
+
+```r
+# plot predicted, normalized results for each quantile
+prdnrmplot(tidfit)
+```
+
+![plot of chunk unnamed-chunk-10](README_files/figure-html/unnamed-chunk-101.png) 
+
+```r
+# plot as annual aggregations
+prdnrmplot(tidfit, annuals = TRUE)
+```
+
+![plot of chunk unnamed-chunk-10](README_files/figure-html/unnamed-chunk-102.png) 

@@ -32,6 +32,7 @@ Appends a regression grid as an attribute to a tidal object
 Get WRTDS prediction grid for chlorophyll observations in a tidal object
 }
 \examples{
+\dontrun{
 ## load data
 data(chldat)
 
@@ -43,7 +44,6 @@ tidal_in <- tidal(chldat)
 res <- wrtds(tidal_in)
 
 ## multiple quantiles
-\dontrun{
 res <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))
 }
 }

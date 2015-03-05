@@ -62,11 +62,11 @@
 #'  
 prdnrmplot <- function(tidal_in, ...) UseMethod('prdnrmplot')
 
-#' @rdname fitplot
+#' @rdname prdnrmplot
 #' 
 #' @export 
 #' 
-#' @method fitplot tidal
+#' @method prdnrmplot tidal
 prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, pretty = TRUE, ...){
  
   # sanity check

@@ -14,6 +14,7 @@
 #' @return Appends a regression grid as an attribute to a tidal object
 #' 
 #' @examples
+#' \dontrun{
 #' ## load data
 #' data(chldat)
 #' 
@@ -25,7 +26,6 @@
 #' res <- wrtds(tidal_in)
 #' 
 #' ## multiple quantiles
-#' \dontrun{
 #' res <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))
 #' }
 wrtds <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...) UseMethod('wrtds')
@@ -74,7 +74,7 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     txt <- paste(tau, collapse = ', ')
     txt <- paste0('\nEstimating interpolation grids for tau = ', txt, ', % complete...\n\n')
     cat(txt)
-    counts <- round(seq(1, nrow(tidal_in), length = 10))
+    counts <- round(seq(1, nrow(tidal_in), length = 20))
   }
   
   # iterate through rows of tidal_in
@@ -84,7 +84,7 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     
     # progress
     if(trace){
-      perc <- 10 * which(row == counts)
+      perc <- 5 * which(row == counts)
       if(length(perc) != 0) cat(perc, '\t')
     }
     

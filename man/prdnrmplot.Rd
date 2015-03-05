@@ -2,9 +2,13 @@
 % Please edit documentation in R/prdnrmplot.R
 \name{prdnrmplot}
 \alias{prdnrmplot}
+\alias{prdnrmplot.tidal}
 \title{Plot combined predicted and normalized results from a tidal object}
 \usage{
 prdnrmplot(tidal_in, ...)
+
+\method{prdnrmplot}{tidal}(tidal_in, tau = NULL, annuals = FALSE,
+  logspace = FALSE, pretty = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}

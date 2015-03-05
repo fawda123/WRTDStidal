@@ -69,7 +69,7 @@ The quickest implementation of WRTDS with an input data frame is to use the `mod
 ```{r echo = FALSE, message = FALSE}
 devtools::load_all()
 ```
-```{r message = FALSE}
+```{r message = FALSE, cache = TRUE}
 # get wrtds results
 res <- modfit(chldat)
 ```
@@ -119,6 +119,9 @@ data(tidfit)
 
 # plot using fitplot function
 fitplot(tidfit)
+
+# plot as annual aggregations
+fitplot(tidfit, annuals = TRUE)
 ```
 
 The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.
@@ -129,14 +132,22 @@ sliceplot(tidfit)
 
 # a very specific example
 sliceplot(tidfit,
- slices = 1:12,
- size = 1.5,
- tau = 0.9,
- alpha = 0.6,
- predicted = FALSE,
- logspace = TRUE
+  slices = seq(1, 12, by = 3),
+  size = 1.5,
+  tau = 0.9,
+  alpha = 0.6,
+  predicted = FALSE,
+  logspace = TRUE
 ) +
-ggplot2::ggtitle('Normalized predictions for all months, 90th percentile')
+ggplot2::ggtitle('Normalized predictions, 90th percentile')
 ```
 
+The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
 
+```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+# plot predicted, normalized results for each quantile
+prdnrmplot(tidfit)
+
+# plot as annual aggregations
+prdnrmplot(tidfit, annuals = TRUE)
+```
