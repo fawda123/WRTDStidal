@@ -8,7 +8,7 @@
 sliceplot(tidal_in, ...)
 
 \method{sliceplot}{tidal}(tidal_in, slices = c(1, 7), tau = NULL,
-  predicted = TRUE, logspace = FALSE, pretty = TRUE, ...)
+  predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -24,6 +24,8 @@ sliceplot(tidal_in, ...)
 \item{logspace}{logical indicating if plots are in log space}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
+
+\item{pt_sz}{numeric value indicating size of observed chlorophyll points}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
@@ -32,7 +34,7 @@ A \code{\link[ggplot2]{ggplot}} object that can be further modified
 Plot time slices within a tidal object to view chlorophyll observations, predictions, and normalized results at regular annual intervals.
 }
 \details{
-Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
+This is a modification of \code{\link{fitplot}} that can be used to plot selected time slices from the results of a fitted \code{\link{tidal}} object.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
 }
 \examples{
 ## load a fitted tidal object
@@ -63,5 +65,8 @@ sliceplot(tidfit,
  logspace = TRUE
 ) +
 ggtitle('Normalized predictions for all months, 90th percentile')
+}
+\seealso{
+\code{\link{fitplot}}, \code{\link{prdnrmplot}}
 }
 

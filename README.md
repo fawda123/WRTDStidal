@@ -133,13 +133,12 @@ Several plotting methods are available that can be used to view the results of a
 data(tidfit)
 
 # plot using fitplot function
-
 fitplot(tidfit)
 ```
 
 ![plot of chunk unnamed-chunk-8](README_files/figure-html/unnamed-chunk-8.png) 
 
-The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  The `slices` argument is used to specify which months to view.
+The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.
 
 
 ```r

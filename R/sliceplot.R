@@ -8,6 +8,7 @@
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
 #' @param logspace logical indicating if plots are in log space
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
+#' @param pt_sz numeric value indicating size of observed chlorophyll points
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
 #' 
 #' @details This is a modification of \code{\link{fitplot}} that can be used to plot selected time slices from the results of a fitted \code{\link{tidal}} object.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
@@ -16,7 +17,7 @@
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{fitplot}} 
+#' @seealso \code{\link{fitplot}}, \code{\link{prdnrmplot}}
 #' 
 #' @return A \code{\link[ggplot2]{ggplot}} object that can be further modified
 #' 
@@ -58,7 +59,7 @@ sliceplot <- function(tidal_in, ...) UseMethod('sliceplot')
 #' @export 
 #' 
 #' @method sliceplot tidal
-sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = TRUE, logspace = FALSE, pretty = TRUE, ...){
+sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -120,21 +121,28 @@ sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = 
     
   }
   
+  # quantile on legend title
+  quant <- gsub('^fit', '', names(to_plo)[tau_fits])
+  
   # bare bones plot
   p <- ggplot(to_plo, aes(x = year, y = chla, group = month)) + 
-    geom_point()
-      
+    geom_point(aes(colour = month), size = pt_sz)
+     
   # plot fits or nrms
   if(predicted){
     p <- p + 
       geom_line(data = fits, aes(y = fits_value, group = month, 
         colour = month), ...)
+
+    leg_lab <- 'Predicted (lines)\nObserved (pts)'
     
   } else {
     p <- p + 
       geom_line(data = nrms, aes(y = nrms_value, group = month, 
         colour = month), ...)
     
+    leg_lab <- 'Normalized (lines)\nObserved (pts)'
+  
   }
   
   # exit if pretty is F
@@ -151,7 +159,7 @@ sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = 
   p <- p + 
     theme_bw() +
     scale_colour_manual(
-      name = 'Months',
+      name = leg_lab,
       values = cols
     ) +
     theme(axis.title.x = element_blank()) +
