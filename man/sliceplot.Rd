@@ -43,11 +43,6 @@ data(tidfit)
 # plot using defaults
 sliceplot(tidfit)
 
-# change x-axis labelling
-library(ggplot2)
-sliceplot(tidfit) +
- scale_x_continuous(breaks = seq(2000, 2012, by = 4))
-
 # get different months - march and september
 sliceplot(tidfit, slices = c(3, 9))
 
