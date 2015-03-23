@@ -1,8 +1,8 @@
 Package: WRTDStidal
 Type: Package
 Title: Weighted regression for water quality evaluation in tidal waters
-Version: 0.0.0.9000
-Date: 2015-02-13
+Version: 0.0.1.9000
+Date: 2015-03-23
 Author: Marcus W. Beck [aut, cre]
 Maintainer: Marcus W. Beck <beck.marcus@epa.gov>
 Description: An adapation for estuaries (tidal waters) of weighted regression on time, discharge, and season to evaluate trends in water quality time series, with specific application to chlorophyll  

@@ -67,7 +67,8 @@ sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = 
 
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(tidal_in)
-  sel_vec <- grepl('^month$|^year$|^chla$|^fit|^norm', names(to_plo))
+  sel_vec <- grepl('^date$|^month$|^year$|^chla$|^fit|^norm', 
+    names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # get names of the quantiles for norms and preds to plot
@@ -99,9 +100,9 @@ sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = 
   
   # long format for plotting
   nrms <- gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
-    select(month, year, nrms_variable, nrms_value)
+    select(date, month, year, nrms_variable, nrms_value)
   fits <- gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
-    select(month, year, fits_variable, fits_value)
+    select(date, month, year, fits_variable, fits_value)
   
   # y-axis label
   ylabel <- expression(
@@ -125,7 +126,7 @@ sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = 
   quant <- gsub('^fit', '', names(to_plo)[tau_fits])
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = year, y = chla, group = month)) + 
+  p <- ggplot(to_plo, aes(x = date, y = chla, group = month)) + 
     geom_point(aes(colour = month), size = pt_sz)
      
   # plot fits or nrms
