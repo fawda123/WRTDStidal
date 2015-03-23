@@ -37,6 +37,7 @@
 #' 
 #' # normalized values all months, change line aesthetics, log-space, 90th 
 #' # add title
+#' library(ggplot2)
 #' sliceplot(tidfit, 
 #'  slices = 1:12, 
 #'  size = 1.5, 
