@@ -1,11 +1,11 @@
 ######
 #' Interpolate from a fit grid
 #' 
-#' Interpolate from a vector of predicted chlorophyll values for a given salinity value (as fraction of freshwater).  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
+#' Interpolate from a vector of predicted chlorophyll values for a given salinity value.  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
 #'
 #' @param row_in vector of observations from a row of an interpolation grid
-#' @param sal_pred value of salff for interpolating chlorophyll
-#' @param sal_grd original vector of salff values used to create interpolation grid
+#' @param sal_pred value of salinity for interpolating chlorophyll
+#' @param sal_grd original vector of salinity values used to create interpolation grid
 #' @param ... arguments passed to additional methods
 #' 
 #' @return Predicted chlorophyll values from the interpolation
@@ -29,7 +29,7 @@
 #' sal_grd <- attr(tidobj, 'sal_grd')
 #' 
 #' # get observed salinity value to inteprolate chlorophyll
-#' sal_pred <- tidobj[1, 'salff']
+#' sal_pred <- tidobj[1, 'sal']
 #' 
 #' # interpolate chlorophyll from an observed salinity value
 #' chlinterp(row_in, sal_pred, sal_grd)

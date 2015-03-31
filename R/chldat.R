@@ -6,7 +6,7 @@
 #' \describe{
 #'   \item{\code{date}}{Date}
 #'   \item{\code{chla}}{numeric}
-#'   \item{\code{salff}}{numeric}
+#'   \item{\code{sal}}{numeric}
 #'   \item{\code{lim}}{numeric}
 #' }
 "chldat"

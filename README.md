@@ -15,7 +15,7 @@ Please send an email to beck.marcus@epa.gov for the accepted draft.  The origina
 
 ## Brief description of WRTDS for tidal waters
 
-The original WRTDS method was adapted to relate chlorophyll concentration to salinity and time for evaluating trends in long-term water quality time series.  The functional form of the model is a simple regression that relates the natural log of chlorophyll to decimal time and salinity as fraction of freshwater on a sinuisoidal annual time scale (i.e., cyclical variation by year).  Quantile regression models were used to characterize trends for conditional distributions of chlorophyll, e.g., the median or 90<sup>th</sup> percentile. An additional advantage of quantile regression is that bias associated with back-transformation of predicted values in log-space to a linear space does not occur because estimates are equivariant to non-linear, monotonic transformations.  The models also accommodates left-censored data by using a method that builds on the Kaplan-Meier approximation for a single-sample survival function by generalizing to conditional regression quantiles. 
+The original WRTDS method was adapted to relate chlorophyll concentration to salinity and time for evaluating trends in long-term water quality time series.  The functional form of the model is a simple regression that relates the natural log of chlorophyll to decimal time and salinity on a sinuisoidal annual time scale (i.e., cyclical variation by year).  Quantile regression models were used to characterize trends for conditional distributions of chlorophyll, e.g., the median or 90<sup>th</sup> percentile. An additional advantage of quantile regression is that bias associated with back-transformation of predicted values in log-space to a linear space does not occur because estimates are equivariant to non-linear, monotonic transformations.  The models also accommodates left-censored data by using a method that builds on the Kaplan-Meier approximation for a single-sample survival function by generalizing to conditional regression quantiles. 
 
 The WRTDS approach obtains fitted values of the response variable by estimating regression parameters for each unique observation.  Specifically, a unique quantile regression model is estimated for each point in the period of observation. Each model is weighted by month, year, and salinity such that a unique set of regression parameters for each observation in the time series is obtained. For example, a weighted regression centered on a unique observation weights other observations in the same year, month, and similar salinity with higher values, whereas observations for different months, years, or salinities receive lower weights.  This weighting approach allows estimation of regression parameters that vary in relation to observed conditions.  Default window widths of six months, 10 years, and half the range of salinity are used.
 
@@ -48,10 +48,10 @@ str(chldat)
 
 ```
 ## 'data.frame':	452 obs. of  4 variables:
-##  $ date : Date, format: "1974-01-01" "1974-02-01" ...
-##  $ chla : num  3.42 3.86 2.64 2.48 2.71 ...
-##  $ salff: num  0.28 0.347 0.238 0.239 0.228 ...
-##  $ lim  : num  0.875 0.875 0.875 0.875 0.875 ...
+##  $ date: Date, format: "1974-01-01" "1974-02-01" ...
+##  $ chla: num  3.42 3.86 2.64 2.48 2.71 ...
+##  $ sal : num  0.28 0.347 0.238 0.239 0.228 ...
+##  $ lim : num  0.875 0.875 0.875 0.875 0.875 ...
 ```
 
 The `tidfit` dataset is also included in this package to illustrate examples using a fitted model object.  The dataset was created to predict and normalize chlorophyll concentrations for the tenth,  median, and ninetieth conditional quantile distributions.  It can be loaded as follows or recreated from `chldat` using the following code.
@@ -116,7 +116,7 @@ res <- modfit(chldat)
 res <- modfit(chldat, tau = c(0.2, 0.8), sal_div = 5)
 
 ## fit with different window widths
-# half-window widths of one day, five years, and 0.3 salff
+# half-window widths of one day, five years, and 0.3 salinity
 res <- modfit(chldat, wins = list(1, 5, 0.3))
 
 ## suppress console output
@@ -186,3 +186,15 @@ prdnrmplot(tidfit, annuals = TRUE)
 ```
 
 ![plot of chunk unnamed-chunk-10](README_files/figure-html/unnamed-chunk-102.png) 
+
+The `dynaplot` function can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted chlorophyll values for a selected month across all years are plotted in relation to the range of salinity values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity values to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain.
+
+
+```r
+# plot using defaults
+# defaults to the fiftieth quantile for July for all years
+dynaplot(tidfit)
+```
+
+![plot of chunk unnamed-chunk-11](README_files/figure-html/unnamed-chunk-11.png) 
+

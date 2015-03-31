@@ -17,7 +17,7 @@ wrtds(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
 \arguments{
 \item{tidal_in}{input tidal object}
 
-\item{sal_div}{numeric indicating number of divisions across the range of salinity as fraction of freshwater to create interpolation grid}
+\item{sal_div}{numeric indicating number of divisions across the range of salinity to create the interpolation grid}
 
 \item{tau}{numeric vector indicating conitional quantiles to fit in the weighted regression, can be many}
 

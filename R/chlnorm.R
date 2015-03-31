@@ -54,16 +54,16 @@ chlnorm.tidal <- function(tidal_in, trace = TRUE, ...){
   # normalize predictions for each quantile
   for(i in seq_along(tau)){
   
-    # interp grid and salff values to interp
+    # interp grid and sal values to interp
     fit_grd <- fits[[i]]
 
     norms <- rep(NA_real_, num_obs)
     for(row in 1:num_obs){
 
-      # get salff values across all dates for the row
+      # get sal values across all dates for the row
       sal_vals <- salfind(tidal_in, row)
       
-      # get interpolated values for each salff value
+      # get interpolated values for each sal value
       row_in <- fit_grd[row, ]
       
       # use chlinterp for all sal_vals 

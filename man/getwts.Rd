@@ -8,7 +8,7 @@
 getwts(tidal_in, ...)
 
 \method{getwts}{tidal}(tidal_in, ref_in, wt_vars = c("day_num", "year",
-  "salff"), wins = list(0.5, 10, NULL), all = F, min_obs = T, ...)
+  "sal"), wins = list(0.5, 10, NULL), all = F, min_obs = T, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -32,7 +32,7 @@ A vector of weights with length equal to the number of observations (rows) in th
 Get weights for WRTDS for a single observation using a tri-cubic weighting function
 }
 \details{
-The default half-window widths for \code{day_num}, \code{year}, and \code{salff} are half a day (12 hours), 10 years, and half the range of salinity (as fraction of freshwater) in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{all_min = FALSE}.
+The default half-window widths for \code{day_num}, \code{year}, and \code{sal} are half a day (12 hours), 10 years, and half the range of salinity in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{all_min = FALSE}.
 }
 \examples{
 ##

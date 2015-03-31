@@ -53,9 +53,9 @@ chlpred.tidal <- function(tidal_in, trace = TRUE, ...){
   # get predictions for each quantile
   for(i in seq_along(tau)){
     
-    # interp grid and salff values to interp
+    # interp grid and sal values to interp
     fit_grd <- fits[[i]]
-    to_pred <- tidal_in$salff
+    to_pred <- tidal_in$sal
     fit_grd <- cbind(to_pred, fit_grd)
     
     preds <- apply(fit_grd, 1, 

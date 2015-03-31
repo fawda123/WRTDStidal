@@ -14,15 +14,15 @@ chlinterp(row_in, ...)
 
 \item{...}{arguments passed to additional methods}
 
-\item{sal_pred}{value of salff for interpolating chlorophyll}
+\item{sal_pred}{value of salinity for interpolating chlorophyll}
 
-\item{sal_grd}{original vector of salff values used to create interpolation grid}
+\item{sal_grd}{original vector of salinity values used to create interpolation grid}
 }
 \value{
 Predicted chlorophyll values from the interpolation
 }
 \description{
-Interpolate from a vector of predicted chlorophyll values for a given salinity value (as fraction of freshwater).  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
+Interpolate from a vector of predicted chlorophyll values for a given salinity value.  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
 }
 \details{
 This function is primarily used within \code{\link{chlpred}} and \code{\link{chlnorm}}.
@@ -42,7 +42,7 @@ row_in <- fit_grd[1, ]
 sal_grd <- attr(tidobj, 'sal_grd')
 
 # get observed salinity value to inteprolate chlorophyll
-sal_pred <- tidobj[1, 'salff']
+sal_pred <- tidobj[1, 'sal']
 
 # interpolate chlorophyll from an observed salinity value
 chlinterp(row_in, sal_pred, sal_grd)

@@ -14,16 +14,16 @@ salfind(tidal_in, ...)
 
 \item{...}{arguments passed to additional methods}
 
-\item{obs}{index of row in tidal object to identify salff values}
+\item{obs}{index of row in tidal object to identify salinity values}
 }
 \value{
-Numeric vector of all observed salff values for a single month across all years
+Numeric vector of all observed salinity values for a single month across all years
 }
 \description{
 Get all salinity values across years for a common date for normalizing chlorophyll predictions
 }
 \details{
-This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity (as fraction of freshwater) values for a given date for matching months across all years.  For example, the function will return all observed salff values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.
+This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity values for a given date for matching months across all years.  For example, the function will return all observed salinity values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.
 }
 \examples{
 ##
@@ -31,7 +31,7 @@ This function is primarily used within \code{\link{chlnorm}}.  It will return al
 # load data
 data(tidobj)
 
-# find common salff values across years for the first observation
+# find common salinity values across years for the first observation
 res <- salfind(tidobj, 1)
 }
 

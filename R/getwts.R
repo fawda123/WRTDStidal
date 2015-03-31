@@ -14,7 +14,7 @@
 #' @return A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.
 #' 
 #' @details
-#' The default half-window widths for \code{day_num}, \code{year}, and \code{salff} are half a day (12 hours), 10 years, and half the range of salinity (as fraction of freshwater) in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{all_min = FALSE}.
+#' The default half-window widths for \code{day_num}, \code{year}, and \code{sal} are half a day (12 hours), 10 years, and half the range of salinity in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{all_min = FALSE}.
 #' 
 #' @export
 #' 
@@ -35,7 +35,7 @@ getwts <- function(tidal_in, ...) UseMethod('getwts')
 #' 
 #' @method getwts tidal
 getwts.tidal <- function(tidal_in, ref_in,
-  wt_vars = c('day_num', 'year', 'salff'),
+  wt_vars = c('day_num', 'year', 'sal'),
   wins = list(0.5, 10, NULL),
   all = F,
   min_obs = T, ...){

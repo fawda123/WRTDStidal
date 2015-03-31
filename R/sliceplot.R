@@ -4,7 +4,7 @@
 #' 
 #' @param tidal_in input tidal object
 #' @param slices numeric vector of calender months to plot, i.e., 1 - 12
-#' @param tau numeric vector of quantile to plot, defaults to median quantile if none specified
+#' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
 #' @param logspace logical indicating if plots are in log space
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used

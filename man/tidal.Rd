@@ -23,14 +23,14 @@ A tidal object as a data frame and attributes.  The data frame has columns order
  \item{\code{class}}{Class of the object}
  \item{\code{fits}}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
  \item{\code{betas}}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
- \item{\code{sal_grd}}{Numeric vector of salinity (fraction of freshwater) that was used for the interpolation grids}
+ \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
 }
 }
 \description{
 Prepare water quality data for weighted regression by creating a tidal class object
 }
 \details{
-This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a three-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data should be represented as fraction of freshwater.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.
+This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a three-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data can be provided as fraction of freshwater (recommended) or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.
 }
 \examples{
 ## raw data

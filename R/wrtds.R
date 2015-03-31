@@ -4,7 +4,7 @@
 #' Get WRTDS prediction grid for chlorophyll observations in a tidal object
 #'
 #' @param tidal_in input tidal object
-#' @param sal_div numeric indicating number of divisions across the range of salinity as fraction of freshwater to create interpolation grid
+#' @param sal_div numeric indicating number of divisions across the range of salinity to create the interpolation grid
 #' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
@@ -53,8 +53,8 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   
   #salinity values to estimate
   sal_grd <- seq(
-    min(tidal_in$salff, na.rm = TRUE), 
-    max(tidal_in$salff, na.rm = TRUE), 
+    min(tidal_in$sal, na.rm = TRUE), 
+    max(tidal_in$sal, na.rm = TRUE), 
     length = sal_div
     )
 
@@ -91,16 +91,16 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     # then iterate through values in sal_grd
     for(i in seq_along(sal_grd)){
       
-      ref_in$salff <- sal_grd[i]
+      ref_in$sal <- sal_grd[i]
       ref_wts <- getwts(tidal_in, ref_in, ...)
       
       # data to predict
-      pred_dat <- data.frame(salff = sal_grd[i], dec_time = ref_in$dec_time)
+      pred_dat <- data.frame(sal = sal_grd[i], dec_time = ref_in$dec_time)
       
       # crq model, estimates all quants
       mod <- quantreg::crq(
         Surv(chla, not_cens, type = "left") ~ 
-          dec_time + salff + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
+          dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
         weights = ref_wts,
         data = tidal_in, 
         method = "Portnoy"
@@ -116,13 +116,13 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       # predicted values by quantile model coefficients
       fits <- sapply(seq_along(tau), function(x){
         with(pred_dat, 
-          parms[1, x] + parms[2, x] * dec_time + parms[3, x] * salff + parms[4, x] * sin(2*pi*dec_time) + parms[5, x] * cos(2*pi*dec_time)
+          parms[1, x] + parms[2, x] * dec_time + parms[3, x] * sal + parms[4, x] * sin(2*pi*dec_time) + parms[5, x] * cos(2*pi*dec_time)
         )
       })
       names(fits) <- names(fit_grds)
 
-      # model parameters for salff
-      betas <- unlist(c(parms['salff', , drop = TRUE]))
+      # model parameters for sal
+      betas <- unlist(c(parms['sal', , drop = TRUE]))
       names(betas) <- names(b_grds)
       
       # save output to grids
