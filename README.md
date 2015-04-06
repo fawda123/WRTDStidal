@@ -198,3 +198,12 @@ dynaplot(tidfit)
 
 ![plot of chunk unnamed-chunk-11](README_files/figure-html/unnamed-chunk-11.png) 
 
+The `wtsplot` function can be used to create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
+
+
+```r
+# wt plot
+wtsplot(tidfit, ref = '1995-07-01')
+```
+
+![plot of chunk unnamed-chunk-12](README_files/figure-html/unnamed-chunk-12.png) 

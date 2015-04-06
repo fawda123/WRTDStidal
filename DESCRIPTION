@@ -11,16 +11,18 @@ License: CC0
 LazyData: true
 Imports:
     dplyr,
-    ggplot2,
+    gridExtra,
     quantreg,
     RColorBrewer,
+    scales,
     tidyr
 Suggests:
     grDevices,
     magrittr,
     survival
 Depends:
-    R (>= 3.1.2)
+    R (>= 3.1.2),
+    ggplot2
 Authors@R: person(given = "Marcus W.", family = "Beck",
     role = c("aut","cre"),
     email = "mbafs2012@gmail.com")
