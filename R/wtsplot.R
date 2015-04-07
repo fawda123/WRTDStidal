@@ -8,6 +8,7 @@
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
 #' @param col_vec chr string of plot colors to use, passed to \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color. 
+#' @param as_list logical indicating if plots should be returned in a list
 #' @param ... arguments passed to other methods
 #' 
 #' @details Create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector.   
@@ -18,7 +19,7 @@
 #' 
 #' @seealso \code{\link{getwts}}
 #' 
-#' @return A combined \code{\link[ggplot2]{ggplot}} object
+#' @return A combined \code{\link[ggplot2]{ggplot}} object created using \code{\link[gridExtra]{grid.arrange}}.  A list with elements for each individual plot will be returned if \code{as_list = TRUE}.
 #' 
 #' @examples
 #' 
@@ -40,7 +41,7 @@ wtsplot <- function(tidal_in, ...) UseMethod('wtsplot')
 #' 
 #' @method wtsplot tidal
 wtsplot.tidal <- function(tidal_in, ref, wins = list(0.5, 10, NULL), dt_rng = NULL,
-  pt_rng = c(1, 12), col_vec = NULL, ...){
+  pt_rng = c(1, 12), col_vec = NULL, as_list = FALSE, ...){
  
   # ref as date
   ref <- as.Date(ref, format = '%Y-%m-%d')
@@ -142,6 +143,12 @@ wtsplot.tidal <- function(tidal_in, ref, wins = list(0.5, 10, NULL), dt_rng = NU
     theme_bw() +
     theme(legend.position = 'none')
   
+  # return as list if TRUE
+  if(as_list){
+    out <- list(p_dat_plo, p1, p2, p3, p4)
+    return(out)
+  }
+    
   # final plot
   gridExtra::grid.arrange(
     p_dat_plo,

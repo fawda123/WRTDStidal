@@ -8,38 +8,46 @@
 wtsplot(tidal_in, ...)
 
 \method{wtsplot}{tidal}(tidal_in, ref, wins = list(0.5, 10, NULL),
-  logspace = FALSE, pretty = TRUE, ...)
+  dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, as_list = FALSE,
+  ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
 
 \item{...}{arguments passed to other methods}
 
-\item{ref}{chr string indicating the date at the center of the weighting window, must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}}
+\item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
 \item{wins}{list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity}
 
-\item{logspace}{logical indicating if plots are in log space}
+\item{dt_rng}{Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
-\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
+\item{pt_rng}{numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.}
+
+\item{col_vec}{chr string of plot colors to use, passed to \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color.}
+
+\item{as_list}{logical indicating if plots should be returned in a list}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object that can be further modified
+A combined \code{\link[ggplot2]{ggplot}} object created using \code{\link[gridExtra]{grid.arrange}}.  A list with elements for each individual plot will be returned if \code{as_list = TRUE}.
 }
 \description{
 Create several plots showing the weights used to fit a model for a single observation.
 }
 \details{
-Create diagnostic plots to view the effects of different weighting windows on model predictions.
+Create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector.
 }
 \examples{
 ## load a fitted tidal object
 data(tidfit)
 
 ## plot using defaults,
-wtsplot(tidfit, ref = '2000-07-01')
+wtsplot(tidfit, ref = '1990-07-01')
 
 ## change the defaults
+wtsplot(tidfit, ref = '2000-01-01', wins = list(0.5, 15, Inf),
+ dt_rng = c('1990-01-01', '2010-01-01'),
+ pt_rng = c(3, 8), col_vec = c('lightgreen', 'lightblue', 'purple'))
 }
 \seealso{
 \code{\link{getwts}}
