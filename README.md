@@ -153,22 +153,7 @@ The `sliceplot` function is a modification of `fitplot` that can be used to plot
 sliceplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-9](README_files/figure-html/unnamed-chunk-91.png) 
-
-```r
-# a very specific example
-sliceplot(tidfit,
-  slices = seq(1, 12, by = 3),
-  size = 1.5,
-  tau = 0.9,
-  alpha = 0.6,
-  predicted = FALSE,
-  logspace = TRUE
-) +
-ggplot2::ggtitle('Normalized predictions, 90th percentile')
-```
-
-![plot of chunk unnamed-chunk-9](README_files/figure-html/unnamed-chunk-92.png) 
+![plot of chunk unnamed-chunk-9](README_files/figure-html/unnamed-chunk-9.png) 
 
 The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
 
@@ -198,6 +183,16 @@ dynaplot(tidfit)
 
 ![plot of chunk unnamed-chunk-11](README_files/figure-html/unnamed-chunk-11.png) 
 
+A similar plot can be returned using the `gridplot` function.  It is essentially identical to the plot produced by `dynaplot`, except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Options are also available to interpret values for a smoother grid.
+
+
+```r
+# create a gridded plot
+gridplot(tidfit)
+```
+
+![plot of chunk unnamed-chunk-12](README_files/figure-html/unnamed-chunk-12.png) 
+
 The `wtsplot` function can be used to create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
 
 
@@ -206,4 +201,4 @@ The `wtsplot` function can be used to create diagnostic plots to view the effect
 wtsplot(tidfit, ref = '1995-07-01')
 ```
 
-![plot of chunk unnamed-chunk-12](README_files/figure-html/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-13](README_files/figure-html/unnamed-chunk-13.png) 

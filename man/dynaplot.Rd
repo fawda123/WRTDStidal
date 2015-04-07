@@ -3,7 +3,7 @@
 \name{dynaplot}
 \alias{dynaplot}
 \alias{dynaplot.tidal}
-\title{Plot chlorophyll response to salinity}
+\title{Plot chlorophyll response to salinity  as a lineplot}
 \usage{
 dynaplot(tidal_in, ...)
 
@@ -31,10 +31,10 @@ dynaplot(tidal_in, ...)
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot the relationship between chlorophyll and salinity across the time series.  This can be used to evaluate temporal variation in potential causation between the two.
+Plot the relationship between chlorophyll and salinity across the time series using a line plot.  This can be used to evaluate temporal variation between the two.
 }
 \details{
-The plot created by this function can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  All predicted chlorophyll values for a selected month across all years are plotted in relation to the range of salinity values that were used to create the interpolation grid.  The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the plot constrains the salinity values to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to constrain the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are unrealistic.
+The plot can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except a line plot is returned that shows the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the plot is constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are typically unrealistic.
 
 Note that the year variable used for color mapping in the plot is treated as a continuous variable although it is an integer by definition.
 }
@@ -50,6 +50,6 @@ dynaplot(tidfit)
 dynaplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990))
 }
 \seealso{
-\code{\link{fitplot}}, \code{\link{prdnrmplot}}
+\code{\link{fitplot}}, \code{\link{gridplot}}, \code{\link{prdnrmplot}}
 }
 
