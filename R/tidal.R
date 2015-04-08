@@ -3,7 +3,7 @@
 #' 
 #' Prepare water quality data for weighted regression by creating a tidal class object
 #' 
-#' @param dat_in Input data frame for a water quality time series with three columns for date (Y-m-d format), chlorophyll concentation (ug/L), and fraction of freshwater
+#' @param dat_in Input data frame for a water quality time series with four columns for date (Y-m-d format), chlorophyll concentation (ug/L), salinity, and detection limit for left-censored data
 #' @param ind four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
 #' @param ... arguments passed from other methods
@@ -19,7 +19,7 @@
 #' }
 #'
 #' @details
-#' This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a three-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data can be provided as fraction of freshwater (recommended) or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  
+#' This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a four-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.
 #'  
 #' @export
 #' 
@@ -36,10 +36,15 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   # sanity checks
   if(!any(c('Date', 'POSIXct', 'POSIXlt') %in% class(dat_in[, ind[1]])))
     stop('Class for time column must be Date, POSIXct, or POSIXlt')
+  if(ncol(dat_in) > 4)
+    stop('Only four input columns are allowed')
   
   # get relevant columns and set names
   dat_in <- dat_in[, ind, drop = F]
   names(dat_in) <- c('date', 'chla', 'sal', 'lim')
+  
+  # columns as numeric
+  dat_in[, 2:4] <- apply(dat_in[, 2:4], 2, function(x) as.numeric(as.character(x)))
   
   # log transform chl if T
   if(!chllog) dat_in$chla <- log(dat_in$chla)
@@ -58,6 +63,9 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   dat_in$month <- month
   dat_in$year <- year
   dat_in$dec_time <- year + day_num
+  
+  # organize by date
+  dat_in <- dat_in[order(dat_in$date), ]
   
   # create class, with multiple attributes
   tidal <- structure(

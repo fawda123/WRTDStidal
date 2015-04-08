@@ -3,7 +3,7 @@
 #' Create several plots showing the weights used to fit a model for a single observation.
 #' 
 #' @param tidal_in input tidal object
-#' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
+#' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.
 #' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
@@ -48,11 +48,10 @@ wtsplot.tidal <- function(tidal_in, ref, wins = list(0.5, 10, NULL), dt_rng = NU
   if(is.na(ref)) 
     stop('Argument for ref date must be character string of format "YYYY-mm-dd"')
   
-  # subset tidal _in for ref date
-  ref <- tidal_in[tidal_in$date %in% ref, ]
-  if(nrow(ref) == 0) 
-    stop('Argument for ref does not match actual observation in the data')
-  
+  # get closest observation to referenced
+  ref <- which.min(ref - tidal_in$dat)[1]
+  ref <- tidal_in[ref, ]
+
   # format values for limits on x axis
   if(is.null(dt_rng)){ 
     dt_rng <- range(tidal_in$date)

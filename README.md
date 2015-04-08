@@ -183,11 +183,12 @@ dynaplot(tidfit)
 
 ![plot of chunk unnamed-chunk-11](README_files/figure-html/unnamed-chunk-11.png) 
 
-A similar plot can be returned using the `gridplot` function.  It is essentially identical to the plot produced by `dynaplot`, except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Options are also available to interpret values for a smoother grid.
+A similar plot can be returned using the `gridplot` function.  It is essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
 
 
 ```r
 # create a gridded plot
+# defaults to the fiftieth quantile for July for all years
 gridplot(tidfit)
 ```
 

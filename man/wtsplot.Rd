@@ -16,7 +16,7 @@ wtsplot(tidal_in, ...)
 
 \item{...}{arguments passed to other methods}
 
-\item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
+\item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.}
 
 \item{wins}{list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity}
 
