@@ -42,14 +42,14 @@ wtsplot <- function(tidal_in, ...) UseMethod('wtsplot')
 #' @method wtsplot tidal
 wtsplot.tidal <- function(tidal_in, ref, wins = list(0.5, 10, NULL), dt_rng = NULL,
   pt_rng = c(1, 12), col_vec = NULL, as_list = FALSE, ...){
- 
+  
   # ref as date
   ref <- as.Date(ref, format = '%Y-%m-%d')
   if(is.na(ref)) 
     stop('Argument for ref date must be character string of format "YYYY-mm-dd"')
   
   # get closest observation to referenced
-  ref <- which.min(ref - tidal_in$dat)[1]
+  ref <- which.min(abs(ref - tidal_in$dat))[1]
   ref <- tidal_in[ref, ]
 
   # format values for limits on x axis
