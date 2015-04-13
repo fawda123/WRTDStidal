@@ -8,8 +8,8 @@
 wtsplot(tidal_in, ...)
 
 \method{wtsplot}{tidal}(tidal_in, ref, wins = list(0.5, 10, NULL),
-  dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, as_list = FALSE,
-  ...)
+  dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL,
+  alpha = 1, as_list = FALSE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -24,7 +24,11 @@ wtsplot(tidal_in, ...)
 
 \item{pt_rng}{numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.}
 
-\item{col_vec}{chr string of plot colors to use, passed to \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color.}
+\item{col_vec}{chr string of plot colors to use, passed to \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
+
+\item{col_lns}{chr string of line color in plots}
+
+\item{alpha}{numeric value from zero to one indicating transparency of points and lines}
 
 \item{as_list}{logical indicating if plots should be returned in a list}
 }
