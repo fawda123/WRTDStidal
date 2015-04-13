@@ -9,7 +9,9 @@ output:
     toc: yes
 ---
 
-[![Travis-CI Build Status](https://travis-ci.org/fawda123/wtreg_for_estuaries.png?branch=master)](https://travis-ci.org/fawda123/wtreg_for_estuaries)
+Linux: [![Travis-CI Build Status](https://travis-ci.org/fawda123/wtreg_for_estuaries.png?branch=master)](https://travis-ci.org/fawda123/wtreg_for_estuaries)
+
+Windows: [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/fawda123/wtreg_for_estuaries?branch=master)](https://ci.appveyor.com/project/fawda123/wtreg_for_estuaries)
 
 This is the development repository for the WRTDStidal package.  Functions within this package can be used to model chlorophyll time series from coastal monitoring data.  The approach follows on previous methods described in the [EGRET](https://github.com/USGS-R/EGRET) package developed by USGS for non-tidal waters.  Details are forthcoming: 
 
