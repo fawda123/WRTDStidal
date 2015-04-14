@@ -6,6 +6,7 @@
 #' @param month numeric input from 1 to 12 indicating the monthly predictions to plot
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param years numeric vector of years to plot, defaults to all
+#' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
 #' @param allsal logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest
 #' @param interp logical indicating if chlorophyll between integer years and salinity is linearly interpolated to create a smoother grid 
@@ -34,7 +35,8 @@
 #' gridplot(tidfit)
 #' 
 #' ## change the defaults
-#' gridplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990), sal_fac = 20) 
+#' gridplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990), 
+#'  sal_fac = 20, col_vec = 'Dark2') 
 gridplot <- function(tidal_in, ...) UseMethod('gridplot')
 
 #' @rdname gridplot
@@ -42,7 +44,7 @@ gridplot <- function(tidal_in, ...) UseMethod('gridplot')
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 5, yr_fac = sal_fac, pretty = TRUE, ...){
+gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 5, yr_fac = sal_fac, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -165,6 +167,9 @@ gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, logspa
   # return bare bones if FALSE
   if(!pretty) return(p)
   
+  # get colors
+  cols <- gradcols(col_vec = col_vec)
+  
   p <- p + 
     theme(
       legend.position = 'top', 
@@ -172,7 +177,7 @@ gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, logspa
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous('Salinity', expand = c(0,0)) +
-    scale_fill_gradientn(ylabel, colours = rev(brewer.pal(11, 'Spectral')))
+    scale_fill_gradientn(ylabel, colours = rev(cols))
     
   return(p)
     

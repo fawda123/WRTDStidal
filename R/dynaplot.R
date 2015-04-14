@@ -6,9 +6,12 @@
 #' @param month numeric input from 1 to 12 indicating the monthly predictions to plot
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param years numeric vector of years to plot, defaults to all
+#' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for line shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
+#' @param alpha numeric value from zero to one indicating line transparency
+#' @param size numeric value for line size
 #' @param logspace logical indicating if plots are in log space
 #' @param allsal logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest
-#' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
+#' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.
 #' @param ... arguments passed to other methods
 #' 
 #' @details The plot can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except a line plot is returned that shows the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the plot is constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are typically unrealistic.  
@@ -33,7 +36,8 @@
 #' dynaplot(tidfit)
 #' 
 #' ## change the defaults
-#' dynaplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990)) 
+#' dynaplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990), 
+#'  col_vec = rainbow(7), alpha = 0.5, size = 3) 
 dynaplot <- function(tidal_in, ...) UseMethod('dynaplot')
 
 #' @rdname dynaplot
@@ -41,7 +45,7 @@ dynaplot <- function(tidal_in, ...) UseMethod('dynaplot')
 #' @export 
 #' 
 #' @method dynaplot tidal
-dynaplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, logspace = FALSE, pretty = TRUE, allsal = FALSE, ...){
+dynaplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = FALSE, pretty = TRUE, allsal = FALSE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -127,18 +131,20 @@ dynaplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, logspa
   }
   
   # make plot
-  p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 
-    geom_line()
+  p <- ggplot(to_plo, aes(x = sal, y = chla, group = year))
   
   # return bare bones if FALSE
-  if(!pretty) return(p)
+  if(!pretty) return(p + geom_line())
+  
+  # get colors
+  cols <- gradcols(col_vec = col_vec)
   
   p <- p + 
-    geom_line(size = 1, aes(colour = year)) +
+    geom_line(size = size, aes(colour = year), alpha = alpha) +
     scale_y_continuous(ylabel) +
     scale_x_continuous('Salinity') +
     theme_bw() +
-    scale_colour_gradientn('Year', colours = brewer.pal(11, 'Spectral'))
+    scale_colour_gradientn('Year', colours = cols)
     
   return(p)
     

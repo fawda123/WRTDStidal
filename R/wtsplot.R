@@ -7,7 +7,7 @@
 #' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
-#' @param col_vec chr string of plot colors to use, passed to \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
+#' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param col_lns chr string of line color in plots
 #' @param alpha numeric value from zero to one indicating transparency of points and lines
 #' @param as_list logical indicating if plots should be returned in a list
@@ -34,7 +34,8 @@
 #' ## change the defaults
 #' wtsplot(tidfit, ref = '2000-01-01', wins = list(0.5, 15, Inf), 
 #'  dt_rng = c('1990-01-01', '2010-01-01'), 
-#'  pt_rng = c(3, 8), col_vec = c('lightgreen', 'lightblue', 'purple'))
+#'  pt_rng = c(3, 8), col_vec = c('lightgreen', 'lightblue', 'purple'),
+#'  alpha = 0.7)
 wtsplot <- function(tidal_in, ...) UseMethod('wtsplot')
 
 #' @rdname wtsplot
@@ -78,27 +79,8 @@ wtsplot.tidal <- function(tidal_in, ref, wins = list(0.5, 10, NULL), dt_rng = NU
   mo_val <- ref$mo
   sal_val <- paste('Salinity', round(ref$sal, 2))
 
-  # color ramp for pts
-  if(is.null(col_vec)){
-    
-    cols <- RColorBrewer::brewer.pal(11, 'Spectral')
-    
-  } else {
-    
-    # get color palette if provided, otherwise user-supplied
-    chk_cols <- row.names(RColorBrewer::brewer.pal.info)
-    if(any(chk_cols %in% col_vec)){
-      
-      col_vec <- chk_cols[which(chk_cols %in% col_vec)][1]
-      max_cols <- RColorBrewer::brewer.pal.info[col_vec, 'maxcolors']
-      cols <- RColorBrewer::brewer.pal(max_cols, col_vec)
-      
-    } else {
-      
-      cols <- col_vec
-      
-    }
-  }
+  # colors
+  cols <- gradcols(col_vec = col_vec)
   
   # line color if null
   if(is.null(col_lns))       

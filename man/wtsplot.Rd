@@ -24,7 +24,7 @@ wtsplot(tidal_in, ...)
 
 \item{pt_rng}{numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.}
 
-\item{col_vec}{chr string of plot colors to use, passed to \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
+\item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 
 \item{col_lns}{chr string of line color in plots}
 
@@ -51,7 +51,8 @@ wtsplot(tidfit, ref = '1990-07-01')
 ## change the defaults
 wtsplot(tidfit, ref = '2000-01-01', wins = list(0.5, 15, Inf),
  dt_rng = c('1990-01-01', '2010-01-01'),
- pt_rng = c(3, 8), col_vec = c('lightgreen', 'lightblue', 'purple'))
+ pt_rng = c(3, 8), col_vec = c('lightgreen', 'lightblue', 'purple'),
+ alpha = 0.7)
 }
 \seealso{
 \code{\link{getwts}}

@@ -8,7 +8,8 @@
 dynaplot(tidal_in, ...)
 
 \method{dynaplot}{tidal}(tidal_in, month = 7, tau = NULL, years = NULL,
-  logspace = FALSE, pretty = TRUE, allsal = FALSE, ...)
+  col_vec = NULL, alpha = 1, size = 1, logspace = FALSE,
+  pretty = TRUE, allsal = FALSE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -21,9 +22,15 @@ dynaplot(tidal_in, ...)
 
 \item{years}{numeric vector of years to plot, defaults to all}
 
+\item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for line shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
+
+\item{alpha}{numeric value from zero to one indicating line transparency}
+
+\item{size}{numeric value for line size}
+
 \item{logspace}{logical indicating if plots are in log space}
 
-\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
+\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.}
 
 \item{allsal}{logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest}
 }
@@ -47,7 +54,8 @@ data(tidfit)
 dynaplot(tidfit)
 
 ## change the defaults
-dynaplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990))
+dynaplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990),
+ col_vec = rainbow(7), alpha = 0.5, size = 3)
 }
 \seealso{
 \code{\link{fitplot}}, \code{\link{gridplot}}, \code{\link{prdnrmplot}}
