@@ -125,16 +125,10 @@ prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = F
     mutate(taus = gsub('^fit', '', taus))
   
   # y-axis label
-  ylabel <- expression(
-    paste('log-Chloropyhll-',italic(a),' (',italic('\u03bc'),'g ',L^-1,')')
-    )
+  ylabel <- chllab(logspace)
 
   # back-transform if needed
   if(!logspace){
-    
-    ylabel <- expression(
-      paste('Chloropyhll-',italic(a),' (',italic('\u03bc'),'g ',L^-1,')')
-      )
     
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)

@@ -101,16 +101,10 @@ sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = 
     select(date, month, year, fits_variable, fits_value)
   
   # y-axis label
-  ylabel <- expression(
-    paste('log-Chloropyhll-',italic(a),' (',italic('\u03bc'),'g ',L^-1,')')
-    )
-
+  ylabel <- chllab(logspace)
+  
   # back-transform if needed
   if(!logspace){
-    
-    ylabel <- expression(
-      paste('Chloropyhll-',italic(a),' (',italic('\u03bc'),'g ',L^-1,')')
-      )
     
     to_plo$chla <- exp(to_plo$chla)
     nrms$nrms_value <- exp(nrms$nrms_value)

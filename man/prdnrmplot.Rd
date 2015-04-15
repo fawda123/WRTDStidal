@@ -8,7 +8,7 @@
 prdnrmplot(tidal_in, ...)
 
 \method{prdnrmplot}{tidal}(tidal_in, tau = NULL, annuals = FALSE,
-  logspace = FALSE, pretty = TRUE, ...)
+  logspace = FALSE, dt_rng = NULL, pretty = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -20,6 +20,8 @@ prdnrmplot(tidal_in, ...)
 \item{annuals}{logical indicating if plots are annual aggregations of results}
 
 \item{logspace}{logical indicating if plots are in log space}
+
+\item{dt_rng}{Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 }

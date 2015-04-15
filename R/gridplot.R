@@ -76,17 +76,11 @@ gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, col_ve
   to_plo <- to_plo[tidal_in$month %in% month, ]
   
   # y-axis label
-  ylabel <- expression(
-    paste('log-Chloropyhll-',italic(a),' (',italic('\u03bc'),'g ',L^-1,')')
-    )
+  ylabel <- chllab(logspace)
 
   # back-transform if needed
   if(!logspace){
-    
-    ylabel <- expression(
-      paste('Chloropyhll-',italic(a),' (',italic('\u03bc'),'g ',L^-1,')')
-      )
-    
+  
     to_plo<- exp(to_plo)
 
   }

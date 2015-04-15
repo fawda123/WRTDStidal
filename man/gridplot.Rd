@@ -54,7 +54,8 @@ data(tidfit)
 gridplot(tidfit)
 
 ## change the defaults
-gridplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990), sal_fac = 20)
+gridplot(tidfit, tau = 0.9, month = 2, years = seq(1980, 1990),
+ sal_fac = 20, col_vec = 'Dark2')
 }
 \seealso{
 \code{\link{dynaplot}}, \code{\link{fitplot}}, \code{\link{prdnrmplot}}
