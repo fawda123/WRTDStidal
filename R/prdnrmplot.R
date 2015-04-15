@@ -6,6 +6,7 @@
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
 #' @param annuals logical indicating if plots are annual aggregations of results
 #' @param logspace logical indicating if plots are in log space
+#' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
 #' 
@@ -67,7 +68,7 @@ prdnrmplot <- function(tidal_in, ...) UseMethod('prdnrmplot')
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, pretty = TRUE, ...){
+prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -77,6 +78,19 @@ prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = F
   to_plo <- data.frame(tidal_in)
   sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
+  
+  # subset data by dt_rng
+  if(!is.null(dt_rng)){ 
+   
+    dt_rng <- as.Date(dt_rng, format = '%Y-%m-%d')
+    if(any(is.na(dt_rng)) & length(dt_rng) != 2)
+      stop('Argument for dt_rng must be two-element character string of format "YYYY-mm-dd"')
+  
+    sel_vec <- with(to_plo, date >= dt_rng[1] & date <= dt_rng[2])
+    to_plo <- to_plo[sel_vec, ]
+    
+  }
+  
   
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){

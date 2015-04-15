@@ -138,7 +138,7 @@ gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, col_ve
       split(to_plo, to_plo$year), 
       function(x){
         out <- approx(x$sal, x$chla, n = exp_val)
-        out <- data.frame(year = x$year, out)
+        out <- data.frame(year = rep(x$year, exp_val), out)
         return(out)
       })
     interped <- do.call('rbind', interped)
