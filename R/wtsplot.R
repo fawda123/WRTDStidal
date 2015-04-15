@@ -3,7 +3,7 @@
 #' Create several plots showing the weights used to fit a model for a single observation.
 #' 
 #' @param tidal_in input tidal object
-#' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.
+#' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.
 #' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
@@ -29,7 +29,7 @@
 #' data(tidfit)
 #' 
 #' ## plot using defaults, 
-#' wtsplot(tidfit, ref = '1990-07-01')
+#' wtsplot(tidfit)
 #' 
 #' ## change the defaults
 #' wtsplot(tidfit, ref = '2000-01-01', wins = list(0.5, 15, Inf), 
@@ -43,14 +43,23 @@ wtsplot <- function(tidal_in, ...) UseMethod('wtsplot')
 #' @export 
 #' 
 #' @method wtsplot tidal
-wtsplot.tidal <- function(tidal_in, ref, wins = list(0.5, 10, NULL), dt_rng = NULL,
+wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), dt_rng = NULL,
   pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
   
-  # ref as date
-  ref <- as.Date(ref, format = '%Y-%m-%d')
-  if(is.na(ref)) 
-    stop('Argument for ref date must be character string of format "YYYY-mm-dd"')
+  # format reference position
+  if(is.null(ref)){
+    
+    ref <- as.Date(mean(tidal_in$date), format = '%Y-%m-%d', 
+      origin = '1970-01-01')
+    
+  } else {
   
+    ref <- as.Date(ref, format = '%Y-%m-%d')
+    if(is.na(ref)) 
+      stop('Argument for ref date must be character string of format "YYYY-mm-dd"')
+    
+  }
+    
   # get closest observation to referenced
   ref <- which.min(abs(ref - tidal_in$dat))[1]
   ref <- tidal_in[ref, ]

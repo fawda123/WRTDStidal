@@ -7,7 +7,7 @@
 \usage{
 wtsplot(tidal_in, ...)
 
-\method{wtsplot}{tidal}(tidal_in, ref, wins = list(0.5, 10, NULL),
+\method{wtsplot}{tidal}(tidal_in, ref = NULL, wins = list(0.5, 10, NULL),
   dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL,
   alpha = 1, as_list = FALSE, ...)
 }
@@ -16,7 +16,7 @@ wtsplot(tidal_in, ...)
 
 \item{...}{arguments passed to other methods}
 
-\item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.}
+\item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.}
 
 \item{wins}{list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity}
 
@@ -46,7 +46,7 @@ Create diagnostic plots to view the effects of different weighting windows on mo
 data(tidfit)
 
 ## plot using defaults,
-wtsplot(tidfit, ref = '1990-07-01')
+wtsplot(tidfit)
 
 ## change the defaults
 wtsplot(tidfit, ref = '2000-01-01', wins = list(0.5, 15, Inf),

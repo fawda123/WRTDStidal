@@ -22,8 +22,7 @@ obsplot(tidal_in, ...)
 
 \item{dt_rng}{Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
-\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
-colvec = 'black',}
+\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 
 \item{col}{chr string of plot color to use}
 
