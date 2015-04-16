@@ -44,7 +44,11 @@ library(WRTDStidal)
 
 ## Using the functions
 
-The adapation of WRTDS in tidal waters is designed to predict or normalize chlorophyll concentrations as a function of time, season, and salinity.  The functions have been developed following [S3 documentation](http://adv-r.had.co.nz/OO-essentials.html#s3), with specific methods for `tidal` objects.  The raw data are typically a `data.frame` with rows as monthly observations (ascending time) and four columns as date, chlorophyll, salinity, and lower detection limit for chlorophyll.  The `chldat` dataset that accompanies this package shows the proper format for using the functions.
+```{r echo = FALSE, message = FALSE}
+devtools::load_all()
+```
+
+The adapation of WRTDS in tidal waters is designed to predict or normalize chlorophyll concentrations as a function of time, season, and salinity.   The raw data are typically a `data.frame` with rows as monthly observations (ascending time) and four columns as date, chlorophyll, salinity, and lower detection limit for chlorophyll.  The `chldat` dataset that accompanies this package shows the proper format for using the functions.
 
 ```{r}
 # import data
@@ -64,13 +68,40 @@ data(tidfit)
 tidfit <- modfit(chldat, tau = c(0.1, 0.5, 0.9))
 ```
 
+The functions have been developed following [S3 documentation](http://adv-r.had.co.nz/OO-essentials.html#s3), with specific methods for `tidal` objects. The raw data can be converted to a tidal object using the `tidal` function or by simply executing the model fitting functions with raw data (e.g., `modfit`).  The raw data frame must be a particular format if the latter approach is used, as described above and demonstrated below.  The raw data can be plotted with `obsplot` once the tidal object is created.
+
+```{r fig.height = 6, fig.width = 8}
+# create a tidal object from a data frame
+tidobj <- tidal(chldat)
+
+# plot the raw data
+obsplot(tidobj)
+```
+
+A `tidal` object contains the data and multiple attributes.  The data and attributes are updated after the WRTDS model is created.
+
+```{r}
+# data
+head(tidobj)
+
+# names of the attributes
+names(attributes(tidobj))
+
+# load a fitted tidal object
+data(tidfit)
+
+# fitted data
+head(tidfit)
+
+# fitted attributes
+names(attributes(tidfit))
+
+```
+
 ### Fitting a WRTDS tidal model
 
-The quickest implementation of WRTDS with an input data frame is to use the `modfit` function which is a wrapper for several other functions that complete specific tasks.  Executing the function will create a `tidal` object with multiple attributes and predicted/normalized chlorophyll values.  The following text will also be printed in the console that describes current actions and progress. 
+The quickest implementation of WRTDS is to use the `modfit` function which is a wrapper for several other functions that complete specific tasks.   The following text will also be printed in the console that describes current actions and progress. 
 
-```{r echo = FALSE, message = FALSE}
-devtools::load_all()
-```
 ```{r message = FALSE, cache = TRUE}
 # get wrtds results
 res <- modfit(chldat)

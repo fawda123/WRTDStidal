@@ -1,10 +1,4 @@
 base
-datasets
-graphics
-grDevices
-methods
-splines
-stats
+ggplot2
 survival
-utils
 WRTDStidal
