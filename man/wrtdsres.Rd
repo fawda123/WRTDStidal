@@ -17,7 +17,7 @@ wrtdsres(tidal_in, ...)
 \item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
-Columns are added to the data of the tidal object for the residuals and non-conditional residuals of each observation.  This process is not as simple as subtracting observed minus predicted values for two reasons.  First, the residual at each observation is specific to the weighted regression at the center of the window.  This means that the WRTDS models must be refit to get the residuals.  Second, the goodness of fit measure described in Koenker and Machado (1999) for quantile regression requires a non-conditional quantile for comparison with the conditional quantile.  The non-conditional quantile is not as simple as estimating the relevant quantile for all data in the response since the weights are not considered as during the model fitting process.  Overall, the function is not as computationally intense as \code{\link{wrtds}} since values are only estimated for the predictions as compared to the entire interpolation grid for a quantile.
+Columns are added to the data of the tidal object for residuals and non-conditional residuals. Both are required to assess the goodness of fit measure described for quantile regression in Koenker and Machado (1999).
 
 A tidal object with columns for the residuals ('res') and non-conditional residuals ('resnl') of each quantile model.
 }
@@ -25,18 +25,16 @@ A tidal object with columns for the residuals ('res') and non-conditional residu
 Get WRTDS residuals for each quantile model. These are used to estimate goodness of fit of the model predictions.
 }
 \examples{
-\dontrun{
 ## load a fitted model object
 data(tidfit)
 
 ## run the function
-wrtdsres(tidfit)
-}
+tmp <- wrtdsres(tidfit)
 }
 \references{
 Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference processes for quantile regression. Journal of the American Statistical Association. 94(448):1296-1310.
 }
 \seealso{
-\code{\link{wrtds}}
+\code{\link{wrtds}}, \code{\link{wrtdsperf}}, \code{\link{goodfit}}
 }
 
