@@ -137,7 +137,11 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     
   }
   
+  # half-window widths for attributes
+  ref_wts <- getwts(tidal_in, ref_in, wins_only = TRUE, ...)
+  
   # add grids to tidal object, return
+  attr(tidal_in, 'half_wins') <- ref_wts
   attr(tidal_in, 'fits') <- fit_grds
   attr(tidal_in, 'betas') <- b_grds
   attr(tidal_in, 'sal_grd') <- sal_grd

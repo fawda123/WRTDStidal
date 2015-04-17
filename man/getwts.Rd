@@ -8,7 +8,8 @@
 getwts(tidal_in, ...)
 
 \method{getwts}{tidal}(tidal_in, ref_in, wt_vars = c("day_num", "year",
-  "sal"), wins = list(0.5, 10, NULL), all = F, min_obs = T, ...)
+  "sal"), wins = list(0.5, 10, NULL), all = FALSE, min_obs = TRUE,
+  wins_only = FALSE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -24,6 +25,8 @@ getwts(tidal_in, ...)
 \item{all}{logical to return individual weights rather than the product of all three, default \code{FALSE}}
 
 \item{min_obs}{logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}}
+
+\item{wins_only}{logical if the half-window widths should be returned as a list}
 }
 \value{
 A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.

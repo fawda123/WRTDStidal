@@ -9,6 +9,7 @@
 #' @param wins list of half-window widths for time, year, and salinity
 #' @param all logical to return individual weights rather than the product of all three, default \code{FALSE}
 #' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
+#' @param wins_only logical if the half-window widths should be returned as a list
 #' @param ... arguments passed to or from other methods
 #' 
 #' @return A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.
@@ -37,8 +38,9 @@ getwts <- function(tidal_in, ...) UseMethod('getwts')
 getwts.tidal <- function(tidal_in, ref_in,
   wt_vars = c('day_num', 'year', 'sal'),
   wins = list(0.5, 10, NULL),
-  all = F,
-  min_obs = T, ...){
+  all = FALSE,
+  min_obs = TRUE,
+  wins_only = FALSE, ...){
   
   # windows for each of three variables
   wins_1 <- wins[[1]]
@@ -46,6 +48,9 @@ getwts.tidal <- function(tidal_in, ref_in,
   wins_3 <- wins[[3]]
   
   if(is.null(wins[[3]])) wins_3 <- diff(range(tidal_in[, wt_vars[3]]))/2
+  
+  # return windows if T, for tidal attributes
+  if(wins_only) return(list(wins_1, wins_2, wins_3))
   
   # weighting tri-cube function
   wt_fun_sub <- function(dat_cal, ref, win, mo = F){
