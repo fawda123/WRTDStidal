@@ -51,13 +51,11 @@ wrtdsperf.tidal<- function(tidal_in, ...){
   res <- tidyr::extract(res, 'key', c('type', 'tau'), '(res|resnl)([0]\\.[0-9])')
   res <- tidyr::spread(res, 'type', 'value')
   res$mod <- as.numeric(res$tau)
-  
-  browser()
-  
+   
   # estimate performance measures
   perf <- dplyr::group_by(res, tau)
   perf <- dplyr::summarize(perf, 
-    perf = goodfit(res, resnl, as.numeric(unique(mod))),
+    gfit = goodfit(res, resnl, as.numeric(unique(mod))),
     rmse = sqrt(mean(res^2, na.rm = TRUE)),
     nmse = sum(res^2, na.rm = TRUE)/sum((chla - mean(chla, na.rm = TRUE))^2, na.rm = TRUE)
     )

@@ -22,8 +22,8 @@
 #' data(tidfit)
 #' 
 #' ## run the function
-#' tmp <- wrtdsres(tidfit)
-#' 
+#' res <- wrtdsres(tidfit)
+#' head(res)
 wrtdsres <- function(tidal_in, ...) UseMethod('wrtdsres')
 
 #' @rdname wrtdsres
