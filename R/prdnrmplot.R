@@ -7,6 +7,9 @@
 #' @param annuals logical indicating if plots are annual aggregations of results
 #' @param logspace logical indicating if plots are in log space
 #' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
+#' @param lwd numeric value indicating width of lines
+#' @param size numeric value indicating size of points
+#' @param alpha numeric value indicating transparency of points or lines
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
 #' 
@@ -68,7 +71,7 @@ prdnrmplot <- function(tidal_in, ...) UseMethod('prdnrmplot')
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, ...){
+prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -143,9 +146,9 @@ prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = F
   
   # bare bones plot, fits as points, nrms as lines
   p <- ggplot(fits, aes(x = date, y = fits_value, colour = taus)) + 
-    geom_point() +  
+    geom_point(size = size, alpha = alpha) +  
     geom_line(data = nrms, aes(x = date, y = nrms_value, group = taus, 
-        colour = taus))#, ...)
+        colour = taus), size = lwd, alpha = alpha)
   
   # exit if pretty is F
   if(!pretty) return(p)

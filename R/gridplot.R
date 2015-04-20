@@ -127,11 +127,11 @@ gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, col_ve
   if(interp){
     
     # interp across salinity first
-    exp_val <- length(unique(to_plo$sal)) * sal_fac
+    sal_fac <- length(unique(to_plo$sal)) * sal_fac
     interped <- lapply(
       split(to_plo, to_plo$year), 
       function(x){
-        out <- approx(x$sal, x$chla, n = exp_val)
+        out <- approx(x$sal, x$chla, n = sal_fac)
         out <- data.frame(year = rep(x$year, exp_val), out)
         return(out)
       })
@@ -139,11 +139,11 @@ gridplot.tidal <- function(tidal_in, month = 7, tau = NULL, years = NULL, col_ve
     names(interped) <- c('year', 'sal', 'chla')
     
     # interp across years (increasd by factor of five times no. of years)
-    exp_val <- length(unique(interped$year)) * yr_fac
+    yr_fac <- length(unique(interped$year)) * yr_fac
     interped <- lapply(
       split(interped, interped$sal), 
       function(x){
-        out <- approx(x$year, x$chla, n = exp_val)
+        out <- approx(x$year, x$chla, n = yr_fac)
         out <- data.frame(year = out$x, sal = unique(x$sal), chla = out$y)
         return(out)
       })

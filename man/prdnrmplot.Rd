@@ -8,7 +8,8 @@
 prdnrmplot(tidal_in, ...)
 
 \method{prdnrmplot}{tidal}(tidal_in, tau = NULL, annuals = FALSE,
-  logspace = FALSE, dt_rng = NULL, pretty = TRUE, ...)
+  logspace = FALSE, dt_rng = NULL, lwd = 1, size = 2, alpha = 1,
+  pretty = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -22,6 +23,12 @@ prdnrmplot(tidal_in, ...)
 \item{logspace}{logical indicating if plots are in log space}
 
 \item{dt_rng}{Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
+
+\item{lwd}{numeric value indicating width of lines}
+
+\item{size}{numeric value indicating size of points}
+
+\item{alpha}{numeric value indicating transparency of points or lines}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 }
