@@ -30,7 +30,7 @@
 #' ## load a fitted tidal object
 #' data(tidfit)
 #' 
-#' ## plot using defaults, 
+#' ## plot using defaults
 #' ## defaults to the fiftieth quantile for July for all years
 #' gridplot(tidfit)
 #' 
