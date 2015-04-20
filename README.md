@@ -80,7 +80,7 @@ tidobj <- tidal(chldat)
 obsplot(tidobj)
 ```
 
-![plot of chunk unnamed-chunk-5](README_files/figure-html/unnamed-chunk-5.png) 
+![](README_files/figure-html/unnamed-chunk-5-1.png) 
 
 A `tidal` object contains the data and multiple attributes.  The data and attributes are updated after the WRTDS model is created.
 
@@ -91,13 +91,20 @@ head(tidobj)
 ```
 
 ```
-##         date  chla    sal    lim not_cens  day_num month year dec_time
-## 1 1974-01-01 3.418 0.2796 0.8755     TRUE 0.005479     1 1974     1974
-## 2 1974-02-01 3.861 0.3468 0.8755     TRUE 0.090411     2 1974     1974
-## 3 1974-03-01 2.639 0.2380 0.8755     TRUE 0.164384     3 1974     1974
-## 4 1974-04-01 2.485 0.2393 0.8755     TRUE 0.249315     4 1974     1974
-## 5 1974-05-01 2.708 0.2281 0.8755     TRUE 0.331507     5 1974     1974
-## 6 1974-06-01 2.741 0.2052 0.8755     TRUE 0.416438     6 1974     1974
+##         date     chla       sal       lim not_cens     day_num month year
+## 1 1974-01-01 3.417727 0.2796053 0.8754687     TRUE 0.005479452     1 1974
+## 2 1974-02-01 3.860730 0.3468468 0.8754687     TRUE 0.090410959     2 1974
+## 3 1974-03-01 2.639057 0.2380192 0.8754687     TRUE 0.164383562     3 1974
+## 4 1974-04-01 2.484907 0.2393443 0.8754687     TRUE 0.249315068     4 1974
+## 5 1974-05-01 2.708050 0.2281250 0.8754687     TRUE 0.331506849     5 1974
+## 6 1974-06-01 2.740840 0.2052117 0.8754687     TRUE 0.416438356     6 1974
+##   dec_time
+## 1 1974.005
+## 2 1974.090
+## 3 1974.164
+## 4 1974.249
+## 5 1974.332
+## 6 1974.416
 ```
 
 ```r
@@ -118,20 +125,20 @@ head(tidfit)
 ```
 
 ```
-##         date  chla    sal    lim not_cens  day_num month year dec_time
-## 1 1974-01-01 3.418 0.2796 0.8755     TRUE 0.005479     1 1974     1974
-## 2 1974-02-01 3.861 0.3468 0.8755     TRUE 0.090411     2 1974     1974
-## 3 1974-03-01 2.639 0.2380 0.8755     TRUE 0.164384     3 1974     1974
-## 4 1974-04-01 2.485 0.2393 0.8755     TRUE 0.249315     4 1974     1974
-## 5 1974-05-01 2.708 0.2281 0.8755     TRUE 0.331507     5 1974     1974
-## 6 1974-06-01 2.741 0.2052 0.8755     TRUE 0.416438     6 1974     1974
-##   fit0.1 fit0.5 fit0.9 norm0.1 norm0.5 norm0.9
-## 1  2.612  3.256  3.718   2.574   3.080   3.371
-## 2  2.539  3.165  3.840   2.561   2.993   3.420
-## 3  2.546  2.885  3.282   2.599   2.886   3.378
-## 4  2.512  2.659  3.234   2.578   2.720   3.274
-## 5  2.577  2.715  3.362   2.590   2.742   3.321
-## 6  2.747  2.813  3.458   2.747   2.830   3.468
+##         date     chla       sal       lim not_cens     day_num month year
+## 1 1974-01-01 3.417727 0.2796053 0.8754687     TRUE 0.005479452     1 1974
+## 2 1974-02-01 3.860730 0.3468468 0.8754687     TRUE 0.090410959     2 1974
+## 3 1974-03-01 2.639057 0.2380192 0.8754687     TRUE 0.164383562     3 1974
+## 4 1974-04-01 2.484907 0.2393443 0.8754687     TRUE 0.249315068     4 1974
+## 5 1974-05-01 2.708050 0.2281250 0.8754687     TRUE 0.331506849     5 1974
+## 6 1974-06-01 2.740840 0.2052117 0.8754687     TRUE 0.416438356     6 1974
+##   dec_time   fit0.1   fit0.5   fit0.9  norm0.1  norm0.5  norm0.9
+## 1 1974.005 2.611805 3.255854 3.718358 2.573670 3.080138 3.371476
+## 2 1974.090 2.539380 3.165399 3.839503 2.561327 2.993041 3.420049
+## 3 1974.164 2.545622 2.885037 3.282384 2.598747 2.886039 3.378181
+## 4 1974.249 2.511704 2.658800 3.233701 2.577990 2.720392 3.274004
+## 5 1974.332 2.576591 2.715269 3.361929 2.590010 2.742347 3.320816
+## 6 1974.416 2.747261 2.813397 3.458496 2.746960 2.830480 3.467769
 ```
 
 ```r
@@ -140,7 +147,8 @@ names(attributes(tidfit))
 ```
 
 ```
-## [1] "names"     "row.names" "fits"      "betas"     "sal_grd"   "class"
+## [1] "names"     "row.names" "half_wins" "fits"      "betas"     "sal_grd"  
+## [7] "class"
 ```
 
 ### Fitting a WRTDS tidal model
@@ -213,14 +221,14 @@ data(tidfit)
 fitplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-10](README_files/figure-html/unnamed-chunk-101.png) 
+![](README_files/figure-html/unnamed-chunk-10-1.png) 
 
 ```r
 # plot as annual aggregations
 fitplot(tidfit, annuals = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-10](README_files/figure-html/unnamed-chunk-102.png) 
+![](README_files/figure-html/unnamed-chunk-10-2.png) 
 
 The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.
 
@@ -230,7 +238,7 @@ The `sliceplot` function is a modification of `fitplot` that can be used to plot
 sliceplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-11](README_files/figure-html/unnamed-chunk-11.png) 
+![](README_files/figure-html/unnamed-chunk-11-1.png) 
 
 The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
 
@@ -240,14 +248,14 @@ The `prdnrmplot` function is similar to the `fitplot` function with the exceptio
 prdnrmplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-12](README_files/figure-html/unnamed-chunk-121.png) 
+![](README_files/figure-html/unnamed-chunk-12-1.png) 
 
 ```r
 # plot as annual aggregations
 prdnrmplot(tidfit, annuals = TRUE)
 ```
 
-![plot of chunk unnamed-chunk-12](README_files/figure-html/unnamed-chunk-122.png) 
+![](README_files/figure-html/unnamed-chunk-12-2.png) 
 
 The `dynaplot` function can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted chlorophyll values for a selected month across all years are plotted in relation to the range of salinity values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity values to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain.
 
@@ -258,9 +266,9 @@ The `dynaplot` function can be used to examine how the relationship between chlo
 dynaplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-13](README_files/figure-html/unnamed-chunk-13.png) 
+![](README_files/figure-html/unnamed-chunk-13-1.png) 
 
-A similar plot can be returned using the `gridplot` function.  It is essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
+Similar plots can be returned using the `gridplot` function.  These are essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Multiple months can also be viewed for comparison.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
 
 
 ```r
@@ -269,7 +277,7 @@ A similar plot can be returned using the `gridplot` function.  It is essentially
 gridplot(tidfit)
 ```
 
-![plot of chunk unnamed-chunk-14](README_files/figure-html/unnamed-chunk-14.png) 
+![](README_files/figure-html/unnamed-chunk-14-1.png) 
 
 The `wtsplot` function can be used to create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
 
@@ -279,4 +287,4 @@ The `wtsplot` function can be used to create diagnostic plots to view the effect
 wtsplot(tidfit, ref = '1995-07-01')
 ```
 
-![plot of chunk unnamed-chunk-15](README_files/figure-html/unnamed-chunk-15.png) 
+![](README_files/figure-html/unnamed-chunk-15-1.png) 

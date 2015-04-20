@@ -182,9 +182,9 @@ The `dynaplot` function can be used to examine how the relationship between chlo
 dynaplot(tidfit)
 ```
 
-A similar plot can be returned using the `gridplot` function.  It is essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
+Similar plots can be returned using the `gridplot` function.  These are essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Multiple months can also be viewed for comparison.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
 
-```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 # create a gridded plot
 # defaults to the fiftieth quantile for July for all years
 gridplot(tidfit)
