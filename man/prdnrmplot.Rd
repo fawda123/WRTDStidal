@@ -8,8 +8,8 @@
 prdnrmplot(tidal_in, ...)
 
 \method{prdnrmplot}{tidal}(tidal_in, tau = NULL, annuals = FALSE,
-  logspace = FALSE, dt_rng = NULL, lwd = 1, size = 2, alpha = 1,
-  pretty = TRUE, ...)
+  logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
+  alpha = 1, pretty = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -23,6 +23,8 @@ prdnrmplot(tidal_in, ...)
 \item{logspace}{logical indicating if plots are in log space}
 
 \item{dt_rng}{Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
+
+\item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 
 \item{lwd}{numeric value indicating width of lines}
 

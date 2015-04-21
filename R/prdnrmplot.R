@@ -7,6 +7,7 @@
 #' @param annuals logical indicating if plots are annual aggregations of results
 #' @param logspace logical indicating if plots are in log space
 #' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
+#' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param lwd numeric value indicating width of lines
 #' @param size numeric value indicating size of points
 #' @param alpha numeric value indicating transparency of points or lines
@@ -71,7 +72,7 @@ prdnrmplot <- function(tidal_in, ...) UseMethod('prdnrmplot')
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
+prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -155,16 +156,16 @@ prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = F
   
   ##
   # change aesthetics
-  
+
   # pick colors
   # special case for three quantiles
-  if(length(quants) == 3){
-    cols <- brewer.pal(10, 'Spectral')[c(1, 7, 9)]
-  } else {
-    cols <- grDevices::colorRampPalette(
-      brewer.pal(10, 'Spectral')
-      )(length(quants))
-  }
+  colpal <- gradcols(col_vec = col_vec)
+  cols <- colpal[round(seq(1, length(colpal), length = length(quants)))]
+  if(is.null(col_vec)){
+    if(length(quants) == 3) cols <- colpal[c(1, 9, 10)]
+    if(length(quants) == 2) cols <- colpal[c(1, 9)]
+    if(length(quants) == 1) cols <- colpal[c(1)]
+  } 
 
   p <- p + 
     theme_bw() +

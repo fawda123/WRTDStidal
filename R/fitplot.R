@@ -6,10 +6,14 @@
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
 #' @param annuals logical indicating if plots are annual aggregations of results
+#' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
+#' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
-#' @param pt_sz numeric value indicating size of observed chlorophyll points
-#' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
+#' @param lwd numeric value indicating width of lines
+#' @param size numeric value indicating size of points
+#' @param alpha numeric value indicating transparency of points or lines
+#' @param ... arguments passed to other methods
 #' 
 #' @import dplyr ggplot2 RColorBrewer tidyr
 #' 
@@ -70,7 +74,7 @@ fitplot <- function(tidal_in, ...) UseMethod('fitplot')
 #' @export 
 #' 
 #' @method fitplot tidal
-fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...){
+fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -80,6 +84,18 @@ fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALS
   to_plo <- data.frame(tidal_in)
   sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
+  
+  # subset data by dt_rng
+  if(!is.null(dt_rng)){ 
+   
+    dt_rng <- as.Date(dt_rng, format = '%Y-%m-%d')
+    if(any(is.na(dt_rng)) & length(dt_rng) != 2)
+      stop('Argument for dt_rng must be two-element character string of format "YYYY-mm-dd"')
+  
+    sel_vec <- with(to_plo, date >= dt_rng[1] & date <= dt_rng[2])
+    to_plo <- to_plo[sel_vec, ]
+    
+  }
   
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){
@@ -130,21 +146,21 @@ fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALS
   
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = chla)) + 
-    geom_point(aes(size = 'Observed')) + 
-    scale_size_manual('', values = pt_sz)
+    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    scale_size_manual('', values = size)
       
   # plot fits or nrms
   if(predicted){
     p <- p + 
       geom_line(data = fits, aes(y = fits_value, group = fits_variable, 
-        colour = fits_variable), ...)
+        colour = fits_variable), size = lwd, alpha = alpha)
     
     leglab <- c('Predicted')
     
   } else {
     p <- p + 
       geom_line(data = nrms, aes(y = nrms_value, group = nrms_variable, 
-        colour = nrms_variable), ...)
+        colour = nrms_variable), size = lwd, alpha = alpha)
     
     leglab <- c('Normalized')
   }
@@ -157,14 +173,14 @@ fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALS
   
   # pick colors
   # special case for three quantiles
-  if(length(quants) == 3){
-    cols <- brewer.pal(10, 'Spectral')[c(1, 7, 9)]
-  } else {
-    cols <- grDevices::colorRampPalette(
-      brewer.pal(10, 'Spectral')
-      )(length(quants))
-  }
-
+  colpal <- gradcols(col_vec = col_vec)
+  cols <- colpal[round(seq(1, length(colpal), length = length(quants)))]
+  if(is.null(col_vec)){
+    if(length(quants) == 3) cols <- colpal[c(1, 9, 10)]
+    if(length(quants) == 2) cols <- colpal[c(1, 9)]
+    if(length(quants) == 1) cols <- colpal[c(1)]
+  } 
+  
   p <- p + 
     theme_bw() +
     scale_colour_manual(

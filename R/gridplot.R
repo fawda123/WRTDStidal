@@ -110,6 +110,7 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   ## use linear interpolation to make a smoother plot
   if(interp){
     
+    # these are factors by which salinity and years are multiplied for interpolation
     sal_fac <- length(unique(to_plo$sal)) * sal_fac
     yr_fac <- length(unique(to_plo$year)) * yr_fac
     yr_fac <- seq(min(to_plo$year), max(to_plo$year), length = yr_fac)
@@ -120,7 +121,6 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
     to_plo <- lapply(to_plo, function(x){
       
       # interp across salinity first
- 
       interped <- lapply(
         split(x, x$year), 
         function(y){
@@ -131,7 +131,7 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
       interped <- do.call('rbind', interped)
       names(interped) <- c('year', 'month', 'sal', 'chla')
       
-      # interp across years (increasd by factor of five times no. of years)
+      # interp across years
       interped <- lapply(
         split(interped, interped$sal), 
         function(y){
