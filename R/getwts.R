@@ -54,7 +54,7 @@ getwts.tidal <- function(tidal_in, ref_in,
   
   # weighting tri-cube function
   wt_fun_sub <- function(dat_cal, ref, win, mo = F){
-    
+
     dist_val <- abs(dat_cal-ref)
     
     if(mo){
@@ -84,22 +84,24 @@ getwts.tidal <- function(tidal_in, ref_in,
   
   gr_zero <- sum(out>0)
   
-  while(gr_zero < 100){
+  if(min_obs){
+    while(gr_zero < 100){
+      
+      wins_1 <- 0.1 * wins_1 + wins_1
+      wins_2 <- 0.1 * wins_2 + wins_2
+      wins_3 <- 0.1 * wins_3 + wins_3
+      
+      # weights for each observation in relation to reference
+      wts_1 <- sapply(as.numeric(tidal_in[, wt_vars[1]]), wt_fun_sub, ref = ref_1, win = wins_1, mo = T)
+      wts_2 <- sapply(as.numeric(tidal_in[, wt_vars[2]]), wt_fun_sub, ref = ref_2, win = wins_2)
+      wts_3 <- sapply(as.numeric(tidal_in[, wt_vars[3]]), wt_fun_sub, ref = ref_3, win = wins_3)
+      
+      out <- wts_1 * wts_2 * wts_3
+      
+      gr_zero <- sum(out > 0)
     
-    wins_1 <- 0.1 * wins_1 + wins_1
-    wins_2 <- 0.1 * wins_2 + wins_2
-    wins_3 <- 0.1 * wins_3 + wins_3
-    
-    # weights for each observation in relation to reference
-    wts_1 <- sapply(as.numeric(tidal_in[, wt_vars[1]]), wt_fun_sub, ref = ref_1, win = wins_1, mo = T)
-    wts_2 <- sapply(as.numeric(tidal_in[, wt_vars[2]]), wt_fun_sub, ref = ref_2, win = wins_2)
-    wts_3 <- sapply(as.numeric(tidal_in[, wt_vars[3]]), wt_fun_sub, ref = ref_3, win = wins_3)
-    
-    out <- wts_1 * wts_2 * wts_3
-    
-    gr_zero <- sum(out > 0)
-
     }
+  }
   
   # return all weights if T
   if(all){

@@ -8,8 +8,8 @@
 wtsplot(tidal_in, ...)
 
 \method{wtsplot}{tidal}(tidal_in, ref = NULL, wins = list(0.5, 10, NULL),
-  dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL,
-  alpha = 1, as_list = FALSE, ...)
+  min_obs = TRUE, dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL,
+  col_lns = NULL, alpha = 1, as_list = FALSE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -19,6 +19,8 @@ wtsplot(tidal_in, ...)
 \item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.}
 
 \item{wins}{list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity}
+
+\item{min_obs}{logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}}
 
 \item{dt_rng}{Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
