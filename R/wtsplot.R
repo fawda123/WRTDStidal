@@ -5,7 +5,8 @@
 #' @param tidal_in input tidal object
 #' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.
 #' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity
-#' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
+#' @param min_obs logical to use window widening if less than 100 non-zero weights are found, passed to \code{\link{getwts}}
+#' @param slice logical indicating if only weights bounded by the year window (i.e., the limiting window for the combined weights) are shown, passed to \code{\link{getwts}}
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
@@ -44,7 +45,7 @@ wtsplot <- function(tidal_in, ...) UseMethod('wtsplot')
 #' @export 
 #' 
 #' @method wtsplot tidal
-wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_obs = TRUE, dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
+wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
   
   # format reference position
   if(is.null(ref)){
@@ -78,8 +79,8 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   ##
   # get the weights
   ref_wts <- data.frame(
-    allwts = getwts(tidal_in, ref, wins = wins, min_obs = min_obs),
-    getwts(tidal_in, ref, wins = wins, all = TRUE, min_obs = min_obs)
+    allwts = getwts(tidal_in, ref, wins = wins, min_obs = min_obs, slice = slice),
+    getwts(tidal_in, ref, wins = wins, all = TRUE, min_obs = min_obs, slice = slice)
   )
   
   # selection vector for year and prep titles
