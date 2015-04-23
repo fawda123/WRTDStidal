@@ -41,7 +41,7 @@
 #' summary(mod_lm)$r.squared
 goodfit <- function(resid, resid_nl, tau){
   
-  #minimum sum of deviations
+  # minimum sum of deviations
   V1 <- resid * (tau - (resid < 0))
   V1 <- sum(V1, na.rm = T) 
   
@@ -52,8 +52,9 @@ goodfit <- function(resid, resid_nl, tau){
   # explained deviance
   out <- 1 - V1/V0
   
-  # output
+  # exceptions for output
   if(any(c(Inf, -Inf) %in% out)) out <- NA
+  if(V1 > V0) out <- NA
   
   return(out)
   
