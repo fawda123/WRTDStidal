@@ -121,7 +121,7 @@ dynaplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   
     # month sal ranges for plot
     lim_vals <- lim_vals[lim_vals$month %in% month, ]
-    
+
     # merge limts with months
     to_plo <- left_join(to_plo, lim_vals, by = 'month')
     
@@ -155,12 +155,11 @@ dynaplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   
   p <- p + 
     geom_line(size = size, aes(colour = year), alpha = alpha) +
-    scale_y_continuous(ylabel) +
-    scale_x_continuous('Salinity') +
+    scale_y_continuous(ylabel, expand = c(0, 0)) +
+    scale_x_continuous('Salinity', expand = c(0, 0)) +
     theme_bw() +
     theme(
-      legend.position = 'top', 
-      axis.title.x = element_blank()
+      legend.position = 'top'
     ) +
     scale_colour_gradientn('Year', colours = cols) +
     guides(colour = guide_colourbar(barwidth = 10)) 

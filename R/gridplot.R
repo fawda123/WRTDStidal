@@ -201,8 +201,7 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   p <- p +
     theme_bw() +
     theme(
-      legend.position = 'top', 
-      axis.title.x = element_blank()
+      legend.position = 'top'
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous('Salinity', expand = c(0,0)) +
