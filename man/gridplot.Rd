@@ -10,7 +10,7 @@ gridplot(tidal_in, ...)
 \method{gridplot}{tidal}(tidal_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE,
   interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL,
-  pretty = TRUE, ...)
+  grids = FALSE, pretty = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -36,6 +36,8 @@ gridplot(tidal_in, ...)
 \item{yr_fac}{numeric value indicating the factor for smoothing chlorophyll across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.}
 
 \item{ncol}{numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns}
+
+\item{grids}{logical indicating if grid lines are present}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 }

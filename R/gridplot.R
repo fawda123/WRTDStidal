@@ -13,6 +13,7 @@
 #' @param sal_fac numeric value indicating the factor for smoothing chlorophyll across salinity values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
 #' @param yr_fac numeric value indicating the factor for smoothing chlorophyll across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
 #' @param ncol numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns
+#' @param grids logical indicating if grid lines are present
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to other methods
 #' 
@@ -45,7 +46,7 @@ gridplot <- function(tidal_in, ...) UseMethod('gridplot')
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, pretty = TRUE, ...){
+gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
@@ -201,14 +202,21 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
     theme_bw() +
     theme(
       legend.position = 'top', 
-      axis.title.x = element_blank(),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank()
+      axis.title.x = element_blank()
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous('Salinity', expand = c(0,0)) +
-    scale_fill_gradientn(ylabel, colours = rev(cols))
+    scale_fill_gradientn(ylabel, colours = rev(cols)) +
+    guides(fill = guide_colourbar(barwidth = 10)) 
     
+  # add grid lines
+  if(!grids) 
+    p <- p + 
+      theme(      
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+      )
+  
   return(p)
     
 }

@@ -176,7 +176,7 @@ prdnrmplot(tidfit, annuals = TRUE)
 
 The `dynaplot` function can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted chlorophyll values for a selected month across all years are plotted in relation to the range of salinity values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity values to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain.
 
-```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 # plot using defaults
 # defaults to the fiftieth quantile for July for all years
 dynaplot(tidfit)

@@ -3,13 +3,13 @@
 \name{dynaplot}
 \alias{dynaplot}
 \alias{dynaplot.tidal}
-\title{Plot chlorophyll response to salinity  as a lineplot}
+\title{Plot chlorophyll response to salinity as a lineplot for all months}
 \usage{
 dynaplot(tidal_in, ...)
 
-\method{dynaplot}{tidal}(tidal_in, month = 7, tau = NULL, years = NULL,
-  col_vec = NULL, alpha = 1, size = 1, logspace = FALSE,
-  pretty = TRUE, allsal = FALSE, ...)
+\method{dynaplot}{tidal}(tidal_in, month = c(1:12), tau = NULL,
+  years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = FALSE,
+  allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...)
 }
 \arguments{
 \item{tidal_in}{input tidal object}
@@ -30,20 +30,24 @@ dynaplot(tidal_in, ...)
 
 \item{logspace}{logical indicating if plots are in log space}
 
-\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.}
-
 \item{allsal}{logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest}
+
+\item{ncol}{numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns}
+
+\item{grids}{logical indicating if grid lines are present}
+
+\item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot the relationship between chlorophyll and salinity across the time series using a line plot.  This can be used to evaluate temporal variation between the two.
+Plot the relationship between chlorophyll and salinity across the time series using line plots for each month.  Each line corresponds to a unique year.  This can be used to evaluate temporal variation between the two.
 }
 \details{
-The plot can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except a line plot is returned that shows the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the plot is constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are typically unrealistic.
+These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are typically unrealistic.
 
-Note that the year variable used for color mapping in the plot is treated as a continuous variable although it is an integer by definition.
+Note that the year variable used for color mapping is treated as a continuous variable although it is an integer by definition.
 }
 \examples{
 ## load a fitted tidal object
