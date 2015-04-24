@@ -164,7 +164,7 @@ dynaplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
     scale_colour_gradientn('Year', colours = cols) +
     guides(colour = guide_colourbar(barwidth = 10)) 
   
-  # add grid lines
+  # remove grid lines
   if(!grids) 
     p <- p + 
       theme(      

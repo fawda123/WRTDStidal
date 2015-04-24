@@ -1,19 +1,23 @@
-#' Plot the fitted results for a tidal object
+#' Plot the fitted results for a tidal object by month
 #' 
-#' Plot a tidal object to view chlorophyll observations, predictions, and normalized results.
+#' Plot a tidal object to view chlorophyll observations, predictions, and normalized results separately for each month.
 #' 
 #' @param tidal_in input tidal object
+#' @param month numeric indicating months to plot
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
-#' @param annuals logical indicating if plots are annual aggregations of results
 #' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
+#' @param ncol numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns
+#' @param grids logical indicating if grid lines are present
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param lwd numeric value indicating width of lines
 #' @param size numeric value indicating size of points
 #' @param alpha numeric value indicating transparency of points or lines
 #' @param ... arguments passed to other methods
+#' 
+#' @details The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows a more clear evaluation of trends over time independent of seasonal variation.  
 #' 
 #' @import dplyr ggplot2 RColorBrewer tidyr
 #' 
@@ -21,7 +25,7 @@
 #' 
 #' @return A \code{\link[ggplot2]{ggplot}} object that can be further modified
 #' 
-#' @seealso \code{\link{fitmoplot}}, \code{\link{prdnrmplot}}, \code{\link{sliceplot}}
+#' @seealso \code{\link{fitplot}}, \code{\link{prdnrmplot}}, \code{\link{sliceplot}}
 #' 
 #' @examples
 #' 
@@ -29,36 +33,29 @@
 #' data(tidfit)
 #' 
 #' # plot using defaults
-#' fitplot(tidfit)
+#' fitmoplot(tidfit)
 #' 
 #' # get the same plot but use default ggplot settings
-#' fitplot(tidfit, pretty = FALSE)
-#' 
-#' # plot in log space
-#' fitplot(tidfit, logspace = TRUE)
+#' fitmoplot(tidfit, pretty = FALSE)
 #' 
 #' # plot specific quantiles
-#' fitplot(tidfit, tau = c(0.1, 0.9))
+#' fitmoplot(tidfit, tau = c(0.1, 0.9))
 #' 
 #' # plot the normalized predictions
-#' fitplot(tidfit, predicted = FALSE)
+#' fitmoplot(tidfit, predicted = FALSE)
 #' 
 #' # plot as annual aggregations
-#' fitplot(tidfit, annuals = TRUE) 
+#' fitmoplot(tidfit, annuals = TRUE) 
 #' 
-#' # format the x-axis is using annual aggregations
-#' library(ggplot2)
-#' 
-#' fitplot(tidfit, annual = TRUE) + 
-#'  scale_x_continuous(breaks = seq(2000, 2012, by = 4))
-#'
 #' # modify the plot as needed using ggplot scales, etc.
 #' 
-#' fitplot(tidfit, pretty = FALSE, linetype = 'dashed') + 
+#' library(ggplot2)
+#' 
+#' fitmoplot(tidfit, pretty = FALSE, linetype = 'dashed') + 
 #'  theme_classic() + 
 #'  scale_y_continuous(
 #'    'Chlorophyll', 
-#'    limits = c(0, 50)
+#'    limits = c(0, 5)
 #'    ) +
 #'  scale_colour_manual( 
 #'    'Predictions', 
@@ -67,23 +64,30 @@
 #'    guide = guide_legend(reverse = TRUE)
 #'    ) 
 #'  
-fitplot <- function(tidal_in, ...) UseMethod('fitplot')
+fitmoplot <- function(tidal_in, ...) UseMethod('fitmoplot')
 
-#' @rdname fitplot
+#' @rdname fitmoplot
 #' 
 #' @export 
 #' 
-#' @method fitplot tidal
-fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+#' @method fitmoplot tidal
+fitmoplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, predicted = TRUE, logspace = TRUE, dt_rng = NULL, ncol = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
   
+  # convert month vector to those present in data
+  month <- month[month %in% tidal_in$month]
+  if(length(month) == 0) stop('No observable data for the chosen month')
+  
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(tidal_in)
-  sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
+  sel_vec <- grepl('^date$|^month$|^chla$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
+  
+  # get selected months
+  to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   
   # subset data by dt_rng
   if(!is.null(dt_rng)){ 
@@ -113,18 +117,11 @@ fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALS
     
   }
  
-  # annual aggregations if TRUE
-  if(annuals){
-    to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
-      group_by(date) %>% 
-      summarise_each(funs(mean(., na.rm = TRUE)))
-  }
-    
   # long format for plotting
   nrms <- gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
-    select(date, nrms_variable, nrms_value)
+    select(date, month, nrms_variable, nrms_value)
   fits <- gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
-    select(date, fits_variable, fits_value)
+    select(date, month, fits_variable, fits_value)
   
   # y-axis label
   ylabel <- chllab(logspace)
@@ -144,9 +141,20 @@ fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALS
     function(x) bquote(italic('\u03c4') ~ .(x))
   )
   
+  # months labels as text
+  mo_lab <- data.frame(
+    num = seq(1:12), 
+    txt = c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+  )
+  mo_lab <- mo_lab[mo_lab$num %in% month, ]
+  to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  fits$month <- factor(fits$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  nrms$month <- factor(nrms$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla)) + 
+  p <- ggplot(to_plo, aes(x = date, y = chla, group = month)) + 
     geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    facet_wrap(~ month, ncol = ncol) + 
     scale_size_manual('', values = size)
       
   # plot fits or nrms
@@ -189,8 +197,20 @@ fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALS
       values = cols, 
       guide = guide_legend(reverse = TRUE)
     ) +
-    theme(axis.title.x = element_blank()) +
+    theme(
+      axis.title.x = element_blank(), 
+      legend.position = 'top', 
+      legend.box = 'horizontal'
+      ) +
     scale_y_continuous(ylabel)
+  
+  # remove grid lines
+  if(!grids) 
+    p <- p + 
+      theme(      
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+      )
   
   return(p)
   
