@@ -15,23 +15,22 @@ wrtdsperf(tidal_in, ...)
 \item{...}{arguments passed to or from other methods}
 }
 \value{
-A tidal object with performance metrics as an additional attribute named 'perf'
+A \code{\link[base]{data.frame}} with the metrics for each quantile model
 }
 \description{
 Get WRTDS performance metrics indcluding goodness of fit, root mean square error, and normalized mean square error.
 }
 \details{
 Goodness of fit is calculated using the \code{\link{goodfit}} function for quantile regression described in Koenker and Mochado 1999.  Root mean square error is based on square root of the mean of the squared residuals.  Normalized mean square error described in Gershenfeld and Weigend 1993 is the sum of the squared errors divided by the sum of the non-conditional errors (i.e., sum of the squared values of the observed minus the mean of the observed).  This measure allows comparability of error values for data with different ranges, although the interpretation for quantile models is not clear.  The value is provided as a means of comparison for WRTDS models created from the same data set but with different window widths during model fitting.
+
+Performance metrics are only valid for chlorophyll observations and model residuals in log-space.
 }
 \examples{
-\dontrun{
 ## load a fitted model object
 data(tidfit)
 
-## run the function
-perf <- wrtdsperf(tidfit)
-attr(perf, 'perf')
-}
+## get performance metrics
+wrtdsperf(tidfit)
 }
 \references{
 Gershenfeld, N.A., Weigend, A.S. 1993. The future of time series: learning and understanding. In: Weigend, A.S., Gershenfeld, N.A. (eds). Time Series Prediction: Forecasting the Future and Understanding the Past., second ed. Addison-Wesley, Santa Fe, New Mexico. pp. 1-70.
