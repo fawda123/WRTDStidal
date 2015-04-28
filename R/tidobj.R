@@ -14,5 +14,5 @@
 #'   \item{\code{dec_time}}{numeric}
 #' }
 #' 
-#' @seealso \code{\link{tidal}} for full list of attributes in tidal objects and \code{\link{wrtds}} for creating the \code{fits} and \code{beta} interpolation grids.
+#' @seealso \code{\link{tidal}} for full list of attributes in tidal objects and \code{\link{wrtds}} for creating the \code{fits} interpolation grids.
 "tidobj"

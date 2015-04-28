@@ -66,10 +66,6 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   fit_grds <- replicate(length(tau), fit_grds, simplify = FALSE)
   names(fit_grds) <- paste0('fit', tau)
 
-  # output for beta
-  b_grds <- fit_grds
-  names(b_grds) <- paste0('b', tau)
-  
   if(trace){
     txt <- paste(tau, collapse = ', ')
     txt <- paste0('\nEstimating interpolation grids for tau = ', txt, ', % complete...\n\n')
@@ -120,17 +116,11 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
         )
       })
       names(fits) <- names(fit_grds)
-
-      # model parameters for sal
-      betas <- unlist(c(parms['sal', , drop = TRUE]))
-      names(betas) <- names(b_grds)
       
       # save output to grids
       for(val in tau){
         fit_ind <- paste0('fit', val)
-        b_ind <- paste0('b', val)
         fit_grds[[fit_ind]][row, i] <- fits[fit_ind]
-        b_grds[[b_ind]][row, i] <- betas[b_ind]
       }
     
     }
@@ -143,7 +133,6 @@ wrtds.tidal <- function(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   # add grids to tidal object, return
   attr(tidal_in, 'half_wins') <- ref_wts
   attr(tidal_in, 'fits') <- fit_grds
-  attr(tidal_in, 'betas') <- b_grds
   attr(tidal_in, 'sal_grd') <- sal_grd
   
   if(trace) cat('\n')

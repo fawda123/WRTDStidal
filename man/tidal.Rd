@@ -22,7 +22,6 @@ A tidal object as a data frame and attributes.  The data frame has columns order
  \item{\code{row.names}}{Row names of the data frame}
  \item{\code{class}}{Class of the object}
  \item{\code{fits}}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
- \item{\code{betas}}{List of matrices for with betas for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
 }
 }
