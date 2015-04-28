@@ -5,7 +5,7 @@ Version: 0.0.11.9000
 Date: 2015-04-28
 Author: Marcus W. Beck [aut, cre]
 Maintainer: Marcus W. Beck <beck.marcus@epa.gov>
-Description: An adaptation for estuaries (tidal waters) of weighted regression on time, discharge, and season to evaluate trends in water quality time series, with specific application to chlorophyll  
+Description: An adaptation for estuaries (tidal waters) of weighted regression on time, discharge, and season to evaluate trends in water quality time series, with specific application to chlorophyll.
 BugReports: https://github.com/fawda123/wtreg_for_estuaries/issues
 License: CC0
 LazyData: true
@@ -14,8 +14,8 @@ Imports:
     gridExtra,
     quantreg,
     RColorBrewer,
-    scales,
     survival,
+    scales,
     tidyr
 Suggests:
     grDevices,

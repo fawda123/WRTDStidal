@@ -29,7 +29,7 @@ tidfit
 An identical object as \code{\link{tidobj}} with the addition of chlorophyll predictions and normalized estimates after running \code{\link{chlpred}} and \code{\link{chlnorm}}.
 }
 \seealso{
-\code{\link{tidal}} for full list of attributes in tidal objects, \code{\link{wrtds}} for creating the \code{fits} and \code{beta} interpolation grids, and \code{\link{chlpred}} and \code{\link{chlnorm}} for interpolating predicted and normalized values from the grids.
+\code{\link{tidal}} for full list of attributes in tidal objects, \code{\link{wrtds}} for creating the \code{fits} interpolation grids, and \code{\link{chlpred}} and \code{\link{chlnorm}} for interpolating predicted and normalized values from the grids.
 }
 \keyword{datasets}
 
