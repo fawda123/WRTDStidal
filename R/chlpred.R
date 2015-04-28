@@ -42,7 +42,8 @@ chlpred.tidal <- function(tidal_in, trace = TRUE, ...){
   fits <- attr(tidal_in, 'fits')
   sal_grd <- attr(tidal_in, 'sal_grd')
   
-  # stop if no fits attribute
+  # sanity checks
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(is.null(fits)) stop('No fits attribute in the tidal object, run wrtds function')
   
   if(trace) cat('\nInterpolating chlorophyll predictions\n')

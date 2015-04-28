@@ -58,9 +58,10 @@ sliceplot <- function(tidal_in, ...) UseMethod('sliceplot')
 sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...){
  
   # sanity check
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
-
+ 
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(tidal_in)
   sel_vec <- grepl('^date$|^month$|^year$|^chla$|^fit|^norm', 

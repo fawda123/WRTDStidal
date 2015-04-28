@@ -74,6 +74,7 @@ fitmoplot <- function(tidal_in, ...) UseMethod('fitmoplot')
 fitmoplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, predicted = TRUE, logspace = TRUE, dt_rng = NULL, ncol = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
   

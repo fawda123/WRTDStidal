@@ -37,6 +37,8 @@ wrtdsperf <- function(tidal_in, ...) UseMethod('wrtdsperf')
 wrtdsperf.tidal<- function(tidal_in, ...){
   
   # sanity check
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
+  
   if(!any(grepl('^res|^resnl', names(tidal_in))))
     tidal_in <- wrtdsres(tidal_in, trace = FALSE)
   

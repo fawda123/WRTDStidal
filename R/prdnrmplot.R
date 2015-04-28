@@ -75,6 +75,7 @@ prdnrmplot <- function(tidal_in, ...) UseMethod('prdnrmplot')
 prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
  
   # sanity check
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
   

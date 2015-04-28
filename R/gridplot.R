@@ -49,9 +49,10 @@ gridplot <- function(tidal_in, ...) UseMethod('gridplot')
 gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
-
+  
   # convert month vector to those present in data
   month <- month[month %in% tidal_in$month]
   if(length(month) == 0) stop('No observable data for the chosen month')

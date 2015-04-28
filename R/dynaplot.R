@@ -50,6 +50,7 @@ dynaplot <- function(tidal_in, ...) UseMethod('dynaplot')
 dynaplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = FALSE, allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...){
  
   # sanity check
+  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(tidal_in))))
     stop('No fitted data in tidal object, run modfit function')
 
