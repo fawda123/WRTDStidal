@@ -22,7 +22,7 @@ wrtdsmean(tidal_in, sal_div = 10, trace = TRUE, ...)
 \item{...}{arguments passed to or from other methods}
 }
 \value{
-Appends a regression grid as an attribute to a tidal object
+Appends two interpolation grids from the weighted regresion, one for chlorophyll values in log-space (`fits') and another for back-transformed chlorophyll values (`bt_fits').
 }
 \description{
 Get WRTDS prediction grid for the mean response of chlorophyll observations in a tidal object. The approach is similar to the \code{\link{wrtds}} function except that the mean response is modelled rather than specified quantiles.

@@ -20,7 +20,7 @@
 #' # load a tidal object
 #' data(tidobj)
 #' 
-#' # get fitted values for each quantile
+#' # get flow-normalized values for each quantile
 #' res <- chlnorm(tidobj)
 #' 
 #' ##

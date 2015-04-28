@@ -1,7 +1,7 @@
 #' Monthly chlorophyll time series for Hillsborough Bay as a tidal object
 #'
 #' An identical object as \code{\link{tidobj}} with the addition of chlorophyll predictions and normalized estimates after running \code{\link{chlpred}} and \code{\link{chlnorm}}.
-#' @format A \code{\link{tidal}} and \code{\link[base]{data.frame}} object with 156 rows and 9 variables:
+#' @format A \code{\link{tidal}} and \code{\link[base]{data.frame}} object with 156 rows and 15 variables:
 #' \describe{
 #'   \item{\code{date}}{Date}
 #'   \item{\code{chla}}{numeric}

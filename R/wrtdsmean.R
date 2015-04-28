@@ -10,7 +10,7 @@
 #' 
 #' @export
 #'
-#' @return Appends a regression grid as an attribute to a tidal object
+#' @return Appends two interpolation grids from the weighted regresion, one for chlorophyll values in log-space (`fits') and another for back-transformed chlorophyll values (`bt_fits').
 #' 
 #' @examples
 #' \dontrun{
@@ -63,7 +63,7 @@ wrtdsmean.tidal <- function(tidal_in, sal_div = 10, trace = TRUE, ...){
   names(bt_grds) <- 'btmean'
   
   if(trace){
-    txt <- '\nEstimating interpolation grid, % complete...\n\n'
+    txt <- '\nEstimating interpolation grid for mean response, % complete...\n\n'
     cat(txt)
     counts <- round(seq(1, nrow(tidal_in), length = 20))
   }
