@@ -12,7 +12,7 @@
 #' @details
 #' This function is used after \code{wrtds} to normalize predicted values of chlorophyll from the interpolation grid for each model.  The normalized values are based on the average of all predicted chlorophyll estimates across the range of salinity values that have occurred on the same date throughout each year.  For example, normalized values for July 2000 are the mean predicted chlorophyll at that date using the observed salinity values that occur in July of all years.  The normalized values allow an interpretation of chlorophyll trends that are independent of changes in salinity or freshwater inputs.  
 #' 
-#' @return Appends columns to the data.frame for normalized chlorophyll values.  For, tidal objects, columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.  For tidalmean objects, columns are appended for the log-transformed and back-transformed normalized values, named `norms' and `btnorms'.
+#' @return Appends columns to the data.frame for normalized chlorophyll values.  For, tidal objects, columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.  For tidalmean objects, columns are appended for the log-transformed and back-transformed normalized values, named `norm' and `bt_norm'.
 #'  
 #' @examples
 #' ##
@@ -22,30 +22,13 @@
 #' 
 #' # get flow-normalized values for each quantile
 #' res <- chlnorm(tidobj)
-#' 
-#' ##
-#' \dontrun{
-#' # fails if fits attribute not available
-#' data(chldat)
-#' chldat <- tidal(chldat)
-#' chlnorm(chldat)
-#' }
-#' 
-#' ##
-#' 
+#'
 #' # load a tidalmean object
 #' data(tidobjmean)
 #' 
 #' # get flow-normalized values
 #' res <- chlnorm(tidobjmean)
 #' 
-#' ##
-#' \dontrun{
-#' # fails if incorrect input
-#' data(chldat)
-#' chldat <- tidal(chldat)
-#' chlnorm(chldat)
-#' }
 chlnorm <- function(dat_in, ...) UseMethod('chlnorm')
 
 #' @rdname chlnorm
@@ -60,7 +43,7 @@ chlnorm.tidal <- function(dat_in, trace = TRUE, ...){
   num_obs <- nrow(dat_in)
   
   # sanity checks
-  if(is.null(fits)) stop('No fits attribute in the tidal object, run wrtds function')
+  if(is.null(fits)) stop('No fits attribute, run wrtds function')
 
   if(trace) cat('\nNormalizing chlorophyll predictions\n\n')
   
@@ -117,7 +100,7 @@ chlnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
   num_obs <- nrow(dat_in)
 
   # sanity checks
-  if(is.null(fits)) stop('No fits attribute in the tidal object, run wrtds function')
+  if(is.null(fits)) stop('No fits attribute, run wrtds function')
 
   if(trace) cat('\nNormalizing chlorophyll predictions\n\n')
 
