@@ -32,8 +32,8 @@ wrtdsres <- function(dat_in, ...) UseMethod('wrtdsres')
 #' 
 #' @export
 #'
-#' @method wrtdsres tidalmean
-wrtdsres.tidalmean <- function(dat_in, trace = TRUE, ...){
+#' @method wrtdsres tidal
+wrtdsres.tidal <- function(dat_in, trace = TRUE, ...){
   
   # sanity check
   if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
@@ -49,7 +49,7 @@ wrtdsres.tidalmean <- function(dat_in, trace = TRUE, ...){
     data = dat_in, 
     method = "Portnoy"
     )
-
+  
   # residuals from null model
   parms <- data.frame(coef(mod_nl, tau))
   res_nl <- apply(parms, 1, function(x) dat_in$chla - x)

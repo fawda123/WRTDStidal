@@ -14,5 +14,5 @@
 #'   \item{\code{dec_time}}{numeric}
 #' }
 #' 
-#' @seealso \code{\link{tidalmean}} for full list of attributes in tidalmean objects and \code{\link{wrtdsmean}} for creating the \code{fits} and \code{bt_fits} interpolation grids.
+#' @seealso \code{\link{tidalmean}} for full list of attributes in tidalmean objects and \code{\link{wrtds}} for creating the \code{fits} and \code{bt_fits} interpolation grids.
 "tidobjmean"

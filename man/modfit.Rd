@@ -7,7 +7,7 @@
 \usage{
 modfit(dat_in, ...)
 
-\method{modfit}{data.frame}(dat_in, resp_type = c("quantile", "mean"), ...)
+\method{modfit}{data.frame}(dat_in, resp_type = "quantile", ...)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} for fitting the model, see details}

@@ -2,13 +2,13 @@
 % Please edit documentation in R/getwts.R
 \name{getwts}
 \alias{getwts}
-\alias{getwts.tidal}
+\alias{getwts.default}
 \title{Get weights for regression}
 \usage{
 getwts(dat_in, ...)
 
-\method{getwts}{tidal}(dat_in, ref_in, wt_vars = c("day_num", "year", "sal"),
-  wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
+\method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num", "year",
+  "sal"), wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
   wins_only = FALSE, min_obs = TRUE, ...)
 }
 \arguments{

@@ -2,12 +2,12 @@
 % Please edit documentation in R/wrtdsres.R
 \name{wrtdsres}
 \alias{wrtdsres}
-\alias{wrtdsres.tidalmean}
+\alias{wrtdsres.tidal}
 \title{Get WRTDS residuals}
 \usage{
 wrtdsres(dat_in, ...)
 
-\method{wrtdsres}{tidalmean}(dat_in, trace = TRUE, ...)
+\method{wrtdsres}{tidal}(dat_in, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object which must already have fitted model data}

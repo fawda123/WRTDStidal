@@ -29,7 +29,7 @@
 #' ## multiple quantiles
 #' res <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))
 #' }
-wrtds <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...) UseMethod('wrtds')
+wrtds <- function(dat_in, ...) UseMethod('wrtds')
 
 #' @rdname wrtds
 #' 

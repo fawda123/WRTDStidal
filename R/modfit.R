@@ -47,8 +47,12 @@ modfit <- function(dat_in, ...) UseMethod('modfit')
 #' @export
 #'
 #' @method modfit data.frame
-modfit.data.frame <- function(dat_in, resp_type = c('quantile', 'mean'), ...){
-
+modfit.data.frame <- function(dat_in, resp_type = 'quantile', ...){
+  
+  # sanity check
+  if(!grepl('quantile|mean', resp_type))
+    stop('Response type must be quantile or mean')
+  
   if(resp_type == 'quantile'){
     # append data to arguments, create tidal object
     args <- c(list(dat_in = dat_in), list(...))
@@ -63,7 +67,7 @@ modfit.data.frame <- function(dat_in, resp_type = c('quantile', 'mean'), ...){
     
   
   # update args, get interpolation grids
-  args <- c(list(dat_in = dat, all = F), args)
+  args <- c(list(dat_in = dat, all = F), list(...))
   dat <- do.call(wrtds, args)
   
   # update args, get predictions

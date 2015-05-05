@@ -2,12 +2,12 @@
 % Please edit documentation in R/salfind.R
 \name{salfind}
 \alias{salfind}
-\alias{salfind.tidal}
+\alias{salfind.default}
 \title{Get all salinity values across years for a common date}
 \usage{
 salfind(dat_in, ...)
 
-\method{salfind}{tidal}(dat_in, obs, ...)
+\method{salfind}{default}(dat_in, obs, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object}

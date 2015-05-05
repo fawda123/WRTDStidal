@@ -44,7 +44,7 @@ chlpred.tidal <- function(dat_in, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
-  if(trace) cat('\nInterpolating chlorophyll predictions\n')
+  if(trace) cat('\nEstimating chlorophyll predictions\n')
   
   # quantiles to predict
   tau <- names(fits)
@@ -93,7 +93,7 @@ chlpred.tidalmean <- function(dat_in, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
-  if(trace) cat('\nInterpolating chlorophyll predictions\n')
+  if(trace) cat('\nEstimating chlorophyll predictions\n')
   
   # interp grid and sal values to interp
   fit_grd <- fits[[1]]

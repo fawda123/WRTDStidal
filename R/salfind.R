@@ -27,8 +27,8 @@ salfind <- function(dat_in, ...) UseMethod('salfind')
 #'
 #' @export
 #'
-#' @method salfind tidal
-salfind.tidal <- function(dat_in, obs, ...){
+#' @method salfind default
+salfind.default <- function(dat_in, obs, ...){
   
   # get observation of interest
   to_find <- dat_in[obs, ]
