@@ -5,13 +5,13 @@
 \alias{sliceplot.tidal}
 \title{Plot time slices within a tidal object}
 \usage{
-sliceplot(tidal_in, ...)
+sliceplot(dat_in, ...)
 
-\method{sliceplot}{tidal}(tidal_in, slices = c(1, 7), tau = NULL,
+\method{sliceplot}{tidal}(dat_in, slices = c(1, 7), tau = NULL,
   predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to \code{\link[ggplot2]{geom_line}}}
 

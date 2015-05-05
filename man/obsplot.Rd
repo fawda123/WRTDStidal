@@ -5,14 +5,14 @@
 \alias{obsplot.tidal}
 \title{Plot observed chlorophyll and salinity data}
 \usage{
-obsplot(tidal_in, ...)
+obsplot(dat_in, ...)
 
-\method{obsplot}{tidal}(tidal_in, lines = TRUE, logspace = FALSE,
+\method{obsplot}{tidal}(dat_in, lines = TRUE, logspace = FALSE,
   dt_rng = NULL, pretty = TRUE, col = "black", lwd = 1, size = 2,
   alpha = 1, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to \code{\link[ggplot2]{geom_line}}}
 

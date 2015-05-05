@@ -2,7 +2,7 @@
 #' 
 #' Plot the relationship between chlorophyll and salinity across the time series using a gridded surface for all months.  Chlorophyll is shaded by relative values across all dates for comparison.
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param month numeric indicating months to plot
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param years numeric vector of years to plot, defaults to all
@@ -39,39 +39,39 @@
 #' gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12), 
 #'  col_vec = c('red', 'blue', 'green'), sal_fac = 1)
 #' }
-gridplot <- function(tidal_in, ...) UseMethod('gridplot')
+gridplot <- function(dat_in, ...) UseMethod('gridplot')
 
 #' @rdname gridplot
 #' 
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
-  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
-  if(!any(grepl('^fit|^norm', names(tidal_in))))
+  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
+  if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert month vector to those present in data
-  month <- month[month %in% tidal_in$month]
+  month <- month[month %in% dat_in$month]
   if(length(month) == 0) stop('No observable data for the chosen month')
   
   # salinity grid values
-  sal_grd <- attr(tidal_in, 'sal_grd')
+  sal_grd <- attr(dat_in, 'sal_grd')
   
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){
     
-    tau_fits <- grep('^fit', names(tidal_in))
+    tau_fits <- grep('^fit', names(dat_in))
     tau_fits <- floor(median(tau_fits))
-    tau_fits <- names(tidal_in)[tau_fits]
+    tau_fits <- names(dat_in)[tau_fits]
      
   } else {
     
     if(length(tau) > 1) 
       stop('Only one quantile can be plotted')
-    if(length(grep(paste0(tau, '$'), names(tidal_in))) == 0)
+    if(length(grep(paste0(tau, '$'), names(dat_in))) == 0)
       stop('Specified tau not in object')
     
     tau_fits <- paste0('fit', tau)
@@ -79,8 +79,8 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   }
 
   # get the selected months
-  to_plo <- attr(tidal_in, 'fits')[[tau_fits]]
-  to_plo <- to_plo[tidal_in$month %in% month, , drop = FALSE]
+  to_plo <- attr(dat_in, 'fits')[[tau_fits]]
+  to_plo <- to_plo[dat_in$month %in% month, , drop = FALSE]
   
   # y-axis label
   ylabel <- chllab(logspace)
@@ -93,8 +93,8 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   }
   
   # reshape data frame
-  yrs <- tidal_in$year[tidal_in$month %in% month]
-  mos <- tidal_in$month[tidal_in$month %in% month]
+  yrs <- dat_in$year[dat_in$month %in% month]
+  mos <- dat_in$month[dat_in$month %in% month]
   to_plo <- data.frame(year = yrs, month = mos, to_plo)
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
   to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 3:ncol(to_plo)) %>% 
@@ -157,7 +157,7 @@ gridplot.tidal <- function(tidal_in, month = c(1:12), tau = NULL, years = NULL, 
   if(!allsal){
     
     #min, max salinity values to plot
-    lim_vals<- group_by(data.frame(tidal_in), month) %>% 
+    lim_vals<- group_by(data.frame(dat_in), month) %>% 
       summarize(
         Low = quantile(sal, 0.05, na.rm = TRUE),
         High = quantile(sal, 0.95, na.rm = TRUE)

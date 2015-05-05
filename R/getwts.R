@@ -3,7 +3,7 @@
 #' 
 #' Get weights for WRTDS for a single observation using a tri-cubic weighting function
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param ref_in row of tidal object as reference for weights
 #' @param wt_vars chr string of three elements indicatings names of columns in tidal object that are used for reference row weights
 #' @param wins list of half-window widths for time, year, and salinity
@@ -29,14 +29,14 @@
 #' wts <- getwts(tidobj, first)
 #' 
 #' plot(wts, type = 'l')
-getwts <- function(tidal_in, ...) UseMethod('getwts')
+getwts <- function(dat_in, ...) UseMethod('getwts')
 
 #' @rdname getwts
 #'
 #' @export
 #' 
 #' @method getwts tidal
-getwts.tidal <- function(tidal_in, ref_in,
+getwts.tidal <- function(dat_in, ref_in,
   wt_vars = c('day_num', 'year', 'sal'),
   wins = list(0.5, 10, NULL),
   all = FALSE, 
@@ -45,7 +45,7 @@ getwts.tidal <- function(tidal_in, ref_in,
   min_obs = TRUE, ...){
   
   # sanity check
-  if(sum(wt_vars %in% names(tidal_in)) != length(wt_vars))
+  if(sum(wt_vars %in% names(dat_in)) != length(wt_vars))
     stop('Weighting variables must be named in "dat_in"')
   
   # windows for each of three variables
@@ -54,7 +54,7 @@ getwts.tidal <- function(tidal_in, ref_in,
   wins_3 <- wins[[3]]
   
   # default window width for third variable is half its range
-  if(is.null(wins[[3]])) wins_3 <- diff(range(tidal_in[, wt_vars[3]]))/2
+  if(is.null(wins[[3]])) wins_3 <- diff(range(dat_in[, wt_vars[3]]))/2
   
   # weighting tri-cube function
   # mirror extends weighting function if vector repeats, e.g. monthly
@@ -98,13 +98,13 @@ getwts.tidal <- function(tidal_in, ref_in,
   # subset 'dat_in' by max window size for faster calc
   # this is repeated if min number of wts > 0 is not met
   # subset vector is all T if not using subset
-  yr_rng <- range(tidal_in$year)
+  yr_rng <- range(dat_in$year)
   ref_rng <- unique(ref_in$year)
-  dec_sub <- with(tidal_in, 
+  dec_sub <- with(dat_in, 
     year > ref_rng - wins_2 * 1.1 & year < ref_rng + wins_2 * 1.1
     )
-  if(!slice) dec_sub <- rep(T, length = nrow(tidal_in))
-  dat_sub <- tidal_in[dec_sub, ]
+  if(!slice) dec_sub <- rep(T, length = nrow(dat_in))
+  dat_sub <- dat_in[dec_sub, ]
 
   ##
   # weights for each observation in relation to reference
@@ -134,11 +134,11 @@ getwts.tidal <- function(tidal_in, ref_in,
       wins_3 <- 1.1 * wins_3 
       
       # subset again
-      dec_sub <- with(tidal_in, 
+      dec_sub <- with(dat_in, 
         year > ref_rng - wins_2 * 1.1 & year < ref_rng + wins_2 * 1.1
         )
-      if(!slice) dec_sub <- rep(T, length = nrow(tidal_in))
-      dat_sub <- tidal_in[dec_sub, ]
+      if(!slice) dec_sub <- rep(T, length = nrow(dat_in))
+      dat_sub <- dat_in[dec_sub, ]
       
       #weights for each observation in relation to reference
       wts_1 <- wt_fun_sub(as.numeric(dat_sub[, wt_vars[1]]), 
@@ -157,7 +157,7 @@ getwts.tidal <- function(tidal_in, ref_in,
   }
   
   # extend weight vectors to length of dat_in
-  empty_mat <- matrix(0, ncol = nrow(ref_in), nrow = nrow(tidal_in))
+  empty_mat <- matrix(0, ncol = nrow(ref_in), nrow = nrow(dat_in))
   empty_fill <- function(wts_in) {
     out <- empty_mat
     out[dec_sub, ] <- wts_in

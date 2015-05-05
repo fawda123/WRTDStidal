@@ -2,7 +2,7 @@
 #' 
 #' Plot time slices within a tidal object to view chlorophyll observations, predictions, and normalized results at regular annual intervals.
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param slices numeric vector of calender months to plot, i.e., 1 - 12
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
@@ -48,22 +48,22 @@
 #' ) + 
 #' ggtitle('Normalized predictions for all months, 90th percentile')
 #' 
-sliceplot <- function(tidal_in, ...) UseMethod('sliceplot')
+sliceplot <- function(dat_in, ...) UseMethod('sliceplot')
 
 #' @rdname sliceplot
 #' 
 #' @export 
 #' 
 #' @method sliceplot tidal
-sliceplot.tidal <- function(tidal_in, slices = c(1, 7), tau = NULL, predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...){
+sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...){
  
   # sanity check
-  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
-  if(!any(grepl('^fit|^norm', names(tidal_in))))
+  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
+  if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
  
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(tidal_in)
+  to_plo <- data.frame(dat_in)
   sel_vec <- grepl('^date$|^month$|^year$|^chla$|^fit|^norm', 
     names(to_plo))
   to_plo <- to_plo[, sel_vec]

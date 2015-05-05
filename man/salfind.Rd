@@ -5,12 +5,12 @@
 \alias{salfind.tidal}
 \title{Get all salinity values across years for a common date}
 \usage{
-salfind(tidal_in, ...)
+salfind(dat_in, ...)
 
-\method{salfind}{tidal}(tidal_in, obs, ...)
+\method{salfind}{tidal}(dat_in, obs, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to additional methods}
 

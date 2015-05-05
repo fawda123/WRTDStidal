@@ -2,7 +2,7 @@
 #' 
 #' Plot observed chlorophyll and salinity time series from a tidal object
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param lines logical indicating if a line plot is used, otherwise points
 #' @param logspace logical indicating if plots are in log space
 #' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
@@ -31,16 +31,16 @@
 #'  
 #' # changing default
 #' obsplot(tidfit, alpha = 0.5, size = 4, col = 'blue', lines = FALSE)
-obsplot <- function(tidal_in, ...) UseMethod('obsplot')
+obsplot <- function(dat_in, ...) UseMethod('obsplot')
 
 #' @rdname obsplot
 #' 
 #' @export 
 #' 
 #' @method obsplot tidal
-obsplot.tidal <- function(tidal_in, lines = TRUE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
+obsplot.tidal <- function(dat_in, lines = TRUE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
   
-  to_plo <- as.data.frame(tidal_in)[, c('date', 'chla', 'sal')]
+  to_plo <- as.data.frame(dat_in)[, c('date', 'chla', 'sal')]
   
   # backtransform chl
   if(!logspace) to_plo$chla <- exp(to_plo$chla)

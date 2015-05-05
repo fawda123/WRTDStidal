@@ -2,7 +2,7 @@
 #' 
 #' Plot combined predicted and normalized results from a tidal object to evaluate the influence of salinity changes on chlorophyll. The plot is similar to that produced by \code{\link{fitplot}} except predicted chlorophyll values are shown as points and observed values are removed.
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
 #' @param annuals logical indicating if plots are annual aggregations of results
 #' @param logspace logical indicating if plots are in log space
@@ -65,22 +65,22 @@
 #'    guide = guide_legend(reverse = TRUE)
 #'    ) 
 #'  
-prdnrmplot <- function(tidal_in, ...) UseMethod('prdnrmplot')
+prdnrmplot <- function(dat_in, ...) UseMethod('prdnrmplot')
 
 #' @rdname prdnrmplot
 #' 
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(tidal_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
+prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
  
   # sanity check
-  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
-  if(!any(grepl('^fit|^norm', names(tidal_in))))
+  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
+  if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(tidal_in)
+  to_plo <- data.frame(dat_in)
   sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   

@@ -2,7 +2,7 @@
 #' 
 #' Plot a tidal object to view chlorophyll observations, predictions, and normalized results.
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
 #' @param annuals logical indicating if plots are annual aggregations of results
@@ -67,22 +67,22 @@
 #'    guide = guide_legend(reverse = TRUE)
 #'    ) 
 #'  
-fitplot <- function(tidal_in, ...) UseMethod('fitplot')
+fitplot <- function(dat_in, ...) UseMethod('fitplot')
 
 #' @rdname fitplot
 #' 
 #' @export 
 #' 
 #' @method fitplot tidal
-fitplot.tidal <- function(tidal_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
-  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
-  if(!any(grepl('^fit|^norm', names(tidal_in))))
+  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
+  if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(tidal_in)
+  to_plo <- data.frame(dat_in)
   sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   

@@ -5,14 +5,14 @@
 \alias{dynaplot.tidal}
 \title{Plot chlorophyll response to salinity as a lineplot for all months}
 \usage{
-dynaplot(tidal_in, ...)
+dynaplot(dat_in, ...)
 
-\method{dynaplot}{tidal}(tidal_in, month = c(1:12), tau = NULL,
+\method{dynaplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = FALSE,
   allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to other methods}
 

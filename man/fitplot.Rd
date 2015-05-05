@@ -5,14 +5,14 @@
 \alias{fitplot.tidal}
 \title{Plot the fitted results for a tidal object}
 \usage{
-fitplot(tidal_in, ...)
+fitplot(dat_in, ...)
 
-\method{fitplot}{tidal}(tidal_in, tau = NULL, predicted = TRUE,
+\method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
   annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL,
   pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to other methods}
 

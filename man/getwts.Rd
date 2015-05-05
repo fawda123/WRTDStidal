@@ -5,14 +5,14 @@
 \alias{getwts.tidal}
 \title{Get weights for regression}
 \usage{
-getwts(tidal_in, ...)
+getwts(dat_in, ...)
 
-\method{getwts}{tidal}(tidal_in, ref_in, wt_vars = c("day_num", "year",
-  "sal"), wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
+\method{getwts}{tidal}(dat_in, ref_in, wt_vars = c("day_num", "year", "sal"),
+  wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
   wins_only = FALSE, min_obs = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to or from other methods}
 

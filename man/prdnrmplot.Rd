@@ -5,14 +5,14 @@
 \alias{prdnrmplot.tidal}
 \title{Plot combined predicted and normalized results from a tidal object}
 \usage{
-prdnrmplot(tidal_in, ...)
+prdnrmplot(dat_in, ...)
 
-\method{prdnrmplot}{tidal}(tidal_in, tau = NULL, annuals = FALSE,
+\method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = FALSE,
   logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
   alpha = 1, pretty = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to \code{\link[ggplot2]{geom_line}}}
 

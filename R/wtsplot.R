@@ -2,7 +2,7 @@
 #' 
 #' Create several plots showing the weights used to fit a model for a single observation.
 #' 
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.
 #' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity
 #' @param min_obs logical to use window widening if less than 100 non-zero weights are found, passed to \code{\link{getwts}}
@@ -38,19 +38,19 @@
 #'  dt_rng = c('1990-01-01', '2010-01-01'), 
 #'  pt_rng = c(3, 8), col_vec = c('lightgreen', 'lightblue', 'purple'),
 #'  alpha = 0.7)
-wtsplot <- function(tidal_in, ...) UseMethod('wtsplot')
+wtsplot <- function(dat_in, ...) UseMethod('wtsplot')
 
 #' @rdname wtsplot
 #' 
 #' @export 
 #' 
 #' @method wtsplot tidal
-wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
+wtsplot.tidal <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
   
   # format reference position
   if(is.null(ref)){
     
-    ref <- as.Date(mean(tidal_in$date), format = '%Y-%m-%d', 
+    ref <- as.Date(mean(dat_in$date), format = '%Y-%m-%d', 
       origin = '1970-01-01')
     
   } else {
@@ -62,12 +62,12 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   }
     
   # get closest observation to referenced
-  ref <- which.min(abs(ref - tidal_in$dat))[1]
-  ref <- tidal_in[ref, ]
+  ref <- which.min(abs(ref - dat_in$dat))[1]
+  ref <- dat_in[ref, ]
 
   # format values for limits on x axis
   if(is.null(dt_rng)){ 
-    dt_rng <- range(tidal_in$date)
+    dt_rng <- range(dat_in$date)
   } else {
    
     dt_rng <- as.Date(dt_rng, format = '%Y-%m-%d')
@@ -79,12 +79,12 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   ##
   # get the weights
   ref_wts <- data.frame(
-    allwts = getwts(tidal_in, ref, wins = wins, min_obs = min_obs, slice = slice),
-    getwts(tidal_in, ref, wins = wins, all = TRUE, min_obs = min_obs, slice = slice)
+    allwts = getwts(dat_in, ref, wins = wins, min_obs = min_obs, slice = slice),
+    getwts(dat_in, ref, wins = wins, all = TRUE, min_obs = min_obs, slice = slice)
   )
   
   # selection vector for year and prep titles
-  yr_sub <- tidal_in$year == ref$year
+  yr_sub <- dat_in$year == ref$year
   yr_val<- ref$year
   mo_val <- ref$mo
   sal_val <- paste('Salinity', round(ref$sal, 2))
@@ -98,7 +98,7 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   
   # month wts
   p1_dat <- data.frame(
-    Month = tidal_in$date[yr_sub], 
+    Month = dat_in$date[yr_sub], 
     Wt = ref_wts[yr_sub, 'day_num']
     )
   p1 <- ggplot(p1_dat, aes_string(x = 'Month', y = 'Wt')) + 
@@ -109,7 +109,7 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     theme_bw()
   
   # year wts
-  p2_dat <- data.frame(Date = tidal_in$date, Wt = ref_wts[, 'year'])
+  p2_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'year'])
   p2 <- ggplot(p2_dat, aes_string(x = 'Date', y = 'Wt')) + 
     geom_line(colour = col_lns, alpha = alpha) + 
     scale_x_date(name = element_blank(), limits = dt_rng) +
@@ -118,7 +118,7 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     theme_bw()
   
   # salinity wts
-  p3_dat <- data.frame(Date = tidal_in$date, Wt = ref_wts[, 'sal'])
+  p3_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'sal'])
   p3 <- ggplot(p3_dat, aes_string(x = 'Date', y = 'Wt')) + 
     geom_line(colour = col_lns, alpha = alpha) + 
     scale_y_continuous(name = element_blank(),limits=c(0,1)) +
@@ -127,7 +127,7 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     theme_bw()
   
   # all weights
-  p4_dat <- data.frame(Date = tidal_in$date, Wt = ref_wts[, 'allwts'])
+  p4_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'allwts'])
   p4 <- ggplot(p4_dat, aes_string(x = 'Date', y = 'Wt')) + 
     geom_line(colour = col_lns, alpha = alpha) + 
     scale_x_date(name = element_blank(), limits = dt_rng) +
@@ -138,7 +138,7 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   ##
   #ggplot showing point size and color in relation to total weight
   p_dat <- data.frame(
-    tidal_in[, c('date', 'chla', 'sal')],
+    dat_in[, c('date', 'chla', 'sal')],
     ref_wts
   )
    
@@ -146,7 +146,7 @@ wtsplot.tidal <- function(tidal_in, ref = NULL, wins = list(0.5, 10, NULL), min_
       colour = 'allwts', size = 'allwts')) +
     geom_point(alpha = alpha) +
     scale_colour_gradientn(colours = rev(cols)) +
-    scale_y_continuous(limits = c(0, max(tidal_in$sal)), name = 'Salinity') +
+    scale_y_continuous(limits = c(0, max(dat_in$sal)), name = 'Salinity') +
     scale_x_date(name = element_blank(), limits = dt_rng) +
     scale_size(range = pt_rng) +
     ggtitle(paste(ref$date, sal_val, sep = ', ')) + 

@@ -5,15 +5,15 @@
 \alias{gridplot.tidal}
 \title{Plot chlorophyll response to salinity as a gridded surface for all months}
 \usage{
-gridplot(tidal_in, ...)
+gridplot(dat_in, ...)
 
-\method{gridplot}{tidal}(tidal_in, month = c(1:12), tau = NULL,
+\method{gridplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE,
   interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL,
   grids = FALSE, pretty = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to other methods}
 

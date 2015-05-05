@@ -5,14 +5,14 @@
 \alias{wtsplot.tidal}
 \title{Plot the weights for an observation}
 \usage{
-wtsplot(tidal_in, ...)
+wtsplot(dat_in, ...)
 
-\method{wtsplot}{tidal}(tidal_in, ref = NULL, wins = list(0.5, 10, NULL),
+\method{wtsplot}{tidal}(dat_in, ref = NULL, wins = list(0.5, 10, NULL),
   min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12),
   col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to other methods}
 

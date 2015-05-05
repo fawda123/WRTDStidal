@@ -5,15 +5,15 @@
 \alias{fitmoplot.tidal}
 \title{Plot the fitted results for a tidal object by month}
 \usage{
-fitmoplot(tidal_in, ...)
+fitmoplot(dat_in, ...)
 
-\method{fitmoplot}{tidal}(tidal_in, month = c(1:12), tau = NULL,
+\method{fitmoplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   predicted = TRUE, logspace = TRUE, dt_rng = NULL, ncol = NULL,
   col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2,
   alpha = 1, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal object}
 
 \item{...}{arguments passed to other methods}
 

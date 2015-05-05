@@ -3,7 +3,7 @@
 #' 
 #' Get all salinity values across years for a common date for normalizing chlorophyll predictions
 #'
-#' @param tidal_in input tidal object
+#' @param dat_in input tidal object
 #' @param obs index of row in tidal object to identify salinity values
 #' @param ... arguments passed to additional methods
 #' 
@@ -21,23 +21,23 @@
 #' 
 #' # find common salinity values across years for the first observation
 #' res <- salfind(tidobj, 1)
-salfind <- function(tidal_in, ...) UseMethod('salfind')
+salfind <- function(dat_in, ...) UseMethod('salfind')
 
 #' @rdname salfind
 #'
 #' @export
 #'
 #' @method salfind tidal
-salfind.tidal <- function(tidal_in, obs, ...){
+salfind.tidal <- function(dat_in, obs, ...){
   
   # get observation of interest
-  to_find <- tidal_in[obs, ]
+  to_find <- dat_in[obs, ]
   
   # logical vector indicating matching months
-  mo_match <- tidal_in$month %in% to_find$month
+  mo_match <- dat_in$month %in% to_find$month
   
   # get matching salinity values
-  sal_match <- tidal_in[mo_match, 'sal']
+  sal_match <- dat_in[mo_match, 'sal']
   
   # return output
   return(sal_match)
