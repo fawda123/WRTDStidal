@@ -80,7 +80,7 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
     .Data = dat_in, 
     class = c('tidalmean', 'data.frame'),
     fits = NULL, 
-    btfits = NULL,
+    bt_fits = NULL,
     sal_grd = NULL
     )
   

@@ -3,27 +3,30 @@
 \name{chlnorm}
 \alias{chlnorm}
 \alias{chlnorm.tidal}
+\alias{chlnorm.tidalmean}
 \title{Get salinity normalized WRTDS predictions from interpolation grids}
 \usage{
-chlnorm(tidal_in, ...)
+chlnorm(dat_in, ...)
 
-\method{chlnorm}{tidal}(tidal_in, trace = TRUE, ...)
+\method{chlnorm}{tidal}(dat_in, trace = TRUE, ...)
+
+\method{chlnorm}{tidalmean}(dat_in, trace = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to or from other methods}
 
 \item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
-Appends columns to the data.frame of normalized chlorophyll values for each quantile.  Columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.
+Appends columns to the data.frame for normalized chlorophyll values.  For, tidal objects, columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.  For tidalmean objects, columns are appended for the log-transformed and back-transformed normalized values, named `norms' and `btnorms'.
 }
 \description{
 Get normalized model predictions from WRTDS to remove the effect of salinity on chlorophyll.  Predicted values in the interpolation grids are averaged across dates.
 }
 \details{
-This function is used after \code{wrtds} to normalize predicted values of chlorophyll from the interpolation grid of each estimated quantile.  The normalized values are based on the average of all predicted chlorophyll estimates across the range of salinity values that have occurred on the same date throughout each year.  For example, normalized values for July 2000 are the mean predicted chlorophyll at that date using the observed salinity values that occur in July of all years.  The normalized values allow an interpretation of chlorophyll trends that are independent of changes in salinity or freshwater inputs.
+This function is used after \code{wrtds} to normalize predicted values of chlorophyll from the interpolation grid for each model.  The normalized values are based on the average of all predicted chlorophyll estimates across the range of salinity values that have occurred on the same date throughout each year.  For example, normalized values for July 2000 are the mean predicted chlorophyll at that date using the observed salinity values that occur in July of all years.  The normalized values allow an interpretation of chlorophyll trends that are independent of changes in salinity or freshwater inputs.
 }
 \examples{
 ##
@@ -40,6 +43,22 @@ res <- chlnorm(tidobj)
 data(chldat)
 chldat <- tidal(chldat)
 chlnorm(chldat)
+}
+
+##
+
+# load a tidalmean object
+data(tidobjmean)
+
+# get flow-normalized values
+res <- chlnormmean(tidobjmean)
+
+##
+\dontrun{
+# fails if incorrect input
+data(chldat)
+chldat <- tidal(chldat)
+chlnormmean(chldat)
 }
 }
 
