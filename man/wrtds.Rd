@@ -2,20 +2,18 @@
 % Please edit documentation in R/wrtds.R
 \name{wrtds}
 \alias{wrtds}
-\alias{wrtds.data.frame}
 \alias{wrtds.tidal}
+\alias{wrtds.tidalmean}
 \title{Get WRTDS prediction grid}
 \usage{
-wrtds(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
+wrtds(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
 
-\method{wrtds}{data.frame}(tidal_in, sal_div = 10, tau = 0.5,
-  trace = TRUE, ...)
+\method{wrtds}{tidal}(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
 
-\method{wrtds}{tidal}(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE,
-  ...)
+\method{wrtds}{tidalmean}(dat_in, sal_div = 10, trace = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{sal_div}{numeric indicating number of divisions across the range of salinity to create the interpolation grid}
 
@@ -26,22 +24,23 @@ wrtds(tidal_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
 \item{...}{arguments passed to or from other methods}
 }
 \value{
-Appends a regression grid as an attribute to a tidal object
+Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.
 }
 \description{
-Get WRTDS prediction grid for chlorophyll observations in a tidal object
+Get WRTDS prediction grid for chlorophyll observations in a tidal or tidalmean object
 }
 \examples{
 \dontrun{
 ## load data
 data(chldat)
 
-## get wrtds grid, as data frame input
-res <- wrtds(chldat)
-
 ## as tidal object
-tidal_in <- tidal(chldat)
-res <- wrtds(tidal_in)
+dat_in <- tidal(chldat)
+res <- wrtds(dat_in)
+
+## as tidalmean object
+dat_in <- tidalmean(chldat)
+res <- wrtds(dat_in)
 
 ## multiple quantiles
 res <- wrtds(chldat, tau = c(0.1, 0.5, 0.9))

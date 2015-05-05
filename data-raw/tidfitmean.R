@@ -7,6 +7,6 @@ load_all()
 
 data(chldat)
 
-tidfitmean <- modfitmean(chldat)
+tidfitmean <- modfit(chldat, resp_type = 'mean')
 
 save(tidfitmean, file = 'data/tidfitmean.RData')

@@ -6,7 +6,8 @@ library(devtools)
 load_all()
 
 data(chldat)
+chldat <- tidalmean(chldat)
 
-tidobjmean <- wrtdsmean(chldat)
+tidobjmean <- wrtds(chldat)
 
 save(tidobjmean, file = 'data/tidobjmean.RData')

@@ -5,12 +5,12 @@
 \alias{wrtdsperf.tidal}
 \title{Get WRTDS peformance metrics}
 \usage{
-wrtdsperf(tidal_in, ...)
+wrtdsperf(dat_in, ...)
 
-\method{wrtdsperf}{tidal}(tidal_in, ...)
+\method{wrtdsperf}{tidal}(dat_in, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object which must already have fitted model data}
+\item{dat_in}{input tidal object which must already have fitted model data}
 
 \item{...}{arguments passed to or from other methods}
 }

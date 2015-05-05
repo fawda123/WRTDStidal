@@ -3,7 +3,7 @@
 #'
 #' Get WRTDS performance metrics indcluding goodness of fit, root mean square error, and normalized mean square error.
 #' 
-#' @param tidal_in input tidal object which must already have fitted model data
+#' @param dat_in input tidal object which must already have fitted model data
 #' @param ... arguments passed to or from other methods
 #' 
 #' @export
@@ -27,26 +27,23 @@
 #' 
 #' ## get performance metrics
 #' wrtdsperf(tidfit)
-wrtdsperf <- function(tidal_in, ...) UseMethod('wrtdsperf')
+wrtdsperf <- function(dat_in, ...) UseMethod('wrtdsperf')
 
 #' @rdname wrtdsperf
 #' 
 #' @export
 #'
 #' @method wrtdsperf tidal
-wrtdsperf.tidal<- function(tidal_in, ...){
+wrtdsperf.tidal<- function(dat_in, ...){
   
-  # sanity check
-  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
-  
-  if(!any(grepl('^res|^resnl', names(tidal_in))))
-    tidal_in <- wrtdsres(tidal_in, trace = FALSE)
+  if(!any(grepl('^res|^resnl', names(dat_in))))
+    dat_in <- wrtdsres(dat_in, trace = FALSE)
   
   # get taus from model
   tau <- as.numeric(gsub('^fit', '', names(attr(tidfit, 'fits'))))
   
   # get residuals, back-transform if needed
-  res <- tidal_in[, grepl('^res|chla', names(tidal_in))]
+  res <- dat_in[, grepl('^res|chla', names(dat_in))]
   
   # make long format by type
   res$id <- 1:nrow(res)

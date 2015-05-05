@@ -3,7 +3,7 @@
 #'
 #' Get WRTDS residuals for each quantile model. These are used to estimate goodness of fit of the model predictions.
 #' 
-#' @param tidal_in input tidal object which must already have fitted model data
+#' @param dat_in input tidal object which must already have fitted model data
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
 #' 
@@ -24,7 +24,7 @@
 #' ## run the function
 #' res <- wrtdsres(tidfit)
 #' head(res)
-wrtdsres <- function(tidal_in, ...) UseMethod('wrtdsres')
+wrtdsres <- function(dat_in, ...) UseMethod('wrtdsres')
 
 #' @rdname wrtdsres
 #'
@@ -32,12 +32,12 @@ wrtdsres <- function(tidal_in, ...) UseMethod('wrtdsres')
 #' 
 #' @export
 #'
-#' @method wrtdsres tidal
-wrtdsres.tidal<- function(tidal_in, trace = TRUE, ...){
+#' @method wrtdsres tidalmean
+wrtdsres.tidalmean <- function(dat_in, trace = TRUE, ...){
   
   # sanity check
-  if(!is.null(attr(tidal_in, 'bt_fits'))) stop('Incorrect input for quantile models')
-  if(!any(grepl('^fit|^norm', names(tidal_in))))
+  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
+  if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # get taus from model
@@ -46,19 +46,19 @@ wrtdsres.tidal<- function(tidal_in, trace = TRUE, ...){
   # null model
   mod_nl <- quantreg::crq(
     Surv(chla, not_cens, type = "left") ~ 1, 
-    data = tidal_in, 
+    data = dat_in, 
     method = "Portnoy"
     )
 
   # residuals from null model
   parms <- data.frame(coef(mod_nl, tau))
-  res_nl <- apply(parms, 1, function(x) tidal_in$chla - x)
+  res_nl <- apply(parms, 1, function(x) dat_in$chla - x)
   
   # get residuals for conditional quantile models
   res <- apply(
-    tidal_in[, paste0('fit', tau)], 
+    dat_in[, paste0('fit', tau)], 
     2, 
-    function(x) tidal_in$chla - x
+    function(x) dat_in$chla - x
     )
   
   # create output
@@ -67,8 +67,8 @@ wrtdsres.tidal<- function(tidal_in, trace = TRUE, ...){
   names(res_out) <- nms
   
   # append to tidal object
-  tidal_in[, nms] <- res_out
+  dat_in[, nms] <- res_out
   
-  return(tidal_in) 
+  return(dat_in) 
   
 }
