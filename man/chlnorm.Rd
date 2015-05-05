@@ -20,7 +20,7 @@ chlnorm(dat_in, ...)
 \item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
-Appends columns to the data.frame for normalized chlorophyll values.  For, tidal objects, columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.  For tidalmean objects, columns are appended for the log-transformed and back-transformed normalized values, named `norms' and `btnorms'.
+Appends columns to the data.frame for normalized chlorophyll values.  For, tidal objects, columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.  For tidalmean objects, columns are appended for the log-transformed and back-transformed normalized values, named `norm' and `bt_norm'.
 }
 \description{
 Get normalized model predictions from WRTDS to remove the effect of salinity on chlorophyll.  Predicted values in the interpolation grids are averaged across dates.
@@ -37,28 +37,10 @@ data(tidobj)
 # get flow-normalized values for each quantile
 res <- chlnorm(tidobj)
 
-##
-\dontrun{
-# fails if fits attribute not available
-data(chldat)
-chldat <- tidal(chldat)
-chlnorm(chldat)
-}
-
-##
-
 # load a tidalmean object
 data(tidobjmean)
 
 # get flow-normalized values
-res <- chlnormmean(tidobjmean)
-
-##
-\dontrun{
-# fails if incorrect input
-data(chldat)
-chldat <- tidal(chldat)
-chlnormmean(chldat)
-}
+res <- chlnorm(tidobjmean)
 }
 

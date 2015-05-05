@@ -3,27 +3,30 @@
 \name{chlpred}
 \alias{chlpred}
 \alias{chlpred.tidal}
+\alias{chlpred.tidalmean}
 \title{Get WRTDS predictions from interpolation grids}
 \usage{
-chlpred(tidal_in, ...)
+chlpred(dat_in, ...)
 
-\method{chlpred}{tidal}(tidal_in, trace = TRUE, ...)
+\method{chlpred}{tidal}(dat_in, trace = TRUE, ...)
+
+\method{chlpred}{tidalmean}(dat_in, trace = TRUE, ...)
 }
 \arguments{
-\item{tidal_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to or from other methods}
 
 \item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
-Appends columns to the data.frame of predicted chlorophyll values for each quantile.  Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.
+Appends columns to the data.frame for the predicted chlorophyll values.  For tidal objects, Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits_mean' and `btfits_mean'.
 }
 \description{
 Get model predictions from WRTDS using linear interpolation of values in grids
 }
 \details{
-This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grid of each estimated quantile.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.
+This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grids.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.
 }
 \examples{
 ##
@@ -34,12 +37,10 @@ data(tidobj)
 # get fitted values for each quantile
 res <- chlpred(tidobj)
 
-##
-\dontrun{
-# fails if fits attribute not available
-data(chldat)
-chldat <- tidal(chldat)
-chlpred(chldat)
-}
+# load a tidalmean object
+data(tidobjmean)
+
+# get predicted values
+res <- chlpred(tidobjmean)
 }
 

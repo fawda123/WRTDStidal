@@ -7,21 +7,25 @@
 \usage{
 modfit(dat_in, ...)
 
-\method{modfit}{data.frame}(dat_in, ...)
+\method{modfit}{data.frame}(dat_in, resp_type = c("quantile", "mean"), ...)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} for fitting the model, see details}
 
 \item{...}{arguments passed to or from other methods}
+
+\item{resp_type}{chr string indicating the type of model response to use, quantile or mean model}
 }
 \value{
-A tidal object with predicted and normalized chlorophyll prediction in log-space.
+A tidal object with predicted and normalized chlorophyll predictions, attributes updated accordingly.
 }
 \description{
 Fit weighted regression and get predicted/normalized chlorophyll from a data frame.  This is a wrapper for multiple function used to create a weighted regression model and should be used rather than the individual functions.
 }
 \details{
-This function is used as a convenience to combine several functions that accomplish specific tasks, primarily the creation of a tidal object, fitting of the weighted regression models with \code{\link{wrtds}}, extraction of fitted values from the interpolation grids using \code{\link{chlpred}}, and normalization of the fitted values from the interpolation grid using \code{\link{chlnorm}}.  The format of the input data can be a \code{\link[base]{data.frame}} or \code{\link{tidal}} object, where the latter inherits methods from the former.  The data format should be chlorophyll observations as rows and the first four columns as date, chlorophyll, salinity, and detection limits.  The order of the columns may vary provided the order of each of the four critical variables is specified by the \code{ind} argument that is passed to the \code{\link{tidal}} function.  The chlorophyll data are also assumed to be in log-space, otherwise use \code{chllog = FALSE} which is also passed to the \code{\link{tidal}} function.  The default conditional quantile that is predicted is the median (\code{tau = 0.5}, passed to the \code{\link{wrtds}} function).  Numerous other arguments affect the output and the default parameters may not be appropriate for most scenarios.  Arguments used by other functions can be specified explicitly with the initial call.  The documentation for the functions under `see also' should be consulted for available arguments, as well as the examples that illustrate common changes to the default values.
+This function is used as a convenience to combine several functions that accomplish specific tasks, primarily the creation of a tidal or tidalmean object, fitting of the weighted regression models with \code{\link{wrtds}}, extraction of fitted values from the interpolation grids using \code{\link{chlpred}}, and normalization of the fitted values from the interpolation grid using \code{\link{chlnorm}}.  The format of the input should be a \code{\link[base]{data.frame}} with chlorophyll observations as rows and the first four columns as date, chlorophyll, salinity, and detection limits.  The order of the columns may vary provided the order of each of the four critical variables is specified by the \code{ind} argument that is passed to the \code{\link{tidal}} or \code{\link{tidalmean}} function.  The chlorophyll data are also assumed to be in log-space, otherwise use \code{chllog = FALSE} which is also passed to the \code{\link{tidal}} or \code{\link{tidalmean}} function.  The dataset described in \code{\link{chldat}} is an example of the correc format.
+
+For quantile models, the default conditional quantile that is predicted is the median (\code{tau = 0.5}, passed to the \code{\link{wrtds}} function).  Numerous other arguments affect the output and the default parameters may not be appropriate for most scenarios.  Arguments used by other functions can be specified explicitly with the initial call.  The documentation for the functions under `see also' should be consulted for available arguments, as well as the examples that illustrate common changes to the default values.
 }
 \examples{
 \dontrun{
@@ -32,6 +36,9 @@ data(chldat)
 # default median fit
 # grids predicted across salinity range with ten values
 res <- modfit(chldat)
+
+# for mean models
+res <- modfit(chldat, resp_type = 'mean')
 
 ## fit different quantiles and smaller interpolation grid
 res <- modfit(chldat, tau = c(0.2, 0.8), sal_div = 5)
@@ -45,6 +52,6 @@ res <- modfit(chldat, trace = FALSE)
 }
 }
 \seealso{
-See the help files for \code{\link{tidal}}, \code{\link{wrtds}}, \code{\link{getwts}}, \code{\link{chlpred}}, and \code{\link{chlnorm}} for arguments that can be passed to this function.
+See the help files for \code{\link{tidal}}, \code{\link{tidalmean}}, \code{\link{wrtds}}, \code{\link{getwts}}, \code{\link{chlpred}}, and \code{\link{chlnorm}} for arguments that can be passed to this function.
 }
 
