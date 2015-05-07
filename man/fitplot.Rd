@@ -3,6 +3,7 @@
 \name{fitplot}
 \alias{fitplot}
 \alias{fitplot.tidal}
+\alias{fitplot.tidalmean}
 \title{Plot the fitted results for a tidal object}
 \usage{
 fitplot(dat_in, ...)
@@ -10,9 +11,13 @@ fitplot(dat_in, ...)
 \method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
   annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL,
   pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+
+\method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = FALSE,
+  logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE,
+  lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
-\item{dat_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to other methods}
 
@@ -84,6 +89,11 @@ fitplot(tidfit, pretty = FALSE, linetype = 'dashed') +
    values = c('red', 'green', 'blue'),
    guide = guide_legend(reverse = TRUE)
    )
+
+# plot a tidalmean object
+data(tidfitmean)
+
+fitplot(tidfitmean)
 }
 \seealso{
 \code{\link{fitmoplot}}, \code{\link{prdnrmplot}}, \code{\link{sliceplot}}

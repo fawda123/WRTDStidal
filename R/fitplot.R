@@ -2,7 +2,7 @@
 #' 
 #' Plot a tidal object to view chlorophyll observations, predictions, and normalized results.
 #' 
-#' @param dat_in input tidal object
+#' @param dat_in input tidal or tidalmean object
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
 #' @param predicted logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted
 #' @param annuals logical indicating if plots are annual aggregations of results
@@ -67,6 +67,10 @@
 #'    guide = guide_legend(reverse = TRUE)
 #'    ) 
 #'  
+#' # plot a tidalmean object
+#' data(tidfitmean)
+#' 
+#' fitplot(tidfitmean)  
 fitplot <- function(dat_in, ...) UseMethod('fitplot')
 
 #' @rdname fitplot
@@ -77,7 +81,6 @@ fitplot <- function(dat_in, ...) UseMethod('fitplot')
 fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
-  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
@@ -191,6 +194,111 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE,
       guide = guide_legend(reverse = TRUE)
     ) +
     theme(axis.title.x = element_blank()) +
+    scale_y_continuous(ylabel)
+  
+  return(p)
+  
+}
+
+#' @rdname fitplot
+#' 
+#' @export 
+#' 
+#' @method fitplot tidalmean
+fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+ 
+  # sanity check
+  if(!any(grepl('^fit|^norm', names(dat_in))))
+    stop('No fitted data in tidal object, run modfit function')
+  
+  # convert to df for plotting, get relevant columns
+  to_plo <- data.frame(dat_in)
+  sel_vec <- grepl('^date$|^chla$|fit|norm', names(to_plo))
+  to_plo <- to_plo[, sel_vec]
+  
+  # subset data by dt_rng
+  if(!is.null(dt_rng)){ 
+   
+    dt_rng <- as.Date(dt_rng, format = '%Y-%m-%d')
+    if(any(is.na(dt_rng)) & length(dt_rng) != 2)
+      stop('Argument for dt_rng must be two-element character string of format "YYYY-mm-dd"')
+  
+    sel_vec <- with(to_plo, date >= dt_rng[1] & date <= dt_rng[2])
+    to_plo <- to_plo[sel_vec, ]
+    
+  }
+  
+  # annual aggregations if TRUE
+  if(annuals){
+    to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
+      group_by(date) %>% 
+      summarise_each(funs(mean(., na.rm = TRUE)))
+  }
+    
+  # separate nrms and fits objects for plotting
+  nrms <- select(to_plo, date, norm, bt_norm)
+  fits <- select(to_plo, date, fits, bt_fits)
+  
+  # y-axis label
+  ylabel <- chllab(logspace)
+  
+  # use back-transformed if TRUE
+  if(!logspace){
+
+    to_plo$chla <- exp(to_plo$chla)
+    nrms <- mutate(nrms, nrms_variable = bt_norm)
+    nrms <- select(nrms, -norm, -bt_norm)
+    fits <- mutate(fits, fits_variable = bt_fits)
+    fits <- select(fits, -fits, -bt_fits)
+    
+  } else {
+
+    nrms <- mutate(nrms, nrms_variable = norm)    
+    nrms <- select(nrms, -bt_norm, -norm)
+    fits <- mutate(fits, fits_variable = fits)
+    fits <- select(fits, -bt_fits, -fits)
+    
+  }
+  
+  # bare bones plot
+  p <- ggplot(to_plo, aes(x = date, y = chla)) + 
+    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    scale_size_manual('', values = size)
+      
+  # plot fits or nrms
+  if(predicted){
+    p <- p + 
+      geom_line(data = fits, aes(y = fits_variable, colour = 'fits_variable'), size = lwd, alpha = alpha)
+    
+    leglab <- c('Predicted')
+    
+  } else {
+    p <- p + 
+      geom_line(data = nrms, aes(y = nrms_variable, colour = 'nrms_variable'), size = lwd, alpha = alpha)
+    
+    leglab <- c('Normalized')
+  }
+
+  # exit if pretty is F
+  if(!pretty) return(p)
+  
+  ##
+  # change aesthetics
+  
+  # pick colors
+  # special case for three quantiles
+  cols <- gradcols(col_vec = col_vec)
+  
+  p <- p + 
+    theme_bw() +
+    scale_colour_manual(
+      labels = leglab,
+      values = cols
+    ) +
+    theme(
+      axis.title.x = element_blank(),
+      legend.title = element_blank()
+      ) +
     scale_y_continuous(ylabel)
   
   return(p)
