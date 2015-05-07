@@ -9,6 +9,7 @@
 #' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
+#' @param grids logical indicating if grid lines are present
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param lwd numeric value indicating width of lines
 #' @param size numeric value indicating size of points
@@ -78,7 +79,7 @@ fitplot <- function(dat_in, ...) UseMethod('fitplot')
 #' @export 
 #' 
 #' @method fitplot tidal
-fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -196,6 +197,14 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE,
     theme(axis.title.x = element_blank()) +
     scale_y_continuous(ylabel)
   
+  # remove grid lines
+  if(!grids) 
+    p <- p + 
+      theme(      
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+      )
+  
   return(p)
   
 }
@@ -205,7 +214,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE,
 #' @export 
 #' 
 #' @method fitplot tidalmean
-fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -300,6 +309,14 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = FALSE, logspac
       legend.title = element_blank()
       ) +
     scale_y_continuous(ylabel)
+  
+  # remove grid lines
+  if(!grids) 
+    p <- p + 
+      theme(      
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+      )
   
   return(p)
   

@@ -10,11 +10,11 @@ fitplot(dat_in, ...)
 
 \method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
   annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL,
-  pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+  grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 
 \method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = FALSE,
-  logspace = FALSE, dt_rng = NULL, col_vec = NULL, pretty = TRUE,
-  lwd = 1, size = 2, alpha = 1, ...)
+  logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
+  pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -32,6 +32,8 @@ fitplot(dat_in, ...)
 \item{dt_rng}{Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
+
+\item{grids}{logical indicating if grid lines are present}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 

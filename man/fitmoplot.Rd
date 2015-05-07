@@ -3,6 +3,7 @@
 \name{fitmoplot}
 \alias{fitmoplot}
 \alias{fitmoplot.tidal}
+\alias{fitmoplot.tidalmean}
 \title{Plot the fitted results for a tidal object by month}
 \usage{
 fitmoplot(dat_in, ...)
@@ -11,9 +12,13 @@ fitmoplot(dat_in, ...)
   predicted = TRUE, logspace = TRUE, dt_rng = NULL, ncol = NULL,
   col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2,
   alpha = 1, ...)
+
+\method{fitmoplot}{tidalmean}(dat_in, month = c(1:12), predicted = TRUE,
+  logspace = TRUE, dt_rng = NULL, ncol = NULL, col_vec = NULL,
+  grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
-\item{dat_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to other methods}
 
@@ -48,7 +53,7 @@ A \code{\link[ggplot2]{ggplot}} object that can be further modified
 Plot a tidal object to view chlorophyll observations, predictions, and normalized results separately for each month.
 }
 \details{
-The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows a more clear evaluation of trends over time independent of seasonal variation.
+The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.
 }
 \examples{
 ## load a fitted tidal object
@@ -85,6 +90,11 @@ fitmoplot(tidfit, pretty = FALSE, linetype = 'dashed') +
    values = c('red', 'green', 'blue'),
    guide = guide_legend(reverse = TRUE)
    )
+
+# plot a tidalmean object
+data(tidfitmean)
+
+fitmoplot(tidfitmean)
 }
 \seealso{
 \code{\link{fitplot}}, \code{\link{prdnrmplot}}, \code{\link{sliceplot}}
