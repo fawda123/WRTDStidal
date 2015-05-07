@@ -328,7 +328,9 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
     ) +
     theme(
       axis.title.x = element_blank(),
-      legend.title = element_blank()
+      legend.title = element_blank(),
+      legend.position = 'top', 
+      legend.box = 'horizontal'
       ) +
     scale_y_continuous(ylabel)
   
