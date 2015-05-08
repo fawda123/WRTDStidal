@@ -3,6 +3,7 @@
 \name{gridplot}
 \alias{gridplot}
 \alias{gridplot.tidal}
+\alias{gridplot.tidalmean}
 \title{Plot chlorophyll response to salinity as a gridded surface for all months}
 \usage{
 gridplot(dat_in, ...)
@@ -11,9 +12,14 @@ gridplot(dat_in, ...)
   years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE,
   interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL,
   grids = FALSE, pretty = TRUE, ...)
+
+\method{gridplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
+  col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE,
+  sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE,
+  pretty = TRUE, ...)
 }
 \arguments{
-\item{dat_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to other methods}
 
@@ -61,6 +67,12 @@ gridplot(tidfit)
 ## change the defaults
 gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12),
  col_vec = c('red', 'blue', 'green'), sal_fac = 1)
+
+## plot a tidalmean object
+data(tidfitmean)
+
+dynaplot(tidfitmean)
+
 }
 }
 \seealso{

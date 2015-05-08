@@ -37,8 +37,8 @@ obsplot <- function(dat_in, ...) UseMethod('obsplot')
 #' 
 #' @export 
 #' 
-#' @method obsplot tidal
-obsplot.tidal <- function(dat_in, lines = TRUE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
+#' @method obsplot default
+obsplot.default <- function(dat_in, lines = TRUE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
   
   to_plo <- as.data.frame(dat_in)[, c('date', 'chla', 'sal')]
   
@@ -90,4 +90,26 @@ obsplot.tidal <- function(dat_in, lines = TRUE, logspace = FALSE, dt_rng = NULL,
   
   return(p)
   
+}
+
+#' @rdname obsplot
+#' 
+#' @export 
+#' 
+#' @method obsplot tidal
+obsplot.tidal <- function(dat_in, ...){
+  
+  obsplot.default(dat_in, ...)
+ 
+}
+
+#' @rdname obsplot
+#' 
+#' @export 
+#' 
+#' @method obsplot tidalmean
+obsplot.tidalmean <- function(dat_in, ...){
+  
+  obsplot.default(dat_in, ...)
+ 
 }

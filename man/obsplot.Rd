@@ -2,14 +2,20 @@
 % Please edit documentation in R/obsplot.R
 \name{obsplot}
 \alias{obsplot}
+\alias{obsplot.default}
 \alias{obsplot.tidal}
+\alias{obsplot.tidalmean}
 \title{Plot observed chlorophyll and salinity data}
 \usage{
 obsplot(dat_in, ...)
 
-\method{obsplot}{tidal}(dat_in, lines = TRUE, logspace = FALSE,
+\method{obsplot}{default}(dat_in, lines = TRUE, logspace = FALSE,
   dt_rng = NULL, pretty = TRUE, col = "black", lwd = 1, size = 2,
   alpha = 1, ...)
+
+\method{obsplot}{tidal}(dat_in, ...)
+
+\method{obsplot}{tidalmean}(dat_in, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object}
