@@ -224,7 +224,7 @@ fitplot(tidfit)
 
 ```r
 # plot as annual aggregations
-fitplot(tidfit, annuals = TRUE)
+fitplot(tidfit, annuals = FALSE)
 ```
 
 ![](README_files/figure-html/unnamed-chunk-10-2.png) 
@@ -250,8 +250,8 @@ prdnrmplot(tidfit)
 ![](README_files/figure-html/unnamed-chunk-12-1.png) 
 
 ```r
-# plot as annual aggregations
-prdnrmplot(tidfit, annuals = TRUE)
+# plot as monthly values
+prdnrmplot(tidfit, annuals = FALSE)
 ```
 
 ![](README_files/figure-html/unnamed-chunk-12-2.png) 

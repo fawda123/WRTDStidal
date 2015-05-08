@@ -25,7 +25,7 @@
 gradcols <- function(col_vec = NULL){
 
   cols <- RColorBrewer::brewer.pal(11, 'Spectral')
-  
+    
   # color ramp for pts
   if(!is.null(col_vec)){
  

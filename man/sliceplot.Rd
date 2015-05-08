@@ -3,29 +3,45 @@
 \name{sliceplot}
 \alias{sliceplot}
 \alias{sliceplot.tidal}
+\alias{sliceplot.tidalmean}
 \title{Plot time slices within a tidal object}
 \usage{
 sliceplot(dat_in, ...)
 
 \method{sliceplot}{tidal}(dat_in, slices = c(1, 7), tau = NULL,
-  predicted = TRUE, logspace = FALSE, pretty = TRUE, pt_sz = 2, ...)
+  dt_rng = NULL, col_vec = NULL, predicted = TRUE, logspace = FALSE,
+  grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+
+\method{sliceplot}{tidalmean}(dat_in, slices = c(1, 7), predicted = TRUE,
+  dt_rng = NULL, col_vec = NULL, logspace = FALSE, grids = TRUE,
+  pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
-\item{dat_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
-\item{...}{arguments passed to \code{\link[ggplot2]{geom_line}}}
+\item{...}{arguments passed to other methods}
 
 \item{slices}{numeric vector of calender months to plot, i.e., 1 - 12}
 
 \item{tau}{numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.}
 
+\item{dt_rng}{Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
+
+\item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
+
 \item{predicted}{logical indicating if standard predicted values are plotted, default \code{TRUE}, otherwise normalized predictions are plotted}
 
 \item{logspace}{logical indicating if plots are in log space}
 
+\item{grids}{logical indicating if grid lines are present}
+
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 
-\item{pt_sz}{numeric value indicating size of observed chlorophyll points}
+\item{lwd}{numeric value indicating width of lines}
+
+\item{size}{numeric value indicating size of points}
+
+\item{alpha}{numeric value indicating transparency of points or lines}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
@@ -61,6 +77,11 @@ sliceplot(tidfit,
  logspace = TRUE
 ) +
 ggtitle('Normalized predictions for all months, 90th percentile')
+
+ ## plot a tidalmean object
+ data(tidfitmean)
+
+ sliceplot(tidfitmean)
 }
 \seealso{
 \code{\link{fitplot}}, \code{\link{prdnrmplot}}

@@ -154,7 +154,7 @@ data(tidfit)
 fitplot(tidfit)
 
 # plot as annual aggregations
-fitplot(tidfit, annuals = TRUE)
+fitplot(tidfit, annuals = FALSE)
 ```
 
 The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.

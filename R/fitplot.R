@@ -44,8 +44,8 @@
 #' # plot the normalized predictions
 #' fitplot(tidfit, predicted = FALSE)
 #' 
-#' # plot as annual aggregations
-#' fitplot(tidfit, annuals = TRUE) 
+#' # plot as monthly values
+#' fitplot(tidfit, annuals = FALSE) 
 #' 
 #' # format the x-axis is using annual aggregations
 #' library(ggplot2)
@@ -79,7 +79,7 @@ fitplot <- function(dat_in, ...) UseMethod('fitplot')
 #' @export 
 #' 
 #' @method fitplot tidal
-fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -214,7 +214,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = FALSE,
 #' @export 
 #' 
 #' @method fitplot tidalmean
-fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
