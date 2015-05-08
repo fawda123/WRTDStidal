@@ -295,7 +295,6 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = FALSE, logspac
   # change aesthetics
   
   # pick colors
-  # special case for three quantiles
   cols <- gradcols(col_vec = col_vec)
   
   p <- p + 

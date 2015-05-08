@@ -2,7 +2,7 @@
 #' 
 #' Plot observed chlorophyll and salinity time series from a tidal object
 #' 
-#' @param dat_in input tidal object
+#' @param dat_in input tidal or tidalmean object
 #' @param lines logical indicating if a line plot is used, otherwise points
 #' @param logspace logical indicating if plots are in log space
 #' @param dt_rng Optional chr string indicating the date range of the plot. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
@@ -26,11 +26,16 @@
 #' ## load a fitted tidal object
 #' data(tidfit)
 #' 
-#' # plot using defaults
+#' ## plot using defaults
 #' obsplot(tidfit)
 #'  
-#' # changing default
+#' ## changing default
 #' obsplot(tidfit, alpha = 0.5, size = 4, col = 'blue', lines = FALSE)
+#' 
+#' ## plot a tidalmean object
+#' data(tidfitmean)
+#' 
+#' obsplot(tidfitmean)
 obsplot <- function(dat_in, ...) UseMethod('obsplot')
 
 #' @rdname obsplot

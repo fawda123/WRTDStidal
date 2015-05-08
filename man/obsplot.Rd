@@ -18,7 +18,7 @@ obsplot(dat_in, ...)
 \method{obsplot}{tidalmean}(dat_in, ...)
 }
 \arguments{
-\item{dat_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to \code{\link[ggplot2]{geom_line}}}
 
@@ -48,11 +48,16 @@ Plot observed chlorophyll and salinity time series from a tidal object
 ## load a fitted tidal object
 data(tidfit)
 
-# plot using defaults
+## plot using defaults
 obsplot(tidfit)
 
-# changing default
+## changing default
 obsplot(tidfit, alpha = 0.5, size = 4, col = 'blue', lines = FALSE)
+
+## plot a tidalmean object
+data(tidfitmean)
+
+obsplot(tidfitmean)
 }
 \seealso{
 \code{\link{fitplot}}

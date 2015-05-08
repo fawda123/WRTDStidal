@@ -3,16 +3,21 @@
 \name{prdnrmplot}
 \alias{prdnrmplot}
 \alias{prdnrmplot.tidal}
+\alias{prdnrmplot.tidalmean}
 \title{Plot combined predicted and normalized results from a tidal object}
 \usage{
 prdnrmplot(dat_in, ...)
 
-\method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = FALSE,
+\method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = TRUE,
   logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
   alpha = 1, pretty = TRUE, ...)
+
+\method{prdnrmplot}{tidalmean}(dat_in, annuals = TRUE, logspace = FALSE,
+  dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1,
+  pretty = TRUE, ...)
 }
 \arguments{
-\item{dat_in}{input tidal object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to \code{\link[ggplot2]{geom_line}}}
 
@@ -44,31 +49,31 @@ Plot combined predicted and normalized results from a tidal object to evaluate t
 ## load a fitted tidal object
 data(tidfit)
 
-# plot using defaults
+## plot using defaults
 prdnrmplot(tidfit)
 
-# get the same plot but use default ggplot settings
+## get the same plot but use default ggplot settings
 prdnrmplot(tidfit, pretty = FALSE)
 
-# plot in log space
+## plot in log space
 prdnrmplot(tidfit, logspace = TRUE)
 
-# plot specific quantiles
+## plot specific quantiles
 prdnrmplot(tidfit, tau = c(0.1, 0.9))
 
-# plot the normalized predictions
+## plot the normalized predictions
 prdnrmplot(tidfit, predicted = FALSE)
 
-# plot as annual aggregations
+## plot as annual aggregations
 prdnrmplot(tidfit, annuals = TRUE)
 
-# format the x-axis is using annual aggregations
+## format the x-axis is using annual aggregations
 library(ggplot2)
 
 prdnrmplot(tidfit, annual = TRUE) +
  scale_x_continuous(breaks = seq(2000, 2012, by = 4))
 
-# modify the plot as needed using ggplot scales, etc.
+## modify the plot as needed using ggplot scales, etc.
 prdnrmplot(tidfit, pretty = FALSE, linetype = 'dashed') +
  theme_classic() +
  scale_y_continuous(
@@ -81,6 +86,11 @@ prdnrmplot(tidfit, pretty = FALSE, linetype = 'dashed') +
    values = c('red', 'green', 'blue'),
    guide = guide_legend(reverse = TRUE)
    )
+
+ ## plot a tidalmean object
+ data(tidfitmean)
+
+ prdnrmplot(tidfitmean)
 }
 \seealso{
 \code{\link{fitplot}}, \code{\link{sliceplot}}
