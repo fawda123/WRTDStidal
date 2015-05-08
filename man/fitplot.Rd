@@ -9,10 +9,10 @@
 fitplot(dat_in, ...)
 
 \method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
-  annuals = FALSE, logspace = FALSE, dt_rng = NULL, col_vec = NULL,
+  annuals = TRUE, logspace = FALSE, dt_rng = NULL, col_vec = NULL,
   grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 
-\method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = FALSE,
+\method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = TRUE,
   logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
   pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
@@ -68,8 +68,8 @@ fitplot(tidfit, tau = c(0.1, 0.9))
 # plot the normalized predictions
 fitplot(tidfit, predicted = FALSE)
 
-# plot as annual aggregations
-fitplot(tidfit, annuals = TRUE)
+# plot as monthly values
+fitplot(tidfit, annuals = FALSE)
 
 # format the x-axis is using annual aggregations
 library(ggplot2)

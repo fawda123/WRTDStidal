@@ -64,8 +64,8 @@ prdnrmplot(tidfit, tau = c(0.1, 0.9))
 ## plot the normalized predictions
 prdnrmplot(tidfit, predicted = FALSE)
 
-## plot as annual aggregations
-prdnrmplot(tidfit, annuals = TRUE)
+## plot as monthly values
+prdnrmplot(tidfit, annuals = FALSE)
 
 ## format the x-axis is using annual aggregations
 library(ggplot2)
