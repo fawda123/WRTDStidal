@@ -2,7 +2,7 @@
 #' 
 #' Plot the relationship between chlorophyll and salinity across the time series using a gridded surface for all months.  Chlorophyll is shaded by relative values across all dates for comparison.
 #' 
-#' @param dat_in input tidal object
+#' @param dat_in input tidal or tidalmean object
 #' @param month numeric indicating months to plot
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param years numeric vector of years to plot, defaults to all
@@ -38,6 +38,12 @@
 #' ## change the defaults
 #' gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12), 
 #'  col_vec = c('red', 'blue', 'green'), sal_fac = 1)
+#'  
+#' ## plot a tidalmean object
+#' data(tidfitmean)
+#' 
+#' dynaplot(tidfitmean)
+#' 
 #' }
 gridplot <- function(dat_in, ...) UseMethod('gridplot')
 
@@ -49,7 +55,6 @@ gridplot <- function(dat_in, ...) UseMethod('gridplot')
 gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
-  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
@@ -91,6 +96,164 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     to_plo<- exp(to_plo)
 
   }
+  
+  # reshape data frame
+  yrs <- dat_in$year[dat_in$month %in% month]
+  mos <- dat_in$month[dat_in$month %in% month]
+  to_plo <- data.frame(year = yrs, month = mos, to_plo)
+  names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
+  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 3:ncol(to_plo)) %>% 
+    mutate(sal = as.numeric(gsub('^sal ', '', sal)))
+  
+  # subset years to plot
+  if(!is.null(years)){
+    
+    to_plo <- to_plo[to_plo$year %in% years, ]
+     
+    if(nrow(to_plo) == 0) stop('No data to plot for the date range')
+  
+  }
+  
+  ## use linear interpolation to make a smoother plot
+  if(interp){
+    
+    # these are factors by which salinity and years are multiplied for interpolation
+    sal_fac <- length(unique(to_plo$sal)) * sal_fac
+    yr_fac <- length(unique(to_plo$year)) * yr_fac
+    yr_fac <- seq(min(to_plo$year), max(to_plo$year), length = yr_fac)
+    
+    # separately by month
+    to_plo <- split(to_plo, to_plo$month)
+    
+    to_plo <- lapply(to_plo, function(x){
+      
+      # interp across salinity first
+      interped <- lapply(
+        split(x, x$year), 
+        function(y){
+          out <- approx(y$sal, y$chla, n = sal_fac)
+          out <- data.frame(year = unique(y$year), month = unique(y$month), out)
+          return(out)
+        })
+      interped <- do.call('rbind', interped)
+      names(interped) <- c('year', 'month', 'sal', 'chla')
+      
+      # interp across years
+      interped <- lapply(
+        split(interped, interped$sal), 
+        function(y){
+          out <- approx(y$year, y$chla, xout = yr_fac)
+          out <- data.frame(year = out$x, month = unique(y$month), sal = unique(y$sal), chla = out$y)
+          return(out)
+        })
+      interped <- do.call('rbind', interped)
+      names(interped) <- c('year', 'month', 'sal', 'chla')
+    
+      return(interped)
+    
+    })
+    
+    to_plo <- do.call('rbind', to_plo)
+    row.names(to_plo) <- 1:nrow(to_plo)
+      
+  }
+  
+  # constrain plots to salinity limits for the selected month
+  if(!allsal){
+    
+    #min, max salinity values to plot
+    lim_vals<- group_by(data.frame(dat_in), month) %>% 
+      summarize(
+        Low = quantile(sal, 0.05, na.rm = TRUE),
+        High = quantile(sal, 0.95, na.rm = TRUE)
+      )
+  
+    # month sal ranges for plot
+    lim_vals <- lim_vals[lim_vals$month %in% month, ]
+    
+    # merge limts with months
+    to_plo <- left_join(to_plo, lim_vals, by = 'month')
+    
+    # reduce data
+    sel_vec <- with(to_plo, 
+      sal >= Low &
+      sal <= High
+      )
+    to_plo <- to_plo[sel_vec, !names(to_plo) %in% c('Low', 'High')]
+    to_plo <- arrange(to_plo, year, month)
+    
+  }
+  
+  # months labels as text
+  mo_lab <- data.frame(
+    num = seq(1:12), 
+    txt = c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+  )
+  mo_lab <- mo_lab[mo_lab$num %in% month, ]
+  to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  
+  # make plot
+  p <- ggplot(to_plo, aes(x = year, y = sal, fill = chla)) + 
+    geom_tile(data = subset(to_plo, !is.na(to_plo$chla)), aes(fill = chla)) +
+    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0) + 
+    facet_wrap(~month, ncol = ncol)
+  
+  # return bare bones if FALSE
+  if(!pretty) return(p)
+  
+  # get colors
+  cols <- gradcols(col_vec = col_vec)
+  
+  p <- p +
+    theme_bw() +
+    theme(
+      legend.position = 'top'
+      )  +
+    scale_x_continuous(expand = c(0, 0)) +
+    scale_y_continuous('Salinity', expand = c(0,0)) +
+    scale_fill_gradientn(ylabel, colours = rev(cols)) +
+    guides(fill = guide_colourbar(barwidth = 10)) 
+    
+  # add grid lines
+  if(!grids) 
+    p <- p + 
+      theme(      
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+      )
+  
+  return(p)
+    
+}
+
+#' @rdname gridplot
+#' 
+#' @export 
+#' 
+#' @method gridplot tidalmean
+gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+ 
+  # sanity check
+  if(!any(grepl('^fit|^norm', names(dat_in))))
+    stop('No fitted data in tidal object, run modfit function')
+  
+  # convert month vector to those present in data
+  month <- month[month %in% dat_in$month]
+  if(length(month) == 0) stop('No observable data for the chosen month')
+  
+  # salinity grid values
+  sal_grd <- attr(dat_in, 'sal_grd')
+
+  # get the selected months
+  to_plo <- attr(dat_in, 'fits')[[1]]
+  
+  # y-axis label
+  ylabel <- chllab(logspace)
+
+  # use bt grid if not log-space
+  if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
+  
+  to_plo <- to_plo[dat_in$month %in% month, , drop = FALSE]
   
   # reshape data frame
   yrs <- dat_in$year[dat_in$month %in% month]
