@@ -141,7 +141,8 @@ wtsplot.tidal <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_ob
     dat_in[, c('date', 'chla', 'sal')],
     ref_wts
   )
-   
+  
+  grzero <- sum(p_dat$allwts > 0) 
   p_dat_plo <- ggplot(p_dat, aes_string(x = 'date', y = 'sal', 
       colour = 'allwts', size = 'allwts')) +
     geom_point(alpha = alpha) +
@@ -149,7 +150,7 @@ wtsplot.tidal <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_ob
     scale_y_continuous(limits = c(0, max(dat_in$sal)), name = 'Salinity') +
     scale_x_date(name = element_blank(), limits = dt_rng) +
     scale_size(range = pt_rng) +
-    ggtitle(paste(ref$date, sal_val, sep = ', ')) + 
+    ggtitle(paste(ref$date, sal_val, paste0(grzero, ' obs with wts > 0'), sep = ', ')) + 
     theme_bw() +
     theme(legend.position = 'none')
   

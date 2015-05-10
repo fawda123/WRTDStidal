@@ -65,7 +65,6 @@ modfit.data.frame <- function(dat_in, resp_type = 'quantile', ...){
     dat <- do.call(tidalmean, args)
   }
     
-  
   # update args, get interpolation grids
   args <- c(list(dat_in = dat, all = F), list(...))
   dat <- do.call(wrtds, args)
