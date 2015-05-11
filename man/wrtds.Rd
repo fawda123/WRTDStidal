@@ -24,7 +24,7 @@ wrtds(dat_in, ...)
 \item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
-Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.
+Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows that are assigned to multiple monthly observations within the same year are averaged.
 }
 \description{
 Get WRTDS prediction grid for chlorophyll observations in a tidal or tidalmean object

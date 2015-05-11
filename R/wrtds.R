@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.
+#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows that are assigned to multiple monthly observations within the same year are averaged.
 #' 
 #' @examples
 #' \dontrun{
@@ -116,6 +116,17 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     
   }
   
+  # aggregate each grid by year, month to create symmetric interpolation grid
+  fit_grds <- lapply(fit_grds, 
+    function(x){
+      to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
+      out <- aggregate(cbind(year, month) ~ ., data = to_avg, FUN = mean, na.rm = T)
+      out <- out[order(out$year, out$month), ]
+      out <- out[, !names(out) %in% c('year', 'month')]
+      out <- as.matrix(out)
+      return(out)
+    })
+      
   # half-window widths for attributes
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
   
@@ -217,6 +228,28 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
     }
     
   }
+  
+  # aggregate the grid by year, month to create symmetric interpolation grid
+  fit_grds <- lapply(fit_grds, 
+    function(x){
+      to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
+      out <- aggregate(cbind(year, month) ~ ., data = to_avg, FUN = mean, na.rm = T)
+      out <- out[order(out$year, out$month), ]
+      out <- out[, !names(out) %in% c('year', 'month')]
+      out <- as.matrix(out)
+      return(out)
+    })
+  
+  # aggregate the bt_grid by year, month to create symmetric interpolation grid
+  bt_grds <- lapply(bt_grds, 
+    function(x){
+      to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
+      out <- aggregate(cbind(year, month) ~ ., data = to_avg, FUN = mean, na.rm = T)
+      out <- out[order(out$year, out$month), ]
+      out <- out[, !names(out) %in% c('year', 'month')]
+      out <- as.matrix(out)
+      return(out)
+    })
   
   # half-window widths for attributes
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
