@@ -3,7 +3,7 @@
 #' 
 #' Interpolate from a vector of predicted chlorophyll values for a given salinity value.  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
 #'
-#' @param row_in vector of observations from a row of an interpolation grid
+#' @param row_in vector of observations from a row of an interpolation grid, month and year columns must be removed
 #' @param sal_pred value of salinity for interpolating chlorophyll
 #' @param sal_grd original vector of salinity values used to create interpolation grid
 #' @param ... arguments passed to additional methods
@@ -23,7 +23,7 @@
 #' # get a row from the interpolation grid to predict
 #' fit_grd <- attr(tidobj, 'fits')
 #' fit_grd <- fit_grd[['fit0.5']]
-#' row_in <- fit_grd[1, ]
+#' row_in <- fit_grd[1, -c(1, 2)]
 #' 
 #' # get salinity values used to create interpolation grid
 #' sal_grd <- attr(tidobj, 'sal_grd')
@@ -44,8 +44,8 @@ chlinterp <- function(row_in, ...) UseMethod('chlinterp')
 #'
 #' @export
 #'
-#' @method chlinterp numeric
-chlinterp.numeric <- function(row_in, sal_pred, sal_grd, ...){
+#' @method chlinterp default
+chlinterp.default <- function(row_in, sal_pred, sal_grd, ...){
   
   # find bounding salinity value
   min_sal <- rev(which(sal_pred >= sal_grd))[1]
@@ -83,4 +83,17 @@ chlinterp.numeric <- function(row_in, sal_pred, sal_grd, ...){
   
   return(est)
 
+}
+
+#' @rdname chlinterp
+#'
+#' @export
+#'
+#' @method chlinterp data.frame
+chlinterp.data.frame <- function(row_in, sal_pred, sal_grd, ...){
+  
+  row_in <- as.numeric(row_in)
+  
+  chlinterp(row_in, sal_pred, sal_grd, ...)
+ 
 }

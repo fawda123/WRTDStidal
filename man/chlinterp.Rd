@@ -2,15 +2,18 @@
 % Please edit documentation in R/chlinterp.R
 \name{chlinterp}
 \alias{chlinterp}
-\alias{chlinterp.numeric}
+\alias{chlinterp.data.frame}
+\alias{chlinterp.default}
 \title{Interpolate from a fit grid}
 \usage{
 chlinterp(row_in, ...)
 
-\method{chlinterp}{numeric}(row_in, sal_pred, sal_grd, ...)
+\method{chlinterp}{default}(row_in, sal_pred, sal_grd, ...)
+
+\method{chlinterp}{data.frame}(row_in, sal_pred, sal_grd, ...)
 }
 \arguments{
-\item{row_in}{vector of observations from a row of an interpolation grid}
+\item{row_in}{vector of observations from a row of an interpolation grid, month and year columns must be removed}
 
 \item{...}{arguments passed to additional methods}
 
@@ -36,7 +39,7 @@ data(tidobj)
 # get a row from the interpolation grid to predict
 fit_grd <- attr(tidobj, 'fits')
 fit_grd <- fit_grd[['fit0.5']]
-row_in <- fit_grd[1, ]
+row_in <- fit_grd[1, -c(1, 2)]
 
 # get salinity values used to create interpolation grid
 sal_grd <- attr(tidobj, 'sal_grd')

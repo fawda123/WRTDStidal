@@ -64,7 +64,6 @@ chlpred.tidal <- function(dat_in, trace = TRUE, ...){
         # corresponds to the month, year of the observation
         sel <- fit_grd$year == x['year'] & fit_grd$month == x['month']
         row_in <- fit_grd[sel, -c(1, 2)]
-        row_in <- as.numeric(row_in)
         sal_pred <- x['sal']
         
         # interp the chlororophyll value in row_in form the corresponding sal value
@@ -112,9 +111,7 @@ chlpred.tidalmean <- function(dat_in, trace = TRUE, ...){
       # corresponds to the month, year of the observation
       sel <- fit_grd$year == x['year'] & fit_grd$month == x['month']
       row_in <- fit_grd[sel, -c(1, 2)]
-      row_in <- as.numeric(row_in)
       bt_row_in <- btfit_grd[sel, -c(1, 2)]
-      bt_row_in <- as.numeric(bt_row_in)
       sal_pred <- x['sal']
       
       # interp the chlororophyll value in row_in form the corresponding sal value

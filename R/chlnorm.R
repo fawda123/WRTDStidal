@@ -67,7 +67,6 @@ chlnorm.tidal <- function(dat_in, trace = TRUE, ...){
       obs <- dat_in[row, c('year', 'month')]
       sel <- fit_grd$year == obs[, 'year'] & fit_grd$month == obs[, 'month']
       row_in <- fit_grd[sel, -c(1, 2)]
-      row_in <- as.numeric(row_in)
         
       # use chlinterp for all sal_vals 
       chlpreds <- sapply(sal_vals, 
@@ -124,9 +123,7 @@ chlnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
     obs <- dat_in[row, c('year', 'month')]
     sel <- fit_grd$year == obs[, 'year'] & fit_grd$month == obs[, 'month']
     row_in <- fit_grd[sel, -c(1, 2)]
-    row_in <- as.numeric(row_in)
     bt_row_in <- btfit_grd[sel, -c(1, 2)]
-    bt_row_in <- as.numeric(bt_row_in)
     
     # use chlinterp for all sal_vals 
     chlpreds <- sapply(sal_vals, 
