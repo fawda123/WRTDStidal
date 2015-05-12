@@ -85,7 +85,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 
   # get the selected months
   to_plo <- attr(dat_in, 'fits')[[tau_fits]]
-  to_plo <- to_plo[dat_in$month %in% month, , drop = FALSE]
+  to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   
   # y-axis label
   ylabel <- chllab(logspace)
@@ -93,14 +93,11 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   # back-transform if needed
   if(!logspace){
   
-    to_plo<- exp(to_plo)
+    to_plo[, -c(1, 2)] <- exp(to_plo[, -c(1, 2)])
 
   }
   
   # reshape data frame
-  yrs <- dat_in$year[dat_in$month %in% month]
-  mos <- dat_in$month[dat_in$month %in% month]
-  to_plo <- data.frame(year = yrs, month = mos, to_plo)
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
   to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 3:ncol(to_plo)) %>% 
     mutate(sal = as.numeric(gsub('^sal ', '', sal)))
@@ -208,13 +205,8 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # use bt grid if not log-space
   if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
   
-  # get selected months
-  to_plo <- to_plo[dat_in$month %in% month, , drop = FALSE]
-  
   # reshape data frame
-  yrs <- dat_in$year[dat_in$month %in% month]
-  mos <- dat_in$month[dat_in$month %in% month]
-  to_plo <- data.frame(year = yrs, month = mos, to_plo)
+  to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
   to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 3:ncol(to_plo)) %>% 
     mutate(sal = as.numeric(gsub('^sal ', '', sal)))
