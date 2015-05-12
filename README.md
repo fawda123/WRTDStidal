@@ -229,7 +229,7 @@ fitplot(tidfit, annuals = FALSE)
 
 ![](README_files/figure-html/unnamed-chunk-10-2.png) 
 
-The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.
+The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  The `slices` argument is used to specify which months to view.
 
 
 ```r
@@ -239,6 +239,16 @@ sliceplot(tidfit)
 
 ![](README_files/figure-html/unnamed-chunk-11-1.png) 
 
+Similar to `sliceplot`, the `fitmoplot` creates facetted plots for each month rather than showing each month on the same plot.  
+
+
+```r
+# plot january, july as defaults
+fitmoplot(tidfit, predicted = F)
+```
+
+![](README_files/figure-html/unnamed-chunk-12-1.png) 
+
 The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
 
 
@@ -247,14 +257,14 @@ The `prdnrmplot` function is similar to the `fitplot` function with the exceptio
 prdnrmplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-12-1.png) 
+![](README_files/figure-html/unnamed-chunk-13-1.png) 
 
 ```r
 # plot as monthly values
 prdnrmplot(tidfit, annuals = FALSE)
 ```
 
-![](README_files/figure-html/unnamed-chunk-12-2.png) 
+![](README_files/figure-html/unnamed-chunk-13-2.png) 
 
 The `dynaplot` function can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted chlorophyll values for a selected month across all years are plotted in relation to the range of salinity values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity values to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain.
 
@@ -265,7 +275,7 @@ The `dynaplot` function can be used to examine how the relationship between chlo
 dynaplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-13-1.png) 
+![](README_files/figure-html/unnamed-chunk-14-1.png) 
 
 Similar plots can be returned using the `gridplot` function.  These are essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Multiple months can also be viewed for comparison.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
 
@@ -276,7 +286,7 @@ Similar plots can be returned using the `gridplot` function.  These are essentia
 gridplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-14-1.png) 
+![](README_files/figure-html/unnamed-chunk-15-1.png) 
 
 The `wtsplot` function can be used to create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
 
@@ -286,4 +296,4 @@ The `wtsplot` function can be used to create diagnostic plots to view the effect
 wtsplot(tidfit, ref = '1995-07-01')
 ```
 
-![](README_files/figure-html/unnamed-chunk-15-1.png) 
+![](README_files/figure-html/unnamed-chunk-16-1.png) 

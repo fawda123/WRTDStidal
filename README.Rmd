@@ -157,11 +157,18 @@ fitplot(tidfit)
 fitplot(tidfit, annuals = FALSE)
 ```
 
-The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Currently, only one predicted quantile can be viewed at a time if more than one is present in the fitted model.  The `slices` argument is used to specify which months to view.
+The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  The `slices` argument is used to specify which months to view.
 
 ```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
 # plot january, july as defaults
 sliceplot(tidfit)
+```
+
+Similar to `sliceplot`, the `fitmoplot` creates facetted plots for each month rather than showing each month on the same plot.  
+
+```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+# plot january, july as defaults
+fitmoplot(tidfit, predicted = F)
 ```
 
 The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
