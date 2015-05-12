@@ -52,21 +52,25 @@ chlpred.tidal <- function(dat_in, trace = TRUE, ...){
   # get predictions for each quantile
   for(i in seq_along(tau)){
     
-    # interp grid and sal values to interp
+    # interp grids
     fit_grd <- fits[[i]]
-    to_pred <- dat_in$sal
-    fit_grd <- cbind(to_pred, fit_grd)
-    
-    preds <- apply(fit_grd, 1, 
+    to_pred <- dat_in[, c('sal', 'month', 'year')]
+  
+    preds <- apply(to_pred, 1, 
       
       function(x){
-      
-        row_in <- x[-1]
-        sal_pred <- x[1]
         
+        # id the month, year column in the fit_grd that 
+        # corresponds to the month, year of the observation
+        sel <- fit_grd$year == x['year'] & fit_grd$month == x['month']
+        row_in <- fit_grd[sel, -c(1, 2)]
+        row_in <- as.numeric(row_in)
+        sal_pred <- x['sal']
+        
+        # interp the chlororophyll value in row_in form the corresponding sal value
         chlinterp(row_in, sal_pred, sal_grd)
-      
-    })        
+    
+    })          
 
     # append to dat_in object
     dat_in$fits <- preds
@@ -95,41 +99,35 @@ chlpred.tidalmean <- function(dat_in, trace = TRUE, ...){
   
   if(trace) cat('\nEstimating chlorophyll predictions\n')
   
-  # interp grid and sal values to interp
+  # interp grids
   fit_grd <- fits[[1]]
-  to_pred <- dat_in$sal
-  fit_grd <- cbind(to_pred, fit_grd)
+  btfit_grd <- bt_fits[[1]]
+  to_pred <- dat_in[, c('sal', 'month', 'year')]
   
-  preds <- apply(fit_grd, 1, 
+  preds <- apply(to_pred, 1, 
     
     function(x){
-    
-      row_in <- x[-1]
-      sal_pred <- x[1]
       
-      chlinterp(row_in, sal_pred, sal_grd)
+      # id the month, year column in the fit_grd, bt_fit_grd that 
+      # corresponds to the month, year of the observation
+      sel <- fit_grd$year == x['year'] & fit_grd$month == x['month']
+      row_in <- fit_grd[sel, -c(1, 2)]
+      row_in <- as.numeric(row_in)
+      bt_row_in <- btfit_grd[sel, -c(1, 2)]
+      bt_row_in <- as.numeric(bt_row_in)
+      sal_pred <- x['sal']
+      
+      # interp the chlororophyll value in row_in form the corresponding sal value
+      out <- chlinterp(row_in, sal_pred, sal_grd)
+      bt_out <- chlinterp(bt_row_in, sal_pred, sal_grd)
+      
+      c(out, bt_out)
     
   })      
-  
-  # bt interp grid and sal values to interp
-  btfit_grd <- bt_fits[[1]]
-  to_pred <- dat_in$sal
-  btfit_grd <- cbind(to_pred, btfit_grd)
-  
-  btpreds <- apply(btfit_grd, 1, 
-    
-    function(x){
-    
-      row_in <- x[-1]
-      sal_pred <- x[1]
-      
-      chlinterp(row_in, sal_pred, sal_grd)
-    
-  })    
 
   # append to dat_in object
-  dat_in$fits <- preds
-  dat_in$bt_fits <- btpreds
+  dat_in$fits <- preds[1, ]
+  dat_in$bt_fits <- preds[2, ]
 
   # exit function
   return(dat_in)

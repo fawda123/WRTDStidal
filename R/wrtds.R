@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows that are assigned to multiple monthly observations within the same year are averaged.
+#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows that are assigned to multiple monthly observations within the same year are averaged.  Year and month columns are also appended to each grid.
 #' 
 #' @examples
 #' \dontrun{
@@ -120,10 +120,8 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   fit_grds <- lapply(fit_grds, 
     function(x){
       to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
-      out <- aggregate(cbind(year, month) ~ ., data = to_avg, FUN = mean, na.rm = T)
+      out <- aggregate(. ~ month + year, data = to_avg, FUN = mean, na.rm = T)
       out <- out[order(out$year, out$month), ]
-      out <- out[, !names(out) %in% c('year', 'month')]
-      out <- as.matrix(out)
       return(out)
     })
       
@@ -233,10 +231,8 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   fit_grds <- lapply(fit_grds, 
     function(x){
       to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
-      out <- aggregate(cbind(year, month) ~ ., data = to_avg, FUN = mean, na.rm = T)
+      out <- aggregate(. ~ month + year, data = to_avg, FUN = mean, na.rm = T)
       out <- out[order(out$year, out$month), ]
-      out <- out[, !names(out) %in% c('year', 'month')]
-      out <- as.matrix(out)
       return(out)
     })
   
@@ -244,10 +240,8 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   bt_grds <- lapply(bt_grds, 
     function(x){
       to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
-      out <- aggregate(cbind(year, month) ~ ., data = to_avg, FUN = mean, na.rm = T)
+      out <- aggregate(. ~ month + year, data = to_avg, FUN = mean, na.rm = T)
       out <- out[order(out$year, out$month), ]
-      out <- out[, !names(out) %in% c('year', 'month')]
-      out <- as.matrix(out)
       return(out)
     })
   

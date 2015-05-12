@@ -9,7 +9,7 @@
 #' 
 #' @return Numeric vector of all observed salinity values for a single month across all years
 #' 
-#' @details This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity values for a given date for matching months across all years.  For example, the function will return all observed salinity values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.
+#' @details This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity values for a given date for matching months across all years.  For example, the function will return all observed salinity values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.  Salinity values are averaged when more than one observation was taken in the same month for a given year.
 #' 
 #' @export
 #' 
@@ -37,9 +37,10 @@ salfind.default <- function(dat_in, obs, ...){
   mo_match <- dat_in$month %in% to_find$month
   
   # get matching salinity values
-  sal_match <- dat_in[mo_match, 'sal']
+  sal_match <- dat_in[mo_match, c('year', 'sal')]
+  sal_match <- aggregate(sal ~ year, sal_match, FUN = mean, na.rm = TRUE)
   
   # return output
-  return(sal_match)
+  return(sal_match$sal)
 
 }

@@ -62,9 +62,13 @@ chlnorm.tidal <- function(dat_in, trace = TRUE, ...){
       # get sal values across all dates for the row
       sal_vals <- salfind(dat_in, row)
       
-      # get interpolated values for each sal value
-      row_in <- fit_grd[row, ]
-      
+      # id the month, year column in the fit_grd that 
+      # corresponds to the month, year of the observation
+      obs <- dat_in[row, c('year', 'month')]
+      sel <- fit_grd$year == obs[, 'year'] & fit_grd$month == obs[, 'month']
+      row_in <- fit_grd[sel, -c(1, 2)]
+      row_in <- as.numeric(row_in)
+        
       # use chlinterp for all sal_vals 
       chlpreds <- sapply(sal_vals, 
         function(x) chlinterp(row_in, x, sal_grd)
@@ -104,7 +108,7 @@ chlnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
 
   if(trace) cat('\nNormalizing chlorophyll predictions\n\n')
 
-  # interp grid and sal values to interp
+  # prep interp grids by adding month, year columns
   fit_grd <- fits[[1]]
   btfit_grd <- bt_fits[[1]]
 
@@ -115,16 +119,21 @@ chlnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
     # get sal values across all dates for the row
     sal_vals <- salfind(dat_in, row)
   
-    # get interpolated values for each sal value
-    row_in <- fit_grd[row, ]
-    btrow_in <- btfit_grd[row, ]
+    # get corresponding month, year row in interp grids
+    # that correspond with month, year in dat_in
+    obs <- dat_in[row, c('year', 'month')]
+    sel <- fit_grd$year == obs[, 'year'] & fit_grd$month == obs[, 'month']
+    row_in <- fit_grd[sel, -c(1, 2)]
+    row_in <- as.numeric(row_in)
+    bt_row_in <- btfit_grd[sel, -c(1, 2)]
+    bt_row_in <- as.numeric(bt_row_in)
     
     # use chlinterp for all sal_vals 
     chlpreds <- sapply(sal_vals, 
       function(x){
       
         nrms <- chlinterp(row_in, x, sal_grd)
-        btnrms <- chlinterp(btrow_in, x, sal_grd)
+        btnrms <- chlinterp(bt_row_in, x, sal_grd)
         c(nrms, btnrms)
         
       }

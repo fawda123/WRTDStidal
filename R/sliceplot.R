@@ -211,7 +211,7 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
 
   # get months
   to_plo <- to_plo[as.numeric(to_plo$month) %in% slices, ]
-  browser()
+
   # subset data by dt_rng
   if(!is.null(dt_rng)){ 
    

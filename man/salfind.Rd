@@ -23,7 +23,7 @@ Numeric vector of all observed salinity values for a single month across all yea
 Get all salinity values across years for a common date for normalizing chlorophyll predictions
 }
 \details{
-This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity values for a given date for matching months across all years.  For example, the function will return all observed salinity values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.
+This function is primarily used within \code{\link{chlnorm}}.  It will return all observed salinity values for a given date for matching months across all years.  For example, the function will return all observed salinity values for January across all years in the dataset if the input row is for January 2000.  An identical vector would result for the same month in other years.  Salinity values are averaged when more than one observation was taken in the same month for a given year.
 }
 \examples{
 ##
