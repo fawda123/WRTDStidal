@@ -124,7 +124,7 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       out <- out[order(out$year, out$month), ]
       return(out)
     })
-      
+  
   # half-window widths for attributes
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
   

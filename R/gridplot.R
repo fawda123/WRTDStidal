@@ -250,8 +250,6 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # use bt grid if not log-space
   if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
   
-  to_plo <- to_plo[dat_in$month %in% month, , drop = FALSE]
-  
   # reshape data frame
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)

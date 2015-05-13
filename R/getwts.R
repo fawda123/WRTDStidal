@@ -56,6 +56,9 @@ getwts.default <- function(dat_in, ref_in,
   # default window width for third variable is half its range
   if(is.null(wins[[3]])) wins_3 <- diff(range(dat_in[, wt_vars[3]]))/2
   
+  # return windows if T, for tidal attributes
+  if(wins_only) return(list(wins_1, wins_2, wins_3))
+  
   # weighting tri-cube function
   # mirror extends weighting function if vector repeats, e.g. monthly
   # 'dat_cal' is observation for weight assignment

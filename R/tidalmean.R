@@ -13,8 +13,9 @@
 #'  \item{\code{names}}{Column names of the data frame}
 #'  \item{\code{row.names}}{Row names of the data frame}
 #'  \item{\code{class}}{Class of the object}
+#'  \item{\code{half_wins}}{List of numeric values used for half-window widths for model fitting, in the same order as the wt_vars argument passed to \code{\link{getwts}}. Initially will be NULL if \code{wrtds} has not been used.}
 #'  \item{\code{fits}}{List with a single element with fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
-#'  \item{\code{fits}}{List with a single element with fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
+#'  \item{\code{bt_fits}}{List with a single element with back-transformed fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
 #'  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
 #' }
 #'
@@ -79,6 +80,7 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   tidalmean <- structure(
     .Data = dat_in, 
     class = c('tidalmean', 'data.frame'),
+    half_wins = NULL, 
     fits = NULL, 
     bt_fits = NULL,
     sal_grd = NULL
