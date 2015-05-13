@@ -3,7 +3,7 @@
 #' Plot the relationship between chlorophyll and salinity across the time series using a gridded surface for all months.  Chlorophyll is shaded by relative values across all dates for comparison.
 #' 
 #' @param dat_in input tidal or tidalmean object
-#' @param month numeric indicating months to plot
+#' @param month numeric indicating months to plot or chr string 'all' to indicate all months with no plot facets
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param years numeric vector of years to plot, defaults to all
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
@@ -35,6 +35,9 @@
 #' ## defaults to the fiftieth quantile
 #' gridplot(tidfit)
 #' 
+#' ## no facets, all months
+#' gridplot(tidfit, months = 'all')
+#' 
 #' ## change the defaults
 #' gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12), 
 #'  col_vec = c('red', 'blue', 'green'), sal_fac = 1)
@@ -42,7 +45,7 @@
 #' ## plot a tidalmean object
 #' data(tidfitmean)
 #' 
-#' dynaplot(tidfitmean)
+#' gridplot(tidfitmean)
 #' 
 #' }
 gridplot <- function(dat_in, ...) UseMethod('gridplot')
@@ -59,6 +62,12 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     stop('No fitted data in tidal object, run modfit function')
   
   # convert month vector to those present in data
+  allmo <- FALSE
+  if('all' %in% month){ 
+    allmo <- TRUE
+    month <- c(1:12)
+  }
+  
   month <- month[month %in% dat_in$month]
   if(length(month) == 0) stop('No observable data for the chosen month')
   
@@ -112,7 +121,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   }
   
   ## use linear interpolation to make a smoother plot
-  if(interp){
+  if(interp & !allmo){
     
     # these are factors by which salinity and years are multiplied for interpolation
     sal_fac <- length(unique(to_plo$sal)) * sal_fac
@@ -156,7 +165,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   }
   
   # constrain plots to salinity limits for the selected month
-  if(!allsal){
+  if(!allsal & !allmo){
     
     #min, max salinity values to plot
     lim_vals<- group_by(data.frame(dat_in), month) %>% 
@@ -180,20 +189,28 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     to_plo <- arrange(to_plo, year, month)
     
   }
-  
-  # months labels as text
-  mo_lab <- data.frame(
-    num = seq(1:12), 
-    txt = c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
-  )
-  mo_lab <- mo_lab[mo_lab$num %in% month, ]
-  to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
-  
+
+  # change month vector of not plotting all months in same plot
+  if(!allmo){
+    # months labels as text
+    mo_lab <- data.frame(
+      num = seq(1:12), 
+      txt = c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+    )
+    mo_lab <- mo_lab[mo_lab$num %in% month, ]
+    to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  } else {
+    
+    to_plo$year <- with(to_plo, year + (month - 1)/12)
+    
+  }
+    
   # make plot
   p <- ggplot(to_plo, aes(x = year, y = sal, fill = chla)) + 
     geom_tile(data = subset(to_plo, !is.na(to_plo$chla)), aes(fill = chla)) +
-    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0) + 
-    facet_wrap(~month, ncol = ncol)
+    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0) 
+
+  if(!allmo) p <- p + facet_wrap(~month, ncol = ncol)
   
   # return bare bones if FALSE
   if(!pretty) return(p)
@@ -204,7 +221,8 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   p <- p +
     theme_bw() +
     theme(
-      legend.position = 'top'
+      legend.position = 'top', 
+      axis.title.x = element_blank()
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous('Salinity', expand = c(0,0)) +
@@ -233,7 +251,14 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
-  
+ 
+  # convert month vector to those present in data
+  allmo <- FALSE
+  if('all' %in% month){ 
+    allmo <- TRUE
+    month <- c(1:12)
+  }
+   
   # convert month vector to those present in data
   month <- month[month %in% dat_in$month]
   if(length(month) == 0) stop('No observable data for the chosen month')
@@ -266,7 +291,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   }
   
   ## use linear interpolation to make a smoother plot
-  if(interp){
+  if(interp & !allmo){
     
     # these are factors by which salinity and years are multiplied for interpolation
     sal_fac <- length(unique(to_plo$sal)) * sal_fac
@@ -310,7 +335,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   }
   
   # constrain plots to salinity limits for the selected month
-  if(!allsal){
+  if(!allsal & !allmo){
     
     #min, max salinity values to plot
     lim_vals<- group_by(data.frame(dat_in), month) %>% 
@@ -335,19 +360,28 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     
   }
   
-  # months labels as text
-  mo_lab <- data.frame(
-    num = seq(1:12), 
-    txt = c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
-  )
-  mo_lab <- mo_lab[mo_lab$num %in% month, ]
-  to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  # change month vector of not plotting all months in same plot
+  if(!allmo){
+    # months labels as text
+    mo_lab <- data.frame(
+      num = seq(1:12), 
+      txt = c('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+    )
+    mo_lab <- mo_lab[mo_lab$num %in% month, ]
+    to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  } else {
+    
+    to_plo$year <- with(to_plo, year + (month - 1)/12)
+    
+  }
+    
   
   # make plot
   p <- ggplot(to_plo, aes(x = year, y = sal, fill = chla)) + 
     geom_tile(data = subset(to_plo, !is.na(to_plo$chla)), aes(fill = chla)) +
-    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0) + 
-    facet_wrap(~month, ncol = ncol)
+    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0)
+  
+  if(!allmo) p <- p + facet_wrap(~month, ncol = ncol)
   
   # return bare bones if FALSE
   if(!pretty) return(p)

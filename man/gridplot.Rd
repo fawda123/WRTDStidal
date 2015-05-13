@@ -23,7 +23,7 @@ gridplot(dat_in, ...)
 
 \item{...}{arguments passed to other methods}
 
-\item{month}{numeric indicating months to plot}
+\item{month}{numeric indicating months to plot or chr string 'all' to indicate all months with no plot facets}
 
 \item{tau}{numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.}
 
@@ -64,6 +64,9 @@ data(tidfit)
 ## defaults to the fiftieth quantile
 gridplot(tidfit)
 
+## no facets, all months
+gridplot(tidfit, months = 'all')
+
 ## change the defaults
 gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12),
  col_vec = c('red', 'blue', 'green'), sal_fac = 1)
@@ -71,7 +74,7 @@ gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12),
 ## plot a tidalmean object
 data(tidfitmean)
 
-dynaplot(tidfitmean)
+gridplot(tidfitmean)
 
 }
 }
