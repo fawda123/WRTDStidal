@@ -44,9 +44,6 @@
 #' # plot the normalized predictions
 #' fitmoplot(tidfit, predicted = FALSE)
 #' 
-#' # plot as annual aggregations
-#' fitmoplot(tidfit, annuals = TRUE) 
-#' 
 #' # modify the plot as needed using ggplot scales, etc.
 #' 
 #' library(ggplot2)
