@@ -9,7 +9,7 @@
 \usage{
 obsplot(dat_in, ...)
 
-\method{obsplot}{default}(dat_in, lines = TRUE, logspace = FALSE,
+\method{obsplot}{default}(dat_in, lines = TRUE, logspace = TRUE,
   dt_rng = NULL, pretty = TRUE, col = "black", lwd = 1, size = 2,
   alpha = 1, ...)
 

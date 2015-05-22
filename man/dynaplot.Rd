@@ -9,11 +9,11 @@
 dynaplot(dat_in, ...)
 
 \method{dynaplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
-  years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = FALSE,
+  years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE,
   allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...)
 
 \method{dynaplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
-  col_vec = NULL, alpha = 1, size = 1, logspace = FALSE,
+  col_vec = NULL, alpha = 1, size = 1, logspace = TRUE,
   allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...)
 }
 \arguments{

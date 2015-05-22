@@ -9,10 +9,10 @@
 prdnrmplot(dat_in, ...)
 
 \method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = TRUE,
-  logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
+  logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
   alpha = 1, pretty = TRUE, ...)
 
-\method{prdnrmplot}{tidalmean}(dat_in, annuals = TRUE, logspace = FALSE,
+\method{prdnrmplot}{tidalmean}(dat_in, annuals = TRUE, logspace = TRUE,
   dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1,
   pretty = TRUE, ...)
 }

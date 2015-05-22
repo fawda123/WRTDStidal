@@ -9,12 +9,12 @@
 gridplot(dat_in, ...)
 
 \method{gridplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
-  years = NULL, col_vec = NULL, logspace = FALSE, allsal = FALSE,
+  years = NULL, col_vec = NULL, logspace = TRUE, allsal = FALSE,
   interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL,
   grids = FALSE, pretty = TRUE, ...)
 
 \method{gridplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
-  col_vec = NULL, logspace = FALSE, allsal = FALSE, interp = TRUE,
+  col_vec = NULL, logspace = TRUE, allsal = FALSE, interp = TRUE,
   sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE,
   pretty = TRUE, ...)
 }

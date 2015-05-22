@@ -9,11 +9,11 @@
 fitplot(dat_in, ...)
 
 \method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
-  annuals = TRUE, logspace = FALSE, dt_rng = NULL, col_vec = NULL,
+  annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL,
   grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 
 \method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = TRUE,
-  logspace = FALSE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
+  logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
   pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{

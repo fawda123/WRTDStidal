@@ -9,11 +9,11 @@
 sliceplot(dat_in, ...)
 
 \method{sliceplot}{tidal}(dat_in, slices = c(1, 7), tau = NULL,
-  dt_rng = NULL, col_vec = NULL, predicted = TRUE, logspace = FALSE,
+  dt_rng = NULL, col_vec = NULL, predicted = TRUE, logspace = TRUE,
   grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 
 \method{sliceplot}{tidalmean}(dat_in, slices = c(1, 7), predicted = TRUE,
-  dt_rng = NULL, col_vec = NULL, logspace = FALSE, grids = TRUE,
+  dt_rng = NULL, col_vec = NULL, logspace = TRUE, grids = TRUE,
   pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
