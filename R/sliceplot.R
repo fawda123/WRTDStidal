@@ -64,7 +64,7 @@ sliceplot <- function(dat_in, ...) UseMethod('sliceplot')
 #' @export 
 #' 
 #' @method sliceplot tidal
-sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL, col_vec = NULL, predicted = TRUE, logspace = FALSE, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL, col_vec = NULL, predicted = TRUE, logspace = TRUE, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -193,7 +193,7 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
 #' @export 
 #' 
 #' @method sliceplot tidalmean
-sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_rng = NULL, col_vec = NULL, logspace = FALSE, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1,...){
+sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_rng = NULL, col_vec = NULL, logspace = TRUE, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1,...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))

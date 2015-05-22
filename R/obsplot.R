@@ -43,7 +43,7 @@ obsplot <- function(dat_in, ...) UseMethod('obsplot')
 #' @export 
 #' 
 #' @method obsplot default
-obsplot.default <- function(dat_in, lines = TRUE, logspace = FALSE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
+obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
   
   to_plo <- as.data.frame(dat_in)[, c('date', 'chla', 'sal')]
   

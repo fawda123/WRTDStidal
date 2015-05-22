@@ -198,7 +198,8 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
           ~ dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time),
         weights = ref_wts,
         data = to_mod, 
-        dist = 'gaussian'
+        dist = 'gaussian', 
+        control = survival::survreg.control(iter.max = 200)
         )
       
       # test if model worked

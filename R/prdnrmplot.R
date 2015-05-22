@@ -77,7 +77,7 @@ prdnrmplot <- function(dat_in, ...) UseMethod('prdnrmplot')
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
+prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -192,7 +192,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = FALS
 #' @export 
 #' 
 #' @method prdnrmplot tidalmean
-prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = FALSE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
+prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
