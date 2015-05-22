@@ -8,7 +8,7 @@
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
 #' @param ... arguments passed from other methods
 #' 
-#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
+#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 #' \describe{
 #'  \item{\code{names}}{Column names of the data frame}
 #'  \item{\code{row.names}}{Row names of the data frame}
@@ -16,6 +16,7 @@
 #'  \item{\code{half_wins}}{List of numeric values used for half-window widths for model fitting, in the same order as the wt_vars argument passed to \code{\link{getwts}}. Initially will be NULL if \code{wrtds} has not been used.}
 #'  \item{\code{fits}}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be NULL if \code{wrtds} has not been used.}
 #'  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
+#'  \item{\code{salobs_rng}}{Two element vector indicating the salinity range of the observed data}
 #' }
 #'
 #' @details
@@ -52,6 +53,10 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   }
   dat_in <-na.omit(dat_in)
   
+  # rescale salinity to 0 - 1, save rng
+  salobs_rng <- range(dat_in$sal)
+  dat_in$sal <- with(dat_in, (sal - salobs_rng[1])/diff(salobs_rng))
+  
   # log transform chl if T
   if(!chllog) dat_in$chla <- log(dat_in$chla)
   
@@ -79,7 +84,8 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
     class = c('tidal', 'data.frame'),
     half_wins = NULL, 
     fits = NULL, 
-    sal_grd = NULL
+    sal_grd = NULL,
+    salobs_rng = salobs_rng
     )
   
   return(tidal)

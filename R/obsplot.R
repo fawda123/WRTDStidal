@@ -47,6 +47,10 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = FALSE, dt_rng = NUL
   
   to_plo <- as.data.frame(dat_in)[, c('date', 'chla', 'sal')]
   
+  # salinity back to observed range
+  salobs_rng <- attr(dat_in, 'salobs_rng')
+  to_plo$sal <- to_plo$sal * diff(salobs_rng) + salobs_rng[1]
+  
   # backtransform chl
   if(!logspace) to_plo$chla <- exp(to_plo$chla)
   label <- chllab(logspace)

@@ -8,7 +8,7 @@
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
 #' @param ... arguments passed from other methods
 #' 
-#' @return A tidalmean object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity, detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
+#' @return A tidalmean object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 #' \describe{
 #'  \item{\code{names}}{Column names of the data frame}
 #'  \item{\code{row.names}}{Row names of the data frame}
@@ -17,6 +17,7 @@
 #'  \item{\code{fits}}{List with a single element with fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
 #'  \item{\code{bt_fits}}{List with a single element with back-transformed fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
 #'  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
+#'  \item{\code{salobs_rng}}{Two element vector indicating the salinity range of the observed data}
 #' }
 #'
 #' @details
@@ -58,6 +59,10 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   # log transform chl if T
   if(!chllog) dat_in$chla <- log(dat_in$chla)
   
+  # rescale salinity to 0 - 1, save rng
+  salobs_rng <- range(dat_in$sal)
+  dat_in$sal <- with(dat_in, (sal - salobs_rng[1])/diff(salobs_rng))
+  
   # TF column of limits for surv regression
   dat_in$not_cens <- with(dat_in, chla > lim)
   
@@ -83,7 +88,8 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
     half_wins = NULL, 
     fits = NULL, 
     bt_fits = NULL,
-    sal_grd = NULL
+    sal_grd = NULL,
+    salobs_rng = salobs_rng
     )
   
   return(tidalmean)
