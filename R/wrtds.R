@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows that are assigned to multiple monthly observations within the same year are averaged.  Year and month columns are also appended to each grid.
+#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this will include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows correspond to the unique year/month values in the observed data, with corresponding columsn appended to the output.
 #' 
 #' @examples
 #' \dontrun{
@@ -38,6 +38,7 @@ wrtds <- function(dat_in, ...) UseMethod('wrtds')
 #' @export
 #'
 #' @method wrtds tidal
+
 wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   
   #salinity values to estimate
@@ -50,6 +51,19 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   # sort
   tau <- sort(tau)
   
+  # save orig for output
+  dat_out <- dat_in
+  
+  # aggregate input data by year, month to create even interpolatoin grid
+  # this requires recreating the data input as a tidal object with monthly obs
+  toagg <- names(dat_in)[grepl('chla$|sal|lim|month|year', names(dat_in))]
+  dat_in <- dat_in[, toagg]
+  dat_in <- aggregate(. ~ month + year, data = dat_in, FUN = mean, na.rm = T)
+  dat_in <- dat_in[order(dat_in$year, dat_in$month), ]
+  dat_in$Date <- as.Date(paste(dat_in$year, dat_in$month, '15', sep = '-'), format = '%Y-%m-%d')
+  dat_in <- dat_in[, grep('Date|chla$|sal|lim', names(dat_in))]
+  dat_in <- tidal(dat_in, ind = c(4, 1, 2, 3))
+    
   # output for predictions
   fit_grds <- matrix(nrow = nrow(dat_in), ncol = sal_div)
   fit_grds <- replicate(length(tau), fit_grds, simplify = FALSE)
@@ -116,26 +130,22 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     
   }
   
-  # aggregate each grid by year, month to create symmetric interpolation grid
-  fit_grds <- lapply(fit_grds, 
-    function(x){
-      to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
-      out <- aggregate(. ~ month + year, data = to_avg, FUN = mean, na.rm = T)
-      out <- out[order(out$year, out$month), ]
-      return(out)
-    })
-  
   # half-window widths for attributes
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
   
+  # add year, month to fit grids
+  fit_grds <- lapply(fit_grds, function(x) {
+    data.frame(year = dat_in$year, month = dat_in$month, x)
+  })
+  
   # add grids to tidal object, return
-  attr(dat_in, 'half_wins') <- ref_wts
-  attr(dat_in, 'fits') <- fit_grds
-  attr(dat_in, 'sal_grd') <- sal_grd
+  attr(dat_out, 'half_wins') <- ref_wts
+  attr(dat_out, 'fits') <- fit_grds
+  attr(dat_out, 'sal_grd') <- sal_grd
   
   if(trace) cat('\n')
   
-  return(dat_in)
+  return(dat_out)
   
 }
 
@@ -153,6 +163,19 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
     length = sal_div
     )
   
+  # save orig for output
+  dat_out <- dat_in
+  
+  # aggregate input data by year, month to create even interpolatoin grid
+  # this requires recreating the data input as a tidal object with monthly obs
+  toagg <- names(dat_in)[grepl('chla$|sal|lim|month|year', names(dat_in))]
+  dat_in <- dat_in[, toagg]
+  dat_in <- aggregate(. ~ month + year, data = dat_in, FUN = mean, na.rm = T)
+  dat_in <- dat_in[order(dat_in$year, dat_in$month), ]
+  dat_in$Date <- as.Date(paste(dat_in$year, dat_in$month, '15', sep = '-'), format = '%Y-%m-%d')
+  dat_in <- dat_in[, grep('Date|chla$|sal|lim', names(dat_in))]
+  dat_in <- tidal(dat_in, ind = c(4, 1, 2, 3))
+    
   # output for predictions, log-space
   fit_grds <- matrix(nrow = nrow(dat_in), ncol = sal_div)
   fit_grds <- list(fit_grds)
@@ -165,6 +188,7 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   if(trace){
     txt <- '\nEstimating interpolation grid for mean response, % complete...\n\n'
     cat(txt)
+    
     counts <- round(seq(1, nrow(dat_in), length = 20))
   }
   
@@ -228,36 +252,28 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
     
   }
   
-  # aggregate the grid by year, month to create symmetric interpolation grid
-  fit_grds <- lapply(fit_grds, 
-    function(x){
-      to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
-      out <- aggregate(. ~ month + year, data = to_avg, FUN = mean, na.rm = T)
-      out <- out[order(out$year, out$month), ]
-      return(out)
-    })
-  
-  # aggregate the bt_grid by year, month to create symmetric interpolation grid
-  bt_grds <- lapply(bt_grds, 
-    function(x){
-      to_avg <- data.frame(year = dat_in$year, month = dat_in$month, x)
-      out <- aggregate(. ~ month + year, data = to_avg, FUN = mean, na.rm = T)
-      out <- out[order(out$year, out$month), ]
-      return(out)
-    })
-  
   # half-window widths for attributes
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
   
+  # add year, month to fit grids
+  fit_grds <- lapply(fit_grds, function(x) {
+    data.frame(year = dat_in$year, month = dat_in$month, x)
+  })
+  
+  # add year, month to bt grids
+  bt_grds <- lapply(bt_grds, function(x) {
+    data.frame(year = dat_in$year, month = dat_in$month, x)
+  })
+  
   # add grids to tidal object, return
-  attr(dat_in, 'half_wins') <- ref_wts
-  attr(dat_in, 'fits') <- fit_grds
-  attr(dat_in, 'bt_fits') <- bt_grds
-  attr(dat_in, 'sal_grd') <- sal_grd
+  attr(dat_out, 'half_wins') <- ref_wts
+  attr(dat_out, 'fits') <- fit_grds
+  attr(dat_out, 'bt_fits') <- bt_grds
+  attr(dat_out, 'sal_grd') <- sal_grd
   
   if(trace) cat('\n')
   
-  return(dat_in)
+  return(dat_out)
   
 }
 
