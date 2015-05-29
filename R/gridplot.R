@@ -228,11 +228,11 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     scale_y_continuous('Salinity', expand = c(0,0)) +
     scale_fill_gradientn(ylabel, colours = rev(cols)) +
     guides(fill = guide_colourbar(barwidth = 10)) 
-    
+
   # add grid lines
   if(!grids) 
     p <- p + 
-      theme(      
+      theme(   
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank()
       )
@@ -392,7 +392,8 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   p <- p +
     theme_bw() +
     theme(
-      legend.position = 'top'
+      legend.position = 'top',
+      axis.title.x = element_blank()
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous('Salinity', expand = c(0,0)) +
