@@ -36,7 +36,6 @@ wrtdsres <- function(dat_in, ...) UseMethod('wrtdsres')
 wrtdsres.tidal <- function(dat_in, trace = TRUE, ...){
   
   # sanity check
-  if(!is.null(attr(dat_in, 'bt_fits'))) stop('Incorrect input for quantile models')
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
@@ -72,3 +71,23 @@ wrtdsres.tidal <- function(dat_in, trace = TRUE, ...){
   return(dat_in) 
   
 }
+
+#' @rdname wrtdsres
+#' 
+#' @export
+#'
+#' @method wrtdsres tidalmean
+wrtdsres.tidalmean <- function(dat_in, trace = TRUE, ...){
+  
+  # sanity check
+  if(!any(grepl('^fit|^norm', names(dat_in))))
+    stop('No fitted data in tidal object, run modfit function')
+  
+  # get residuals for predicted and backtransformed predicted
+  dat_in$res <- with(dat_in, chla - fits)
+  dat_in$bt_res <- with(dat_in, exp(chla) - bt_fits)
+  
+  return(dat_in) 
+  
+}
+

@@ -4,6 +4,7 @@
 #' Get WRTDS performance metrics indcluding goodness of fit, root mean square error, and normalized mean square error.
 #' 
 #' @param dat_in input tidal object which must already have fitted model data
+#' @param logspace logical if performance metrics use back-transformed residuals
 #' @param ... arguments passed to or from other methods
 #' 
 #' @export
@@ -34,7 +35,7 @@ wrtdsperf <- function(dat_in, ...) UseMethod('wrtdsperf')
 #' @export
 #'
 #' @method wrtdsperf tidal
-wrtdsperf.tidal<- function(dat_in, ...){
+wrtdsperf.tidal <- function(dat_in, logspace = TRUE, ...){
   
   if(!any(grepl('^res|^resnl', names(dat_in))))
     dat_in <- wrtdsres(dat_in, trace = FALSE)
@@ -52,15 +53,68 @@ wrtdsperf.tidal<- function(dat_in, ...){
   res <- tidyr::spread(res, 'type', 'value')
   res$mod <- as.numeric(res$tau)
    
-  # estimate performance measures
+  # get performance measures
   perf <- dplyr::group_by(res, tau)
-  perf <- dplyr::summarize(perf, 
-    gfit = goodfit(res, resnl, as.numeric(unique(mod))),
-    rmse = sqrt(mean(res^2, na.rm = TRUE)),
-    nmse = sum(res^2, na.rm = TRUE)/sum((chla - mean(chla, na.rm = TRUE))^2, na.rm = TRUE)
-    )
+  
+  # rmse, nmse on back-transformed if TRUE
+  if(!logspace){
+    
+    perf <- dplyr::summarize(perf, 
+      gfit = goodfit(res, resnl, as.numeric(unique(mod))),
+      rmse = sqrt(mean(exp(res)^2, na.rm = TRUE)),
+      nmse = sum(exp(res)^2, na.rm = TRUE)/sum((exp(chla) - mean(exp(chla), na.rm = TRUE))^2, na.rm = TRUE)
+      )
+  
+  } else {
+    
+    perf <- dplyr::summarize(perf, 
+      gfit = goodfit(res, resnl, as.numeric(unique(mod))),
+      rmse = sqrt(mean(res^2, na.rm = TRUE)),
+      nmse = sum(res^2, na.rm = TRUE)/sum((chla - mean(chla, na.rm = TRUE))^2, na.rm = TRUE)
+      )
+    
+  }
+  
   perf <- data.frame(perf)
+  
+  return(perf) 
+  
+}
 
+#' @rdname wrtdsperf
+#' 
+#' @export
+#'
+#' @method wrtdsperf tidalmean
+wrtdsperf.tidalmean <- function(dat_in, logspace = TRUE, ...){
+  
+  if(!any(grepl('^res|^bt_res', names(dat_in))))
+    dat_in <- wrtdsres(dat_in, trace = FALSE)
+  
+  # get residuals, back-transform if needed
+  res <- dat_in[, grepl('^res|^bt_res|chla', names(dat_in))]
+  
+  # get performanc measures
+  # use back-transformed, otherwise use logspace
+  if(!logspace){
+  
+    perf <- with(res, c(
+      rmse = sqrt(mean(bt_res^2, na.rm = TRUE)),
+      nmse = sum(bt_res^2, na.rm = TRUE)/sum((exp(chla) - mean(exp(chla), na.rm = TRUE))^2, na.rm = TRUE)
+      ))
+
+  } else {
+   
+    perf <- with(res, c(
+      rmse = sqrt(mean(res^2, na.rm = TRUE)),
+      nmse = sum(res^2, na.rm = TRUE)/sum((chla - mean(chla, na.rm = TRUE))^2, na.rm = TRUE)
+      ))
+     
+  }
+
+  perf <- t(data.frame(perf))
+  row.names(perf) <- 1:nrow(perf)
+  
   return(perf) 
   
 }

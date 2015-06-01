@@ -3,16 +3,21 @@
 \name{wrtdsperf}
 \alias{wrtdsperf}
 \alias{wrtdsperf.tidal}
+\alias{wrtdsperf.tidalmean}
 \title{Get WRTDS peformance metrics}
 \usage{
 wrtdsperf(dat_in, ...)
 
-\method{wrtdsperf}{tidal}(dat_in, ...)
+\method{wrtdsperf}{tidal}(dat_in, logspace = TRUE, ...)
+
+\method{wrtdsperf}{tidalmean}(dat_in, logspace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object which must already have fitted model data}
 
 \item{...}{arguments passed to or from other methods}
+
+\item{logspace}{logical if performance metrics use back-transformed residuals}
 }
 \value{
 A \code{\link[base]{data.frame}} with the metrics for each quantile model

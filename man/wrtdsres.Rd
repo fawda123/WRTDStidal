@@ -3,11 +3,14 @@
 \name{wrtdsres}
 \alias{wrtdsres}
 \alias{wrtdsres.tidal}
+\alias{wrtdsres.tidalmean}
 \title{Get WRTDS residuals}
 \usage{
 wrtdsres(dat_in, ...)
 
 \method{wrtdsres}{tidal}(dat_in, trace = TRUE, ...)
+
+\method{wrtdsres}{tidalmean}(dat_in, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object which must already have fitted model data}
