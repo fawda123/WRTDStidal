@@ -3,12 +3,16 @@
 \name{wtscorplot}
 \alias{wtscorplot}
 \alias{wtscorplot.default}
+\alias{wtscorplot.tidal}
 \title{Evaluate weighted correlation of chlorophyll with model explanatory variables}
 \usage{
 wtscorplot(dat_in, ...)
 
-\method{wtscorplot}{default}(dat_in, wins_in, plot_out = TRUE, trace = TRUE,
-  ...)
+\method{wtscorplot}{tidal}(dat_in, wins_in, tau = 0.5, aic = FALSE,
+  plot_out = TRUE, trace = TRUE, ...)
+
+\method{wtscorplot}{default}(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
+  trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input model object}
@@ -16,6 +20,10 @@ wtscorplot(dat_in, ...)
 \item{...}{arguments passed to or from other methods (e.g., \code{\link{getwts}})}
 
 \item{wins_in}{list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}}
+
+\item{tau}{quantile to evaluate if using quantile regression}
+
+\item{aic}{logical indicating if AIC is returned instead for the model at each time step}
 
 \item{plot_out}{logical indicating if a plot output is returned, otherwise a summary for each explanatory variable is}
 
@@ -25,25 +33,26 @@ wtscorplot(dat_in, ...)
 A \code{\link[ggplot2]{ggplot}} object if \code{plot_out = TRUE} showing the a time series correlation of log-chlorophyll with each of the four explanatory variables used in the weighted regression model - salinity, decimal time, and the seasonal components of decimal time.  A vector of summary values are returned if \code{plot_out = FALSE}.
 }
 \description{
-Evaluated a plot of the weighted correlation between chlorophyll and all explanatory variables in the weighted regression for a given set of half-window widths.
+Evaluated a plot of the weighted correlation between chlorophyll and all explanatory variables in the weighted regression for a given set of half-window widths.  AIC values can also be returned.
 }
 \details{
-The correlations in the plot are weighted correlations for each point in the time series, where the weights are based on the selected half-window widths in the initial function call.  The total number of correlations in each facet is equal to the total number of observations in the time series.  The weights for each correlation are based on a combined weight vector for the months, years, and salinity values extending from the center of the observation.  The dotted red line shows the average of all correlations in each facet, which can be returned if \code{plot_out = FALSE}.
+The correlations in the plot are weighted correlations for each point in the time series, where the weights are based on the selected half-window widths in the initial function call.  The total number of correlations in each facet is equal to the total number of observations in the time series.  The weights for each correlation are based on a combined weight vector for the months, years, and salinity values extending from the center of the observation.  The dotted red line shows the average of all correlations in each facet, which can be returned if \code{plot_out = FALSE}.  The AIC value for the model at each observation can also be returned, which may be more informative than simple correlations.
 }
 \examples{
-data(tidobj)
-
 # half-window widths to evaluate
 # months, years, and salinity
 wins <- list(0.5, 10, 0.5)
 
-wtscorplot(tidobj, wins_in = wins)
+wtscorplot(tidobjmean, wins_in = wins)
 
 # use really small half-window widths
 # supress behavior of minimum obs in the weight selection
 wins <- list(0.2, 2, 0.2)
 
-wtscorplot(tidobj, wins_in = wins, min_obs = FALSE)
+wtscorplot(tidobjmean, wins_in = wins, min_obs = FALSE)
+
+# evaluate a quantile model
+wtscorplot(tidobj, wins)
 }
 \seealso{
 \code{\link{getwts}}, \code{\link[stats]{cov.wt}}
