@@ -26,6 +26,7 @@
 #' wins <- list(0.5, 10, 0.5) 
 #' 
 #' wtsevalplot(tidobjmean, wins_in = wins)
+#' wtsevalplot(tidobjmean, wins_in = wins, aic = TRUE)
 #' 
 #' # use really small half-window widths
 #' # supress behavior of minimum obs in the weight selection
@@ -78,21 +79,28 @@ wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out 
     # get the model aic for the center of the window if TRUE
     if(aic){
       
+      to_mod <- dat_in[ref_wts > 0, ]
+      ref_wts <- ref_wts[ref_wts > 0]
+      
       # crq model
       mod <- quantreg::crq(
         Surv(chla, not_cens, type = "left") ~ 
           dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
         weights = ref_wts,
-        data = dat_in, 
+        data = to_mod, 
         method = "Portnoy"
         )
-      
+    
       # crq doesn't always work
       test <- try({coef(mod)})
       if('try-error' %in% class(test)) next
       
-      # model AIC
-      res[i, ] <- aiccrq(mod, dat_in, tau)
+      # model corrected AIC
+      aic <- aiccrq(mod, dat_in, tau)
+      parms <- length(coef(mod, tau))
+      n <- nrow(to_mod)
+      aicc <- aic + (2 * parms * (parms + 1))/(n - parms - 1)
+      res[i, ] <- aicc
       
     # otherwise, get the correlations
     } else {
@@ -193,23 +201,27 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
       
       to_mod <- dat_in[ref_wts > 0, ]
       ref_wts <- ref_wts[ref_wts > 0]
-      
+
       # parametric survival mod
-      mod <- survival::survreg(
+      mod <- try({survival::survreg(
         survival::Surv(chla, not_cens, type = "left")
           ~ dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time),
         weights = ref_wts,
         data = to_mod, 
         dist = 'gaussian', 
         control = survival::survreg.control(iter.max = 200)
-        )
+        )})
       
       # test if model worked
       test <- try({coef(mod)})
-      if('try-error' %in% class(test)) next
+      if('try-error' %in% c(class(mod), class(test))) next
       
-      # model AIC
-      res[i, ] <- AIC(mod)
+      # model corrected AIC
+      aic <- BIC(mod)
+      # parms <- length(coef(mod))
+      # n <- nrow(to_mod)
+      # aicc <- aic + (2 * parms * (parms + 1))/(n - parms - 1)
+      res[i, ] <- aic
       
     # otherwise, get the correlations
     } else {
@@ -229,7 +241,7 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
   names(res) <- to_res
   out <- data.frame(date = dat_in$date, res)
   out <- tidyr::gather(out, variable, value, c(2:ncol(out)))
-  out_ave <- aggregate(value ~ variable, data = out, FUN = mean, na.rm = T)
+  out_ave <- aggregate(value ~ variable, data = out, FUN = median, na.rm = T)
   
   # return the summaries if plot_out is false
   if(!plot_out) return(out_ave)

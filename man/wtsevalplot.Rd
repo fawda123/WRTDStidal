@@ -44,6 +44,7 @@ The correlations in the plot are weighted correlations for each point in the tim
 wins <- list(0.5, 10, 0.5)
 
 wtsevalplot(tidobjmean, wins_in = wins)
+wtsevalplot(tidobjmean, wins_in = wins, aic = TRUE)
 
 # use really small half-window widths
 # supress behavior of minimum obs in the weight selection
