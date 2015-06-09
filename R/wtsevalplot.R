@@ -96,7 +96,7 @@ wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out 
       if('try-error' %in% class(test)) next
       
       # model corrected AIC
-      aic <- aiccrq(mod, dat_in, tau)
+      aic <- aiccrq(mod, tau)
       parms <- length(coef(mod, tau))
       n <- nrow(to_mod)
       aicc <- aic + (2 * parms * (parms + 1))/(n - parms - 1)

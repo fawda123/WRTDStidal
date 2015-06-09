@@ -3,7 +3,6 @@
 #' Get AIC values for a single weighted quantile regression as used in WRTDS models
 #'
 #' @param mod_in input crq model
-#' @param dat_in input data used to create the model
 #' @param tau numeric indicating quantile to evaluate
 #' 
 #' @export
@@ -26,12 +25,14 @@
 #'    method = "Portnoy"
 #'    )
 #' 
-#' aiccrq(mod, tidobj)
-aiccrq <- function(mod_in, dat_in, tau = 0.5){
+#' aiccrq(mod)
+aiccrq <- function(mod_in, tau = 0.5){
   
   # get residuals for tau
   parms <- coef(mod_in, tau)
-      
+  
+  dat_in <- eval(mod_in$call$data, sys.frame(sys.parent()))
+  
   # predicted values by quantile model coefficients
   fits <- with(dat_in, 
     parms[1] + parms[2] * dec_time + parms[3] * sal + parms[4] * sin(2*pi*dec_time) + parms[5] * cos(2*pi*dec_time)
