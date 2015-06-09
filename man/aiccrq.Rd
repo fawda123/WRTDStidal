@@ -4,12 +4,10 @@
 \alias{aiccrq}
 \title{Akaike's Information Criterion for weighted quantile regression}
 \usage{
-aiccrq(mod_in, dat_in, tau = 0.5)
+aiccrq(mod_in, tau = 0.5)
 }
 \arguments{
 \item{mod_in}{input crq model}
-
-\item{dat_in}{input data used to create the model}
 
 \item{tau}{numeric indicating quantile to evaluate}
 }
@@ -36,6 +34,6 @@ mod <- quantreg::crq(
    method = "Portnoy"
    )
 
-aiccrq(mod, tidobj)
+aiccrq(mod)
 }
 
