@@ -217,11 +217,11 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
       if('try-error' %in% c(class(mod), class(test))) next
       
       # model corrected AIC
-      aic <- BIC(mod)
-      # parms <- length(coef(mod))
-      # n <- nrow(to_mod)
-      # aicc <- aic + (2 * parms * (parms + 1))/(n - parms - 1)
-      res[i, ] <- aic
+      aic <- AIC(mod)
+      parms <- length(coef(mod))
+      n <- nrow(to_mod)
+      aicc <- aic + (2 * parms * (parms + 1))/(n - parms - 1)
+      res[i, ] <- aicc
       
     # otherwise, get the correlations
     } else {

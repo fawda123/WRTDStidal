@@ -8,7 +8,7 @@
 wtssrch(dat_in, ...)
 
 \method{wtssrch}{default}(dat_in, grid_in = NULL, parallel = TRUE,
-  trace = TRUE, ...)
+  trace = TRUE, min_obs = NULL, ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
@@ -18,16 +18,22 @@ wtssrch(dat_in, ...)
 \item{grid_in}{optional input matrix of half-window widths created with \code{\link{createsrch}}, a default search grid is used if no input}
 
 \item{parallel}{logical indicating if function is executed with multiple cores}
+
+\item{trace}{logical indicating if progress is saved to a text file in the working directory}
+
+\item{min_obs}{logical passed to \code{\link{getwts}} indicating if a minimum number of observations with non-zero weights should be used in the evaluations, default being not to impose this restriction for a more valid comparison of window-widths}
 }
 \description{
 Evaluate a grid of half-window width combinations to use for weighted regression
 }
 \examples{
+\dontrun{
 library(doParallel)
 ncores <- detectCores() - 1
 registerDoParallel(cores = ncores)
 
-res <- wtssrch(tidobj)
+res <- wtssrch(tidobjmean)
+}
 }
 \seealso{
 \code{\link{createsrch}}, \code{\link{wtsevalplot}}
