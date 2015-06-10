@@ -4,7 +4,7 @@
 #'
 #' @param dat_in input model object
 #' @param wins_in list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}
-#' @param aic logical indicating if AIC is returned instead for the model at each time step
+#' @param ocv logical indicating if output is an accumulation of residuals from ordinary cross-validation
 #' @param plot_out logical indicating if a plot output is returned, otherwise a summary for each explanatory variable is 
 #' @param trace logical indicating if progress is printed in the console
 #' @param ... arguments passed to or from other methods (e.g., \code{\link{getwts}})
@@ -45,7 +45,7 @@ wtsevalplot <- function(dat_in, ...) UseMethod('wtsevalplot')
 #' @export
 #'
 #' @method wtsevalplot tidal
-wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out = TRUE, trace = TRUE, ...){
+wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, ocv = FALSE, plot_out = TRUE, trace = TRUE, ...){
 
   # add sin/cos seasonal components to the input object
   dat_in$sin_dec_time <- sin(2 * pi * dat_in$dec_time)
@@ -53,7 +53,7 @@ wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out 
 
   # variables to correlate, or simply AIC
   to_res <- c('sal', 'dec_time', 'sin_dec_time', 'cos_dec_time')
-  if(aic) to_res <- 'AIC'
+  if(ocv) to_res <- 'ocv_res'
   
   # progress 
   if(trace){
@@ -105,7 +105,7 @@ wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out 
     # otherwise, get the correlations
     } else {
      
-       # get correlation of chla with salinity, dec_time given weight vector
+      # get correlation of chla with salinity, dec_time given weight vector
       res_out <- cov.wt(dat_in[, c('chla', to_res)], wt = ref_wts, cor = TRUE)
       res_out <- res_out$cor['chla', -1]
     
@@ -134,9 +134,9 @@ wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out 
     theme_bw()
   
   # for aic plot
-  if(aic){
+  if(ocv){
   
-    p <- p + scale_y_continuous('AIC by observation')
+    p <- p + scale_y_continuous('OCV residual')
   
   # for correlation plot
   } else {
@@ -165,7 +165,7 @@ wtsevalplot.tidal <- function(dat_in, wins_in, tau = 0.5, aic = FALSE, plot_out 
 #' @export
 #'
 #' @method wtsevalplot tidalmean
-wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE, trace = TRUE, ...){
+wtsevalplot.tidalmean <- function(dat_in, wins_in, ocv = FALSE, plot_out = TRUE, trace = TRUE, ...){
 
   # add sin/cos seasonal components to the input object
   dat_in$sin_dec_time <- sin(2 * pi * dat_in$dec_time)
@@ -173,7 +173,7 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
 
   # variables to correlate, or simply AIC
   to_res <- c('sal', 'dec_time', 'sin_dec_time', 'cos_dec_time')
-  if(aic) to_res <- 'AIC'
+  if(ocv) to_res <- 'ocv_res'
   
   # progress 
   if(trace){
@@ -196,18 +196,18 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
     ref_in <- dat_in[i, ]
     ref_wts <- getwts(dat_in, ref_in, wins = wins_in, ...)
 
-    # get the model aic for the center of the window if TRUE
-    if(aic){
+    # get the model ocv residual for the center of the window if TRUE
+    if(ocv){
       
       to_mod <- dat_in[ref_wts > 0, ]
       ref_wts <- ref_wts[ref_wts > 0]
 
-      # parametric survival mod
+      # parametric survival mod, leave out i
       mod <- try({survival::survreg(
         survival::Surv(chla, not_cens, type = "left")
           ~ dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time),
-        weights = ref_wts,
-        data = to_mod, 
+        weights = ref_wts[-i],
+        data = to_mod[-i, ], 
         dist = 'gaussian', 
         control = survival::survreg.control(iter.max = 200)
         )})
@@ -215,13 +215,9 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
       # test if model worked
       test <- try({coef(mod)})
       if('try-error' %in% c(class(mod), class(test))) next
-      
-      # model corrected AIC
-      aic <- AIC(mod)
-      parms <- length(coef(mod))
-      n <- nrow(to_mod)
-      aicc <- aic + (2 * parms * (parms + 1))/(n - parms - 1)
-      res[i, ] <- aicc
+    
+      pred <- predict(mod, newdata = ref_in)
+      res[i, ] <- dat_in[i, 'chla'] - pred
       
     # otherwise, get the correlations
     } else {
@@ -235,13 +231,13 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
     }
     
   }
-  
+
   # format correlations for plotting
   res <- data.frame(res)
   names(res) <- to_res
   out <- data.frame(date = dat_in$date, res)
   out <- tidyr::gather(out, variable, value, c(2:ncol(out)))
-  out_ave <- aggregate(value ~ variable, data = out, FUN = median, na.rm = T)
+  ocv_scr <- sum(out$value^2)/nrow(dat_in)
   
   # return the summaries if plot_out is false
   if(!plot_out) return(out_ave)
@@ -254,10 +250,10 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, aic = FALSE, plot_out = TRUE,
     geom_hline(yintercept = 0, linetype = 'dashed') +
     theme_bw()
   
-  # for aic plot
-  if(aic){
+  # for ocv plot
+  if(ocv){
   
-    p <- p + scale_y_continuous('AIC by observation')
+    p <- p + scale_y_continuous('OCV residuals')
   
   # for correlation plot
   } else {

@@ -30,10 +30,10 @@ wtssrch <- function(dat_in, ...) UseMethod('wtssrch')
 #' @import foreach
 #' 
 #' @method wtssrch default
-wtssrch.default <- function(dat_in, grid_in = NULL, parallel = TRUE, trace = TRUE, min_obs = NULL, ...){
+wtssrch.default <- function(dat_in, grid_in = NULL, parallel = TRUE, trace = TRUE, min_obs = FALSE, ...){
   
   if(is.null(grid_in)) grid_in <- createsrch()
-  if(is.null(min_obs)) min_obs <- FALSE
+  
   strt <- Sys.time()
   
   res <- foreach(i = 1:nrow(grid_in), .export = 'wtsevalplot', .packages = 'WRTDStidal') %dopar% {
@@ -51,16 +51,16 @@ wtssrch.default <- function(dat_in, grid_in = NULL, parallel = TRUE, trace = TRU
       }
     }
     
-    # get AIC for the window comb
-    aicout <- wtsevalplot(dat_in, grid_in[i, ], aic = TRUE, plot_out = FALSE, 
+    # get ocv score from model
+    ocvout <- wtsevalplot(dat_in, grid_in[i, ], ocv = TRUE, plot_out = FALSE, 
       trace = FALSE, min_obs = min_obs)
     
-    return(aicout)
+    return(ocvout)
     
   }
   
   res <- do.call('rbind', res)$value
-  out <- data.frame(grid_in, aic = res)
+  out <- data.frame(grid_in, ocvsc = res)
   
   return(out)
   
