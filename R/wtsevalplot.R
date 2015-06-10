@@ -202,6 +202,7 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, ocv = FALSE, plot_out = TRUE,
       to_mod <- dat_in[ref_wts > 0, ]
       ref_wts <- ref_wts[ref_wts > 0]
 
+      browser()
       # parametric survival mod, leave out i
       mod <- try({survival::survreg(
         survival::Surv(chla, not_cens, type = "left")

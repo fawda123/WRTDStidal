@@ -1,3 +1,3 @@
-Log entry time 2015-06-10 14:19:28 
-216  of  216 
-Time difference of 1.815033 mins
+Log entry time 2015-06-10 15:32:28 
+200  of  200 
+Time difference of 1.84316 mins

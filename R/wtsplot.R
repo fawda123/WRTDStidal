@@ -110,7 +110,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     theme_bw()
   
   # year wts
-  p2_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'year'])
+  p2_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'dec_time'])
   p2 <- ggplot(p2_dat, aes_string(x = 'Date', y = 'Wt')) + 
     geom_line(colour = col_lns, alpha = alpha) + 
     scale_x_date(name = element_blank(), limits = dt_rng) +

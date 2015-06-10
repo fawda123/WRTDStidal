@@ -37,7 +37,7 @@ getwts <- function(dat_in, ...) UseMethod('getwts')
 #' 
 #' @method getwts default
 getwts.default <- function(dat_in, ref_in,
-  wt_vars = c('day_num', 'year', 'sal'),
+  wt_vars = c('day_num', 'dec_time', 'sal'),
   wins = list(0.5, 10, NULL),
   all = FALSE, 
   slice = TRUE, 
