@@ -237,16 +237,16 @@ wtsevalplot.tidalmean <- function(dat_in, wins_in, ocv = FALSE, plot_out = TRUE,
   names(res) <- to_res
   out <- data.frame(date = dat_in$date, res)
   out <- tidyr::gather(out, variable, value, c(2:ncol(out)))
-  ocv_scr <- sum(out$value^2)/nrow(dat_in)
+  ocv_scr <- data.frame(value = sum(out$value^2)/nrow(dat_in))
   
   # return the summaries if plot_out is false
-  if(!plot_out) return(out_ave)
-  
+  if(!plot_out) return(ocv_scr)
+
   # the base plot
   p <- ggplot(out, aes(x = date, y = value, group = variable)) + 
     geom_line() + 
     scale_x_date('Date') + 
-    geom_hline(data = out_ave, aes(yintercept = value), linetype = 'dashed', colour = 'red') +
+    geom_hline(data = ocv_scr, aes(yintercept = value), linetype = 'dashed', colour = 'red') +
     geom_hline(yintercept = 0, linetype = 'dashed') +
     theme_bw()
   
