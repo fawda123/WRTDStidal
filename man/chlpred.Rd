@@ -8,14 +8,16 @@
 \usage{
 chlpred(dat_in, ...)
 
-\method{chlpred}{tidal}(dat_in, trace = TRUE, ...)
+\method{chlpred}{tidal}(dat_in, dat_pred = NULL, trace = TRUE, ...)
 
-\method{chlpred}{tidalmean}(dat_in, trace = TRUE, ...)
+\method{chlpred}{tidalmean}(dat_in, dat_pred = NULL, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to or from other methods}
+
+\item{dat_pred}{optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied}
 
 \item{trace}{logical indicating if progress is shown in the console}
 }

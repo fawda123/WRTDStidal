@@ -7,7 +7,7 @@
 \usage{
 getwts(dat_in, ...)
 
-\method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num", "year",
+\method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num", "dec_time",
   "sal"), wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
   wins_only = FALSE, min_obs = TRUE, ...)
 }

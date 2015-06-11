@@ -8,7 +8,7 @@
 wtssrch(dat_in, ...)
 
 \method{wtssrch}{default}(dat_in, grid_in = NULL, parallel = TRUE,
-  trace = TRUE, min_obs = NULL, ...)
+  trace = TRUE, min_obs = FALSE, ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
@@ -36,6 +36,6 @@ res <- wtssrch(tidobjmean)
 }
 }
 \seealso{
-\code{\link{createsrch}}, \code{\link{wtsevalplot}}
+\code{\link{createsrch}}, \code{\link{wrtdscv}}
 }
 

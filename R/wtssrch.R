@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{createsrch}}, \code{\link{wtsevalplot}}
+#' @seealso \code{\link{createsrch}}, \code{\link{wrtdscv}}
 #' 
 #' @examples 
 #' \dontrun{

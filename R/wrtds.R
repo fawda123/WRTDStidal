@@ -135,7 +135,7 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   
   # add year, month to fit grids
   fit_grds <- lapply(fit_grds, function(x) {
-    data.frame(year = dat_in$year, month = dat_in$month, x)
+    fill_grd(x, dat_in)
   })
   
   # add grids to tidal object, return
@@ -241,7 +241,7 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
       btfits <- exp((mod$scale^2)/2)
       btfits <- btfits * exp(fits)
       names(btfits) <- names(bt_grds)
-      
+    
       # save output to grid
       fit_ind <- names(fit_grds)
       fit_grds[[fit_ind]][row, i] <- fits[fit_ind]
@@ -256,13 +256,14 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
   
   # add year, month to fit grids
+  # expand for full month, year combo 
   fit_grds <- lapply(fit_grds, function(x) {
-    data.frame(year = dat_in$year, month = dat_in$month, x)
+    fill_grd(x, dat_in)
   })
   
   # add year, month to bt grids
   bt_grds <- lapply(bt_grds, function(x) {
-    data.frame(year = dat_in$year, month = dat_in$month, x)
+    fill_grd(x, dat_in)
   })
   
   # add grids to tidal object, return

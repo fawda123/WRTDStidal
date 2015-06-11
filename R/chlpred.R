@@ -4,6 +4,7 @@
 #' Get model predictions from WRTDS using linear interpolation of values in grids
 #' 
 #' @param dat_in input tidal or tidalmean object
+#' @param dat_pred optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
 #' 
@@ -36,7 +37,7 @@ chlpred <- function(dat_in, ...) UseMethod('chlpred')
 #' @export
 #'
 #' @method chlpred tidal
-chlpred.tidal <- function(dat_in, trace = TRUE, ...){
+chlpred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   
   fits <- attr(dat_in, 'fits')
   sal_grd <- attr(dat_in, 'sal_grd')
@@ -49,12 +50,21 @@ chlpred.tidal <- function(dat_in, trace = TRUE, ...){
   # quantiles to predict
   tau <- names(fits)
   
+  # data to predict, uses dat_in if dat_pred is NULL
+  # also creates empty list for output if not NULL
+  if(is.null(dat_pred)){ to_pred <- dat_in
+  } else{
+    out_pred <- vector('list', length(tau))
+    names(out_pred) <- tau
+    to_pred <- dat_pred
+  }
+  to_pred <- to_pred[, c('sal', 'month', 'year')]
+  
   # get predictions for each quantile
   for(i in seq_along(tau)){
     
     # interp grids
     fit_grd <- fits[[i]]
-    to_pred <- dat_in[, c('sal', 'month', 'year')]
   
     preds <- apply(to_pred, 1, 
       
@@ -71,14 +81,24 @@ chlpred.tidal <- function(dat_in, trace = TRUE, ...){
     
     })          
 
-    # append to dat_in object
-    dat_in$fits <- preds
-    names(dat_in)[grepl('^fits$', names(dat_in))] <- tau[i]
+    if(is.null(dat_pred)){
+      # append to dat_in object
+      dat_in$fits <- preds
+      names(dat_in)[grepl('^fits$', names(dat_in))] <- tau[i]
+    } else {
+      out_pred[[i]] <- preds
+    }
     
   }
   
-  # exit function
-  return(dat_in)
+  # exit function, return original object with fits, otherwise data frame of predicted values from input
+  if(is.null(dat_pred)){ 
+    return(dat_in)
+  } else {
+    out_pred <- do.call('cbind', out_pred)
+    out_pred <- data.frame(dat_pred, out_pred)
+    return(out_pred)
+  }
     
 }
 
@@ -87,7 +107,7 @@ chlpred.tidal <- function(dat_in, trace = TRUE, ...){
 #' @export
 #'
 #' @method chlpred tidalmean
-chlpred.tidalmean <- function(dat_in, trace = TRUE, ...){
+chlpred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   
   fits <- attr(dat_in, 'fits')
   bt_fits <- attr(dat_in, 'bt_fits')
@@ -101,12 +121,16 @@ chlpred.tidalmean <- function(dat_in, trace = TRUE, ...){
   # interp grids
   fit_grd <- fits[[1]]
   btfit_grd <- bt_fits[[1]]
-  to_pred <- dat_in[, c('sal', 'month', 'year')]
+  
+  # data to predict, uses dat_in if dat_pred is NULL
+  if(is.null(dat_pred)) to_pred <- dat_in
+  else to_pred <- dat_pred
+  to_pred <- to_pred[, c('sal', 'month', 'year')]
   
   preds <- apply(to_pred, 1, 
     
     function(x){
-      
+
       # id the month, year column in the fit_grd, bt_fit_grd that 
       # corresponds to the month, year of the observation
       sel <- fit_grd$year == x['year'] & fit_grd$month == x['month']
@@ -122,6 +146,14 @@ chlpred.tidalmean <- function(dat_in, trace = TRUE, ...){
     
   })      
 
+  # return results for optional supplied data 
+  if(!is.null(dat_pred)){
+    out <- as.data.frame(t(preds))
+    names(out) <- c('fits', 'bt_fits')
+    out <- data.frame(dat_pred, out)
+    return(out)
+  }
+  
   # append to dat_in object
   dat_in$fits <- preds[1, ]
   dat_in$bt_fits <- preds[2, ]
