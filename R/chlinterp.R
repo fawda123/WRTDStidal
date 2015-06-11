@@ -51,10 +51,6 @@ chlinterp.default <- function(row_in, sal_pred, sal_grd, ...){
   min_sal <- rev(which(sal_pred >= sal_grd))[1]
   max_sal <- which(sal_pred <= sal_grd)[1]
   
-  # stop if salinity values out of range
-  if(any(is.na(c(min_sal, max_sal))))
-    stop('Value of salinity out of range for interpolation grid')
-  
   # get bounding salinity values
   bnd_sal <- c(sal_grd[min_sal], sal_pred, sal_grd[max_sal])
   

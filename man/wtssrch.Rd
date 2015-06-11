@@ -8,7 +8,7 @@
 wtssrch(dat_in, ...)
 
 \method{wtssrch}{default}(dat_in, grid_in = NULL, parallel = TRUE,
-  trace = TRUE, min_obs = FALSE, ...)
+  trace = TRUE, seed_val = 123, ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
@@ -21,7 +21,7 @@ wtssrch(dat_in, ...)
 
 \item{trace}{logical indicating if progress is saved to a text file in the working directory}
 
-\item{min_obs}{logical passed to \code{\link{getwts}} indicating if a minimum number of observations with non-zero weights should be used in the evaluations, default being not to impose this restriction for a more valid comparison of window-widths}
+\item{seed_val}{seed passed to \code{\link{wrtdscv}} to keep the same dataset divisions between window width comparisons}
 }
 \description{
 Evaluate a grid of half-window width combinations to use for weighted regression

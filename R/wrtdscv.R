@@ -38,13 +38,21 @@ wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
 #' @export
 #'
 #' @method wrtdscv default
-wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
+wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, seed_val = NULL, ...){
 
+  # set seed if provided (NULL does nothing)
+  set.seed(seed_val)
+  
+  # create row indices for folds
   folds <- createFolds(1:nrow(dat_in), k = k)
   
+  # vector to fill with cvs for each fold
+  cvs <- numeric(k)
+  
+  # model eval with each fold
   for(i in 1:k){
     
-    if(trace) cat('Fold', k, '\n')
+    if(trace) cat(paste0('Fold ', i, ' of ', k, '...'))
     
     # training and test datasets 
     dat_trn <- sort(unlist(folds[-i]))
@@ -52,17 +60,24 @@ wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
     dat_tst <- dat_in[folds[[i]], ]
     
     # model on training
-    mod <- wrtds(dat_trn, wins = wins_in)
+    mod <- wrtds(dat_trn, wins = wins_in, trace = FALSE)
     
     # predictions on test
-    prd_tst <- chlpred(mod, dat_tst)
+    prd_tst <- chlpred(mod, dat_tst, trace = FALSE)
     
-    # residual
-    res <- with(dat_tst, chla - prd_tst$chla)
+    # residual, cv score for the sample
+    res <- na.omit(with(prd_tst, chla - fits))
+    err <- sum(res^2)/length(res)
+    cvs[i] <- err
     
-    
+    if(trace) cat(' error', err, '\n')
     
   }
     
-    
+  # average all cv scores 
+  out <- mean(cvs)
+  if(trace) cat('Overall error', out, '\n')
+  
+  return(out)
+  
 }

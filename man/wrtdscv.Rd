@@ -7,7 +7,8 @@
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{default}(dat_in, wins_in, k = 10, trace = TRUE, ...)
+\method{wrtdscv}{default}(dat_in, wins_in, k = 10, trace = TRUE,
+  seed_val = NULL, ...)
 }
 \arguments{
 \item{dat_in}{input model object}
