@@ -7,8 +7,7 @@
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{default}(dat_in, wins_in, k = 10, trace = TRUE,
-  seed_val = NULL, ...)
+\method{wrtdscv}{default}(dat_in, wins_in, k = 10, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input model object}
@@ -22,13 +21,13 @@ wrtdscv(dat_in, ...)
 \item{trace}{logical indicating if progress is printed in the console}
 }
 \value{
-some more crap
+Overall error is the average of all errors for each fold.
 }
 \description{
-Use k-fold cross-validation to evaluate WRTDS model fit
+Use k-fold cross-validation to evaluate WRTDS model fit based on supplied half-window widths.
 }
 \details{
-Some details
+Default number of folds is ten.
 }
 \examples{
 \dontrun{

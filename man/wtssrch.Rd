@@ -17,22 +17,37 @@ wtssrch(dat_in, ...)
 
 \item{grid_in}{optional input matrix of half-window widths created with \code{\link{createsrch}}, a default search grid is used if no input}
 
-\item{parallel}{logical indicating if function is executed with multiple cores}
+\item{parallel}{logical indicating if function is executed with multiple cores, the parallel backend must be setup prior to running the function (see the examples).}
 
 \item{trace}{logical indicating if progress is saved to a text file in the working directory}
 
-\item{seed_val}{seed passed to \code{\link{wrtdscv}} to keep the same dataset divisions between window width comparisons}
+\item{seed_val}{seed to keep the same dataset divisions between window width comparisons}
+}
+\value{
+A data frame of the search grid with associated errors for each cross-validation result.  Errors for each grid row are averages of all errors for each fold used in cross-validation.
+
+The process can be very time consuming.  A forty year dataset of monthly observations will take a few hours to evaluate using the default settings.
 }
 \description{
 Evaluate a grid of half-window width combinations to use for weighted regression
 }
 \examples{
 \dontrun{
+# setup parallel backend
 library(doParallel)
 ncores <- detectCores() - 1
 registerDoParallel(cores = ncores)
 
+# run search function using default search grid - takes a while
 res <- wtssrch(tidobjmean)
+
+# optimal combo
+res[which.min(res$err), ]
+
+# create a custom search grid, e.g. years only
+grid_in <- createsrch(mos = 1, yrs = seq(1, 10), sal = 1)
+
+res <- wtssrch(tidobjmean, grid_in)
 }
 }
 \seealso{

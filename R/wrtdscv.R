@@ -1,6 +1,6 @@
 #' Use k-fold cross-validation to evaluate WRTDS model fit
 #'
-#' Use k-fold cross-validation to evaluate WRTDS model fit
+#' Use k-fold cross-validation to evaluate WRTDS model fit based on supplied half-window widths.
 #'
 #' @param dat_in input model object
 #' @param wins_in list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}
@@ -12,9 +12,9 @@
 #' 
 #' @import ggplot2
 #' 
-#' @details Some details
+#' @details Default number of folds is ten.
 #' 
-#' @return some more crap
+#' @return Overall error is the average of all errors for each fold.     
 #' 
 #' @seealso \code{\link{getwts}}, \code{\link{wtsplot}}
 #' 
@@ -38,10 +38,7 @@ wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
 #' @export
 #'
 #' @method wrtdscv default
-wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, seed_val = NULL, ...){
-
-  # set seed if provided (NULL does nothing)
-  set.seed(seed_val)
+wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
   
   # create row indices for folds
   folds <- createFolds(1:nrow(dat_in), k = k)
