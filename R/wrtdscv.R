@@ -37,7 +37,7 @@ wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
 #' 
 #' @export
 #'
-#' @method wrtdscv default
+#' @method wrtdscv tidalmean
 wrtdscv.tidalmean <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
   
   # create row indices for folds

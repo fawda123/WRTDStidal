@@ -2,12 +2,12 @@
 % Please edit documentation in R/wrtdscv.R
 \name{wrtdscv}
 \alias{wrtdscv}
-\alias{wrtdscv.default}
+\alias{wrtdscv.tidalmean}
 \title{Use k-fold cross-validation to evaluate WRTDS model fit}
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{default}(dat_in, wins_in, k = 10, trace = TRUE, ...)
+\method{wrtdscv}{tidalmean}(dat_in, wins_in, k = 10, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input model object}
