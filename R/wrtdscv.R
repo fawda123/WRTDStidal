@@ -38,7 +38,7 @@ wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
 #' @export
 #'
 #' @method wrtdscv default
-wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
+wrtdscv.tidalmean <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
   
   # create row indices for folds
   folds <- createFolds(1:nrow(dat_in), k = k)
@@ -57,11 +57,11 @@ wrtdscv.default <- function(dat_in, wins_in, k = 10, trace = TRUE, ...){
     dat_tst <- dat_in[folds[[i]], ]
     
     # model on training
-    mod <- wrtds(dat_trn, wins = wins_in, trace = FALSE)
+    mod <- wrtds(dat_trn, wins = wins_in, trace = FALSE, ...)
     
     # predictions on test
     prd_tst <- chlpred(mod, dat_tst, trace = FALSE)
-    
+
     # residual, cv score for the sample
     res <- na.omit(with(prd_tst, chla - fits))
     err <- sum(res^2)/length(res)
