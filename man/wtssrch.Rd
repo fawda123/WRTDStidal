@@ -7,8 +7,7 @@
 \usage{
 wtssrch(dat_in, ...)
 
-\method{wtssrch}{default}(dat_in, grid_in = NULL, parallel = TRUE,
-  trace = TRUE, seed_val = 123, ...)
+\method{wtssrch}{default}(dat_in, grid_in = NULL, ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
@@ -16,23 +15,21 @@ wtssrch(dat_in, ...)
 \item{...}{arguments passed to or from other methods}
 
 \item{grid_in}{optional input matrix of half-window widths created with \code{\link{createsrch}}, a default search grid is used if no input}
-
-\item{parallel}{logical indicating if function is executed with multiple cores, the parallel backend must be setup prior to running the function (see the examples).}
-
-\item{trace}{logical indicating if progress is saved to a text file in the working directory}
-
-\item{seed_val}{seed to keep the same dataset divisions between window width comparisons}
 }
 \value{
 A data frame of the search grid with associated errors for each cross-validation result.  Errors for each grid row are averages of all errors for each fold used in cross-validation.
-
-The process can be very time consuming.  A forty year dataset of monthly observations will take a few hours to evaluate using the default settings.
 }
 \description{
 Evaluate a grid of half-window width combinations to use for weighted regression
 }
+\details{
+Processing time can be reduced by setting up a parallel backend, as in the examples.  Note that this is not effective for small k-values (e.g., < 4) because each fold is sent to a processor, whereas the window width combinations in \code{grid_in} are evaluated in sequence.
+
+This function should only be used to view the error surface assocatied with finite combinations of window-width combinations.  A faster function to identify the optimal window widths is provided by \code{\link{wtssrch_fast}}.
+}
 \examples{
 \dontrun{
+##
 # setup parallel backend
 library(doParallel)
 ncores <- detectCores() - 1
@@ -41,16 +38,27 @@ registerDoParallel(cores = ncores)
 # run search function using default search grid - takes a while
 res <- wtssrch(tidobjmean)
 
+# view the error surface
+library(ggplot2)
+ggplot(res, aes(x = factor(mos), y = factor(yrs), fill = err)) +
+   geom_tile() +
+   facet_wrap(~ sal) +
+   scale_x_discrete(expand = c(0, 0)) +
+   scale_y_discrete(expand = c(0,0)) +
+   scale_fill_gradientn(colours = gradcols())
+
 # optimal combo
 res[which.min(res$err), ]
 
+##
 # create a custom search grid, e.g. years only
 grid_in <- createsrch(mos = 1, yrs = seq(1, 10), sal = 1)
 
 res <- wtssrch(tidobjmean, grid_in)
+
 }
 }
 \seealso{
-\code{\link{createsrch}}, \code{\link{wrtdscv}}
+\code{\link{createsrch}}, \code{\link{wrtdscv}}, \code{\link{wtssrch_fast}}
 }
 

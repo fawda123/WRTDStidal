@@ -7,7 +7,8 @@
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{tidalmean}(dat_in, wins_in, k = 10, trace = TRUE, ...)
+\method{wrtdscv}{tidalmean}(dat_in, wins_in, k = 10, seed_val = 123,
+  trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input model object}
@@ -18,6 +19,8 @@ wrtdscv(dat_in, ...)
 
 \item{k}{number of folds to evaluate}
 
+\item{seed_val}{seed to keep the same dataset divisions between window width comparisons}
+
 \item{trace}{logical indicating if progress is printed in the console}
 }
 \value{
@@ -27,10 +30,14 @@ Overall error is the average of all errors for each fold.
 Use k-fold cross-validation to evaluate WRTDS model fit based on supplied half-window widths.
 }
 \details{
-Default number of folds is ten.
+Default number of folds is ten.  Each fold can be evaluated with multiple cores if a parallel back end is created prior to running the function (see the examples).  This will greatly increase processing speed unless k is set to a small number.
 }
 \examples{
 \dontrun{
+
+library(doParallel)
+ncores <- detectCores() - 1
+registerDoParallel(cores = ncores)
 
 # half-window widths to evaluate
 # months, years, and salinity
