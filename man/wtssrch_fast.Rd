@@ -7,16 +7,17 @@
 \usage{
 wtssrch_fast(dat_in, ...)
 
-\method{wtssrch_fast}{default}(dat_in, wins_in = NULL, trace = TRUE, ...)
+\method{wtssrch_fast}{default}(dat_in, lower = c(0.2, 2, 0.2), upper = c(2,
+  15, 2), ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
 
 \item{...}{arguments passed to or from other methods}
 
-\item{wins_in}{starting list of window weights for initializing the search algorithm}
+\item{lower}{vector of minimum half-window widths to evaluate}
 
-\item{trace}{logical indicating if progress is saved to a text file in the working directory}
+\item{upper}{vector of maximum half-window widths to evaluate}
 }
 \value{
 Some stuff
@@ -25,7 +26,7 @@ Some stuff
 Quickly find the optimal half-window width combination to use for weighted regression
 }
 \details{
-This is very similar to \code{\link{wtssrch}} but this function provides a quicker alternative by using the \code{\link[stats]{optim}} function to minimize the error returned by \code{\link{wrtdscv}} for a given window combination.
+This is very similar to \code{\link{wtssrch}} but this function uses \code{\link[stats]{optim}} to minimize the error returned by \code{\link{wrtdscv}} for a given window combination.  The search algorithm uses the limited-memory modification of the BFGS quasi-Newton method to impose upper and lower limits on the optimization search. These limits can be changed using the \code{lower} and \code{upper} arguments.
 }
 \examples{
 \dontrun{

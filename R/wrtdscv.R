@@ -86,7 +86,7 @@ wrtdscv.tidalmean <- function(dat_in, wins_in, k = 10, seed_val = 123, trace = T
   if(trace){
     tocat <- paste('Fold ', 1:k, format(errs, digits = 3), '\n')
     cat('\n', tocat)
-    cat('\nOverall error', format(out, digits = 3), '\n')
+    cat('\nOverall error', out, '\n')
     print(Sys.time() - strt)
     cat('\n')
   }
