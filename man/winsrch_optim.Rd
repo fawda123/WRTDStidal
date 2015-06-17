@@ -7,8 +7,8 @@
 \usage{
 winsrch_optim(dat_in, ...)
 
-\method{winsrch_optim}{default}(dat_in, wins_in = NULL, lower = c(0.2, 1,
-  0.2), upper = c(2, 15, 2), ...)
+\method{winsrch_optim}{default}(dat_in, wins_in = NULL, reltol = 0.001,
+  lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
@@ -16,6 +16,8 @@ winsrch_optim(dat_in, ...)
 \item{...}{arguments passed to or from other methods}
 
 \item{wins_in}{starting list of window weights for initializing the search algorithm}
+
+\item{reltol}{numeric for relative convergence tolerance passed to \code{control} argument of \code{\link[stats]{optim}}}
 
 \item{lower}{vector of minimum half-window widths to evaluate}
 
