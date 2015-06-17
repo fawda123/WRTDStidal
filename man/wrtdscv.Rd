@@ -49,6 +49,6 @@ wrtdscv(tidobjmean, wins_in = wins)
 }
 }
 \seealso{
-\code{\link{getwts}}, \code{\link{wtsplot}}
+\code{\link{getwts}}, \code{\link{wtsplot}}, \code{\link{winsrch_grid}}, \code{\link{winsrch_optim}}
 }
 

@@ -28,6 +28,6 @@ createsrch()
 createsrch(1, 1, 1)
 }
 \seealso{
-\code{\link{wtssrch}}
+\code{\link{winsrch_grid}}
 }
 

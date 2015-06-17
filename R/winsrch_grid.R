@@ -9,11 +9,11 @@
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{createsrch}}, \code{\link{wrtdscv}}, \code{\link{wtssrch_fast}}
+#' @seealso \code{\link{createsrch}}, \code{\link{wrtdscv}}, \code{\link{winsrch_optim}}
 #' 
 #' @details Processing time can be reduced by setting up a parallel backend, as in the examples.  Note that this is not effective for small k-values (e.g., < 4) because each fold is sent to a processor, whereas the window width combinations in \code{grid_in} are evaluated in sequence.  
 #' 
-#' This function should only be used to view the error surface assocatied with finite combinations of window-width combinations.  A faster function to identify the optimal window widths is provided by \code{\link{wtssrch_fast}}. 
+#' This function should only be used to view the error surface assocatied with finite combinations of window-width combinations.  A faster function to identify the optimal window widths is provided by \code{\link{winsrch_optim}}. 
 #' 
 #' @return A data frame of the search grid with associated errors for each cross-validation result.  Errors for each grid row are averages of all errors for each fold used in cross-validation.
 #' 
@@ -26,7 +26,7 @@
 #' registerDoParallel(cores = ncores)
 #' 
 #' # run search function using default search grid - takes a while
-#' res <- wtssrch(tidobjmean)
+#' res <- winsrch_grid(tidobjmean)
 #' 
 #' # view the error surface 
 #' library(ggplot2)
@@ -44,19 +44,19 @@
 #' # create a custom search grid, e.g. years only
 #' grid_in <- createsrch(mos = 1, yrs = seq(1, 10), sal = 1)
 #' 
-#' res <- wtssrch(tidobjmean, grid_in)
+#' res <- winsrch_grid(tidobjmean, grid_in)
 #' 
 #' }
-wtssrch <- function(dat_in, ...) UseMethod('wtssrch')
+winsrch_grid <- function(dat_in, ...) UseMethod('winsrch_grid')
 
-#' @rdname wtssrch
+#' @rdname winsrch_grid
 #'
 #' @export
 #' 
 #' @import foreach
 #' 
-#' @method wtssrch default
-wtssrch.default <- function(dat_in, grid_in = NULL, ...){
+#' @method winsrch_grid default
+winsrch_grid.default <- function(dat_in, grid_in = NULL, ...){
   
   if(is.null(grid_in)) grid_in <- createsrch()
   

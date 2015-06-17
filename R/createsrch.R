@@ -12,7 +12,7 @@
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{wtssrch}}
+#' @seealso \code{\link{winsrch_grid}}
 #' 
 #' @examples 
 #' createsrch()

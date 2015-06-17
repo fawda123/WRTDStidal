@@ -17,7 +17,7 @@
 #' 
 #' @return Overall error is the average of all errors for each fold.     
 #' 
-#' @seealso \code{\link{getwts}}, \code{\link{wtsplot}}
+#' @seealso \code{\link{getwts}}, \code{\link{wtsplot}}, \code{\link{winsrch_grid}}, \code{\link{winsrch_optim}}
 #' 
 #' @examples
 #' \dontrun{
