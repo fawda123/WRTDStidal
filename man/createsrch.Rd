@@ -18,7 +18,7 @@ createsrch(mos = c(seq(0.5, 1, by = 0.25), 2, 10), yrs = c(seq(5, 15, by =
 A matrix with number of rows equal to the product of the lengths of each input vector, where each row is a unique combination for the selected half-window widths.
 }
 \description{
-Create a grid of all unique combintations of half-window widths to evaluate.  The result is passed to \code{\link{wtssrch}}.
+Create a grid of all unique combintations of half-window widths to evaluate.  The result can be passed to \code{\link{winsrch_grid}}.
 }
 \details{
 The weighting function uses a tri-cube weighting scheme such that weights diminish with distance from the center of the window.  For example, a value of one for the month window does not mean that all months are weighted equally even though the window covers an entire calendar year.
