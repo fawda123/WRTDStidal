@@ -16,7 +16,6 @@ Imports:
     gridExtra,
     quantreg,
     RColorBrewer,
-    rgenoud,
     survival,
     scales,
     tidyr
