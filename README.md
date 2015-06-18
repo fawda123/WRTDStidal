@@ -17,11 +17,11 @@ Please send an email to beck.marcus@epa.gov for the accepted draft.  The origina
 
 ## Brief description of WRTDS for tidal waters
 
-The original WRTDS method was adapted to relate chlorophyll concentration to salinity and time for evaluating trends in long-term water quality time series.  The functional form of the model is a simple regression that relates the natural log of chlorophyll to decimal time and salinity on a sinuisoidal annual time scale (i.e., cyclical variation by year).  Quantile regression models were used to characterize trends for conditional distributions of chlorophyll, e.g., the median or 90<sup>th</sup> percentile. An additional advantage of quantile regression is that bias associated with back-transformation of predicted values in log-space to a linear space does not occur because estimates are equivariant to non-linear, monotonic transformations.  The models also accommodates left-censored data by using a method that builds on the Kaplan-Meier approximation for a single-sample survival function by generalizing to conditional regression quantiles. 
+The WRTDS tidal method relates chlorophyll concentration to salinity and time for evaluating trends in long-term water quality time series.  The functional form of the model is a simple regression that relates the natural log of chlorophyll to decimal time and salinity on a sinuisoidal annual time scale (i.e., cyclical variation by year).  Two basic models can be created that include fitting chlorophyll as a conditional mean or as a conditional quantile response.  Quantile regression models can be used to characterize trends for conditional distributions of chlorophyll, e.g., the median or 90<sup>th</sup> percentile. An additional advantage of quantile regression is that bias associated with back-transformation of predicted values in log-space to a linear space does not occur because estimates are equivariant to non-linear, monotonic transformations.  Mean models are more restrictive and also require an estimation of the back-transformation bias parameter.  For both model types, left-censored observations below the minimum detection limit can be included in the data.  Quantile models use a method that builds on the Kaplan-Meier approximation for a single-sample survival function by generalizing to conditional regression quantiles.  The mean response is characterized using a similar approach for regression with a parametric survival model.
 
-The WRTDS approach obtains fitted values of the response variable by estimating regression parameters for each unique observation.  Specifically, a unique quantile regression model is estimated for each point in the period of observation. Each model is weighted by month, year, and salinity such that a unique set of regression parameters for each observation in the time series is obtained. For example, a weighted regression centered on a unique observation weights other observations in the same year, month, and similar salinity with higher values, whereas observations for different months, years, or salinities receive lower weights.  This weighting approach allows estimation of regression parameters that vary in relation to observed conditions.  Default window widths of six months, 10 years, and half the range of salinity are used.
+The WRTDS approach obtains fitted values of the response variable by estimating regression parameters for each unique observation.  Specifically, a unique regression model is estimated for each point in the period of observation. Each model is weighted by month, year, and salinity such that a unique set of regression parameters for each observation in the time series is obtained. For example, a weighted regression centered on a unique observation weights other observations in the same year, month, and similar salinity with higher values, whereas observations for different months, years, or salinities receive lower weights.  This weighting approach allows estimation of regression parameters that vary in relation to observed conditions.  Default window widths of six months, 10 years, and half the range of salinity are used.  Optimal window widths can also be identified using cross-validation to evaluate the ability of the model to generalize with novel datasets.  
 
-Predicted values were based on an interpolation matrix from the quantile regression.  A sequence of salinity values based on the minimum and maximum values for the data were used to predict chlorophyll using the observed month and year.  Model predictions are linearly interpolated from the grid using the salinity value closest to the actual for each date. Normalized values are also obtained from the prediction grid that allow an interpretation of chlorophyll trend that is independent of any variation related to salinity changes.  Normalized predictions are obtained for each observation date by assuming that salinity values for the same month in each year were equally likely to occur across the time series.  For example, normalization for January 1<sup>st</sup> 1974 considers all salinity values occuring on January 1<sup>st</sup> for each year in the time series as equally likely to occur on the observed data.  A normalized value for January 1<sup>st</sup> 1974 is the average of the predicted values using each of the salinity values as input, while holding month and year constant.  Normalization across the time series is repeated for each observation to obtain salinity-normalized predictions.    
+Predicted values were based on an interpolation matrix from the regression.  A sequence of salinity values based on the minimum and maximum values for the data are used to predict chlorophyll using the observed month and year.  Model predictions are linearly interpolated from the grid using the salinity value closest to the actual for each date. Normalized values are also obtained from the prediction grid that allow an interpretation of chlorophyll trend that is independent of any variation related to salinity changes.  Normalized predictions are obtained for each observation date by assuming that salinity values for the same month in each year were equally likely to occur across the time series.  For example, normalization for January 1<sup>st</sup> 1974 considers all salinity values occuring on January 1<sup>st</sup> for each year in the time series as equally likely to occur on the observed data.  A normalized value for January 1<sup>st</sup> 1974 is the average of the predicted values using each of the salinity values as input, while holding month and year constant.  Normalization across the time series is repeated for each observation to obtain salinity-normalized predictions.    
 
 ## Installing the package
 
@@ -58,22 +58,28 @@ str(chldat)
 ##  $ lim : num  0.875 0.875 0.875 0.875 0.875 ...
 ```
 
-The `tidfit` dataset is also included in this package to illustrate examples using a fitted model object.  The dataset was created to predict and normalize chlorophyll concentrations for the tenth,  median, and ninetieth conditional quantile distributions.  It can be loaded as follows or recreated from `chldat` using the following code.
+The `tidfit` and `tidfitmean` datasets are also included in this package to illustrate examples using fitted model objects.  The datasets were created to predict and normalize chlorophyll concentrations for the tenth,  median, and ninetieth conditional quantile distributions, and the conditional mean response, respectively.  They can be loaded as follows or recreated from `chldat` using the following code.
 
 
 ```r
-# load a fitted model
+# load a fitted model, quantiles
 data(tidfit)
 
-# or recreate from chldat
+# load a fitted model, mean
+data(tidfitmean)
+
+# or recreate the quanitile models from chldat
 tidfit <- modfit(chldat, tau = c(0.1, 0.5, 0.9))
+
+# or recreate the mean model from chldat
+tidfitmean <- modfit(chldat, resp_type = 'mean')
 ```
 
-The functions have been developed following [S3 documentation](http://adv-r.had.co.nz/OO-essentials.html#s3), with specific methods for `tidal` objects. The raw data can be converted to a tidal object using the `tidal` function or by simply executing the model fitting functions with raw data (e.g., `modfit`).  The raw data frame must be a particular format if the latter approach is used, as described above and demonstrated below.  The raw data can be plotted with `obsplot` once the tidal object is created.
+The functions have been developed following [S3 documentation](http://adv-r.had.co.nz/OO-essentials.html#s3), with specific methods for `tidal` and `tidalmean` objects. In most cases, the functions have methods for both object types.  The raw data can be converted to a particular object type using the `tidal` or `tidalmean` functions or by simply executing the model fitting functions with raw data (e.g., `modfit`).  The raw data frame must be a particular format if the latter approach is used, as described above and demonstrated below.  The raw data can be plotted with `obsplot` once the object is created.
 
 
 ```r
-# create a tidal object from a data frame
+# create a tidal object from a data frame, or use tidalmean function
 tidobj <- tidal(chldat)
 
 # plot the raw data
@@ -82,7 +88,7 @@ obsplot(tidobj)
 
 ![](README_files/figure-html/unnamed-chunk-5-1.png) 
 
-A `tidal` object contains the data and multiple attributes.  The data and attributes are updated after the WRTDS model is created.
+The `tidal` and `tidalmean` object classes contain the data and multiple attributes.  The data and attributes are updated after the WRTDS model is created.
 
 
 ```r
@@ -117,7 +123,7 @@ names(attributes(tidobj))
 ```
 
 ```r
-# load a fitted tidal object
+# load a fitted tidal object, or use tidfitmean
 data(tidfit)
 
 # fitted data
@@ -133,12 +139,12 @@ head(tidfit)
 ## 5 1974-05-01 2.708050 0.3345128 0.8754687     TRUE 0.331506849     5 1974
 ## 6 1974-06-01 2.740840 0.3009137 0.8754687     TRUE 0.416438356     6 1974
 ##   dec_time   fit0.1   fit0.5   fit0.9  norm0.1  norm0.5  norm0.9
-## 1 1974.005 2.611805 3.255854 3.718358 2.575225 3.083065 3.419706
-## 2 1974.090 2.539380 3.165399 3.839503 2.552876 2.993716 3.429552
-## 3 1974.164 2.545622 2.885037 3.282384 2.593816 2.893634 3.377531
-## 4 1974.249 2.511704 2.658800 3.233701 2.558810 2.720856 3.263256
-## 5 1974.332 2.576591 2.715269 3.361929 2.580175 2.747523 3.320368
-## 6 1974.416 2.747261 2.813397 3.458496 2.746960 2.830480 3.467769
+## 1 1974.005 2.611764 3.255424 3.717265 2.575486 3.088590 3.419517
+## 2 1974.090 2.539391 3.172326 3.838187 2.553040 2.998445 3.442162
+## 3 1974.164 2.542752 2.834657 3.280085 2.592218 2.873156 3.377490
+## 4 1974.249 2.512520 2.659073 3.232490 2.559199 2.720277 3.262423
+## 5 1974.332 2.578061 2.717204 3.362092 2.577888 2.749185 3.321468
+## 6 1974.416 2.747307 2.812808 3.449935 2.747233 2.830130 3.463112
 ```
 
 ```r
@@ -153,11 +159,11 @@ names(attributes(tidfit))
 
 ### Fitting a WRTDS tidal model
 
-The quickest implementation of WRTDS is to use the `modfit` function which is a wrapper for several other functions that complete specific tasks.   The following text will also be printed in the console that describes current actions and progress. 
+The quickest implementation of WRTDS is to use the `modfit` function which is a wrapper for several other functions that complete specific tasks.   The following text will also be printed in the console that describes current actions and progress of model creation. 
 
 
 ```r
-# get wrtds results
+# get wrtds results, quantile model
 res <- modfit(chldat)
 ```
 
@@ -167,12 +173,28 @@ res <- modfit(chldat)
 ## 
 ## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Interpolating chlorophyll predictions
+## Estimating chlorophyll predictions
 ## 
 ## Normalizing chlorophyll predictions
 ```
 
-The results include the original `data.frame` with additional columns for parameters used to fit the model, model predictions for specified conditional quantiles, and the respective normalized predictions.  The `modfit` function implements four individual functions which can be used separately to create the model. 
+```r
+# get wrtds mean model
+res <- modfit(chldat, resp_type = 'mean')
+```
+
+```
+## 
+## Estimating interpolation grid for mean response, % complete...
+## 
+## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
+## 
+## Estimating chlorophyll predictions
+## 
+## Normalizing chlorophyll predictions
+```
+
+The results include the original `data.frame` with additional columns for parameters used to fit the model, model predictions, and the respective normalized predictions.  The `modfit` function implements four individual functions which can be used separately to create the model. 
 
 
 ```r
@@ -182,18 +204,25 @@ The results include the original `data.frame` with additional columns for parame
 # pipes from the dplyr (magrittr) package are used for simplicity
 library(dplyr)
 
+# quantile model
 res <- tidal(chldat) %>%  # creates a tidal object
+  wrtds %>% # creates wrtds interpolation grids
+  chlpred %>% # get predictions from grids
+  chlnorm # get normalized predictions from grids
+
+# mean model
+res <- tidalmean(chldat) %>%  # creates a tidal object
   wrtds %>% # creates wrtds interpolation grids
   chlpred %>% # get predictions from grids
   chlnorm # get normalized predictions from grids
 ```
 
-All arguments that apply to each of the four functions in the previous chunk can be passed to the `modfit` function to control parameters used to fit the WRTDS model.  Examples in the help file for `modfit` illustrate some of the more important arguments a user may consider.  These may include changing the conditional quantiles to predict, increasing or decreasing the precision of the salinity values used to create the model interpolation grids, changing the window widths of the weighted regression, or suppressing the output on the console.  
+All arguments that apply to each of the four functions in the previous chunk can be passed to the `modfit` function to control parameters used to fit the WRTDS model.  Examples in the help file for `modfit` illustrate some of the more important arguments to consider.  These may include changing the conditional quantiles to predict, increasing or decreasing the precision of the salinity values used to create the model interpolation grids, changing the window widths of the weighted regression, or suppressing the output on the console.  
 
 
 ```r
 ## fit the model and get predicted/normalized chlorophyll data
-# default median fit
+# default median fit, quantile model
 # grids predicted across salinity range with ten values
 res <- modfit(chldat)
 
@@ -210,7 +239,7 @@ res <- modfit(chldat, trace = FALSE)
 
 ### Evaluating the results
 
-Several plotting methods are available that can be used to view the results of a fitted model object.  The `fitplot` function is the simplest way to plot the predicted or normalized values of chlorophyll for relevant conditional quantiles.  The default parameters for this function produce a ggplot object with some aesthetics that I chose.  The arguments for this function include options to plot specific quantiles, normalized values, annual aggregations, or to convert values back to log-space. The `pretty` argument can also be used to suppress the default plot aesthetics.  This is useful for producing a `bare-bones' ggplot object that can be further modified.  
+Several plotting methods are available that can be used to view the results of a fitted model object.  These functions apply to both quantile and mean models.  The examples below show use with quantile models fit through the tenth, median, and ninetieth percentile distributions of chlorophyll.  The `fitplot` function is the simplest way to plot the predicted or normalized values of chlorophyll for relevant conditional quantiles.  The default parameters for this function produce a ggplot object with some aesthetics that I chose.  The arguments for this function include options to plot specific quantiles, normalized values, annual aggregations, or to convert values back to log-space. The `pretty` argument can also be used to suppress the default plot aesthetics.  This is useful for producing a `bare-bones' ggplot object that can be further modified.  
 
 
 ```r
@@ -289,7 +318,7 @@ gridplot(tidfit)
 
 ![](README_files/figure-html/unnamed-chunk-15-1.png) 
 
-The `wtsplot` function can be used to create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
+The `wtsplot` function can be used to create diagnostic plots to view different weighting windows and how they are implemented during weighted regression.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
 
 
 ```r
@@ -298,3 +327,9 @@ wtsplot(tidfit, ref = '1995-07-01')
 ```
 
 ![](README_files/figure-html/unnamed-chunk-16-1.png) 
+
+### Selecting window widths
+
+The selection of window widths for fitting weighted regression is a challenge that represents a tradeoff between model precision and ability to generalize to novel datasets.  Overfitting the a model with excessively small window widths will minimize prediction error but prevent extrapolation of results to different datasets.  Similarly, underfitting a model with large window widths will reduce precision but will improve the ability to generalize results to a different dataset.  From a statistical perspective, the optimal window widths are those that find a balance between over- and under-fitting.  Three functions are available for determining the optimal window widths: `wrtdscv`, `winsrch_grid`, and `winsrch_optim`. The `wrtdscv` evaluates model fit for a specific combination of window widths and is used iteratively within `winsrch_grid` and `winsrch_optim`.  `wrtdscv` uses k-fold cross-validation to evaluate the error associated with model predictions on a novel dataset.  The default behavior is to evaluate model performance with ten folds (k) for the window width combination.  The function separates the dataset into ten disjoint sets, such that ten models are evaluated for every combination of k - 1 training and remaining test datasets.  That is, the training dataset for each fold is all k - 1 folds and the test dataset is the remaining fold, repeated k times.  The average prediction error of the training datasets across k folds provides an indication of model performance.  Optimum window widthts will provide errors for the training data that are minimized to find a balance between over- and under-fitting.  
+
+The `winssrch_grid` and `winsrch_optim` functions use `wrtdscv` iteratively to evaluate multiple window width combinations.  The `winsrch_grid` function is a naive approach that evaluates the error associated with a search grid of window width combinations.  The grid can be supplied by the user or is created by default parameters in the `createsrch`.  In both cases, the supplied grid may not contain the optimal solution such that the function does not provide an exact approach for identifying window widths.  Alternatively, the `winsrch_optim` function uses a search algorithm to identify the optimum window widths.  This function is a simple wrapper to the `optim` function in the base R installation to iteratively evaluates window widths with the `wrtdscv` function.  Window widths are searched using the limited-memory modification of the BFGS quasi-Newton method that imposes upper and lower bounds for each parameter.  Options are available to change the limits and tolerance criteria for search convergence.  Both `winssrch_grid` and `winsrch_optim` can take several hours and the relative processing times depend on the options.  Examples in the help documents show use of parallel processing to decrease computation time.  
