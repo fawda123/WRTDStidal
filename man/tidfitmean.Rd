@@ -27,7 +27,7 @@ tidfitmean
 An identical object as \code{\link{tidobjmean}} with the addition of predicted and normalized chlorophyll (log-space and back-transformed) after running \code{\link{chlpred}} and \code{\link{chlnorm}}.
 }
 \seealso{
-\code{\link{tidalmean}} for full list of attributes in tidalmean objects, \code{\link{wrtds}} for creating the \code{fits} and \code{bt_fits} interpolation grids in the attributes, and \code{\link{chlpred}} and \code{\link{chlnorm}} for interpolating predicted and normalized values from the grids.
+\code{\link{tidalmean}} for full list of attributes in tidalmean objects, \code{\link{wrtds}} for creating the \code{fits}, \code{bt_fits}, and \code{scls} interpolation grids in the attributes, and \code{\link{chlpred}} and \code{\link{chlnorm}} for interpolating predicted and normalized values from the grids.
 }
 \keyword{datasets}
 

@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this could include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition a back-transformed grid for the `bt_fits' attribute.  Grid rows correspond to the dates in the input data.
+#' @return Appends interpolation grid attributes to the input object.  For a tidal object, this could include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition to a back-transformed grid as the `bt_fits' attribute and a grid of the scale parameter of each prediction as the `scls' attribute.  Grid rows correspond to the dates in the input data.
 #' 
 #' @examples
 #' \dontrun{
@@ -164,6 +164,10 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   bt_grds <- fit_grds
   names(bt_grds) <- 'btmean'
   
+  # sd of model at each point in the grid
+  scl_grds <- fit_grds
+  names(scl_grds) <- 'sclmean'
+  
   if(trace){
     txt <- '\nEstimating interpolation grid for mean response, % complete...\n\n'
     cat(txt)
@@ -216,16 +220,22 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
         )
       names(fits) <- names(fit_grds)
       
+      # sd of model at each point in the grid
+      sclfits <- mod$scale
+      names(sclfits) <- names(scl_grds)
+
       # predicted values, observed
       btfits <- exp((mod$scale^2)/2)
       btfits <- btfits * exp(fits)
       names(btfits) <- names(bt_grds)
     
-      # save output to grid
+      # save output to grids
       fit_ind <- names(fit_grds)
       fit_grds[[fit_ind]][row, i] <- fits[fit_ind]
       bt_ind <- names(bt_grds)
       bt_grds[[bt_ind]][row, i] <- btfits[bt_ind]
+      scl_ind <- names(scl_grds)
+      scl_grds[[scl_ind]][row, i] <- sclfits[scl_ind]
     
     }
     
@@ -245,10 +255,16 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
     fill_grd(x, dat_in)
   })
   
+  # add year, month to scl grids
+  scl_grds <- lapply(scl_grds, function(x) {
+    fill_grd(x, dat_in)
+  })
+  
   # add grids to tidal object, return
   attr(dat_out, 'half_wins') <- ref_wts
   attr(dat_out, 'fits') <- fit_grds
   attr(dat_out, 'bt_fits') <- bt_grds
+  attr(dat_out, 'scls') <- scl_grds
   attr(dat_out, 'sal_grd') <- sal_grd
   
   if(trace) cat('\n')
