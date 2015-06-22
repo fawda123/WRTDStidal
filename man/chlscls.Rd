@@ -28,12 +28,6 @@ This function is used after \code{wrtds} to get scale parameters for predicted v
 \examples{
 ##
 
-# load a tidal object
-data(tidobj)
-
-# get fitted values for each quantile
-res <- chlscls(tidobj)
-
 # load a tidalmean object
 data(tidobjmean)
 
