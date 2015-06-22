@@ -22,7 +22,7 @@ chlpred(dat_in, ...)
 \item{trace}{logical indicating if progress is shown in the console}
 }
 \value{
-Appends columns to the data.frame for the predicted chlorophyll values.  For tidal objects, Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits_mean' and `btfits_mean'.
+Appends columns to the data.frame for the predicted chlorophyll values.  For tidal objects, Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits' and `bt_fits'.
 }
 \description{
 Get model predictions from WRTDS using linear interpolation of values in grids
