@@ -2,7 +2,7 @@
 % Please edit documentation in R/fill_grd.R
 \name{fill_grd}
 \alias{fill_grd}
-\title{Fill an interpolation grid using all year, months}
+\title{Fill missing values in the interpolation grid}
 \usage{
 fill_grd(grd_in, dat_in)
 }
@@ -12,6 +12,6 @@ fill_grd(grd_in, dat_in)
 \item{dat_in}{\code{\link{tidal}} or \code{\link{tidalmean}} object}
 }
 \description{
-Fill an interpolation grid using all year, months within the date range of the original dataset.  This is necessary for predicting data that may not be present in the observed data, as in a user-supplied dataset to the \code{dat_pred} argument in \code{\link{chlpred}}.  Function is used internally in \code{\link{wrtds}}.
+Fill missing values in the interpolation grid, only relevant for quantile models that describe the tails of the distribution.  Date, year, month, and day columns are also added using dates from \code{dat_in}.  Function is used in \code{\link{wrtds}}.
 }
 

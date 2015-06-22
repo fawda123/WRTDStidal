@@ -1,16 +1,17 @@
 ######
 #' Interpolate from a fit grid
 #' 
-#' Interpolate from a vector of predicted chlorophyll values for a given salinity value.  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
+#' Interpolate chlorophyll in two dimensions from the fit grid, where the first dimension is salinity and the second is date.
 #'
-#' @param row_in vector of observations from a row of an interpolation grid, month and year columns must be removed
-#' @param sal_pred value of salinity for interpolating chlorophyll
+#' @param date_in obseved data to interpolate for chlorophyll
+#' @param sal_in observed salinity value to interpolate for chlorophyll
+#' @param fit_grd interpolation grid created from \code{\link{wrtds}}
 #' @param sal_grd original vector of salinity values used to create interpolation grid
 #' @param ... arguments passed to additional methods
 #' 
 #' @return Predicted chlorophyll values from the interpolation
 #' 
-#' @details This function is primarily used within \code{\link{chlpred}} and \code{\link{chlnorm}}.
+#' @details This function is used in \code{\link{chlpred}} and \code{\link{chlnorm}}.
 #' 
 #' @export
 #' 
@@ -20,76 +21,53 @@
 #' # load data
 #' data(tidobj)
 #' 
-#' # get a row from the interpolation grid to predict
+#' # interpolation grid from the model
 #' fit_grd <- attr(tidobj, 'fits')
 #' fit_grd <- fit_grd[['fit0.5']]
-#' row_in <- fit_grd[1, -c(1, 2)]
 #' 
-#' # get salinity values used to create interpolation grid
+#' # salinity values used for interpolation grid
 #' sal_grd <- attr(tidobj, 'sal_grd')
 #' 
 #' # get observed salinity value to inteprolate chlorophyll
-#' sal_pred <- tidobj[1, 'sal']
+#' date_in <- tidobj$date[1]
+#' sal_in <- tidobj$sal[1]
 #' 
-#' # interpolate chlorophyll from an observed salinity value
-#' chlinterp(row_in, sal_pred, sal_grd)
-#' 
-#' # error if salinity value out of range
-#' \dontrun{
-#' chlinterp(row_in, 0.7, sal_grd)
-#' }
-chlinterp <- function(row_in, ...) UseMethod('chlinterp')
+#' # interpolate chlorophyll from an observed date and salinity value
+#' chlinterp(date_in, sal_in, fit_grd, sal_grd)
+chlinterp <- function(date_in, sal_in, ...) UseMethod('chlinterp')
 
 #' @rdname chlinterp
 #'
 #' @export
 #'
 #' @method chlinterp default
-chlinterp.default <- function(row_in, sal_pred, sal_grd, ...){
+chlinterp.default <- function(date_in, sal_in, fit_grd, sal_grd, ...){
+
+  # date as date class if not
+  if(!inherits(date_in, 'date'))
+    date_in <- as.Date(date_in, format = '%Y-%m-%d')
+  if(!inherits(date_in, 'numeric'))
+    sal_in <- as.numeric(sal_in)
   
   # find bounding salinity value
-  min_sal <- rev(which(sal_pred >= sal_grd))[1]
-  max_sal <- which(sal_pred <= sal_grd)[1]
+  min_sal <- rev(which(sal_in >= sal_grd))[1]
+  max_sal <- which(sal_in <= sal_grd)[1]
   
-  # get bounding salinity values
-  bnd_sal <- c(sal_grd[min_sal], sal_pred, sal_grd[max_sal])
+  # find bounding date value
+  min_dts <- rev(which(date_in >= fit_grd$date))[1]
+  max_dts <- which(date_in <= fit_grd$date)[1]
   
-  # get bounding chl values 
-  bnd_chl <- c(row_in[min_sal], NA, row_in[max_sal])
+  # get bounding salinity, date values, corresponding chl values
+  bnd_dts <- with(fit_grd, c(date[min_dts], date[max_dts]))
+  bnd_sal <- c(sal_grd[min_sal], sal_grd[max_sal])
+  not_sal <- grep('^X', names(fit_grd), invert = T)
+  bnd_chl <- fit_grd[c(min_dts, max_dts), length(not_sal) + c(min_sal, max_sal)]
   
-  chk <- unique(na.omit(bnd_chl))
-  
-  # if sal value is min or max in chl grid...
-  if(length(chk) == 1){ 
-    
-    est <- chk
-  
-  # otherwise interpolate
-  } else {
+  # bilinear interpolation, across salinity then across dates    
+  sal1 <- approx_uni(bnd_sal, bnd_chl[1, ], sal_in)
+  sal2 <- approx_uni(bnd_sal, bnd_chl[2, ], sal_in)
+  ests <- approx_uni(bnd_dts, c(sal1, sal2), date_in)
 
-    # try to interpolate if enough values
-    est <- try({
-      approx(bnd_sal, bnd_chl, bnd_sal)$y[2]
-      }, silent = T)
-    
-  }
+  return(ests)
 
-  # est is NA if approx failed
-  if(!'numeric' %in% class(est)) est <- NA
-  
-  return(est)
-
-}
-
-#' @rdname chlinterp
-#'
-#' @export
-#'
-#' @method chlinterp data.frame
-chlinterp.data.frame <- function(row_in, sal_pred, sal_grd, ...){
-  
-  row_in <- as.numeric(row_in)
-  
-  chlinterp(row_in, sal_pred, sal_grd, ...)
- 
 }

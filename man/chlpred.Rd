@@ -28,7 +28,7 @@ Appends columns to the data.frame for the predicted chlorophyll values.  For tid
 Get model predictions from WRTDS using linear interpolation of values in grids
 }
 \details{
-This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grids.  The estimated values are based on a linear interpolation of the two predicted chlorophyll values in the interpolation grid that are bounded by the upper and lower bounds of salinity for the observed salinity at each observation.
+This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted chlorophyll values at two salinity and two date values nearest to the observed salinity and date values to predict.
 }
 \examples{
 ##

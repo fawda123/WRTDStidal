@@ -102,14 +102,19 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   # back-transform if needed
   if(!logspace){
   
-    to_plo[, -c(1, 2)] <- exp(to_plo[, -c(1, 2)])
+    to_plo[, -c(1:4)] <- exp(to_plo[, -c(1:4)])
 
   }
   
   # reshape data frame
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 3:ncol(to_plo)) %>% 
-    mutate(sal = as.numeric(gsub('^sal ', '', sal)))
+  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 5:ncol(to_plo)) %>% 
+    mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
+    select(-date, -day) %>% 
+    group_by(year, month, sal) %>% 
+    summarize(
+      chla = mean(chla, na.rm = TRUE)
+    )
   
   # subset years to plot
   if(!is.null(years)){
@@ -278,8 +283,13 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # reshape data frame
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 3:ncol(to_plo)) %>% 
-    mutate(sal = as.numeric(gsub('^sal ', '', sal)))
+  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 5:ncol(to_plo)) %>% 
+    mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
+    select(-date, -day) %>% 
+    group_by(year, month, sal) %>% 
+    summarize(
+      chla = mean(chla, na.rm = TRUE)
+    )
   
   # subset years to plot
   if(!is.null(years)){

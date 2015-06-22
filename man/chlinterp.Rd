@@ -2,22 +2,21 @@
 % Please edit documentation in R/chlinterp.R
 \name{chlinterp}
 \alias{chlinterp}
-\alias{chlinterp.data.frame}
 \alias{chlinterp.default}
 \title{Interpolate from a fit grid}
 \usage{
-chlinterp(row_in, ...)
+chlinterp(date_in, sal_in, ...)
 
-\method{chlinterp}{default}(row_in, sal_pred, sal_grd, ...)
-
-\method{chlinterp}{data.frame}(row_in, sal_pred, sal_grd, ...)
+\method{chlinterp}{default}(date_in, sal_in, fit_grd, sal_grd, ...)
 }
 \arguments{
-\item{row_in}{vector of observations from a row of an interpolation grid, month and year columns must be removed}
+\item{date_in}{obseved data to interpolate for chlorophyll}
+
+\item{sal_in}{observed salinity value to interpolate for chlorophyll}
 
 \item{...}{arguments passed to additional methods}
 
-\item{sal_pred}{value of salinity for interpolating chlorophyll}
+\item{fit_grd}{interpolation grid created from \code{\link{wrtds}}}
 
 \item{sal_grd}{original vector of salinity values used to create interpolation grid}
 }
@@ -25,10 +24,10 @@ chlinterp(row_in, ...)
 Predicted chlorophyll values from the interpolation
 }
 \description{
-Interpolate from a vector of predicted chlorophyll values for a given salinity value.  The chlorophyll values are a single observation (row) from a fitted interpolation grid that represents the predicted chlorophyll values across a set range of salinity values.
+Interpolate chlorophyll in two dimensions from the fit grid, where the first dimension is salinity and the second is date.
 }
 \details{
-This function is primarily used within \code{\link{chlpred}} and \code{\link{chlnorm}}.
+This function is used in \code{\link{chlpred}} and \code{\link{chlnorm}}.
 }
 \examples{
 ##
@@ -36,23 +35,18 @@ This function is primarily used within \code{\link{chlpred}} and \code{\link{chl
 # load data
 data(tidobj)
 
-# get a row from the interpolation grid to predict
+# interpolation grid from the model
 fit_grd <- attr(tidobj, 'fits')
 fit_grd <- fit_grd[['fit0.5']]
-row_in <- fit_grd[1, -c(1, 2)]
 
-# get salinity values used to create interpolation grid
+# salinity values used for interpolation grid
 sal_grd <- attr(tidobj, 'sal_grd')
 
 # get observed salinity value to inteprolate chlorophyll
-sal_pred <- tidobj[1, 'sal']
+date_in <- tidobj$date[1]
+sal_in <- tidobj$sal[1]
 
-# interpolate chlorophyll from an observed salinity value
-chlinterp(row_in, sal_pred, sal_grd)
-
-# error if salinity value out of range
-\dontrun{
-chlinterp(row_in, 0.7, sal_grd)
-}
+# interpolate chlorophyll from an observed date and salinity value
+chlinterp(date_in, sal_in, fit_grd, sal_grd)
 }
 
