@@ -3,7 +3,7 @@
 #' Use k-fold cross-validation to evaluate WRTDS model fit based on supplied half-window widths.
 #'
 #' @param dat_in input model object
-#' @param wins_in list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}
+#' @param wins list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}
 #' @param k number of folds to evaluate
 #' @param seed_val seed to keep the same dataset divisions between window width comparisons
 #' @param trace logical indicating if progress is printed in the console
@@ -31,7 +31,7 @@
 #' wins <- list(0.5, 10, 0.5) 
 #' 
 #' #get ocv score for k = 10
-#' wrtdscv(tidobjmean, wins_in = wins)
+#' wrtdscv(tidobjmean, wins = wins)
 #' 
 #'}
 wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
@@ -43,13 +43,13 @@ wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
 #' @export
 #'
 #' @method wrtdscv tidalmean
-wrtdscv.tidalmean <- function(dat_in, wins_in, k = 10, seed_val = 123, trace = TRUE, ...){
+wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, ...){
   
   set.seed(seed_val)
   
   strt <- Sys.time()
   
-  if(trace) cat('Trying', unlist(wins_in), '\n')
+  if(trace) cat('Trying', unlist(wins), '\n')
   
   # create row indices for folds
   folds <- createFolds(1:nrow(dat_in), k = k)
@@ -66,7 +66,7 @@ wrtdscv.tidalmean <- function(dat_in, wins_in, k = 10, seed_val = 123, trace = T
     dat_tst <- dat_in[folds[[i]], ]
     
     # model on training
-    mod <- wrtds(dat_trn, wins = wins_in, trace = FALSE, ...)
+    mod <- wrtds(dat_trn, wins = wins, trace = FALSE, ...)
     
     # predictions on test
     prd_tst <- chlpred(mod, dat_tst, trace = FALSE)

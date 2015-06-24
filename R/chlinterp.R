@@ -62,7 +62,7 @@ chlinterp.default <- function(date_in, sal_in, fit_grd, sal_grd, ...){
   bnd_sal <- c(sal_grd[min_sal], sal_grd[max_sal])
   not_sal <- grep('^X', names(fit_grd), invert = T)
   bnd_chl <- try({fit_grd[c(min_dts, max_dts), length(not_sal) + c(min_sal, max_sal)]})
-  if(class(bnd_chl) %in% 'try-error') browser()
+  if(class(bnd_chl) %in% 'try-error') return(NA)
   
   # bilinear interpolation, across salinity then across dates    
   sal1 <- approx_uni(bnd_sal, bnd_chl[1, ], sal_in)
