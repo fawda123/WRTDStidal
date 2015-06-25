@@ -57,6 +57,7 @@ wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE
   # vector to fill with cvs for each fold
   cvs <- numeric(k)
   
+  browser()
   # model eval with each fold
   errs <- foreach(i = 1:k, .export = c('wrtds', 'chlpred'), .packages = 'WRTDStidal') %dopar% {
     

@@ -16,7 +16,8 @@ approx_uni <- function(x, y, xint){
   if(length(chk_y) == 1) return(chk_y)
   
   # otherwise approx
-  out <- approx(x, y, xint)$y
+  out <- try({approx(x, y, xint)$y})
+  if(class(out) %in% 'try-error') browser()
   return(out)
   
 }

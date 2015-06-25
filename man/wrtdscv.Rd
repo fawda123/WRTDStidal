@@ -7,7 +7,7 @@
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{tidalmean}(dat_in, wins_in, k = 10, seed_val = 123,
+\method{wrtdscv}{tidalmean}(dat_in, wins, k = 10, seed_val = 123,
   trace = TRUE, ...)
 }
 \arguments{
@@ -15,7 +15,7 @@ wrtdscv(dat_in, ...)
 
 \item{...}{arguments passed to or from other methods (e.g., \code{\link{getwts}})}
 
-\item{wins_in}{list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}}
+\item{wins}{list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}}
 
 \item{k}{number of folds to evaluate}
 
@@ -44,7 +44,7 @@ registerDoParallel(cores = ncores)
 wins <- list(0.5, 10, 0.5)
 
 #get ocv score for k = 10
-wrtdscv(tidobjmean, wins_in = wins)
+wrtdscv(tidobjmean, wins = wins)
 
 }
 }
