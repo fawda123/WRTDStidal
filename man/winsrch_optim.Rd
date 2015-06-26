@@ -3,11 +3,11 @@
 \name{winsrch_optim}
 \alias{winsrch_optim}
 \alias{winsrch_optim.default}
-\title{Quickly find the optimal half-window width combination}
+\title{Find the optimal half-window width combination}
 \usage{
 winsrch_optim(dat_in, ...)
 
-\method{winsrch_optim}{default}(dat_in, wins_in = NULL, factr = 1e+05,
+\method{winsrch_optim}{default}(dat_in, wins_in = NULL, factr = 1e+07,
   lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...)
 }
 \arguments{
@@ -17,7 +17,7 @@ winsrch_optim(dat_in, ...)
 
 \item{wins_in}{starting list of window weights for initializing the search algorithm}
 
-\item{factr}{numeric value controlling the convergence behavior of the \code{"L-BFGS-B"} method of \code{\link[stats]{optim}}}
+\item{factr}{numeric value controlling the convergence behavior of the \code{"L-BFGS-B"} method of \code{\link[stats]{optim}}.  Values larger than the default will generally speed up the optimization with a potential loss of precision.}
 
 \item{lower}{vector of minimum half-window widths to evaluate}
 
@@ -27,7 +27,7 @@ winsrch_optim(dat_in, ...)
 Some stuff
 }
 \description{
-Quickly find the optimal half-window width combination to use for weighted regression
+Find the optimal half-window width combination to use for weighted regression.
 }
 \details{
 This function uses \code{\link[stats]{optim}} to minimize the error returned by \code{\link{wrtdscv}} for a given window combination.  The search algorithm uses the limited-memory modification of the BFGS quasi-Newton method to impose upper and lower limits on the optimization search. These limits can be changed using the \code{lower} and \code{upper} arguments.

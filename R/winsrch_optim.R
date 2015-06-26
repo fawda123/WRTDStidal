@@ -1,10 +1,10 @@
-#' Quickly find the optimal half-window width combination
+#' Find the optimal half-window width combination
 #'
-#' Quickly find the optimal half-window width combination to use for weighted regression
+#' Find the optimal half-window width combination to use for weighted regression.
 #' 
 #' @param dat_in input data object to use with weighted regression
 #' @param wins_in starting list of window weights for initializing the search algorithm
-#' @param factr numeric value controlling the convergence behavior of the \code{"L-BFGS-B"} method of \code{\link[stats]{optim}}
+#' @param factr numeric value controlling the convergence behavior of the \code{"L-BFGS-B"} method of \code{\link[stats]{optim}}.  Values larger than the default will generally speed up the optimization with a potential loss of precision.
 #' @param lower vector of minimum half-window widths to evaluate
 #' @param upper vector of maximum half-window widths to evaluate
 #' @param ... arguments passed to or from other methods
@@ -34,7 +34,7 @@ winsrch_optim <- function(dat_in, ...) UseMethod('winsrch_optim')
 #' @export
 #' 
 #' @method winsrch_optim default
-winsrch_optim.default <- function(dat_in, wins_in = NULL, factr = 1e5, lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...){
+winsrch_optim.default <- function(dat_in, wins_in = NULL, factr = 1e7, lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...){
   
   strt <- Sys.time()
   
