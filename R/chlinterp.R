@@ -73,7 +73,7 @@ chlinterp.default <- function(date_in, sal_in, fit_grd, sal_grd, ...){
   sal1 <- approx_uni(bnd_sal, bnd_chl[1, ], sal_in)
   sal2 <- approx_uni(bnd_sal, bnd_chl[2, ], sal_in)
   ests <- approx_uni(bnd_dts, c(sal1, sal2), date_in)
-    
+
   return(ests)
 
 }

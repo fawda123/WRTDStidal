@@ -2,7 +2,7 @@
 % Please edit documentation in R/fill_grd.R
 \name{fill_grd}
 \alias{fill_grd}
-\title{Fill missing values in the interpolation grid}
+\title{Add additional date columns to the interpolation grids.}
 \usage{
 fill_grd(grd_in, dat_in)
 }
@@ -12,6 +12,6 @@ fill_grd(grd_in, dat_in)
 \item{dat_in}{\code{\link{tidal}} or \code{\link{tidalmean}} object}
 }
 \description{
-Fill missing values in the interpolation grid, only relevant for quantile models that describe the tails of the distribution.  Date, year, month, and day columns are also added using dates from \code{dat_in}.  Function is used in \code{\link{wrtds}}.
+Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}.  Function is used in \code{\link{wrtds}}.
 }
 
