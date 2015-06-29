@@ -4,7 +4,7 @@
 #' 
 #' @param dat_in input data object to use with weighted regression
 #' @param wins_in starting list of window weights for initializing the search algorithm
-#' @param factr numeric value controlling the convergence behavior of the \code{"L-BFGS-B"} method of \code{\link[stats]{optim}}.  Values larger than the default will generally speed up the optimization with a potential loss of precision.
+#' @param control A list of control parameters passed to \code{\link[stats]{optim}} (see details in \code{\link[stats]{optim}} help file).  The value passed to \code{factr} controls the convergence behavior of the \code{"L-BFGS-B"} method.  Values larger than the default will generally speed up the optimization with a potential loss of precision. \code{parscale} describes the scaling values of the parameters.
 #' @param lower vector of minimum half-window widths to evaluate
 #' @param upper vector of maximum half-window widths to evaluate
 #' @param ... arguments passed to or from other methods
@@ -34,7 +34,7 @@ winsrch_optim <- function(dat_in, ...) UseMethod('winsrch_optim')
 #' @export
 #' 
 #' @method winsrch_optim default
-winsrch_optim.default <- function(dat_in, wins_in = NULL, factr = 1e7, lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...){
+winsrch_optim.default <- function(dat_in, wins_in = NULL, control = list(factr = 1e7, parscale = c(1, 10, 1)), lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...){
   
   strt <- Sys.time()
   
@@ -51,10 +51,8 @@ winsrch_optim.default <- function(dat_in, wins_in = NULL, factr = 1e7, lower = c
     method = 'L-BFGS-B', 
     lower = lower, 
     upper = upper, 
-    control = list(
-      factr = factr,
-      parscale = c(1, 10, 1))
-    )
+    control = control
+  )
   
   out$elapsed <- Sys.time() - strt
   

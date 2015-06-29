@@ -22,7 +22,7 @@
 #' ##
 #' # setup parallel backend
 #' library(doParallel)
-#' ncores <- detectCores() - 1  
+#' ncores <- detectCores() - 2 
 #' registerDoParallel(cores = ncores)
 #' 
 #' # run search function using default search grid - takes a while
