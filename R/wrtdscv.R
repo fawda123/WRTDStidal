@@ -7,7 +7,7 @@
 #' @param k number of folds to evaluate
 #' @param seed_val seed to keep the same dataset divisions between window width comparisons
 #' @param trace logical indicating if progress is printed in the console
-#' @param ... arguments passed to or from other methods (e.g., \code{\link{getwts}})
+#' @param ... arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}
 #' 
 #' @export
 #' 
@@ -65,8 +65,11 @@ wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE
     dat_trn <- dat_in[dat_trn, ]
     dat_tst <- dat_in[folds[[i]], ]
     
+    # args to pass to wrtds
+    args <- c(list(dat_in = dat_trn, wins = wins, trace = FALSE), list(...))
+
     # model on training
-    mod <- wrtds(dat_trn, wins = wins, trace = FALSE, ...)
+    mod <- do.call(wrtds, args)
     
     # predictions on test
     prd_tst <- chlpred(mod, dat_tst, trace = FALSE)

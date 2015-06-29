@@ -13,7 +13,7 @@ wrtdscv(dat_in, ...)
 \arguments{
 \item{dat_in}{input model object}
 
-\item{...}{arguments passed to or from other methods (e.g., \code{\link{getwts}})}
+\item{...}{arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}}
 
 \item{wins}{list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}}
 

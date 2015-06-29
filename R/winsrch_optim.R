@@ -7,7 +7,7 @@
 #' @param control A list of control parameters passed to \code{\link[stats]{optim}} (see details in \code{\link[stats]{optim}} help file).  The value passed to \code{factr} controls the convergence behavior of the \code{"L-BFGS-B"} method.  Values larger than the default will generally speed up the optimization with a potential loss of precision. \code{parscale} describes the scaling values of the parameters.
 #' @param lower vector of minimum half-window widths to evaluate
 #' @param upper vector of maximum half-window widths to evaluate
-#' @param ... arguments passed to or from other methods
+#' @param ... arguments passed to \code{\link{wrtdscv}}, \code{\link{wrtds}}, or \code{\link{getwts}}
 #' 
 #' @export
 #' 
@@ -37,12 +37,14 @@ winsrch_optim <- function(dat_in, ...) UseMethod('winsrch_optim')
 winsrch_optim.default <- function(dat_in, wins_in = NULL, control = list(factr = 1e7, parscale = c(1, 10, 1)), lower = c(0.1, 1, 0.1), upper = c(2, 15, 2), ...){
   
   strt <- Sys.time()
-  
+
+  # creates args to pass down the function chain
   if(is.null(wins_in)) wins_in <- c(0.5, 10, 0.5)
-  
-  fun_in <- function(wins_in, ...){
+    
+  fun_in <- function(wins_in, min_obs = min_obs){
     wins_in <- as.list(wins_in)
-    wrtdscv(dat_in, wins_in, ...)
+    args <- c(list(dat_in = dat_in, wins = wins_in), list(...))
+    do.call(wrtdscv, args)
   }
   
   out <- optim(

@@ -14,7 +14,7 @@ winsrch_optim(dat_in, ...)
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
 
-\item{...}{arguments passed to or from other methods}
+\item{...}{arguments passed to \code{\link{wrtdscv}}, \code{\link{wrtds}}, or \code{\link{getwts}}}
 
 \item{wins_in}{starting list of window weights for initializing the search algorithm}
 
