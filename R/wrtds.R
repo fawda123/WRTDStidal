@@ -171,7 +171,6 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   if(trace){
     txt <- '\nEstimating interpolation grid for mean response, % complete...\n\n'
     cat(txt)
-    
     counts <- round(seq(1, nrow(dat_in), length = 20))
   }
   
@@ -200,19 +199,18 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
       ref_wts <- ref_wts[ref_wts > 0]
       
       # parametric survival mod
-      mod <- survival::survreg(
+      mod <- try({survival::survreg(
         survival::Surv(chla, not_cens, type = "left")
           ~ dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time),
         weights = ref_wts,
         data = to_mod, 
-        dist = 'gaussian', 
-        control = survival::survreg.control(iter.max = 200)
-        )
+        dist = 'gaussian'
+        )}, silent = TRUE)
       
       # test if model worked
-      test <- try({coef(mod)})
-      if('try-error' %in% class(test)) next
-      
+      if('try-error' %in% class(mod)) next
+      if(is.nan(mod$scale)) next
+        
       # predicted values, log-space
       fits <-predict(
         mod,

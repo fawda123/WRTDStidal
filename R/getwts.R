@@ -9,6 +9,7 @@
 #' @param wins list of half-window widths for time, year, and salinity
 #' @param all logical to return individual weights rather than the product of all three, default \code{FALSE}
 #' @param slice logical indicating if data are subset by observations within the maximum window width for faster calculations
+#' @param ngrzero logical indicating if count of observations with weights greater than zero is returned
 #' @param wins_only logical if the half-window widths should be returned as a list
 #' #' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
 #' @param ... arguments passed to or from other methods
@@ -29,6 +30,13 @@
 #' wts <- getwts(tidobj, first)
 #' 
 #' plot(wts, type = 'l')
+#' 
+#' \dontrun{
+#' 
+#' # get count of observations with grzero weights
+#' sapply(1:nrow(tidobj), function(row) getwts(tidobj, tidobj[row, ], 
+#'  ngrzero = TRUE))
+#' }
 getwts <- function(dat_in, ...) UseMethod('getwts')
 
 #' @rdname getwts
@@ -41,6 +49,7 @@ getwts.default <- function(dat_in, ref_in,
   wins = list(0.5, 10, NULL),
   all = FALSE, 
   slice = TRUE, 
+  ngrzero = FALSE, 
   wins_only = FALSE,
   min_obs = TRUE, ...){
   
@@ -69,15 +78,14 @@ getwts.default <- function(dat_in, ref_in,
   wt_fun_sub <- function(dat_cal, ref, win, mirr = F, scl_val = 1){
     
     # dist_val is distance of value from the ref
-    dist_val <- sapply(ref, function(x) abs(dat_cal - x))
+    dist_val <- abs(dat_cal - ref)
     
     # repeat if distance is checked on non-continuous number line
     if(mirr){
       
-        dist_val <- pmin(
-          sapply(ref, function(x)
-            abs(x + scl_val - dat_cal)),
-          sapply(ref, function(x) abs(dat_cal + scl_val - x)),
+      dist_val <- pmin(
+          abs(ref + scl_val - dat_cal),
+          abs(dat_cal + scl_val - ref),
           dist_val
           )
       
@@ -123,9 +131,12 @@ getwts.default <- function(dat_in, ref_in,
   wts_3 <- wt_fun_sub(as.numeric(dat_sub[, wt_vars[3]]), 
     ref = ref_3, win = wins_3, mirr = F)
   # all as product 
-  out <- sapply(1:nrow(ref_in), function(x) wts_1[, x] * wts_2[, x] * wts_3[, x])
+  out <- wts_1 * wts_2 * wts_3
   
-  gr_zero <- colSums(out > 0)
+  gr_zero <- sum(out > 0)
+  
+  # return count of wts greater than zero if T
+  if(ngrzero) return(gr_zero)
   
   # extend window widths of weight vector is less than 100
   if(min_obs){
@@ -145,16 +156,15 @@ getwts.default <- function(dat_in, ref_in,
       
       #weights for each observation in relation to reference
       wts_1 <- wt_fun_sub(as.numeric(dat_sub[, wt_vars[1]]), 
-        ref = ref_1, win = wins_1, mirr = F)
+        ref = ref_1, win = wins_1, mirr = T)
       wts_2 <- wt_fun_sub(as.numeric(dat_sub[, wt_vars[2]]), 
-        ref = ref_2, win = wins_2, mirr = T, scl_val = 24)
+        ref = ref_2, win = wins_2, mirr = F, scl_val = 24)
       wts_3 <- wt_fun_sub(as.numeric(dat_sub[, wt_vars[3]]), 
         ref = ref_3, win = wins_3, mirr = F)
       
-      out <- sapply(1:nrow(ref_in), 
-        function(x) wts_1[, x] * wts_2[, x] * wts_3[, x])
+      out <- wts_1 * wts_2 * wts_3
       
-      gr_zero <- colSums(out > 0)
+      gr_zero <- sum(out > 0)
       
     }
   }

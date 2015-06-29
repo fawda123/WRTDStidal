@@ -9,7 +9,7 @@ getwts(dat_in, ...)
 
 \method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num", "dec_time",
   "sal"), wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
-  wins_only = FALSE, min_obs = TRUE, ...)
+  ngrzero = FALSE, wins_only = FALSE, min_obs = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object}
@@ -25,6 +25,8 @@ getwts(dat_in, ...)
 \item{all}{logical to return individual weights rather than the product of all three, default \code{FALSE}}
 
 \item{slice}{logical indicating if data are subset by observations within the maximum window width for faster calculations}
+
+\item{ngrzero}{logical indicating if count of observations with weights greater than zero is returned}
 
 \item{wins_only}{logical if the half-window widths should be returned as a list
 #'}
@@ -49,5 +51,12 @@ first <- tidobj[1, ]
 wts <- getwts(tidobj, first)
 
 plot(wts, type = 'l')
+
+\dontrun{
+
+# get count of observations with grzero weights
+sapply(1:nrow(tidobj), function(row) getwts(tidobj, tidobj[row, ],
+ ngrzero = TRUE))
+}
 }
 
