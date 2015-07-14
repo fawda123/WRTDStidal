@@ -166,7 +166,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     p_dat_plo,
     gridExtra::arrangeGrob(p1, p2, p3, p4, nrow = 2, 
       left = grid::textGrob(ylabs[2],rot = 90)),
-    sub = 'Date',
+    bottom = 'Date',
     heights = c(0.7, 1)
     )
     
