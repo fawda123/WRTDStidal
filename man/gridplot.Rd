@@ -10,13 +10,13 @@ gridplot(dat_in, ...)
 
 \method{gridplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, logspace = TRUE, allsal = FALSE,
-  interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL,
-  grids = FALSE, pretty = TRUE, ...)
+  interp = TRUE, sal_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE,
+  pretty = TRUE, ...)
 
 \method{gridplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
   col_vec = NULL, logspace = TRUE, allsal = FALSE, interp = TRUE,
-  sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE,
-  pretty = TRUE, ...)
+  sal_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE,
+  ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
