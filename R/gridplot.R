@@ -55,7 +55,7 @@ gridplot <- function(dat_in, ...) UseMethod('gridplot')
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -129,9 +129,10 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   if(interp & !allmo){
     
     # these are factors by which salinity and years are multiplied for interpolation
-    sal_fac <- length(unique(to_plo$sal)) * sal_fac
+    sal_fac <- length(sal_grd) * sal_fac
+    sal_fac <- seq(min(sal_grd), max(sal_grd), length.out = sal_fac)
     yr_fac <- length(unique(to_plo$year)) * yr_fac
-    yr_fac <- seq(min(to_plo$year), max(to_plo$year), length = yr_fac)
+    yr_fac <- seq(min(to_plo$year), max(to_plo$year), length.out = yr_fac)
     
     # separately by month
     to_plo <- split(to_plo, to_plo$month)
@@ -251,7 +252,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method gridplot tidalmean
-gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = sal_fac, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, allsal = FALSE, interp = TRUE, sal_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -304,20 +305,21 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   if(interp & !allmo){
     
     # these are factors by which salinity and years are multiplied for interpolation
-    sal_fac <- length(unique(to_plo$sal)) * sal_fac
+    sal_fac <- length(sal_grd) * sal_fac
+    sal_fac <- seq(min(sal_grd), max(sal_grd), length.out = sal_fac)
     yr_fac <- length(unique(to_plo$year)) * yr_fac
-    yr_fac <- seq(min(to_plo$year), max(to_plo$year), length = yr_fac)
+    yr_fac <- seq(min(to_plo$year), max(to_plo$year), length.out = yr_fac)
     
     # separately by month
     to_plo <- split(to_plo, to_plo$month)
-    
+
     to_plo <- lapply(to_plo, function(x){
       
       # interp across salinity first
       interped <- lapply(
         split(x, x$year), 
         function(y){
-          out <- approx(y$sal, y$chla, n = sal_fac)
+          out <- approx(y$sal, y$chla, xout = sal_fac)
           out <- data.frame(year = unique(y$year), month = unique(y$month), out)
           return(out)
         })
