@@ -40,6 +40,7 @@ lnchla_err <- function(dat_in, yr = NULL) {
       sal = lnQ
     ) %>% 
     mutate(lim = -1e6)
+  cat('\nEstimating stationary, seasonal chlorophyll model with WRTDS...\n')
   chlmod <- modfit(tomod, resp_type = 'mean')
   chlmod <- chlscls(chlmod)
   

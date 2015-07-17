@@ -15,7 +15,7 @@ lnchla_sim(dat_in, lnQ_coef = NULL)
 The original data frame with additional columns for a flow-independent chlorophyll time series (\code{lnchla_noQ}) and a flow-dependent time series (\code{lnchla_Q}).
 }
 \description{
-Simulate a chlorophyll time series with an estimated error structure and simulated discharge
+Simulate a chlorophyll time series with an estimated error structure and simulated discharge effect
 }
 \details{
 This function creates a simulated chlorophyll time series and requires error estimates for an observed chlorophyll dataset and a simulated discharge time series.  The chlorophyll time series is created as the additive combination of a seasonal, stationary time component (as in \code{\link{lnQ_sim}} for discharge), a random error component from \code{\link{lnchla_err}}, and a simulated discharge time series from \code{\link{lnQ_sim}}.  The discharge time series is considered an explicit component of the chlorophyll time series and is first centered at zerio prior to adding.  The optional vector of coefficients passed to \code{lnQ_coef} can mediate the influence of discharge on chlorophyll.  For example, a vector of all zeroes implies no effect, whereas a vector of all ones implies a constant effect (default).
@@ -36,6 +36,6 @@ tmp <- lnchla_sim(sims)
 }
 }
 \seealso{
-\code{\link{daydat}} for the format of an input dataset, \code{\link{lnQ_sim}} for simulating discharge, and \code{\link{lnchla_err}} for estimating the error distribution of chlorophyll
+\code{\link{daydat}} for the format of an input dataset, \code{\link{lnQ_sim}} for simulating discharge, and \code{\link{lnchla_err}} for estimating the error distribution of chlorophyll, \code{\link{all_sims}} for completing all steps at once.
 }
 

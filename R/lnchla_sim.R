@@ -1,6 +1,6 @@
 #' Simulate a chlorophyll time series
 #' 
-#' Simulate a chlorophyll time series with an estimated error structure and simulated discharge
+#' Simulate a chlorophyll time series with an estimated error structure and simulated discharge effect
 #'
 #' @param dat_in input \code{\link[base]{data.frame}} that must include estimated error and simulated discharge time series, see \code{\link{lnchla_err}} and \code{\link{lnQ_sim}} respectively
 #' @param lnQ_coef numeric vector of coefficients of the same length of the time series in \code{dat_in} that is multiplied by the discharge vector, see details
@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{daydat}} for the format of an input dataset, \code{\link{lnQ_sim}} for simulating discharge, and \code{\link{lnchla_err}} for estimating the error distribution of chlorophyll
+#' @seealso \code{\link{daydat}} for the format of an input dataset, \code{\link{lnQ_sim}} for simulating discharge, and \code{\link{lnchla_err}} for estimating the error distribution of chlorophyll, \code{\link{all_sims}} for completing all steps at once.
 #' 
 #' @examples 
 #' \dontrun{
