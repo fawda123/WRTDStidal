@@ -20,7 +20,7 @@
 #' ## example data
 #' data(daydat)
 #' 
-#' ## simulate
+#' ## get errors
 #' lnchla_err(daydat)
 #'}
 lnchla_err <- function(dat_in, yr = NULL) {

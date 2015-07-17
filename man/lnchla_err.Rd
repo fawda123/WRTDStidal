@@ -25,7 +25,7 @@ Random errors for a stationary seasonal chlorophyll time series on a daily time 
 ## example data
 data(daydat)
 
-## simulate
+## get errors
 lnchla_err(daydat)
 }
 }
