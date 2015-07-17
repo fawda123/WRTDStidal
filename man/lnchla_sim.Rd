@@ -32,7 +32,7 @@ sims <- lnQ_sim(daydat)
 sims <- lnchla_err(sims)
 
 ## get simulated chl time series using results from previous
-tmp <- lnchla_sim(sims)
+lnchla_sim(sims)
 }
 }
 \seealso{

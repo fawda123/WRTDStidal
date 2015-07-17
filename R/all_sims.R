@@ -7,7 +7,7 @@
 #' 
 #' @details This is a convenience function that combines \code{\link{lnQ_sim}}, \code{\link{lnchla_err}}, and \code{\link{lnchla_sim}}.  See the help documentation function for more details on each.
 #' 
-#' @return Original data frame with additional columns for simulated discharge (\code{lnQ_sim}), the random errors of chlorophyll (\code{errs}), decimal month (decimal time minus year, \code{dec_mo}), the residuals from the \code{\link{wrtds}} model for chlorophyll (\code{res}), the standard error estimates for each residual (\code{scls}), a flow-independent chlorophyll time series (\code{lnchla_noQ}) and a flow-dependent time series (\code{lnchla_Q}).
+#' @return Original data frame with additional columns for simulated discharge (\code{lnQ_sim}), the random errors of chlorophyll (\code{errs}), the standard error estimates for each residual (\code{scls}), a flow-independent chlorophyll time series (\code{lnchla_noQ}), and a flow-dependent time series (\code{lnchla_Q}).
 #' 
 #' @export
 #' 

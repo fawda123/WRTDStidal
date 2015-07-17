@@ -25,7 +25,7 @@
 #' sims <- lnchla_err(sims)
 #' 
 #' ## get simulated chl time series using results from previous
-#' tmp <- lnchla_sim(sims)
+#' lnchla_sim(sims)
 #'}
 lnchla_sim <- function(dat_in, lnQ_coef = NULL){
 

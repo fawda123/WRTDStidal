@@ -12,7 +12,7 @@ lnchla_err(dat_in, yr = NULL)
 \item{yr}{numeric year value to use for the stationary model, defaults to the median year}
 }
 \value{
-The original data frame with additional columns for the random errors (\code{errs}), decimal month (decimal time minus year, \code{dec_mo}), the residuals from the \code{\link{wrtds}} model (\code{res}), and the standard error estimates for each residual (\code{scls}).
+The original data frame with additional columns for the random errors (\code{errs}) and the standard error estimates for each residual (\code{scls}).
 }
 \description{
 Simulate random errors of a chlorophyll time series by modelling the statistical properties of an observed dataset

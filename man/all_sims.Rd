@@ -12,7 +12,7 @@ all_sims(dat_in, ...)
 \item{...}{additional arguments passed to \code{\link{lnchla_sim}}}
 }
 \value{
-Original data frame with additional columns for simulated discharge (\code{lnQ_sim}), the random errors of chlorophyll (\code{errs}), decimal month (decimal time minus year, \code{dec_mo}), the residuals from the \code{\link{wrtds}} model for chlorophyll (\code{res}), the standard error estimates for each residual (\code{scls}), a flow-independent chlorophyll time series (\code{lnchla_noQ}) and a flow-dependent time series (\code{lnchla_Q}).
+Original data frame with additional columns for simulated discharge (\code{lnQ_sim}), the random errors of chlorophyll (\code{errs}), the standard error estimates for each residual (\code{scls}), a flow-independent chlorophyll time series (\code{lnchla_noQ}), and a flow-dependent time series (\code{lnchla_Q}).
 }
 \description{
 Simulate a chlorophyll time series using all simulation functions
