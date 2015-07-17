@@ -73,7 +73,7 @@ lnchla_err <- function(dat_in, yr = NULL) {
   
   # remove extra cols, sort on date
   tosel <- c('date', 'sal', 'lnchla', 'Q', 'lnQ', 'jday', 'year', 'day', 'dec_time', 'scls', 'errs', 'lnQ_sim')
-  dat_in <- dat_in[names(dat_in) %in% tosel, ]
+  dat_in <- dat_in[, names(dat_in) %in% tosel]
   dat_in <- arrange(dat_in, date)
   
   return(dat_in)
