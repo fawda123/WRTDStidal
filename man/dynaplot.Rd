@@ -10,11 +10,13 @@ dynaplot(dat_in, ...)
 
 \method{dynaplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE,
-  allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...)
+  allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL,
+  pretty = TRUE, ...)
 
 \method{dynaplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
   col_vec = NULL, alpha = 1, size = 1, logspace = TRUE,
-  allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...)
+  allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL,
+  pretty = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -40,6 +42,8 @@ dynaplot(dat_in, ...)
 \item{ncol}{numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns}
 
 \item{grids}{logical indicating if grid lines are present}
+
+\item{scales}{chr string passed to ggplot to change x/y axis scaling on facets, acceptable values are \code{'free'}, \code{'free_x'}, or \code{'free_y'}}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.}
 }

@@ -13,6 +13,7 @@
 #' @param allsal logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest
 #' @param ncol numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns
 #' @param grids logical indicating if grid lines are present
+#' @param scales chr string passed to ggplot to change x/y axis scaling on facets, acceptable values are \code{'free'}, \code{'free_x'}, or \code{'free_y'}
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.
 #' @param ... arguments passed to other methods
 #' 
@@ -52,7 +53,7 @@ dynaplot <- function(dat_in, ...) UseMethod('dynaplot')
 #' @export 
 #' 
 #' @method dynaplot tidal
-dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...){
+dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -152,7 +153,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
   # make plot
   p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 
-    facet_wrap(~month, ncol = ncol)
+    facet_wrap(~month, ncol = ncol, scales = scales)
   
   # return bare bones if FALSE
   if(!pretty) return(p + geom_line())
@@ -188,7 +189,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method dynaplot tidalmean
-dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, pretty = TRUE, ...){
+dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -266,7 +267,7 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   
   # make plot
   p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 
-    facet_wrap(~month, ncol = ncol)
+    facet_wrap(~month, ncol = ncol, scales = scales)
   
   # return bare bones if FALSE
   if(!pretty) return(p + geom_line())
