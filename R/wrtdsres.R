@@ -44,7 +44,7 @@ wrtdsres.tidal <- function(dat_in, trace = TRUE, ...){
   
   # null model
   mod_nl <- quantreg::crq(
-    Surv(chla, not_cens, type = "left") ~ 1, 
+    survival::Surv(chla, not_cens, type = "left") ~ 1, 
     data = dat_in, 
     method = "Portnoy"
     )

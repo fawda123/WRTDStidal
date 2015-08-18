@@ -87,7 +87,7 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       
       # crq model, estimates all quants
       mod <- quantreg::crq(
-        Surv(chla, not_cens, type = "left") ~ 
+        survival::Surv(chla, not_cens, type = "left") ~ 
           dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
         weights = ref_wts,
         data = dat_in, 
