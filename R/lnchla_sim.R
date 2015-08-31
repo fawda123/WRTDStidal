@@ -43,7 +43,7 @@ lnchla_sim <- function(dat_in, lnQ_coef = NULL){
   lnchla_noQ <- predict(lnchla_noQ) + with(dat_in, scls * errs)
   
   # add discharge, rescale 
-  lnchla_Q <- lnchla_noQ + with(dat_in, lnQ_coef * scale(lnQ_sim, scale = FALSE))
+  lnchla_Q <- as.numeric(lnchla_noQ + with(dat_in, lnQ_coef * scale(lnQ_sim, scale = FALSE)))
   
   dat_in$lnchla_noQ <- lnchla_noQ
   dat_in$lnchla_Q <- lnchla_Q
