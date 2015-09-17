@@ -113,7 +113,8 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   if(!is.null(years)){
     
     to_plo <- to_plo[to_plo$year %in% years, ]
-     
+    to_plo <- to_plo[to_plo$month %in% month, ]
+    
     if(nrow(to_plo) == 0) stop('No data to plot for the date range')
   
   }
@@ -133,6 +134,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 
     # merge limts with months
     to_plo <- left_join(to_plo, lim_vals, by = 'month')
+    to_plo <- to_plo[to_plo$month %in% month, ]
     
     # reduce data
     sel_vec <- with(to_plo, 
@@ -229,7 +231,8 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   if(!is.null(years)){
     
     to_plo <- to_plo[to_plo$year %in% years, ]
-     
+    to_plo <- to_plo[to_plo$month %in% month, ]
+        
     if(nrow(to_plo) == 0) stop('No data to plot for the date range')
   
   }
@@ -249,7 +252,8 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
 
     # merge limts with months
     to_plo <- left_join(to_plo, lim_vals, by = 'month')
-    
+    to_plo <- to_plo[to_plo$month %in% month, ]
+        
     # reduce data
     sel_vec <- with(to_plo, 
       sal >= Low &
