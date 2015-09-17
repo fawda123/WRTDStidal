@@ -11,12 +11,12 @@ dynaplot(dat_in, ...)
 \method{dynaplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE,
   allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL,
-  pretty = TRUE, ...)
+  pretty = TRUE, use_bw = TRUE, ...)
 
 \method{dynaplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
   col_vec = NULL, alpha = 1, size = 1, logspace = TRUE,
   allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL,
-  pretty = TRUE, ...)
+  pretty = TRUE, use_bw = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -46,6 +46,8 @@ dynaplot(dat_in, ...)
 \item{scales}{chr string passed to ggplot to change x/y axis scaling on facets, acceptable values are \code{'free'}, \code{'free_x'}, or \code{'free_y'}}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.}
+
+\item{use_bw}{logical indicating if the \code{\link[ggplot2]{theme_bw}} theme is used}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object that can be further modified

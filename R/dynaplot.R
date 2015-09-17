@@ -15,6 +15,7 @@
 #' @param grids logical indicating if grid lines are present
 #' @param scales chr string passed to ggplot to change x/y axis scaling on facets, acceptable values are \code{'free'}, \code{'free_x'}, or \code{'free_y'}
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.
+#' @param use_bw logical indicating if the \code{\link[ggplot2]{theme_bw}} theme is used 
 #' @param ... arguments passed to other methods
 #' 
 #' @details These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument. 
@@ -53,7 +54,7 @@ dynaplot <- function(dat_in, ...) UseMethod('dynaplot')
 #' @export 
 #' 
 #' @method dynaplot tidal
-dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, ...){
+dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -161,11 +162,13 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   # get colors
   cols <- gradcols(col_vec = col_vec)
   
+  # use bw theme
+  if(use_bw) p <- p + theme_bw()
+  
   p <- p + 
     geom_line(size = size, aes(colour = year), alpha = alpha) +
     scale_y_continuous(ylabel, expand = c(0, 0)) +
     scale_x_continuous('Salinity', expand = c(0, 0)) +
-    theme_bw() +
     theme(
       legend.position = 'top'
     ) +
@@ -189,7 +192,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method dynaplot tidalmean
-dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, ...){
+dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -275,11 +278,13 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # get colors
   cols <- gradcols(col_vec = col_vec)
   
+  # use bw theme
+  if(use_bw) p <- p + theme_bw()
+  
   p <- p + 
     geom_line(size = size, aes(colour = year), alpha = alpha) +
     scale_y_continuous(ylabel, expand = c(0, 0)) +
     scale_x_continuous('Salinity', expand = c(0, 0)) +
-    theme_bw() +
     theme(
       legend.position = 'top'
     ) +

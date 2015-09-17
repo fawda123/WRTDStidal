@@ -14,7 +14,7 @@
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
 #' 
-#' @import dplyr ggplot2 RColorBrewer tidyr
+#' @import dplyr ggplot2 RColorBrewer
 #' 
 #' @seealso \code{\link{fitplot}}, \code{\link{sliceplot}}
 #' 
@@ -126,10 +126,10 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
     
   # long format for plotting
   # remove 'norm' and 'fit' to combine mapping
-  nrms <- gather(to_plo, 'taus', 'nrms_value', tau_nrms) %>% 
+  nrms <- tidyr::gather(to_plo, 'taus', 'nrms_value', tau_nrms) %>% 
     select(date, taus, nrms_value) %>% 
     mutate(taus = gsub('^norm', '', taus))
-  fits <- gather(to_plo, 'taus', 'fits_value', tau_fits) %>% 
+  fits <- tidyr::gather(to_plo, 'taus', 'fits_value', tau_fits) %>% 
     select(date, taus, fits_value) %>% 
     mutate(taus = gsub('^fit', '', taus))
   

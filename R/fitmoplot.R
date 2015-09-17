@@ -19,7 +19,7 @@
 #' 
 #' @details The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.  
 #' 
-#' @import dplyr ggplot2 RColorBrewer tidyr
+#' @import dplyr ggplot2 RColorBrewer
 #' 
 #' @export
 #' 
@@ -119,9 +119,9 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
   }
  
   # long format for plotting
-  nrms <- gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
+  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
     select(date, month, nrms_variable, nrms_value)
-  fits <- gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
+  fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
     select(date, month, fits_variable, fits_value)
   
   # y-axis label

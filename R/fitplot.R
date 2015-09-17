@@ -16,7 +16,7 @@
 #' @param alpha numeric value indicating transparency of points or lines
 #' @param ... arguments passed to other methods
 #' 
-#' @import dplyr ggplot2 RColorBrewer tidyr
+#' @import dplyr ggplot2 RColorBrewer
 #' 
 #' @export
 #' 
@@ -126,9 +126,9 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   }
     
   # long format for plotting
-  nrms <- gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
+  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
     select(date, nrms_variable, nrms_value)
-  fits <- gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
+  fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
     select(date, fits_variable, fits_value)
   
   # y-axis label

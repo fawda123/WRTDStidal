@@ -18,7 +18,7 @@
 #' 
 #' @details This is a modification of \code{\link{fitplot}} that can be used to plot selected time slices from the results of a fitted \code{\link{tidal}} object.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
 #' 
-#' @import dplyr ggplot2 RColorBrewer tidyr
+#' @import dplyr ggplot2 RColorBrewer
 #' 
 #' @export
 #' 
@@ -116,9 +116,9 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
   to_plo <- to_plo[as.numeric(to_plo$month) %in% slices, ]
   
   # long format for plotting
-  nrms <- gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
+  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
     select(date, month, year, nrms_variable, nrms_value)
-  fits <- gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
+  fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
     select(date, month, year, fits_variable, fits_value)
   
   # y-axis label
