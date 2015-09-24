@@ -54,7 +54,7 @@ dynaplot <- function(dat_in, ...) UseMethod('dynaplot')
 #' @export 
 #' 
 #' @method dynaplot tidal
-dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, ...){
+dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, fac_nms = NULL, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -154,6 +154,15 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   mo_lab <- mo_lab[mo_lab$num %in% month, ]
   to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
   
+  # reassign facet names if fac_nms is provided
+  if(!is.null(fac_nms)){
+    
+    if(length(fac_nms) != length(unique(to_plo$month))) stop('fac_nms must have same lengths as months')
+  
+    to_plo$month <- factor(to_plo$month, labels = fac_nms)
+    
+  }
+  
   # make plot
   p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 
     facet_wrap(~month, ncol = ncol, scales = scales)
@@ -194,7 +203,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method dynaplot tidalmean
-dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, ...){
+dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, fac_nms = NULL, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -271,6 +280,15 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   )
   mo_lab <- mo_lab[mo_lab$num %in% month, ]
   to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
+  
+  # reassign facet names if fac_nms is provided
+  if(!is.null(fac_nms)){
+    
+    if(length(fac_nms) != length(unique(to_plo$month))) stop('fac_nms must have same lengths as months')
+  
+    to_plo$month <- factor(to_plo$month, labels = fac_nms)
+    
+  }
   
   # make plot
   p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 

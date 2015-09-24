@@ -136,14 +136,15 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     
     # separately by month
     to_plo <- split(to_plo, to_plo$month)
-    
+
     to_plo <- lapply(to_plo, function(x){
       
       # interp across salinity first
       interped <- lapply(
         split(x, x$year), 
+
         function(y){
-          out <- approx(y$sal, y$chla, n = sal_fac)
+          out <- stats::approx(y$sal, y$chla, xout = sal_fac)
           out <- data.frame(year = unique(y$year), month = unique(y$month), out)
           return(out)
         })
