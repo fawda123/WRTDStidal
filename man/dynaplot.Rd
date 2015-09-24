@@ -48,6 +48,8 @@ dynaplot(dat_in, ...)
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.}
 
 \item{use_bw}{logical indicating if the \code{\link[ggplot2]{theme_bw}} theme is used}
+
+\item{fac_nms}{optional chr string for facet labels, which must be equal in length to \code{month}}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object that can be further modified

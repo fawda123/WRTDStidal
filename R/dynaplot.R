@@ -16,6 +16,7 @@
 #' @param scales chr string passed to ggplot to change x/y axis scaling on facets, acceptable values are \code{'free'}, \code{'free_x'}, or \code{'free_y'}
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used.  The aesthetic arguments will not apply if \code{pretty = TRUE}.
 #' @param use_bw logical indicating if the \code{\link[ggplot2]{theme_bw}} theme is used 
+#' @param fac_nms optional chr string for facet labels, which must be equal in length to \code{month}
 #' @param ... arguments passed to other methods
 #' 
 #' @details These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument. 
