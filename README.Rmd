@@ -21,7 +21,7 @@ Please send an email to beck.marcus@epa.gov for the accepted draft.  The origina
 
 *Hirsch RM, De Cicco L. 2014. User guide to Exploration and Graphics for RivEr Trends (EGRET) and dataRetrieval: R packages for hydrologic data. Techniques and Methods book 4, ch. A10, US Geological Survey, Reston, Virginia. http://pubs.usgs.gov/tm/04/a10/*
 
-*Hirsch RM, Moyer DL, Archfield SA. 2010. Weighted regressions on time, discharge, and season (WRTDS), with an application to Chesapeake Bay river inputs. Journal of the American Water Resources Association. 46(5):857-880.*
+*Hirsch RM, Moyer DL, Archfield SA. 2010. Weighted regressions on time, discharge, and season (WRTDS), with an application to Chesapeake Bay river inputs. Journal of the American Water Resources Association. 46(5):857-880. [DOI: 10.1111/j.1752-1688.2010.00482.x](http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2010.00482.x/abstract)*
 
 ## Brief description of WRTDS for tidal waters
 
@@ -217,6 +217,13 @@ The `wtsplot` function can be used to create diagnostic plots to view different 
 ```{r fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
 # wt plot
 wtsplot(tidfit, ref = '1995-07-01')
+```
+
+An alternative method to evaluate model weights is to plot a grid of the number of observations with weights greater than zero for each unique date and salinity combination.  The `nobs` grid attribute in a fitted model has the same dimensions as the interpolation grid, where each row is a unique date in the original dataset and each column is a salinity value used to fit each regression (i.e., values in the `sal_grd` attribute). The `nobsplot` function creates a gridded plot similar to `gridplot` showing the number of observations for each point.  In general, low points may indicate locations in the domain space of the time series where insufficient data could affect model fit.  Note that the minimum number of observations for any point never falls below 100.  The default setting for `getwts`, `min_obs = TRUE`, widens the window widths in succession until a minimum sample size is returned.
+
+```{r fig.height=3, fig.width=5, message=FALSE, warning=FALSE}
+# create a nobsplot
+nobsplot(tidfit)
 ```
 
 ### Selecting window widths

@@ -13,7 +13,7 @@ Please send an email to beck.marcus@epa.gov for the accepted draft.  The origina
 
 *Hirsch RM, De Cicco L. 2014. User guide to Exploration and Graphics for RivEr Trends (EGRET) and dataRetrieval: R packages for hydrologic data. Techniques and Methods book 4, ch. A10, US Geological Survey, Reston, Virginia. http://pubs.usgs.gov/tm/04/a10/*
 
-*Hirsch RM, Moyer DL, Archfield SA. 2010. Weighted regressions on time, discharge, and season (WRTDS), with an application to Chesapeake Bay river inputs. Journal of the American Water Resources Association. 46(5):857-880.*
+*Hirsch RM, Moyer DL, Archfield SA. 2010. Weighted regressions on time, discharge, and season (WRTDS), with an application to Chesapeake Bay river inputs. Journal of the American Water Resources Association. 46(5):857-880. [DOI: 10.1111/j.1752-1688.2010.00482.x](http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2010.00482.x/abstract)*
 
 ## Brief description of WRTDS for tidal waters
 
@@ -139,11 +139,11 @@ head(tidfit)
 ## 5 1974-05-01 2.708050 0.3345128 0.8754687     TRUE 0.331506849     5 1974
 ## 6 1974-06-01 2.740840 0.3009137 0.8754687     TRUE 0.416438356     6 1974
 ##   dec_time   fit0.1   fit0.5   fit0.9  norm0.1  norm0.5  norm0.9
-## 1 1974.005 2.610429 3.267295 3.685544 2.577924 3.089185 3.371474
-## 2 1974.090 2.541529 3.157350 3.831174 2.547186 3.006397 3.441487
-## 3 1974.164 2.545622 2.838006 3.280516 2.595009 2.871107 3.371598
-## 4 1974.249 2.511704 2.649719 3.233701 2.567061 2.719554 3.278771
-## 5 1974.332 2.576503 2.709492 3.360528 2.593350 2.733599 3.345934
+## 1 1974.005 2.610429 3.267295 3.685544 2.570321 3.083240 3.319924
+## 2 1974.090 2.541529 3.157350 3.831174 2.555630 3.008398 3.435083
+## 3 1974.164 2.545622 2.838006 3.280516 2.598238 2.863887 3.368876
+## 4 1974.249 2.511704 2.649719 3.233701 2.581767 2.717951 3.281687
+## 5 1974.332 2.576503 2.709492 3.360528 2.593957 2.734914 3.346043
 ## 6 1974.416 2.747688 2.811803 3.463858 2.745408 2.825647 3.474432
 ```
 
@@ -154,7 +154,7 @@ names(attributes(tidfit))
 
 ```
 ## [1] "names"      "row.names"  "salobs_rng" "half_wins"  "fits"      
-## [6] "sal_grd"    "class"
+## [6] "sal_grd"    "nobs"       "class"
 ```
 
 ### Fitting a WRTDS tidal model
@@ -327,6 +327,16 @@ wtsplot(tidfit, ref = '1995-07-01')
 ```
 
 ![](README_files/figure-html/unnamed-chunk-16-1.png) 
+
+An alternative method to evaluate model weights is to plot a grid of the number of observations with weights greater than zero for each unique date and salinity combination.  The `nobs` grid attribute in a fitted model has the same dimensions as the interpolation grid, where each row is a unique date in the original dataset and each column is a salinity value used to fit each regression (i.e., values in the `sal_grd` attribute). The `nobsplot` function creates a gridded plot similar to `gridplot` showing the number of observations for each point.  In general, low points may indicate locations in the domain space of the time series where insufficient data could affect model fit.  Note that the minimum number of observations for any point never falls below 100.  The default setting for `getwts`, `min_obs = TRUE`, widens the window widths in succession until a minimum sample size is returned.
+
+
+```r
+# create a nobsplot
+nobsplot(tidfit)
+```
+
+![](README_files/figure-html/unnamed-chunk-17-1.png) 
 
 ### Selecting window widths
 

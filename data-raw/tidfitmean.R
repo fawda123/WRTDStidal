@@ -9,4 +9,4 @@ data(chldat)
 
 tidfitmean <- modfit(chldat, resp_type = 'mean')
 
-save(tidfitmean, file = 'data/tidfitmean.RData')
+save(tidfitmean, file = 'data/tidfitmean.RData', compress = 'xz')

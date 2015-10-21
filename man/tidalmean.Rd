@@ -21,11 +21,12 @@ A tidalmean object as a data frame and attributes.  The data frame has columns o
  \item{\code{names}}{Column names of the data frame}
  \item{\code{row.names}}{Row names of the data frame}
  \item{\code{class}}{Class of the object}
- \item{\code{half_wins}}{List of numeric values used for half-window widths for model fitting, in the same order as the wt_vars argument passed to \code{\link{getwts}}. Initially will be NULL if \code{wrtds} has not been used.}
+ \item{\code{half_wins}}{List of numeric values used for half-window widths for model fitting, in the same order as the wt_vars argument passed to \code{\link{getwts}}. Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
  \item{\code{fits}}{List with a single element with fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
  \item{\code{bt_fits}}{List with a single element with back-transformed fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
  \item{\code{salobs_rng}}{Two element vector indicating the salinity range of the observed data}
+ \item{\code{nobs}}{List with one matrix showing the number of weights greater than zero for each date and salinity combination used to create the fit matrices in \code{fits}.  Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
 }
 }
 \description{

@@ -58,6 +58,11 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   fit_grds <- replicate(length(tau), fit_grds, simplify = FALSE)
   names(fit_grds) <- paste0('fit', tau)
 
+  # output for nobs
+  nobs_grds <- matrix(nrow = nrow(dat_in), ncol = sal_div)
+  nobs_grds <- list(nobs_grds)
+  names(nobs_grds) <- 'nobs'
+  
   if(trace){
     txt <- paste(tau, collapse = ', ')
     txt <- paste0('\nEstimating interpolation grids for tau = ', txt, ', % complete...\n\n')
@@ -109,11 +114,17 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       })
       names(fits) <- names(fit_grds)
       
-      # save output to grids
+      ## save output to grids
+      
+      # fit grids
       for(val in tau){
         fit_ind <- paste0('fit', val)
         fit_grds[[fit_ind]][row, i] <- fits[fit_ind]
       }
+      
+      # nobs grid
+      nobs_ind <- names(nobs_grds)
+      nobs_grds[[nobs_ind]][row, i] <- sum(ref_wts > 0)
     
     }
     
@@ -127,10 +138,16 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
     fill_grd(x, dat_in)
   })
   
+  # add year, month, day to nobs grids
+  nobs_grds <- lapply(nobs_grds, function(x) {
+    fill_grd(x, dat_in)
+  })
+  
   # add grids to tidal object, return
   attr(dat_out, 'half_wins') <- ref_wts
   attr(dat_out, 'fits') <- fit_grds
   attr(dat_out, 'sal_grd') <- sal_grd
+  attr(dat_out, 'nobs') <- nobs_grds
   
   if(trace) cat('\n')
   
@@ -167,6 +184,10 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   # sd of model at each point in the grid
   scl_grds <- fit_grds
   names(scl_grds) <- 'sclmean'
+  
+  # output for nobs
+  nobs_grds <- fit_grds
+  names(nobs_grds) <- 'nobsmean'
   
   if(trace){
     txt <- '\nEstimating interpolation grid for mean response, % complete...\n\n'
@@ -234,6 +255,8 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
       bt_grds[[bt_ind]][row, i] <- btfits[bt_ind]
       scl_ind <- names(scl_grds)
       scl_grds[[scl_ind]][row, i] <- sclfits[scl_ind]
+      nobs_ind <- names(nobs_grds)
+      nobs_grds[[nobs_ind]][row, i] <- sum(ref_wts > 0)
     
     }
     
@@ -258,12 +281,18 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
     fill_grd(x, dat_in)
   })
   
+  # add year, month to nobs grids
+  nobs_grds <- lapply(nobs_grds, function(x) {
+    fill_grd(x, dat_in)
+  })
+  
   # add grids to tidal object, return
   attr(dat_out, 'half_wins') <- ref_wts
   attr(dat_out, 'fits') <- fit_grds
   attr(dat_out, 'bt_fits') <- bt_grds
   attr(dat_out, 'scls') <- scl_grds
   attr(dat_out, 'sal_grd') <- sal_grd
+  attr(dat_out, 'nobs') <- nobs_grds
   
   if(trace) cat('\n')
   

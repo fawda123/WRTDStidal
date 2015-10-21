@@ -36,7 +36,7 @@
 #' gridplot(tidfit)
 #' 
 #' ## no facets, all months
-#' gridplot(tidfit, months = 'all')
+#' gridplot(tidfit, month = 'all')
 #' 
 #' ## change the defaults
 #' gridplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12), 

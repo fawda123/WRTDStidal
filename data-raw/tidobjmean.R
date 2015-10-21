@@ -10,4 +10,4 @@ chldat <- tidalmean(chldat)
 
 tidobjmean <- wrtds(chldat)
 
-save(tidobjmean, file = 'data/tidobjmean.RData')
+save(tidobjmean, file = 'data/tidobjmean.RData', compress = 'xz')
