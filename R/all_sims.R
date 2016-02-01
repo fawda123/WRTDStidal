@@ -26,8 +26,8 @@
 all_sims <- function(dat_in, ...){
 
   out <- lnQ_sim(dat_in) %>% 
-    lnchla_err %>% 
-    lnchla_sim(., ...)
+    lnchla_err
+  out <- lnchla_sim(out, ...)
  
   return(out)
  

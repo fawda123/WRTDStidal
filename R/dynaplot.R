@@ -205,7 +205,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' 
 #' @method dynaplot tidalmean
 dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, alpha = 1, size = 1, logspace = TRUE, allsal = FALSE, ncol = NULL, grids = TRUE, scales = NULL, pretty = TRUE, use_bw = TRUE, fac_nms = NULL, ...){
- 
+  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
