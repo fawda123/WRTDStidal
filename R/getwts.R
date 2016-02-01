@@ -11,7 +11,7 @@
 #' @param slice logical indicating if data are subset by observations within the maximum window width for faster calculations
 #' @param ngrzero logical indicating if count of observations with weights greater than zero is returned
 #' @param wins_only logical if the half-window widths should be returned as a list
-#' #' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
+#' @param min_obs logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}
 #' @param ... arguments passed to or from other methods
 #' 
 #' @return A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.

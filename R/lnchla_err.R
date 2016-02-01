@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @import dplyr forecast scales
+#' @import dplyr forecast
 #' 
 #' @seealso \code{\link{daydat}}
 #' 
@@ -69,7 +69,8 @@ lnchla_err <- function(dat_in, yr = NULL) {
   
   # linear transform errrs to match those in the from the observed data
   rng <- range(dat_in$res, na.rm = T)
-  errs <- rescale(errs, to = rng)
+  rngerr <- range(errs, na.rm = TRUE)
+  errs <- (errs - rngerr[1])/diff(rngerr) * diff(rng) + rng[1]
   
   # remove extra cols, sort on date
   tosel <- c('date', 'sal', 'lnchla', 'Q', 'lnQ', 'jday', 'year', 'day', 'dec_time', 'scls', 'errs', 'lnQ_sim')
