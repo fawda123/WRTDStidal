@@ -44,7 +44,8 @@ lnQ_sim <- function(dat_in){
   # simulated data, linear trans to range of discharge
   sim_out <- as.numeric({seas_fit +  sd(seas_res) * errs})
   rng <- range(lnQ, na.rm = TRUE)
-  sim_out <- rescale(sim_out, to = rng)
+  rngsim <- range(sim_out, na.rm = TRUE)
+  sim_out <- (sim_out - rngsim[1])/diff(rngsim) * diff(rng) + rng[1]
   
   dat_in$lnQ_sim <- sim_out
   return(dat_in)

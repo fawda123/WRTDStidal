@@ -29,6 +29,7 @@ Get normalized model predictions from WRTDS to remove the effect of salinity on 
 This function is used after \code{wrtds} to normalize predicted values of chlorophyll from the interpolation grid for each model.  The normalized values are based on the average of all predicted chlorophyll estimates across the range of salinity values that have occurred on the same date throughout each year.  For example, normalized values for July 2000 are the mean predicted chlorophyll at that date using the observed salinity values that occur in July of all years.  The normalized values allow an interpretation of chlorophyll trends that are independent of changes in salinity or freshwater inputs.
 }
 \examples{
+\dontrun{
 ##
 
 # load a tidal object
@@ -42,6 +43,6 @@ data(tidobjmean)
 
 # get flow-normalized values
 res <- chlnorm(tidobjmean)
-
+}
 }
 

@@ -15,6 +15,7 @@
 #' @return Appends columns to the data.frame for normalized chlorophyll values.  For, tidal objects, columns are named starting with the prefix `norm', e.g., `norm0.5' are the normalized values for the fit through the median.  For tidalmean objects, columns are appended for the log-transformed and back-transformed normalized values, named `norm' and `bt_norm'.
 #'  
 #' @examples
+#' \dontrun{
 #' ##
 #' 
 #' # load a tidal object
@@ -28,7 +29,7 @@
 #' 
 #' # get flow-normalized values
 #' res <- chlnorm(tidobjmean)
-#' 
+#' }
 chlnorm <- function(dat_in, ...) UseMethod('chlnorm')
 
 #' @rdname chlnorm
