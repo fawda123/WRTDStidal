@@ -8,16 +8,16 @@
 \usage{
 wrtds(dat_in, ...)
 
-\method{wrtds}{tidal}(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...)
+\method{wrtds}{tidal}(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, ...)
 
-\method{wrtds}{tidalmean}(dat_in, sal_div = 10, trace = TRUE, ...)
+\method{wrtds}{tidalmean}(dat_in, flo_div = 10, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to or from other methods}
 
-\item{sal_div}{numeric indicating number of divisions across the range of salinity to create the interpolation grid}
+\item{flo_div}{numeric indicating number of divisions across the range of salinity/flow to create the interpolation grid}
 
 \item{tau}{numeric vector indicating conitional quantiles to fit in the weighted regression, can be many}
 

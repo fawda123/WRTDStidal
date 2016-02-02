@@ -5,26 +5,26 @@
 \alias{resinterp.default}
 \title{Interpolate from a fit grid}
 \usage{
-resinterp(date_in, sal_in, ...)
+resinterp(date_in, flo_in, ...)
 
-\method{resinterp}{default}(date_in, sal_in, fit_grd, sal_grd, ...)
+\method{resinterp}{default}(date_in, flo_in, fit_grd, flo_grd, ...)
 }
 \arguments{
 \item{date_in}{obseved data to interpolate for the response variable}
 
-\item{sal_in}{observed salinity value to interpolate for the response variable}
+\item{flo_in}{observed salinity/flow value to interpolate for the response variable}
 
 \item{...}{arguments passed to additional methods}
 
 \item{fit_grd}{interpolation grid created from \code{\link{wrtds}}}
 
-\item{sal_grd}{original vector of salinity values used to create interpolation grid}
+\item{flo_grd}{original vector of salinity/flow values used to create interpolation grid}
 }
 \value{
 Predicted values of the response variable from the interpolation
 }
 \description{
-Interpolate the response variable in two dimensions from the fit grid, where the first dimension is salinity and the second is date.
+Interpolate the response variable in two dimensions from the fit grid, where the first dimension is salinity/flow and the second is date.
 }
 \details{
 This function is used in \code{\link{respred}} and \code{\link{resnorm}}.
@@ -39,14 +39,14 @@ data(tidobj)
 fit_grd <- attr(tidobj, 'fits')
 fit_grd <- fit_grd[['fit0.5']]
 
-# salinity values used for interpolation grid
-sal_grd <- attr(tidobj, 'sal_grd')
+# salinity/flow values used for interpolation grid
+flo_grd <- attr(tidobj, 'flo_grd')
 
-# get observed salinity value to interpolate the response
+# get observed salinity/flow value to interpolate the response
 date_in <- tidobj$date[1]
-sal_in <- tidobj$sal[1]
+flo_in <- tidobj$flo[1]
 
-# interpolate the response from an observed date and salinity value
-resinterp(date_in, sal_in, fit_grd, sal_grd)
+# interpolate the response from an observed date and salinity/flow value
+resinterp(date_in, flo_in, fit_grd, flo_grd)
 }
 

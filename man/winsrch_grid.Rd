@@ -42,7 +42,7 @@ res <- winsrch_grid(tidobjmean)
 library(ggplot2)
 ggplot(res, aes(x = factor(mos), y = factor(yrs), fill = err)) +
    geom_tile() + 
-   facet_wrap(~ sal) + 
+   facet_wrap(~ flo) + 
    scale_x_discrete(expand = c(0, 0)) +
    scale_y_discrete(expand = c(0,0)) +
    scale_fill_gradientn(colours = gradcols()) 
@@ -52,7 +52,7 @@ res[which.min(res$err), ]
 
 ##
 # create a custom search grid, e.g. years only
-grid_in <- createsrch(mos = 1, yrs = seq(1, 10), sal = 1)
+grid_in <- createsrch(mos = 1, yrs = seq(1, 10), flo = 1)
 
 res <- winsrch_grid(tidobjmean, grid_in)
 

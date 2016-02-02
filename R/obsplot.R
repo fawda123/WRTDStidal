@@ -1,6 +1,6 @@
-#' Plot observed response variable and salinity data
+#' Plot observed response variable and salinity/flow data
 #' 
-#' Plot observed response variable and salinity time series from a tidal object
+#' Plot observed response variable and salinity/flow time series from a tidal object
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param lines logical indicating if a line plot is used, otherwise points
@@ -45,11 +45,11 @@ obsplot <- function(dat_in, ...) UseMethod('obsplot')
 #' @method obsplot default
 obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
   
-  to_plo <- as.data.frame(dat_in)[, c('date', 'res', 'sal')]
+  to_plo <- as.data.frame(dat_in)[, c('date', 'res', 'flo')]
   
-  # salinity back to observed range
-  salobs_rng <- attr(dat_in, 'salobs_rng')
-  to_plo$sal <- to_plo$sal * diff(salobs_rng) + salobs_rng[1]
+  # salinity/flow back to observed range
+  floobs_rng <- attr(dat_in, 'floobs_rng')
+  to_plo$flo <- to_plo$flo * diff(floobs_rng) + floobs_rng[1]
   
   # backtransform res
   if(!logspace) to_plo$res <- exp(to_plo$res)
@@ -72,7 +72,7 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   
   # change variable labels for plotting facet
   to_plo$variable <- factor(to_plo$variable, 
-    levels = c('res', 'sal'), 
+    levels = c('res', 'flo'), 
     labels = labels
     )
   

@@ -5,14 +5,14 @@
 \title{Create a grid of half-window widths to evaluate}
 \usage{
 createsrch(mos = c(seq(0.5, 1, by = 0.25), 2, 10), yrs = c(seq(5, 15, by =
-  3), 50), sal = c(seq(0.5, 1, by = 0.1), 5))
+  3), 50), flo = c(seq(0.5, 1, by = 0.1), 5))
 }
 \arguments{
 \item{mos}{numeric vector of half-window widths for months, a value of one indicates twelve months}
 
 \item{yrs}{numeric vector of half-window widths for years, a value of one indicates one-year}
 
-\item{sal}{numeric vector of half-window widths for salinity, a value of one indicates the full range of salinity values (100 percent)}
+\item{flo}{numeric vector of half-window widths for salinity or flow, a value of one indicates the full range of values (100 percent)}
 }
 \value{
 A matrix with number of rows equal to the product of the lengths of each input vector, where each row is a unique combination for the selected half-window widths.

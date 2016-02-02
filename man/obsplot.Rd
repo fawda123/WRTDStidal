@@ -5,7 +5,7 @@
 \alias{obsplot.default}
 \alias{obsplot.tidal}
 \alias{obsplot.tidalmean}
-\title{Plot observed response variable and salinity data}
+\title{Plot observed response variable and salinity/flow data}
 \usage{
 obsplot(dat_in, ...)
 
@@ -42,7 +42,7 @@ obsplot(dat_in, ...)
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot observed response variable and salinity time series from a tidal object
+Plot observed response variable and salinity/flow time series from a tidal object
 }
 \examples{
 

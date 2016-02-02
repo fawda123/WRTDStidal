@@ -10,7 +10,7 @@
 nobsplot(dat_in, ...)
 
 \method{nobsplot}{default}(dat_in, month = "all", years = NULL,
-  col_vec = NULL, allsal = TRUE, ncol = NULL, grids = FALSE,
+  col_vec = NULL, allflo = TRUE, ncol = NULL, grids = FALSE,
   pretty = TRUE, ...)
 
 \method{nobsplot}{tidal}(dat_in, ...)
@@ -28,7 +28,7 @@ nobsplot(dat_in, ...)
 
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 
-\item{allsal}{logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest}
+\item{allflo}{logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest}
 
 \item{ncol}{numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns}
 
@@ -43,7 +43,7 @@ A \code{\link[ggplot2]{ggplot}} object that can be further modified
 Plot number of observations for each point in a WRTDS interpolation grid.  This is a diagnostic plot to identify sample size for each unique location in the domain of the time series that is considered during model fitting.
 }
 \details{
-The plots can be used sample size as an indication of model fit for each unique location in the domain space of the time series.  The plots show grids of the number of observations with weights greater than zero for each unique date and salinity combination.  The \code{obs} attribute in the \code{tidal} or \code{tidalmean} object is created during model fitting and has the same dimensions as the interpolation grid.  Each row is a unique date in the original dataset and each column is a salinity value used to fit each regression (i.e., values in the \code{sal_grd} attribute). In general, low points in the grid may indicate locations in the time series where insufficient data could affect model fit.
+The plots can be used sample size as an indication of model fit for each unique location in the domain space of the time series.  The plots show grids of the number of observations with weights greater than zero for each unique date and salinity/flow combination.  The \code{obs} attribute in the \code{tidal} or \code{tidalmean} object is created during model fitting and has the same dimensions as the interpolation grid.  Each row is a unique date in the original dataset and each column is a salinity/flow value used to fit each regression (i.e., values in the \code{flo_grd} attribute). In general, low points in the grid may indicate locations in the time series where insufficient data could affect model fit.
 
 Unlike \code{\link{gridplot}}, interpolation of the grids for a smoother appearance is not allowed because the objecive is to identify specific locations with low sample size.  For the former function, the objective is to characterize general trends over time rather values at specific locations.
 }
@@ -60,7 +60,7 @@ nobsplot(tidfit)
 
 ## change the defaults
 nobsplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12), 
- col_vec = c('red', 'blue', 'green'), sal_fac = 1)
+ col_vec = c('red', 'blue', 'green'), flo_fac = 1)
  
 ## plot a tidalmean object
 data(tidfitmean)

@@ -28,7 +28,7 @@ Appends columns to the data.frame for the predicted values.  For tidal objects, 
 Get model predictions from WRTDS using linear interpolation of values in grids
 }
 \details{
-This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity and two date values nearest to the observed salinity and date values to predict.
+This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity/flow and two date values nearest to the observed salinity/flow and date values to predict.
 }
 \examples{
 ##

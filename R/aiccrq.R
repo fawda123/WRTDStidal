@@ -19,7 +19,7 @@
 #' # get the model
 #' mod <- quantreg::crq(
 #'    survival::Surv(res, not_cens, type = "left") ~ 
-#'      dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
+#'      dec_time + flo + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
 #'    weights = ref_wts,
 #'    data = tidobj, 
 #'    method = "Portnoy"
@@ -35,7 +35,7 @@ aiccrq <- function(mod_in, tau = 0.5){
   
   # predicted values by quantile model coefficients
   fits <- with(dat_in, 
-    parms[1] + parms[2] * dec_time + parms[3] * sal + parms[4] * sin(2*pi*dec_time) + parms[5] * cos(2*pi*dec_time)
+    parms[1] + parms[2] * dec_time + parms[3] * flo + parms[4] * sin(2*pi*dec_time) + parms[5] * cos(2*pi*dec_time)
   )
   
   # residuals

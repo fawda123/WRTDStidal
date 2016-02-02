@@ -3,7 +3,7 @@
 #' Use k-fold cross-validation to evaluate WRTDS model fit based on supplied half-window widths.
 #'
 #' @param dat_in input model object
-#' @param wins list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}
+#' @param wins list of input half-window widths of the order months, years, and salinity/flow, passed to \code{\link{getwts}}
 #' @param k number of folds to evaluate
 #' @param seed_val seed to keep the same dataset divisions between window width comparisons
 #' @param trace logical indicating if progress is printed in the console
@@ -27,7 +27,7 @@
 #' registerDoParallel(cores = ncores)
 #' 
 #' # half-window widths to evaluate
-#' # months, years, and salinity
+#' # months, years, and salinity/flow
 #' wins <- list(0.5, 10, 0.5) 
 #' 
 #' #get ocv score for k = 10

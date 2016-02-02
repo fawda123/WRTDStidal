@@ -4,7 +4,7 @@
 #' Get WRTDS prediction grid for observations of the response variable in a tidal or tidalmean object
 #'
 #' @param dat_in input tidal or tidalmean object
-#' @param sal_div numeric indicating number of divisions across the range of salinity to create the interpolation grid
+#' @param flo_div numeric indicating number of divisions across the range of salinity/flow to create the interpolation grid
 #' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
@@ -38,13 +38,13 @@ wrtds <- function(dat_in, ...) UseMethod('wrtds')
 #' @export
 #'
 #' @method wrtds tidal
-wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
+wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, ...){
   
-  #salinity values to estimate
-  sal_grd <- seq(
-    min(dat_in$sal, na.rm = TRUE), 
-    max(dat_in$sal, na.rm = TRUE), 
-    length = sal_div
+  #salinity/flow values to estimate
+  flo_grd <- seq(
+    min(dat_in$flo, na.rm = TRUE), 
+    max(dat_in$flo, na.rm = TRUE), 
+    length = flo_div
     )
 
   # sort
@@ -54,12 +54,12 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   dat_out <- dat_in
   
   # output for predictions
-  fit_grds <- matrix(nrow = nrow(dat_in), ncol = sal_div)
+  fit_grds <- matrix(nrow = nrow(dat_in), ncol = flo_div)
   fit_grds <- replicate(length(tau), fit_grds, simplify = FALSE)
   names(fit_grds) <- paste0('fit', tau)
 
   # output for nobs
-  nobs_grds <- matrix(nrow = nrow(dat_in), ncol = sal_div)
+  nobs_grds <- matrix(nrow = nrow(dat_in), ncol = flo_div)
   nobs_grds <- list(nobs_grds)
   names(nobs_grds) <- 'nobs'
   
@@ -81,19 +81,19 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       if(length(perc) != 0) cat(perc, '\t')
     }
     
-    # then iterate through values in sal_grd
-    for(i in seq_along(sal_grd)){
+    # then iterate through values in flo_grd
+    for(i in seq_along(flo_grd)){
       
-      ref_in$sal <- sal_grd[i]
+      ref_in$flo <- flo_grd[i]
       ref_wts <- getwts(dat_in, ref_in, ...)
       
       # data to predict
-      pred_dat <- data.frame(sal = sal_grd[i], dec_time = ref_in$dec_time)
+      pred_dat <- data.frame(flo = flo_grd[i], dec_time = ref_in$dec_time)
       
       # crq model, estimates all quants
       mod <- quantreg::crq(
         survival::Surv(res, not_cens, type = "left") ~ 
-          dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
+          dec_time + flo + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
         weights = ref_wts,
         data = dat_in, 
         method = "Portnoy"
@@ -109,7 +109,7 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       # predicted values by quantile model coefficients
       fits <- sapply(seq_along(tau), function(x){
         with(pred_dat, 
-          parms[1, x] + parms[2, x] * dec_time + parms[3, x] * sal + parms[4, x] * sin(2*pi*dec_time) + parms[5, x] * cos(2*pi*dec_time)
+          parms[1, x] + parms[2, x] * dec_time + parms[3, x] * flo + parms[4, x] * sin(2*pi*dec_time) + parms[5, x] * cos(2*pi*dec_time)
         )
       })
       names(fits) <- names(fit_grds)
@@ -146,7 +146,7 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
   # add grids to tidal object, return
   attr(dat_out, 'half_wins') <- ref_wts
   attr(dat_out, 'fits') <- fit_grds
-  attr(dat_out, 'sal_grd') <- sal_grd
+  attr(dat_out, 'flo_grd') <- flo_grd
   attr(dat_out, 'nobs') <- nobs_grds
   
   if(trace) cat('\n')
@@ -160,20 +160,20 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
 #' @export
 #'
 #' @method wrtds tidalmean
-wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
+wrtds.tidalmean <- function(dat_in, flo_div = 10, trace = TRUE, ...){
   
-  #salinity values to estimate
-  sal_grd <- seq(
-    min(dat_in$sal, na.rm = TRUE), 
-    max(dat_in$sal, na.rm = TRUE), 
-    length = sal_div
+  #salinity/flow values to estimate
+  flo_grd <- seq(
+    min(dat_in$flo, na.rm = TRUE), 
+    max(dat_in$flo, na.rm = TRUE), 
+    length = flo_div
     )
   
   # save orig for output
   dat_out <- dat_in
     
   # output for predictions, log-space
-  fit_grds <- matrix(nrow = nrow(dat_in), ncol = sal_div)
+  fit_grds <- matrix(nrow = nrow(dat_in), ncol = flo_div)
   fit_grds <- list(fit_grds)
   names(fit_grds) <- 'fitmean'
   
@@ -206,14 +206,14 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
       if(length(perc) != 0) cat(perc, '\t')
     }
     
-    # then iterate through values in sal_grd
-    for(i in seq_along(sal_grd)){
+    # then iterate through values in flo_grd
+    for(i in seq_along(flo_grd)){
       
-      ref_in$sal <- sal_grd[i]
+      ref_in$flo <- flo_grd[i]
       ref_wts <- getwts(dat_in, ref_in, ...)
       
       # data to predict
-      pred_dat <- data.frame(sal = sal_grd[i], dec_time = ref_in$dec_time)
+      pred_dat <- data.frame(flo = flo_grd[i], dec_time = ref_in$dec_time)
       
       # data to model, only those w/ weights > 0
       to_mod <- dat_in[ref_wts > 0, ]
@@ -222,7 +222,7 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
       # parametric survival mod
       mod <- try({survival::survreg(
         survival::Surv(res, not_cens, type = "left")
-          ~ dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time),
+          ~ dec_time + flo + sin(2*pi*dec_time) + cos(2*pi*dec_time),
         weights = ref_wts,
         data = to_mod, 
         dist = 'gaussian'
@@ -291,7 +291,7 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
   attr(dat_out, 'fits') <- fit_grds
   attr(dat_out, 'bt_fits') <- bt_grds
   attr(dat_out, 'scls') <- scl_grds
-  attr(dat_out, 'sal_grd') <- sal_grd
+  attr(dat_out, 'flo_grd') <- flo_grd
   attr(dat_out, 'nobs') <- nobs_grds
   
   if(trace) cat('\n')

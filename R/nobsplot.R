@@ -6,13 +6,13 @@
 #' @param month numeric indicating months to plot or chr string 'all' to indicate all months with no plot facets
 #' @param years numeric vector of years to plot, defaults to all
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
-#' @param allsal logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest
+#' @param allflo logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest
 #' @param ncol numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns
 #' @param grids logical indicating if grid lines are present
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to other methods
 #' 
-#' @details The plots can be used sample size as an indication of model fit for each unique location in the domain space of the time series.  The plots show grids of the number of observations with weights greater than zero for each unique date and salinity combination.  The \code{obs} attribute in the \code{tidal} or \code{tidalmean} object is created during model fitting and has the same dimensions as the interpolation grid.  Each row is a unique date in the original dataset and each column is a salinity value used to fit each regression (i.e., values in the \code{sal_grd} attribute). In general, low points in the grid may indicate locations in the time series where insufficient data could affect model fit.
+#' @details The plots can be used sample size as an indication of model fit for each unique location in the domain space of the time series.  The plots show grids of the number of observations with weights greater than zero for each unique date and salinity/flow combination.  The \code{obs} attribute in the \code{tidal} or \code{tidalmean} object is created during model fitting and has the same dimensions as the interpolation grid.  Each row is a unique date in the original dataset and each column is a salinity/flow value used to fit each regression (i.e., values in the \code{flo_grd} attribute). In general, low points in the grid may indicate locations in the time series where insufficient data could affect model fit.
 #' 
 #' Unlike \code{\link{gridplot}}, interpolation of the grids for a smoother appearance is not allowed because the objecive is to identify specific locations with low sample size.  For the former function, the objective is to characterize general trends over time rather values at specific locations.  
 #' 
@@ -37,7 +37,7 @@
 #' 
 #' ## change the defaults
 #' nobsplot(tidfit, tau = c(0.1), month = c(3, 6, 9, 12), 
-#'  col_vec = c('red', 'blue', 'green'), sal_fac = 1)
+#'  col_vec = c('red', 'blue', 'green'), flo_fac = 1)
 #'  
 #' ## plot a tidalmean object
 #' data(tidfitmean)
@@ -52,7 +52,7 @@ nobsplot <- function(dat_in, ...) UseMethod('nobsplot')
 #' @export 
 #' 
 #' @method nobsplot default
-nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL, allsal = TRUE, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL, allflo = TRUE, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -68,8 +68,8 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
   month <- month[month %in% dat_in$month]
   if(length(month) == 0) stop('No observable data for the chosen month')
   
-  # salinity grid values
-  sal_grd <- attr(dat_in, 'sal_grd')
+  # salinity/flow grid values
+  flo_grd <- attr(dat_in, 'flo_grd')
 
   # get the selected months
   to_plo <- attr(dat_in, 'nobs')[[1]]
@@ -80,9 +80,9 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
   xlabel <- attr(dat_in, 'flolab')
 
   # reshape data frame
-  names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'nobs', 5:ncol(to_plo)) %>% 
-    mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
+  names(to_plo)[grep('^X', names(to_plo))] <- paste('flo', flo_grd)
+  to_plo <- tidyr::gather(to_plo, 'flo', 'nobs', 5:ncol(to_plo)) %>% 
+    mutate(flo = as.numeric(gsub('^flo ', '', flo))) %>% 
     select(-date, -day)
   
   # subset years to plot
@@ -94,17 +94,17 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
   
   }
   
-  # constrain plots to salinity limits for the selected month
-  if(!allsal & !allmo){
+  # constrain plots to salinity/flow limits for the selected month
+  if(!allflo & !allmo){
     
-    #min, max salinity values to plot
+    #min, max salinity/flow values to plot
     lim_vals<- group_by(data.frame(dat_in), month) %>% 
       summarize(
-        Low = quantile(sal, 0.05, na.rm = TRUE),
-        High = quantile(sal, 0.95, na.rm = TRUE)
+        Low = quantile(flo, 0.05, na.rm = TRUE),
+        High = quantile(flo, 0.95, na.rm = TRUE)
       )
   
-    # month sal ranges for plot
+    # month flo ranges for plot
     lim_vals <- lim_vals[lim_vals$month %in% month, ]
     
     # merge limts with months
@@ -112,8 +112,8 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
     
     # reduce data
     sel_vec <- with(to_plo, 
-      sal >= Low &
-      sal <= High
+      flo >= Low &
+      flo <= High
       )
     to_plo <- to_plo[sel_vec, !names(to_plo) %in% c('Low', 'High')]
     to_plo <- arrange(to_plo, year, month)
@@ -136,7 +136,7 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
   }
     
   # make plot
-  p <- ggplot(to_plo, aes(x = year, y = sal, fill = nobs)) + 
+  p <- ggplot(to_plo, aes(x = year, y = flo, fill = nobs)) + 
     geom_tile(data = subset(to_plo, !is.na(to_plo$nobs)), aes(fill = nobs)) +
     geom_tile(data = subset(to_plo,  is.na(to_plo$nobs)), fill = 'black', alpha = 0) 
 

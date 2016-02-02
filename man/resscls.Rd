@@ -23,7 +23,7 @@ Appends columns to the data.frame for the associated scale value for the predict
 Get the scale parameters for predicted values of the response variable, only applies to \code{\link{tidalmean}} objects.
 }
 \details{
-This function is used after \code{wrtds} to get scale parameters for predicted values of the response variable from the interpolation grids.  The values are based on a bilinear interpolation of the four predicted response values at two salinity and two date values nearest to the observed salinity and date values to predict.
+This function is used after \code{wrtds} to get scale parameters for predicted values of the response variable from the interpolation grids.  The values are based on a bilinear interpolation of the four predicted response values at two salinity/flow and two date values nearest to the observed salinity/flow and date values to predict.
 }
 \examples{
 ##

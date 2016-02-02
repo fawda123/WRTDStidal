@@ -4,18 +4,18 @@
 #' 
 #' @param dat_in input tidal object
 #' @param ref chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.
-#' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity
+#' @param wins list with three elements passed to \code{\link{getwts}} indicating the half-window widths for day, year, and salinity/flow
 #' @param min_obs logical to use window widening if less than 100 non-zero weights are found, passed to \code{\link{getwts}}
 #' @param slice logical indicating if only weights bounded by the year window (i.e., the limiting window for the combined weights) are shown, passed to \code{\link{getwts}}
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
-#' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
+#' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity/flow vs time.
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param col_lns chr string of line color in plots
 #' @param alpha numeric value from zero to one indicating transparency of points and lines
 #' @param as_list logical indicating if plots should be returned in a list
 #' @param ... arguments passed to other methods
 #' 
-#' @details Create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector.   
+#' @details Create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity/flow over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity/flow) and the final combined vector.   
 #' 
 #' @import ggplot2 gridExtra
 #' 
@@ -87,7 +87,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   yr_sub <- dat_in$year == ref$year
   yr_val<- ref$year
   mo_val <- ref$mo
-  sal_val <- paste(attr(dat_in, 'flolab'), round(ref$sal, 2))
+  flo_val <- paste(attr(dat_in, 'flolab'), round(ref$flo, 2))
 
   # colors
   cols <- gradcols(col_vec = col_vec)
@@ -117,8 +117,8 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     ggtitle('Year') +
     theme_bw()
   
-  # salinity wts
-  p3_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'sal'])
+  # salinity/flow wts
+  p3_dat <- data.frame(Date = dat_in$date, Wt = ref_wts[, 'flo'])
   p3 <- ggplot(p3_dat, aes_string(x = 'Date', y = 'Wt')) + 
     geom_line(colour = col_lns, alpha = alpha) + 
     scale_y_continuous(name = element_blank(),limits=c(0,1)) +
@@ -138,19 +138,19 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   ##
   #ggplot showing point size and color in relation to total weight
   p_dat <- data.frame(
-    dat_in[, c('date', 'res', 'sal')],
+    dat_in[, c('date', 'res', 'flo')],
     ref_wts
   )
   
   grzero <- sum(p_dat$allwts > 0) 
-  p_dat_plo <- ggplot(p_dat, aes_string(x = 'date', y = 'sal', 
+  p_dat_plo <- ggplot(p_dat, aes_string(x = 'date', y = 'flo', 
       colour = 'allwts', size = 'allwts')) +
     geom_point(alpha = alpha) +
     scale_colour_gradientn(colours = rev(cols)) +
-    scale_y_continuous(limits = c(0, max(dat_in$sal)), name = attr(dat_in, 'flolab')) +
+    scale_y_continuous(limits = c(0, max(dat_in$flo)), name = attr(dat_in, 'flolab')) +
     scale_x_date(name = element_blank(), limits = dt_rng) +
     scale_size(range = pt_rng) +
-    ggtitle(paste(ref$date, sal_val, paste0(grzero, ' obs with wts > 0'), sep = ', ')) + 
+    ggtitle(paste(ref$date, flo_val, paste0(grzero, ' obs with wts > 0'), sep = ', ')) + 
     theme_bw() +
     theme(legend.position = 'none')
   

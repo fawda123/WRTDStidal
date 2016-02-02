@@ -15,7 +15,7 @@ wrtdscv(dat_in, ...)
 
 \item{...}{arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}}
 
-\item{wins}{list of input half-window widths of the order months, years, and salinity, passed to \code{\link{getwts}}}
+\item{wins}{list of input half-window widths of the order months, years, and salinity/flow, passed to \code{\link{getwts}}}
 
 \item{k}{number of folds to evaluate}
 
@@ -40,7 +40,7 @@ ncores <- detectCores() - 1
 registerDoParallel(cores = ncores)
 
 # half-window widths to evaluate
-# months, years, and salinity
+# months, years, and salinity/flow
 wins <- list(0.5, 10, 0.5) 
 
 #get ocv score for k = 10

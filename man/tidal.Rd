@@ -8,9 +8,9 @@ tidal(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
   reslog = TRUE, ...)
 }
 \arguments{
-\item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), response variable, salinity, and detection limit for left-censored data}
+\item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), response variable, salinity/flow, and detection limit for left-censored data}
 
-\item{ind}{four element numeric vector indicating column positions of date, response variable, salinity, and detection limit of input data frame}
+\item{ind}{four element numeric vector indicating column positions of date, response variable, salinity/flow, and detection limit of input data frame}
 
 \item{reslab}{character string or expression for labelling the response variable in plots, defaults to log-chlorophyll in ug/L}
 
@@ -21,16 +21,16 @@ tidal(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
 \item{...}{arguments passed from other methods}
 }
 \value{
-A tidal object as a data frame and attributes.  The data frame has columns ordered as date, response variable, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
+A tidal object as a data frame and attributes.  The data frame has columns ordered as date, response variable, salinity/flow (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 \describe{
  \item{\code{names}}{Column names of the data frame}
  \item{\code{row.names}}{Row names of the data frame}
  \item{\code{class}}{Class of the object}
  \item{\code{half_wins}}{List of numeric values used for half-window widths for model fitting, in the same order as the wt_vars argument passed to \code{\link{getwts}}. Initially will be NULL if \code{wrtds} has not been used.}
  \item{\code{fits}}{List of matrices with fits for the WRTDS interpolation grid, defaults to one list for the median quantile.  Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
- \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
- \item{\code{salobs_rng}}{Two element vector indicating the salinity range of the observed data}
- \item{\code{nobs}}{List with one matrix showing the number of weights greater than zero for each date and salinity combination used to create the fit matrices in \code{fits}.  Number of observations are the same for each quantile model.  Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
+ \item{\code{flo_grd}}{Numeric vector of salinity/flow values that was used for the interpolation grids}
+ \item{\code{floobs_rng}}{Two element vector indicating the salinity/flow range of the observed data}
+ \item{\code{nobs}}{List with one matrix showing the number of weights greater than zero for each date and salinity/flow combination used to create the fit matrices in \code{fits}.  Number of observations are the same for each quantile model.  Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
  \item{\code{reslab}}{expression or character string for response variable label in plots}
  \item{\code{flolab}}{expression or character string for flow variable label in plots}
 }
@@ -39,7 +39,7 @@ A tidal object as a data frame and attributes.  The data frame has columns order
 Prepare water quality data for weighted regression by creating a tidal class object
 }
 \details{
-This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a four-column \code{\link[base]{data.frame}} with date, response variable, salinity data, and detection limit for each observation of the response.  The response variable is assumed to be log-transformed, otherwise use \code{reslog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.  Missing observations are also removed.
+This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a four-column \code{\link[base]{data.frame}} with date, response variable, salinity/flow data, and detection limit for each observation of the response.  The response variable is assumed to be log-transformed, otherwise use \code{reslog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.  Missing observations are also removed.
 }
 \examples{
 ## raw data

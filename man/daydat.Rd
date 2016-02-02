@@ -7,7 +7,7 @@
 \format{A data frame with 3506 rows and 9 variables, 1985 to 2014:
 \describe{
   \item{\code{date}}{Date as daily time step} 
-  \item{\code{sal}}{numeric for salinity, ppt}
+  \item{\code{flo}}{numeric for salinity, ppt}
   \item{\code{lnres}}{numeric for chlorophyll fluorescence as ln-transformed ug/l}
   \item{\code{Q}}{numeric for daily discharge m3/s}
   \item{\code{lnQ}}{numeric for daily discharge ln-transformed m3/s}

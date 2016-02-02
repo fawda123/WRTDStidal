@@ -6,7 +6,7 @@
 #' @param dat_in input tidal object
 #' @param ref_in row of tidal object as reference for weights
 #' @param wt_vars chr string of three elements indicatings names of columns in tidal object that are used for reference row weights
-#' @param wins list of half-window widths for time, year, and salinity
+#' @param wins list of half-window widths for time, year, and flow
 #' @param all logical to return individual weights rather than the product of all three, default \code{FALSE}
 #' @param slice logical indicating if data are subset by observations within the maximum window width for faster calculations
 #' @param ngrzero logical indicating if count of observations with weights greater than zero is returned
@@ -17,7 +17,7 @@
 #' @return A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.
 #' 
 #' @details
-#' The default half-window widths for \code{day_num}, \code{year}, and \code{sal} are half a day (12 hours), 10 years, and half the range of salinity in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{min_obs = FALSE}.
+#' The default half-window widths for \code{day_num}, \code{year}, and \code{flow} are half a day (12 hours), 10 years, and half the range of salinity/flow in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{min_obs = FALSE}.
 #' 
 #' @export
 #' 
@@ -45,7 +45,7 @@ getwts <- function(dat_in, ...) UseMethod('getwts')
 #' 
 #' @method getwts default
 getwts.default <- function(dat_in, ref_in,
-  wt_vars = c('day_num', 'dec_time', 'sal'),
+  wt_vars = c('day_num', 'dec_time', 'flo'),
   wins = list(0.5, 10, NULL),
   all = FALSE, 
   slice = TRUE, 

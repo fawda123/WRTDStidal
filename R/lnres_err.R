@@ -37,7 +37,7 @@ lnres_err <- function(dat_in, yr = NULL) {
   tomod <- select(stat_dat, date, lnres, lnQ) %>% 
     rename(
       res = lnres,
-      sal = lnQ
+      flo = lnQ
     ) %>% 
     mutate(lim = -1e6)
   cat('\nEstimating stationary, seasonal model with WRTDS...\n')
@@ -73,7 +73,7 @@ lnres_err <- function(dat_in, yr = NULL) {
   errs <- (errs - rngerr[1])/diff(rngerr) * diff(rng) + rng[1]
   
   # remove extra cols, sort on date
-  tosel <- c('date', 'sal', 'lnres', 'Q', 'lnQ', 'jday', 'year', 'day', 'dec_time', 'scls', 'errs', 'lnQ_sim')
+  tosel <- c('date', 'flo', 'lnres', 'Q', 'lnQ', 'jday', 'year', 'day', 'dec_time', 'scls', 'errs', 'lnQ_sim')
   dat_in <- dat_in[, names(dat_in) %in% tosel]
   dat_in <- arrange(dat_in, date)
   

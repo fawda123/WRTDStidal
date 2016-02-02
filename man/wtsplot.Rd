@@ -24,7 +24,7 @@ wtsplot(dat_in, ...)
 
 \item{ref}{chr string indicating the date at the center of the weighting window. Must be in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.  The closest observation is used if the actual is not present in the data.  Defaults to the mean date if not supplied.}
 
-\item{wins}{list with three elements passed to \code{\link{getwts}} indicating the half-window widhts for day, year, and salinity}
+\item{wins}{list with three elements passed to \code{\link{getwts}} indicating the half-window widths for day, year, and salinity/flow}
 
 \item{min_obs}{logical to use window widening if less than 100 non-zero weights are found, passed to \code{\link{getwts}}}
 
@@ -32,7 +32,7 @@ wtsplot(dat_in, ...)
 
 \item{dt_rng}{Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
-\item{pt_rng}{numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.}
+\item{pt_rng}{numeric vector of two elements indicating point scaling for all weights in the plot of salinity/flow vs time.}
 
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 
@@ -49,7 +49,7 @@ A combined \code{\link[ggplot2]{ggplot}} object created using \code{\link[gridEx
 Create several plots showing the weights used to fit a model for a single observation.
 }
 \details{
-Create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector.
+Create diagnostic plots to view the effects of different weighting windows on model predictions.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  The process is repeated for all observations when the entire model is fit.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity/flow over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity/flow) and the final combined vector.
 }
 \examples{
 

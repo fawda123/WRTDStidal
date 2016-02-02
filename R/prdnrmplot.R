@@ -1,6 +1,6 @@
 #' Plot combined predicted and normalized results from a tidal object
 #' 
-  #' Plot combined predicted and normalized results from a tidal object to evaluate the influence of salinity changes on the response variable. The plot is similar to that produced by \code{\link{fitplot}} except predicted values are shown as points and observed values are removed.
+  #' Plot combined predicted and normalized results from a tidal object to evaluate the influence of salinity or flow changes on the response variable. The plot is similar to that produced by \code{\link{fitplot}} except predicted values are shown as points and observed values are removed.
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied

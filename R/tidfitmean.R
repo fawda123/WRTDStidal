@@ -5,7 +5,7 @@
 #' \describe{
 #'   \item{\code{date}}{Date}
 #'   \item{\code{res}}{numeric}
-#'   \item{\code{sal}}{numeric}
+#'   \item{\code{flo}}{numeric}
 #'   \item{\code{lim}}{numeric}
 #'   \item{\code{not_cens}}{logical}
 #'   \item{\code{day_num}}{numeric}
