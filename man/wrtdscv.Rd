@@ -2,18 +2,18 @@
 % Please edit documentation in R/wrtdscv.R
 \name{wrtdscv}
 \alias{wrtdscv}
-\alias{wrtdscv.tidalmean}
+\alias{wrtdscv.default}
 \title{Use k-fold cross-validation to evaluate WRTDS model fit}
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{tidalmean}(dat_in, wins, k = 10, seed_val = 123,
+\method{wrtdscv}{default}(dat_in, wins, k = 10, seed_val = 123,
   trace = TRUE, ...)
 }
 \arguments{
-\item{dat_in}{input model object}
+\item{dat_in}{input tidal or tidamean object}
 
-\item{...}{arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}}
+\item{...}{arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}, e.g., \code{tau = 0.2} if a \code{tidal} object is used for \code{dat_in}}
 
 \item{wins}{list of input half-window widths of the order months, years, and salinity/flow, passed to \code{\link{getwts}}}
 
@@ -43,9 +43,11 @@ registerDoParallel(cores = ncores)
 # months, years, and salinity/flow
 wins <- list(0.5, 10, 0.5) 
 
-#get ocv score for k = 10
+# get ocv score for k = 10
 wrtdscv(tidobjmean, wins = wins)
 
+# get ocv score k = 2, tau = 0.2 
+wrtdscv(tidobj, wins = wins, tau = 0.2)
 }
 }
 \seealso{

@@ -2,12 +2,12 @@
 #'
 #' Use k-fold cross-validation to evaluate WRTDS model fit based on supplied half-window widths.
 #'
-#' @param dat_in input model object
+#' @param dat_in input tidal or tidamean object
 #' @param wins list of input half-window widths of the order months, years, and salinity/flow, passed to \code{\link{getwts}}
 #' @param k number of folds to evaluate
 #' @param seed_val seed to keep the same dataset divisions between window width comparisons
 #' @param trace logical indicating if progress is printed in the console
-#' @param ... arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}
+#' @param ... arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}, e.g., \code{tau = 0.2} if a \code{tidal} object is used for \code{dat_in}
 #' 
 #' @export
 #' 
@@ -30,11 +30,14 @@
 #' # months, years, and salinity/flow
 #' wins <- list(0.5, 10, 0.5) 
 #' 
-#' #get ocv score for k = 10
+#' # get ocv score for k = 10
 #' wrtdscv(tidobjmean, wins = wins)
 #' 
+#' # get ocv score k = 2, tau = 0.2 
+#' wrtdscv(tidobj, wins = wins, tau = 0.2)
 #'}
 wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
+
 
 #' @rdname wrtdscv
 #' 
@@ -42,8 +45,13 @@ wrtdscv <- function(dat_in, ...) UseMethod('wrtdscv')
 #' 
 #' @export
 #'
-#' @method wrtdscv tidalmean
-wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, ...){
+#' @method wrtdscv default
+wrtdscv.default <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, ...){
+  
+  # check if only one tau, if provided
+  if('tau' %in% names(list(...)))
+    if(length(list(...)$tau) != 1)
+      stop('Only one quantile can be evaluated')
   
   set.seed(seed_val)
   
@@ -66,22 +74,22 @@ wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE
     dat_tst <- dat_in[folds[[i]], ]
     
     # args to pass to wrtds
-    args <- c(list(dat_in = dat_trn, wins = wins, trace = FALSE), list(...))
+    args <- c(list(dat_in = dat_trn, wins = wins, trace = trace), list(...))
 
     # model on training
     mod <- do.call(wrtds, args)
-    
+
     # predictions on test
     prd_tst <- respred(mod, dat_tst, trace = FALSE)
 
     # residual, cv score for the sample
-    res <- na.omit(with(prd_tst, res - fits))
-    err <- sum(res^2)/length(res)
+    rsd <- na.omit(prd_tst[, 'res'] - prd_tst[, grep('^fit', names(prd_tst))])
+    err <- sum(rsd^2)/length(rsd)
     
     return(err)
     
   }
-  
+
   # average of all
   errs <- unlist(errs)
   out <- mean(errs)
