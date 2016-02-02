@@ -1,15 +1,17 @@
-# WRTDStidal: evaluating long-term chlorophyll trends in tidal waters
+# WRTDStidal: evaluating long-term water quality trends in tidal waters
 Marcus W. Beck, beck.marcus@epa.gov, James D. Hagy III, hagy.jim@epa.gov  
 
 Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/WRTDStidal.png?branch=master)](http://travis-ci.org/fawda123/WRTDStidal)
 
 Windows: [![AppVeyor Build Status](http://ci.appveyor.com/api/projects/status/github/fawda123/wtreg_for_estuaries?branch=master)](http://ci.appveyor.com/project/fawda123/wtreg_for_estuaries)
 
-This is the development repository for the WRTDStidal package.  Functions within this package can be used to model chlorophyll time series from coastal monitoring data.  The approach follows on previous methods described in the [EGRET](https://github.com/USGS-R/EGRET) package developed by USGS for non-tidal waters.  Details are forthcoming: 
+This is the development repository for the WRTDStidal package.  Functions within this package can be used to model water quality time series from coastal monitoring data.  The approach follows on previous methods described in the [EGRET](https://github.com/USGS-R/EGRET) package developed by USGS for non-tidal waters.  
+
+Additional details: 
 
 *Beck MW, Hagy JD. 2015. Adaptation of a weighted regression approach to evaluate water quality trends in an Estuary. Environmental Modelling and Assessment. 20(6):637-855. [http://dx.doi.org/10.1007/s10666-015-9452-8](http://dx.doi.org/10.1007/s10666-015-9452-8)*
 
-Please send an email to beck.marcus@epa.gov for the accepted draft.  The original method for streams and rivers is described here:
+The original method for streams and rivers is described here:
 
 *Hirsch RM, De Cicco L. 2014. User guide to Exploration and Graphics for RivEr Trends (EGRET) and dataRetrieval: R packages for hydrologic data. Techniques and Methods book 4, ch. A10, US Geological Survey, Reston, Virginia. http://pubs.usgs.gov/tm/04/a10/*
 
@@ -17,11 +19,11 @@ Please send an email to beck.marcus@epa.gov for the accepted draft.  The origina
 
 ## Brief description of WRTDS for tidal waters
 
-The WRTDS tidal method relates chlorophyll concentration to salinity and time for evaluating trends in long-term water quality time series.  The functional form of the model is a simple regression that relates the natural log of chlorophyll to decimal time and salinity on a sinuisoidal annual time scale (i.e., cyclical variation by year).  Two basic models can be created that include fitting chlorophyll as a conditional mean or as a conditional quantile response.  Quantile regression models can be used to characterize trends for conditional distributions of chlorophyll, e.g., the median or 90<sup>th</sup> percentile. An additional advantage of quantile regression is that bias associated with back-transformation of predicted values in log-space to a linear space does not occur because estimates are equivariant to non-linear, monotonic transformations.  Mean models are more restrictive and also require an estimation of the back-transformation bias parameter.  For both model types, left-censored observations below the minimum detection limit can be included in the data.  Quantile models use a method that builds on the Kaplan-Meier approximation for a single-sample survival function by generalizing to conditional regression quantiles.  The mean response is characterized using a similar approach for regression with a parametric survival model.
+The WRTDS tidal method relates a water qualty response variable to salinity (or flow) and time to evaluate trends in long-term water quality time series.  The functional form of the model is a simple regression that relates the natural log of response variable to decimal time and salinity/flow on a sinuisoidal annual time scale (i.e., cyclical variation by year).  Two basic models can be created that include fitting the response as a conditional mean or as a conditional quantile.  Quantile regression models can be used to characterize trends for conditional distributions of the response, e.g., the median or 90<sup>th</sup> percentile. An additional advantage of quantile regression is that bias associated with back-transformation of predicted values in log-space to a linear space does not occur because estimates are equivariant to non-linear, monotonic transformations.  Mean models are more restrictive and also require an estimation of the back-transformation bias parameter.  For both model types, left-censored observations below the minimum detection limit can be included in the data.  Quantile models use a method that builds on the Kaplan-Meier approximation for a single-sample survival function by generalizing to conditional regression quantiles.  The mean response is characterized using a similar approach for regression with a parametric survival model.
 
-The WRTDS approach obtains fitted values of the response variable by estimating regression parameters for each unique observation.  Specifically, a unique regression model is estimated for each point in the period of observation. Each model is weighted by month, year, and salinity such that a unique set of regression parameters for each observation in the time series is obtained. For example, a weighted regression centered on a unique observation weights other observations in the same year, month, and similar salinity with higher values, whereas observations for different months, years, or salinities receive lower weights.  This weighting approach allows estimation of regression parameters that vary in relation to observed conditions.  Default window widths of six months, 10 years, and half the range of salinity are used.  Optimal window widths can also be identified using cross-validation to evaluate the ability of the model to generalize with novel datasets.  
+The WRTDS approach obtains fitted values of the response variable by estimating regression parameters for each unique observation.  Specifically, a unique regression model is estimated for each point in the period of observation. Each model is weighted by month, year, and salinity/flow such that a unique set of regression parameters for each observation in the time series is obtained. For example, a weighted regression centered on a unique observation weights other observations in the same year, month, and similar salinity/flow with higher values, whereas observations for different time or salinity/flow values receive lower weights.  This weighting approach allows estimation of regression parameters that vary in relation to observed conditions.  Default window widths of six months, 10 years, and half the range of salinity/flow are used.  Optimal window widths can also be identified using cross-validation to evaluate the ability of the model to generalize with novel datasets.  
 
-Predicted values were based on an interpolation matrix from the regression.  A sequence of salinity values based on the minimum and maximum values for the data are used to predict chlorophyll using the observed month and year.  Model predictions are linearly interpolated from the grid using the salinity value closest to the actual for each date. Normalized values are also obtained from the prediction grid that allow an interpretation of chlorophyll trend that is independent of any variation related to salinity changes.  Normalized predictions are obtained for each observation date by assuming that salinity values for the same month in each year were equally likely to occur across the time series.  For example, normalization for January 1<sup>st</sup> 1974 considers all salinity values occuring on January 1<sup>st</sup> for each year in the time series as equally likely to occur on the observed data.  A normalized value for January 1<sup>st</sup> 1974 is the average of the predicted values using each of the salinity values as input, while holding month and year constant.  Normalization across the time series is repeated for each observation to obtain salinity-normalized predictions.    
+Predicted values are based on an interpolation matrix from the regression.  A sequence of salinity/flow values based on the minimum and maximum values for the data are used to predict the response variable using the observed month and year.  Model predictions are linearly interpolated from the grid using the salinity/flow value closest to the actual for each date. Normalized values are also obtained from the prediction grid that allow an interpretation of trends that are independent of any variation related to salinity/flow changes.  Normalized predictions are obtained for each observation date by assuming that salinity/flow values for the same month in each year are equally likely to occur across the time series.  For example, normalization for January 1<sup>st</sup> 1974 considers all salinity/flow values occuring on January 1<sup>st</sup> for each year in the time series as equally likely to occur on the observed data.  A normalized value for January 1<sup>st</sup> 1974 is the average of the predicted values using each of the salinity/fow values as input, while holding month and year constant.  Normalization across the time series is repeated for each observation to obtain salinity- or flow-normalized predictions.    
 
 ## Installing the package
 
@@ -39,7 +41,9 @@ library(WRTDStidal)
 
 
 
-The adapation of WRTDS in tidal waters is designed to predict or normalize chlorophyll concentrations as a function of time, season, and salinity.   The raw data are typically a `data.frame` with rows as monthly observations (ascending time) and four columns as date, chlorophyll, salinity, and lower detection limit for chlorophyll.  The `chldat` dataset that accompanies this package shows the proper format for using the functions.
+The adapation of WRTDS in tidal waters is designed to predict or normalize a water quality variable as a function of time, season, and salinity/flow.  For example, Beck and Hagy (2015) describe an adaption of WRTDS to model chloropyll concentrations in estuaries as a function of time, season, and salinity.  The salinity or flow variable is meant to capture the variation in the response variable that is related to changes in freshwater inputs.  The choice of salinity or flow is problem-specific depending on the location.  For example, monitoring stations in upper estuaries are more strongly affected from stream inflow such that flow data from a dischage gage would be a more appropriate than a salinity time series.  Exploratory analyses should identify whether a water quality response variable is more linked to a salinity or discharge flow record.  The WRTDStidal package can use the time series interchangable. 
+
+The raw data are typically a `data.frame` with rows as monthly observations (ascending time) and four columns as date, response variable, salinity/flow, and lower detection limit for the response variable.  The `chldat` dataset that accompanies this package shows the proper format for using the functions.
 
 
 ```r
@@ -53,8 +57,8 @@ str(chldat)
 ```
 ## 'data.frame':	452 obs. of  4 variables:
 ##  $ date: Date, format: "1974-01-01" "1974-02-01" ...
-##  $ chla: num  3.42 3.86 2.64 2.48 2.71 ...
-##  $ sal : num  0.28 0.347 0.238 0.239 0.228 ...
+##  $ res : num  3.42 3.86 2.64 2.48 2.71 ...
+##  $ flo : num  0.28 0.347 0.238 0.239 0.228 ...
 ##  $ lim : num  0.875 0.875 0.875 0.875 0.875 ...
 ```
 
@@ -97,7 +101,7 @@ head(tidobj)
 ```
 
 ```
-##         date     chla       sal       lim not_cens     day_num month year
+##         date      res       flo       lim not_cens     day_num month year
 ## 1 1974-01-01 3.417727 0.4100012 0.8754687     TRUE 0.005479452     1 1974
 ## 2 1974-02-01 3.860730 0.5086014 0.8754687     TRUE 0.090410959     2 1974
 ## 3 1974-03-01 2.639057 0.3490211 0.8754687     TRUE 0.164383562     3 1974
@@ -119,7 +123,7 @@ names(attributes(tidobj))
 ```
 
 ```
-## [1] "names"      "row.names"  "class"      "salobs_rng" "reslab"    
+## [1] "names"      "row.names"  "class"      "floobs_rng" "reslab"    
 ## [6] "flolab"
 ```
 
@@ -132,7 +136,7 @@ head(tidfit)
 ```
 
 ```
-##         date     chla       sal       lim not_cens     day_num month year
+##         date      res       flo       lim not_cens     day_num month year
 ## 1 1974-01-01 3.417727 0.4100012 0.8754687     TRUE 0.005479452     1 1974
 ## 2 1974-02-01 3.860730 0.5086014 0.8754687     TRUE 0.090410959     2 1974
 ## 3 1974-03-01 2.639057 0.3490211 0.8754687     TRUE 0.164383562     3 1974
@@ -154,18 +158,18 @@ names(attributes(tidfit))
 ```
 
 ```
-##  [1] "names"      "row.names"  "salobs_rng" "reslab"     "flolab"    
-##  [6] "half_wins"  "fits"       "sal_grd"    "nobs"       "class"
+##  [1] "names"      "row.names"  "floobs_rng" "reslab"     "flolab"    
+##  [6] "half_wins"  "fits"       "flo_grd"    "nobs"       "class"
 ```
 
 ### Fitting a WRTDS tidal model
 
-The quickest implementation of WRTDS is to use the `modfit` function which is a wrapper for several other functions that complete specific tasks.   The following text will also be printed in the console that describes current actions and progress of model creation. 
+The quickest implementation of WRTDS is to use the `modfit` function, which is a wrapper for several other functions that complete specific tasks.  The following text will also be printed in the console that describes current actions and progress of model creation. 
 
 
 ```r
 # get wrtds results, quantile model
-res <- modfit(chldat)
+mod <- modfit(chldat)
 ```
 
 ```
@@ -174,14 +178,14 @@ res <- modfit(chldat)
 ## 
 ## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Estimating chlorophyll predictions
+## Estimating predictions
 ## 
-## Normalizing chlorophyll predictions
+## Normalizing predictions
 ```
 
 ```r
 # get wrtds mean model
-res <- modfit(chldat, resp_type = 'mean')
+mod <- modfit(chldat, resp_type = 'mean')
 ```
 
 ```
@@ -190,9 +194,9 @@ res <- modfit(chldat, resp_type = 'mean')
 ## 
 ## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Estimating chlorophyll predictions
+## Estimating predictions
 ## 
-## Normalizing chlorophyll predictions
+## Normalizing predictions
 ```
 
 The results include the original `data.frame` with additional columns for parameters used to fit the model, model predictions, and the respective normalized predictions.  The `modfit` function implements four individual functions which can be used separately to create the model. 
@@ -200,47 +204,47 @@ The results include the original `data.frame` with additional columns for parame
 
 ```r
 # this is equivalent to running modfit
-# modfit is a wrapper for tidal, wrtds, chlpred, and chlnorm functions
+# modfit is a wrapper for tidal, wrtds, respred, and resnorm functions
 
 # pipes from the dplyr (magrittr) package are used for simplicity
 library(dplyr)
 
 # quantile model
-res <- tidal(chldat) %>%  # creates a tidal object
+mod <- tidal(chldat) %>%  # creates a tidal object
   wrtds %>% # creates wrtds interpolation grids
-  chlpred %>% # get predictions from grids
-  chlnorm # get normalized predictions from grids
+  respred %>% # get predictions from grids
+  resnorm # get normalized predictions from grids
 
 # mean model
-res <- tidalmean(chldat) %>%  # creates a tidal object
+mod <- tidalmean(chldat) %>%  # creates a tidal object
   wrtds %>% # creates wrtds interpolation grids
-  chlpred %>% # get predictions from grids
-  chlnorm # get normalized predictions from grids
+  respred %>% # get predictions from grids
+  resnorm # get normalized predictions from grids
 ```
 
-All arguments that apply to each of the four functions in the previous chunk can be passed to the `modfit` function to control parameters used to fit the WRTDS model.  Examples in the help file for `modfit` illustrate some of the more important arguments to consider.  These may include changing the conditional quantiles to predict, increasing or decreasing the precision of the salinity values used to create the model interpolation grids, changing the window widths of the weighted regression, or suppressing the output on the console.  
+All arguments that apply to each of the four functions in the previous chunk can be passed to the `modfit` function to control parameters used to fit the WRTDS model.  Examples in the help file for `modfit` illustrate some of the more important arguments to consider.  These may include changing the conditional quantiles to predict, increasing or decreasing the precision of the salinity or flow values used to create the model interpolation grids, changing the window widths of the weighted regression, or suppressing the output on the console.  
 
 
 ```r
 ## fit the model and get predicted/normalized chlorophyll data
 # default median fit, quantile model
 # grids predicted across salinity range with ten values
-res <- modfit(chldat)
+mod <- modfit(chldat)
 
 ## fit different quantiles and smaller interpolation grid
-res <- modfit(chldat, tau = c(0.2, 0.8), sal_div = 5)
+mod <- modfit(chldat, tau = c(0.2, 0.8), flo_div = 5)
 
 ## fit with different window widths
 # half-window widths of one day, five years, and 0.3 salinity
-res <- modfit(chldat, wins = list(1, 5, 0.3))
+mod <- modfit(chldat, wins = list(1, 5, 0.3))
 
 ## suppress console output
-res <- modfit(chldat, trace = FALSE)
+mod <- modfit(chldat, trace = FALSE)
 ```
 
 ### Evaluating the results
 
-Several plotting methods are available that can be used to view the results of a fitted model object.  These functions apply to both quantile and mean models.  The examples below show use with quantile models fit through the tenth, median, and ninetieth percentile distributions of chlorophyll.  The `fitplot` function is the simplest way to plot the predicted or normalized values of chlorophyll for relevant conditional quantiles.  The default parameters for this function produce a ggplot object with some aesthetics that I chose.  The arguments for this function include options to plot specific quantiles, normalized values, annual aggregations, or to convert values back to log-space. The `pretty` argument can also be used to suppress the default plot aesthetics.  This is useful for producing a `bare-bones' ggplot object that can be further modified.  
+Several plotting methods are available that can be used to view the results of a fitted model object.  These functions apply to both quantile and mean models.  The examples below show use with quantile models fit through the tenth, median, and ninetieth percentile distributions of chlorophyll in the sample datasets.  The `fitplot` function is the simplest way to plot the predicted or normalized values of the response variables for relevant conditional quantiles.  The default parameters for this function produce a ggplot object with some aesthetics that I chose.  The arguments for this function include options to plot specific quantiles, normalized values, annual aggregations, or to convert values back to log-space. The `pretty` argument can also be used to suppress the default plot aesthetics.  This is useful for producing a `bare-bones' ggplot object that can be further modified.  
 
 
 ```r
@@ -280,7 +284,7 @@ fitmoplot(tidfit, predicted = F)
 
 ![](README_files/figure-html/unnamed-chunk-12-1.png) 
 
-The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed chlorophyll values are also removed.  This plot would typically be used to evaluate the relative effects of salinity changes on chlorophyll given that the normalized results are independent of changes in freshwater inputs.
+The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed values from the original response variable are also removed.  This plot would typically be used to evaluate the relative effects of salinity or flow changes on the response variable given that the normalized results are independent of changes in freshwater inputs.
 
 
 ```r
@@ -297,7 +301,7 @@ prdnrmplot(tidfit, annuals = FALSE)
 
 ![](README_files/figure-html/unnamed-chunk-13-2.png) 
 
-The `dynaplot` function can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted chlorophyll values for a selected month across all years are plotted in relation to the range of salinity values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity values to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain.
+The `dynaplot` function can be used to examine how the relationship between the resposne varaible and salinity/flow varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted values for a selected month across all years are plotted in relation to the range of salinity/flow values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity/flow values to the fifth and ninety-fifth percentile of observed values during the month of interest to limit the predictions within the data domain.
 
 
 ```r
@@ -308,7 +312,7 @@ dynaplot(tidfit)
 
 ![](README_files/figure-html/unnamed-chunk-14-1.png) 
 
-Similar plots can be returned using the `gridplot` function.  These are essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity over time with cells colored by chlorophyll.  Multiple months can also be viewed for comparison.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
+Similar plots can be returned using the `gridplot` function.  These are essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity/flow over time with cells colored by values of the response variable.  Multiple months can also be viewed for comparison.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
 
 
 ```r
@@ -319,7 +323,7 @@ gridplot(tidfit)
 
 ![](README_files/figure-html/unnamed-chunk-15-1.png) 
 
-The `wtsplot` function can be used to create diagnostic plots to view different weighting windows and how they are implemented during weighted regression.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity) and the final combined vector. 
+The `wtsplot` function can be used to create diagnostic plots to view different weighting windows and how they are implemented during weighted regression.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity/flow over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity/flow) and the final combined vector. 
 
 
 ```r
@@ -329,7 +333,7 @@ wtsplot(tidfit, ref = '1995-07-01')
 
 ![](README_files/figure-html/unnamed-chunk-16-1.png) 
 
-An alternative method to evaluate model weights is to plot a grid of the number of observations with weights greater than zero for each unique date and salinity combination.  The `nobs` grid attribute in a fitted model has the same dimensions as the interpolation grid, where each row is a unique date in the original dataset and each column is a salinity value used to fit each regression (i.e., values in the `sal_grd` attribute). The `nobsplot` function creates a gridded plot similar to `gridplot` showing the number of observations for each point.  In general, low points may indicate locations in the domain space of the time series where insufficient data could affect model fit.  Note that the minimum number of observations for any point never falls below 100.  The default setting for `getwts`, `min_obs = TRUE`, widens the window widths in succession until a minimum sample size is returned.
+An alternative method to evaluate model weights is to plot a grid of the number of observations with weights greater than zero for each unique date and salinity/flow combination.  The `nobs` grid attribute in a fitted model has the same dimensions as the interpolation grid, where each row is a unique date in the original dataset and each column is a salinity/flow value used to fit each regression (i.e., values in the `flo_grd` attribute). The `nobsplot` function creates a gridded plot similar to `gridplot` showing the number of observations for each point.  In general, low points may indicate locations in the domain space of the time series where insufficient data could affect model fit.  Note that the minimum number of observations for any point never falls below 100.  The default setting for `getwts`, `min_obs = TRUE`, widens the window widths in succession until a minimum sample size is returned.
 
 
 ```r
