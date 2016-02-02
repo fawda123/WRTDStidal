@@ -6,7 +6,7 @@
 #' @param y numeric of y locations bounding the interpolation
 #' @param xint numeric x location to interpolate y
 #' 
-#' @details Used in \code{\link{chlinterp}}
+#' @details Used in \code{\link{resinterp}}
 #' 
 #' @return The \code{y} value if all values are non-unique, otherwise an interpolated value defined by \code{xint}
 approx_uni <- function(x, y, xint){

@@ -58,7 +58,7 @@ wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE
   cvs <- numeric(k)
 
   # model eval with each fold
-  errs <- foreach(i = 1:k, .export = c('wrtds', 'chlpred'), .packages = 'WRTDStidal') %dopar% {
+  errs <- foreach(i = 1:k, .export = c('wrtds', 'respred'), .packages = 'WRTDStidal') %dopar% {
     
     # training and test datasets 
     dat_trn <- sort(unlist(folds[-i]))
@@ -72,10 +72,10 @@ wrtdscv.tidalmean <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE
     mod <- do.call(wrtds, args)
     
     # predictions on test
-    prd_tst <- chlpred(mod, dat_tst, trace = FALSE)
+    prd_tst <- respred(mod, dat_tst, trace = FALSE)
 
     # residual, cv score for the sample
-    res <- na.omit(with(prd_tst, chla - fits))
+    res <- na.omit(with(prd_tst, res - fits))
     err <- sum(res^2)/length(res)
     
     return(err)

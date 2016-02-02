@@ -1,6 +1,6 @@
 #' Plot combined predicted and normalized results from a tidal object
 #' 
-#' Plot combined predicted and normalized results from a tidal object to evaluate the influence of salinity changes on chlorophyll. The plot is similar to that produced by \code{\link{fitplot}} except predicted chlorophyll values are shown as points and observed values are removed.
+  #' Plot combined predicted and normalized results from a tidal object to evaluate the influence of salinity changes on the response variable. The plot is similar to that produced by \code{\link{fitplot}} except predicted values are shown as points and observed values are removed.
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
@@ -85,7 +85,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
+  sel_vec <- grepl('^date$|^res$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # subset data by dt_rng
@@ -199,7 +199,7 @@ prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^chla$|fit|norm', names(to_plo))
+  sel_vec <- grepl('^date$|^res$|fit|norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # subset data by dt_rng
@@ -231,7 +231,7 @@ prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng
   # use back-transformed if TRUE
   if(!logspace){
 
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms <- mutate(nrms, nrms_variable = bt_norm)
     nrms <- select(nrms, -norm, -bt_norm)
     fits <- mutate(fits, fits_variable = bt_fits)

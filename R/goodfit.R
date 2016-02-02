@@ -13,7 +13,7 @@
 #' 
 #' @return A numeric value from 0 to 1 indicating goodness of fit
 #' 
-#' @seealso \code{\link{wrtdsres}} for residuals
+#' @seealso \code{\link{wrtdsrsd}} for residuals
 #' 
 #' @references Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference processes for quantile regression. Journal of the American Statistical Association. 94(448):1296-1310.
 #' 
@@ -31,9 +31,9 @@
 #' 
 #' ## non-conditional quantile model
 #' mod_nl <- rq(y ~ 1, tau = 0.5)
-#' res_nl <- resid(mod_nl)
+#' rsd_nl <- resid(mod_nl)
 #' 
-#' goodfit(res, res_nl, 0.5)
+#' goodfit(res, rsd_nl, 0.5)
 #' 
 #' ## r2 of mean model for comparison
 #' mod_lm <- lm(y ~ x)

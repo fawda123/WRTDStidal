@@ -11,9 +11,9 @@
 #' 
 #' @details Goodness of fit is calculated using the \code{\link{goodfit}} function for quantile regression described in Koenker and Mochado 1999.  Root mean square error is based on square root of the mean of the squared residuals.  Normalized mean square error described in Gershenfeld and Weigend 1993 is the sum of the squared errors divided by the sum of the non-conditional errors (i.e., sum of the squared values of the observed minus the mean of the observed).  This measure allows comparability of error values for data with different ranges, although the interpretation for quantile models is not clear.  The value is provided as a means of comparison for WRTDS models created from the same data set but with different window widths during model fitting.
 #' 
-#' Performance metrics are only valid for chlorophyll observations and model residuals in log-space.
+#' Performance metrics are only valid for observations and model residuals in log-space.
 #' 
-#' @seealso \code{\link{wrtdsres}} for residuals, \code{\link{goodfit}}
+#' @seealso \code{\link{wrtdsrsd}} for residuals, \code{\link{goodfit}}
 #' 
 #' @return A \code{\link[base]{data.frame}} with the metrics for each quantile model
 #' 
@@ -37,40 +37,40 @@ wrtdsperf <- function(dat_in, ...) UseMethod('wrtdsperf')
 #' @method wrtdsperf tidal
 wrtdsperf.tidal <- function(dat_in, logspace = TRUE, ...){
   
-  if(!any(grepl('^res|^resnl', names(dat_in))))
-    dat_in <- wrtdsres(dat_in, trace = FALSE)
+  if(!any(grepl('^rsd|^rsdnl', names(dat_in))))
+    dat_in <- wrtdsrsd(dat_in, trace = FALSE)
   
   # get taus from model
   tau <- as.numeric(gsub('^fit', '', names(attr(tidfit, 'fits'))))
   
   # get residuals, back-transform if needed
-  res <- dat_in[, grepl('^res|chla', names(dat_in))]
+  rsd <- dat_in[, grepl('^rsd|res', names(dat_in))]
   
   # make long format by type
-  res$id <- 1:nrow(res)
-  res <- tidyr::gather(res, 'key', 'value', -id, -chla)
-  res <- tidyr::extract(res, 'key', c('type', 'tau'), '(res|resnl)([0]\\.[0-9])')
-  res <- tidyr::spread(res, 'type', 'value')
-  res$mod <- as.numeric(res$tau)
+  rsd$id <- 1:nrow(rsd)
+  rsd <- tidyr::gather(rsd, 'key', 'value', -id, -res)
+  rsd <- tidyr::extract(rsd, 'key', c('type', 'tau'), '(rsd|rsdnl)([0]\\.[0-9])')
+  rsd <- tidyr::spread(rsd, 'type', 'value')
+  rsd$mod <- as.numeric(rsd$tau)
    
   # get performance measures
-  perf <- dplyr::group_by(res, tau)
+  perf <- dplyr::group_by(rsd, tau)
   
   # rmse, nmse on back-transformed if TRUE
   if(!logspace){
     
     perf <- dplyr::summarize(perf, 
-      gfit = goodfit(res, resnl, as.numeric(unique(mod))),
-      rmse = sqrt(mean(exp(res)^2, na.rm = TRUE)),
-      nmse = sum(exp(res)^2, na.rm = TRUE)/sum((exp(chla) - mean(exp(chla), na.rm = TRUE))^2, na.rm = TRUE)
+      gfit = goodfit(rsd, rsdnl, as.numeric(unique(mod))),
+      rmse = sqrt(mean(exp(rsd)^2, na.rm = TRUE)),
+      nmse = sum(exp(rsd)^2, na.rm = TRUE)/sum((exp(res) - mean(exp(res), na.rm = TRUE))^2, na.rm = TRUE)
       )
   
   } else {
     
     perf <- dplyr::summarize(perf, 
-      gfit = goodfit(res, resnl, as.numeric(unique(mod))),
-      rmse = sqrt(mean(res^2, na.rm = TRUE)),
-      nmse = sum(res^2, na.rm = TRUE)/sum((chla - mean(chla, na.rm = TRUE))^2, na.rm = TRUE)
+      gfit = goodfit(rsd, rsdnl, as.numeric(unique(mod))),
+      rmse = sqrt(mean(rsd^2, na.rm = TRUE)),
+      nmse = sum(rsd^2, na.rm = TRUE)/sum((res - mean(res, na.rm = TRUE))^2, na.rm = TRUE)
       )
     
   }
@@ -88,26 +88,26 @@ wrtdsperf.tidal <- function(dat_in, logspace = TRUE, ...){
 #' @method wrtdsperf tidalmean
 wrtdsperf.tidalmean <- function(dat_in, logspace = TRUE, ...){
   
-  if(!any(grepl('^res|^bt_res', names(dat_in))))
-    dat_in <- wrtdsres(dat_in, trace = FALSE)
+  if(!any(grepl('^rsd|^bt_rsd', names(dat_in))))
+    dat_in <- wrtdsrsd(dat_in, trace = FALSE)
   
   # get residuals, back-transform if needed
-  res <- dat_in[, grepl('^res|^bt_res|chla', names(dat_in))]
+  rsd <- dat_in[, grepl('^rsd|^bt_rsd|res', names(dat_in))]
   
-  # get performanc measures
+  # get performance measures
   # use back-transformed, otherwise use logspace
   if(!logspace){
   
-    perf <- with(res, c(
-      rmse = sqrt(mean(bt_res^2, na.rm = TRUE)),
-      nmse = sum(bt_res^2, na.rm = TRUE)/sum((exp(chla) - mean(exp(chla), na.rm = TRUE))^2, na.rm = TRUE)
+    perf <- with(rsd, c(
+      rmse = sqrt(mean(bt_rsd^2, na.rm = TRUE)),
+      nmse = sum(bt_rsd^2, na.rm = TRUE)/sum((exp(res) - mean(exp(res), na.rm = TRUE))^2, na.rm = TRUE)
       ))
 
   } else {
    
-    perf <- with(res, c(
-      rmse = sqrt(mean(res^2, na.rm = TRUE)),
-      nmse = sum(res^2, na.rm = TRUE)/sum((chla - mean(chla, na.rm = TRUE))^2, na.rm = TRUE)
+    perf <- with(rsd, c(
+      rmse = sqrt(mean(rsd^2, na.rm = TRUE)),
+      nmse = sum(rsd^2, na.rm = TRUE)/sum((res - mean(res, na.rm = TRUE))^2, na.rm = TRUE)
       ))
      
   }

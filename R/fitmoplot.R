@@ -1,6 +1,6 @@
 #' Plot the fitted results for a tidal object by month
 #' 
-#' Plot a tidal object to view chlorophyll observations, predictions, and normalized results separately for each month.
+#' Plot a tidal object to view the response variable observations, predictions, and normalized results separately for each month.
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param month numeric indicating months to plot
@@ -84,7 +84,7 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^month$|^chla$|^fit|^norm', names(to_plo))
+  sel_vec <- grepl('^date$|^month$|^res$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # get selected months
@@ -130,7 +130,7 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
   # back-transform if needed
   if(!logspace){
 
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
@@ -153,7 +153,7 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
   nrms$month <- factor(nrms$month, levels =  mo_lab$num, labels = mo_lab$txt)
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla, group = month)) + 
+  p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
     geom_point(aes(size = 'Observed'), alpha = alpha) + 
     facet_wrap(~ month, ncol = ncol) + 
     scale_size_manual('', values = size)
@@ -234,7 +234,7 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^month$|^chla$|fit|norm', names(to_plo))
+  sel_vec <- grepl('^date$|^month$|^res$|fit|norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # get selected months
@@ -262,7 +262,7 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   # use back-transformed if TRUE
   if(!logspace){
 
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms <- mutate(nrms, nrms_variable = bt_norm)
     nrms <- select(nrms, -norm, -bt_norm)
     fits <- mutate(fits, fits_variable = bt_fits)
@@ -288,7 +288,7 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   nrms$month <- factor(nrms$month, levels =  mo_lab$num, labels = mo_lab$txt)
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla, group = month)) + 
+  p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
     geom_point(aes(size = 'Observed'), alpha = alpha) + 
     facet_wrap(~ month, ncol = ncol) + 
     scale_size_manual('', values = size)

@@ -20,6 +20,6 @@ The \code{y} value if all values are non-unique, otherwise an interpolated value
 Linearly interpolate non-unique numbers, a modification to the standard \code{\link[stats]{approx}} function.
 }
 \details{
-Used in \code{\link{chlinterp}}
+Used in \code{\link{resinterp}}
 }
 

@@ -1,6 +1,6 @@
-#' Plot observed chlorophyll and salinity data
+#' Plot observed response variable and salinity data
 #' 
-#' Plot observed chlorophyll and salinity time series from a tidal object
+#' Plot observed response variable and salinity time series from a tidal object
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param lines logical indicating if a line plot is used, otherwise points
@@ -45,14 +45,14 @@ obsplot <- function(dat_in, ...) UseMethod('obsplot')
 #' @method obsplot default
 obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL, pretty = TRUE, col = 'black', lwd = 1, size = 2, alpha = 1, ...){
   
-  to_plo <- as.data.frame(dat_in)[, c('date', 'chla', 'sal')]
+  to_plo <- as.data.frame(dat_in)[, c('date', 'res', 'sal')]
   
   # salinity back to observed range
   salobs_rng <- attr(dat_in, 'salobs_rng')
   to_plo$sal <- to_plo$sal * diff(salobs_rng) + salobs_rng[1]
   
-  # backtransform chl
-  if(!logspace) to_plo$chla <- exp(to_plo$chla)
+  # backtransform res
+  if(!logspace) to_plo$res <- exp(to_plo$res)
   labels <- unlist(attributes(dat_in)[c('reslab', 'flolab')])
   
   # subset data by dt_rng
@@ -72,7 +72,7 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   
   # change variable labels for plotting facet
   to_plo$variable <- factor(to_plo$variable, 
-    levels = c('chla', 'sal'), 
+    levels = c('res', 'sal'), 
     labels = labels
     )
   

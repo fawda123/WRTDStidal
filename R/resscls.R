@@ -1,7 +1,7 @@
 ######
-#' Get the scale parameters for predicted values of chlorophyll
+#' Get the scale parameters for predicted values
 #' 
-#' Get the scale parameters for predicted values of chlorophyll, only applies to \code{\link{tidalmean}} objects.
+#' Get the scale parameters for predicted values of the response variable, only applies to \code{\link{tidalmean}} objects.
 #' 
 #' @param dat_in input tidalmean object
 #' @param dat_pred optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied
@@ -10,9 +10,9 @@
 #' @export
 #' 
 #' @details
-#' This function is used after \code{wrtds} to get scale parameters for predicted values of chlorophyll from the interpolation grids.  The values are based on a bilinear interpolation of the four predicted chlorophyll values at two salinity and two date values nearest to the observed salinity and date values to predict.  
+#' This function is used after \code{wrtds} to get scale parameters for predicted values of the response variable from the interpolation grids.  The values are based on a bilinear interpolation of the four predicted response values at two salinity and two date values nearest to the observed salinity and date values to predict.  
 #' 
-#' @return Appends columns to the data.frame for the associated scale value for the predicted chlorophyll values.  A column is appended to the \code{dat_in} object, named `scls'.
+#' @return Appends columns to the data.frame for the associated scale value for the predicted values.  A column is appended to the \code{dat_in} object, named `scls'.
 #'  
 #' @examples
 #' ##
@@ -21,16 +21,16 @@
 #' data(tidobjmean)
 #' 
 #' # get predicted values
-#' res <- chlscls(tidobjmean)
+#' res <- resscls(tidobjmean)
 #' 
-chlscls <- function(dat_in, ...) UseMethod('chlscls')
+resscls <- function(dat_in, ...) UseMethod('resscls')
 
-#' @rdname chlscls
+#' @rdname resscls
 #'
 #' @export
 #'
-#' @method chlscls tidalmean
-chlscls.tidalmean <- function(dat_in, dat_pred = NULL, ...){
+#' @method resscls tidalmean
+resscls.tidalmean <- function(dat_in, dat_pred = NULL, ...){
   
   scls <- attr(dat_in, 'scls')
   sal_grd <- attr(dat_in, 'sal_grd')
@@ -51,7 +51,7 @@ chlscls.tidalmean <- function(dat_in, dat_pred = NULL, ...){
     function(x){
 
       # interp the scl paramter for given date, sal in to_pred
-      out <- chlinterp(x['date'], x['sal'], scl_grd, sal_grd)
+      out <- resinterp(x['date'], x['sal'], scl_grd, sal_grd)
       out
     
   })      

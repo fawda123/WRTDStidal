@@ -13,7 +13,7 @@
 #' 
 #' @seealso \code{\link{wrtds}}, \code{\link{wrtdsperf}}, \code{\link{goodfit}}
 #' 
-#' @return A tidal object with columns for the residuals ('res') and non-conditional residuals ('resnl') of each quantile model.
+#' @return A tidal object with columns for the residuals ('rsd') and non-conditional residuals ('rsdnl') of each quantile model.
 #' 
 #' @references Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference processes for quantile regression. Journal of the American Statistical Association. 94(448):1296-1310.
 #' 
@@ -22,18 +22,18 @@
 #' data(tidfit)
 #' 
 #' ## run the function
-#' res <- wrtdsres(tidfit)
+#' res <- wrtdsrsd(tidfit)
 #' head(res)
-wrtdsres <- function(dat_in, ...) UseMethod('wrtdsres')
+wrtdsrsd <- function(dat_in, ...) UseMethod('wrtdsrsd')
 
-#' @rdname wrtdsres
+#' @rdname wrtdsrsd
 #'
 #' @import quantreg
 #' 
 #' @export
 #'
-#' @method wrtdsres tidal
-wrtdsres.tidal <- function(dat_in, trace = TRUE, ...){
+#' @method wrtdsrsd tidal
+wrtdsrsd.tidal <- function(dat_in, trace = TRUE, ...){
   
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -44,48 +44,48 @@ wrtdsres.tidal <- function(dat_in, trace = TRUE, ...){
   
   # null model
   mod_nl <- quantreg::crq(
-    survival::Surv(chla, not_cens, type = "left") ~ 1, 
+    survival::Surv(res, not_cens, type = "left") ~ 1, 
     data = dat_in, 
     method = "Portnoy"
     )
   
   # residuals from null model
   parms <- data.frame(coef(mod_nl, tau))
-  res_nl <- apply(parms, 1, function(x) dat_in$chla - x)
+  rsd_nl <- apply(parms, 1, function(x) dat_in$res - x)
   
   # get residuals for conditional quantile models
-  res <- apply(
+  rsd <- apply(
     dat_in[, paste0('fit', tau)], 
     2, 
-    function(x) dat_in$chla - x
+    function(x) dat_in$res - x
     )
   
   # create output
-  nms <- c(paste0('res', tau), paste0('resnl', tau))
-  res_out <- data.frame(res, res_nl)
-  names(res_out) <- nms
+  nms <- c(paste0('rsd', tau), paste0('rsdnl', tau))
+  rsd_out <- data.frame(rsd, rsd_nl)
+  names(rsd_out) <- nms
   
   # append to tidal object
-  dat_in[, nms] <- res_out
+  dat_in[, nms] <- rsd_out
   
   return(dat_in) 
   
 }
 
-#' @rdname wrtdsres
+#' @rdname wrtdsrsd
 #' 
 #' @export
 #'
-#' @method wrtdsres tidalmean
-wrtdsres.tidalmean <- function(dat_in, trace = TRUE, ...){
+#' @method wrtdsrsd tidalmean
+wrtdsrsd.tidalmean <- function(dat_in, trace = TRUE, ...){
   
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # get residuals for predicted and backtransformed predicted
-  dat_in$res <- with(dat_in, chla - fits)
-  dat_in$bt_res <- with(dat_in, exp(chla) - bt_fits)
+  dat_in$rsd <- with(dat_in, res - fits)
+  dat_in$bt_rsd <- with(dat_in, exp(res) - bt_fits)
   
   return(dat_in) 
   

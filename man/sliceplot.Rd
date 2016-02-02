@@ -47,7 +47,7 @@ sliceplot(dat_in, ...)
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot time slices within a tidal object to view chlorophyll observations, predictions, and normalized results at regular annual intervals.
+Plot time slices within a tidal object to view response variable observations, predictions, and normalized results at regular annual intervals.
 }
 \details{
 This is a modification of \code{\link{fitplot}} that can be used to plot selected time slices from the results of a fitted \code{\link{tidal}} object.  For example, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  Only one quantile fit can be shown per plot because the grouping variable is mapped to the slices.
@@ -63,7 +63,7 @@ sliceplot(tidfit)
 # get different months - march and september
 sliceplot(tidfit, slices = c(3, 9))
 
-# normalized chlorophyll predictions, 10th percentile
+# normalized predictions, 10th percentile
 sliceplot(tidfit, tau = 0.1, predicted = FALSE)
 
 # normalized values all months, change line aesthetics, log-space, 90th 

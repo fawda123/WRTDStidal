@@ -4,7 +4,7 @@
 \alias{gridplot}
 \alias{gridplot.tidal}
 \alias{gridplot.tidalmean}
-\title{Plot chlorophyll response to salinity as a gridded surface for all months}
+\title{Plot variable response to salinity as a gridded surface for all months}
 \usage{
 gridplot(dat_in, ...)
 
@@ -35,11 +35,11 @@ gridplot(dat_in, ...)
 
 \item{allsal}{logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest}
 
-\item{interp}{logical indicating if chlorophyll between integer years and salinity is linearly interpolated to create a smoother grid}
+\item{interp}{logical indicating if the response variable between integer years and salinity is linearly interpolated to create a smoother grid}
 
-\item{sal_fac}{numeric value indicating the factor for smoothing chlorophyll across salinity values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.}
+\item{sal_fac}{numeric value indicating the factor for smoothing the response variable across salinity values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.}
 
-\item{yr_fac}{numeric value indicating the factor for smoothing chlorophyll across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.}
+\item{yr_fac}{numeric value indicating the factor for smoothing the response variable across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.}
 
 \item{ncol}{numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns}
 
@@ -51,10 +51,10 @@ gridplot(dat_in, ...)
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot the relationship between chlorophyll and salinity across the time series using a gridded surface for all months.  Chlorophyll is shaded by relative values across all dates for comparison.
+Plot the relationship between the response variable and salinity across the time series using a gridded surface for all months.   The response is shaded by relative values across all dates for comparison.
 }
 \details{
-These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series for multiple months.  The plot is similar to that returned by \code{\link{dynaplot}} except the chlorophyll changes are shown on a gridded surface of salinity versus time.  Multiple months can also be viewed.  Color shading is in proportion to the chlorophyll value and is relative across the plotted months.  The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  By default, the plots are constrained to the fifth and ninety-fifth percentile of observed salinity values during each month to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are typically unrealistic.
+These plots can be used to examine how the relationship between the response variable and salinity varies throughout the time series for multiple months.  The plot is similar to that returned by \code{\link{dynaplot}} except changes in the response are shown on a gridded surface of salinity versus time.  Multiple months can also be viewed.  Color shading is in proportion to the value of the response variable and is relative across the plotted months.  The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  By default, the plots are constrained to the fifth and ninety-fifth percentile of observed salinity values during each month to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted values of the response variable that are outside of the salinity range for the plotted month are typically unrealistic.
 }
 \examples{
 \dontrun{

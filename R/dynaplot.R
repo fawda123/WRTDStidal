@@ -1,6 +1,6 @@
-#' Plot chlorophyll response to salinity as a lineplot for all months
+#' Plot model response to salinity as a lineplot for all months
 #' 
-#' Plot the relationship between chlorophyll and salinity across the time series using line plots for each month.  Each line corresponds to a unique year.  This can be used to evaluate temporal variation between the two.  
+#' Plot the relationship between the modelled response and salinity across the time series using line plots for each month.  Each line corresponds to a unique year.  This can be used to evaluate temporal variation between the two.  
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param month numeric input from 1 to 12 indicating the monthly predictions to plot
@@ -19,7 +19,7 @@
 #' @param fac_nms optional chr string for facet labels, which must be equal in length to \code{month}
 #' @param ... arguments passed to other methods
 #' 
-#' @details These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument. 
+#' @details These plots can be used to examine how the relationship between the response variable and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of the response variable with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument. 
 #' 
 #' Note that the year variable used for color mapping is treated as a continuous variable although it is an integer by definition.
 #' 
@@ -103,12 +103,12 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
   # reshape data frame, take year/month average for symmetry
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 5:ncol(to_plo)) %>% 
+  to_plo <- tidyr::gather(to_plo, 'sal', 'res', 5:ncol(to_plo)) %>% 
     mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
     select(-date, -day) %>% 
     group_by(year, month, sal) %>% 
     summarize(
-      chla = mean(chla, na.rm = TRUE)
+      res = mean(res, na.rm = TRUE)
     )
   
   # subset years to plot
@@ -166,7 +166,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   }
   
   # make plot
-  p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 
+  p <- ggplot(to_plo, aes(x = sal, y = res, group = year)) + 
     facet_wrap(~month, ncol = ncol, scales = scales)
   
   # return bare bones if FALSE
@@ -231,12 +231,12 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # reshape data frame, average by year, month for symmetry
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 5:ncol(to_plo)) %>% 
+  to_plo <- tidyr::gather(to_plo, 'sal', 'res', 5:ncol(to_plo)) %>% 
     mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
     select(-date, -day) %>% 
     group_by(year, month, sal) %>% 
     summarize(
-      chla = mean(chla, na.rm = TRUE)
+      res = mean(res, na.rm = TRUE)
     )
   
   # subset years to plot
@@ -294,7 +294,7 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   }
   
   # make plot
-  p <- ggplot(to_plo, aes(x = sal, y = chla, group = year)) + 
+  p <- ggplot(to_plo, aes(x = sal, y = res, group = year)) + 
     facet_wrap(~month, ncol = ncol, scales = scales)
   
   # return bare bones if FALSE

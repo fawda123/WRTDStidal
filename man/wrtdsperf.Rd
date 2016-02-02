@@ -28,7 +28,7 @@ Get WRTDS performance metrics indcluding goodness of fit, root mean square error
 \details{
 Goodness of fit is calculated using the \code{\link{goodfit}} function for quantile regression described in Koenker and Mochado 1999.  Root mean square error is based on square root of the mean of the squared residuals.  Normalized mean square error described in Gershenfeld and Weigend 1993 is the sum of the squared errors divided by the sum of the non-conditional errors (i.e., sum of the squared values of the observed minus the mean of the observed).  This measure allows comparability of error values for data with different ranges, although the interpretation for quantile models is not clear.  The value is provided as a means of comparison for WRTDS models created from the same data set but with different window widths during model fitting.
 
-Performance metrics are only valid for chlorophyll observations and model residuals in log-space.
+Performance metrics are only valid for observations and model residuals in log-space.
 }
 \examples{
 ## load a fitted model object
@@ -43,6 +43,6 @@ Gershenfeld, N.A., Weigend, A.S. 1993. The future of time series: learning and u
 Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference processes for quantile regression. Journal of the American Statistical Association. 94(448):1296-1310.
 }
 \seealso{
-\code{\link{wrtdsres}} for residuals, \code{\link{goodfit}}
+\code{\link{wrtdsrsd}} for residuals, \code{\link{goodfit}}
 }
 

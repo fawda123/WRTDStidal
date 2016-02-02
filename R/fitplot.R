@@ -1,6 +1,6 @@
 #' Plot the fitted results for a tidal object
 #' 
-#' Plot a tidal object to view chlorophyll observations, predictions, and normalized results.
+#' Plot a tidal object to view response variable observations, predictions, and normalized results.
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param tau numeric vector of quantiles to plot, defaults to all in object if not supplied
@@ -87,7 +87,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^chla$|^fit|^norm', names(to_plo))
+  sel_vec <- grepl('^date$|^res$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # subset data by dt_rng
@@ -137,7 +137,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   # back-transform if needed
   if(!logspace){
 
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
@@ -150,7 +150,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   )
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla)) + 
+  p <- ggplot(to_plo, aes(x = date, y = res)) + 
     geom_point(aes(size = 'Observed'), alpha = alpha) + 
     scale_size_manual('', values = size)
       
@@ -222,7 +222,7 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^chla$|fit|norm', names(to_plo))
+  sel_vec <- grepl('^date$|^res$|fit|norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # subset data by dt_rng
@@ -254,7 +254,7 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
   # use back-transformed if TRUE
   if(!logspace){
 
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms <- mutate(nrms, nrms_variable = bt_norm)
     nrms <- select(nrms, -norm, -bt_norm)
     fits <- mutate(fits, fits_variable = bt_fits)
@@ -270,7 +270,7 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
   }
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla)) + 
+  p <- ggplot(to_plo, aes(x = date, y = res)) + 
     geom_point(aes(size = 'Observed'), alpha = alpha) + 
     scale_size_manual('', values = size)
       

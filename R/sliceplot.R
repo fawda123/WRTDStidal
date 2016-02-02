@@ -1,6 +1,6 @@
 #' Plot time slices within a tidal object
 #' 
-#' Plot time slices within a tidal object to view chlorophyll observations, predictions, and normalized results at regular annual intervals.
+#' Plot time slices within a tidal object to view response variable observations, predictions, and normalized results at regular annual intervals.
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param slices numeric vector of calender months to plot, i.e., 1 - 12
@@ -37,7 +37,7 @@
 #' # get different months - march and september
 #' sliceplot(tidfit, slices = c(3, 9))
 #' 
-#' # normalized chlorophyll predictions, 10th percentile
+#' # normalized predictions, 10th percentile
 #' sliceplot(tidfit, tau = 0.1, predicted = FALSE)
 #' 
 #' # normalized values all months, change line aesthetics, log-space, 90th 
@@ -72,7 +72,7 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
  
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^month$|^year$|^chla$|^fit|^norm', 
+  sel_vec <- grepl('^date$|^month$|^year$|^res$|^fit|^norm', 
     names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
@@ -127,7 +127,7 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
   # back-transform if needed
   if(!logspace){
     
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
@@ -137,7 +137,7 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
   quant <- gsub('^fit', '', names(to_plo)[tau_fits])
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla, group = month)) + 
+  p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
     geom_point(aes(colour = month), size = size, alpha = alpha)
      
   # plot fits or nrms
@@ -201,7 +201,7 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
  
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^month$|^year$|^chla$|fit|norm', 
+  sel_vec <- grepl('^date$|^month$|^year$|^res$|fit|norm', 
     names(to_plo))
   to_plo <- to_plo[, sel_vec]
 
@@ -234,7 +234,7 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
   # use back-transformed if TRUE
   if(!logspace){
 
-    to_plo$chla <- exp(to_plo$chla)
+    to_plo$res <- exp(to_plo$res)
     nrms <- mutate(nrms, nrms_variable = bt_norm)
     nrms <- select(nrms, -norm, -bt_norm)
     fits <- mutate(fits, fits_variable = bt_fits)
@@ -250,7 +250,7 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
   }
   
   # bare bones plot
-  p <- ggplot(to_plo, aes(x = date, y = chla, group = month)) + 
+  p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
     geom_point(aes(colour = month), size = size, alpha = alpha)
      
   # plot fits or nrms

@@ -2,23 +2,23 @@
 % Please edit documentation in R/all_sims.R
 \name{all_sims}
 \alias{all_sims}
-\title{Simulate a chlorophyll time series using all functions}
+\title{Simulate a response variable time series using all functions}
 \usage{
 all_sims(dat_in, ...)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that must include discharge and decimal time columns, see example dataset \code{\link{daydat}}}
 
-\item{...}{additional arguments passed to \code{\link{lnchla_sim}}}
+\item{...}{additional arguments passed to \code{\link{lnres_sim}}}
 }
 \value{
-Original data frame with additional columns for simulated discharge (\code{lnQ_sim}), the random errors of chlorophyll (\code{errs}), the standard error estimates for each residual (\code{scls}), a flow-independent chlorophyll time series (\code{lnchla_noQ}), and a flow-dependent time series (\code{lnchla_Q}).
+Original data frame with additional columns for simulated discharge (\code{lnQ_sim}), the random errors of the response variable (\code{errs}), the standard error estimates for each residual (\code{scls}), a flow-independent response variable time series (\code{lnres_noQ}), and a flow-dependent time series (\code{lnres_Q}).
 }
 \description{
-Simulate a chlorophyll time series using all simulation functions
+Simulate a response variable time series using all simulation functions
 }
 \details{
-This is a convenience function that combines \code{\link{lnQ_sim}}, \code{\link{lnchla_err}}, and \code{\link{lnchla_sim}}.  See the help documentation function for more details on each.
+This is a convenience function that combines \code{\link{lnQ_sim}}, \code{\link{lnres_err}}, and \code{\link{lnres_sim}}.  See the help documentation function for more details on each.
 }
 \examples{
 \dontrun{
@@ -30,6 +30,6 @@ tmp <- all_sims(daydat)
 }
 }
 \seealso{
-\code{\link{daydat}} for example data, \code{\link{lnQ_sim}} for simulating discharge, \code{\link{lnchla_err}} for estimating the eror structure of chlorophyll, and \code{\link{lnchla_sim}} for simulating chlorophyll
+\code{\link{daydat}} for example data, \code{\link{lnQ_sim}} for simulating discharge, \code{\link{lnres_err}} for estimating the eror structure of the response variable, and \code{\link{lnres_sim}} for simulating the response variable
 }
 

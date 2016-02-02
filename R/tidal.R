@@ -3,14 +3,14 @@
 #' 
 #' Prepare water quality data for weighted regression by creating a tidal class object
 #' 
-#' @param dat_in Input data frame for a water quality time series with four columns for date (Y-m-d format), chlorophyll concentation (ug/L), salinity, and detection limit for left-censored data
-#' @param ind four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
+#' @param dat_in Input data frame for a water quality time series with four columns for date (Y-m-d format), response variable, salinity, and detection limit for left-censored data
+#' @param ind four element numeric vector indicating column positions of date, response variable, salinity, and detection limit of input data frame
 #' @param reslab character string or expression for labelling the response variable in plots, defaults to log-chlorophyll in ug/L
 #' @param flolab character string or expression for labelling the flow variable in plots, defaults to Salinity
-#' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
+#' @param reslog logical indicating if the response variable is already in log-space, default \code{TRUE}
 #' @param ... arguments passed from other methods
 #' 
-#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
+#' @return A tidal object as a data frame and attributes.  The data frame has columns ordered as date, response variable, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 #' \describe{
 #'  \item{\code{names}}{Column names of the data frame}
 #'  \item{\code{row.names}}{Row names of the data frame}
@@ -25,7 +25,7 @@
 #' }
 #'
 #' @details
-#' This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a four-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.  Missing observations are also removed.  
+#' This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidal object for use with weighted regression in tidal waters. Input data should be a four-column \code{\link[base]{data.frame}} with date, response variable, salinity data, and detection limit for each observation of the response.  The response variable is assumed to be log-transformed, otherwise use \code{reslog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.  Missing observations are also removed.  
 #'  
 #' @export
 #' 
@@ -37,7 +37,7 @@
 #' ## format
 #' chldat <- tidal(chldat)
 #' 
-tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, chllog = TRUE, ...){
+tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, reslog = TRUE, ...){
   
   # sanity checks
   if(!any(c('Date', 'POSIXct', 'POSIXlt') %in% class(dat_in[, ind[1]])))
@@ -47,7 +47,7 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, chl
   
   # get relevant columns and set names
   dat_in <- dat_in[, ind, drop = F]
-  names(dat_in) <- c('date', 'chla', 'sal', 'lim')
+  names(dat_in) <- c('date', 'res', 'sal', 'lim')
   
   # columns as numeric
   dat_in[, 2:4] <- apply(dat_in[, 2:4], 2, function(x) as.numeric(as.character(x)))
@@ -62,11 +62,11 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, chl
   salobs_rng <- range(dat_in$sal)
   dat_in$sal <- with(dat_in, (sal - salobs_rng[1])/diff(salobs_rng))
   
-  # log transform chl if T
-  if(!chllog) dat_in$chla <- log(dat_in$chla)
+  # log transform res if T
+  if(!reslog) dat_in$res <- log(dat_in$res)
   
   # TF column of limits for surv regression
-  dat_in$not_cens <- with(dat_in, chla > lim)
+  dat_in$not_cens <- with(dat_in, res > lim)
   
   # get decimal time
   day_num <- as.numeric(strftime(dat_in$date, '%j')) + 1
@@ -85,7 +85,7 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, chl
   
   # plot labels
   if(is.null(reslab))
-    reslab <- chllab(chllog)
+    reslab <- chllab(reslog)
   if(is.null(flolab))
     flolab <- 'Salinity'
   

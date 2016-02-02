@@ -1,6 +1,6 @@
-#' Plot chlorophyll response to salinity as a gridded surface for all months
+#' Plot variable response to salinity as a gridded surface for all months
 #' 
-#' Plot the relationship between chlorophyll and salinity across the time series using a gridded surface for all months.  Chlorophyll is shaded by relative values across all dates for comparison.
+#' Plot the relationship between the response variable and salinity across the time series using a gridded surface for all months.   The response is shaded by relative values across all dates for comparison.
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param month numeric indicating months to plot or chr string 'all' to indicate all months with no plot facets
@@ -9,15 +9,15 @@
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
 #' @param allsal logical indicating if the salinity values for plotting are limited to the fifth and ninety-fifth percentile of observed salinity values for the month of interest
-#' @param interp logical indicating if chlorophyll between integer years and salinity is linearly interpolated to create a smoother grid 
-#' @param sal_fac numeric value indicating the factor for smoothing chlorophyll across salinity values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
-#' @param yr_fac numeric value indicating the factor for smoothing chlorophyll across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
+#' @param interp logical indicating if the response variable between integer years and salinity is linearly interpolated to create a smoother grid 
+#' @param sal_fac numeric value indicating the factor for smoothing the response variable across salinity values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
+#' @param yr_fac numeric value indicating the factor for smoothing the response variable across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
 #' @param ncol numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns
 #' @param grids logical indicating if grid lines are present
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param ... arguments passed to other methods
 #' 
-#' @details These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series for multiple months.  The plot is similar to that returned by \code{\link{dynaplot}} except the chlorophyll changes are shown on a gridded surface of salinity versus time.  Multiple months can also be viewed.  Color shading is in proportion to the chlorophyll value and is relative across the plotted months.  The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  By default, the plots are constrained to the fifth and ninety-fifth percentile of observed salinity values during each month to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted chlorophyll values that are outside of the salinity range for the plotted month are typically unrealistic.  
+#' @details These plots can be used to examine how the relationship between the response variable and salinity varies throughout the time series for multiple months.  The plot is similar to that returned by \code{\link{dynaplot}} except changes in the response are shown on a gridded surface of salinity versus time.  Multiple months can also be viewed.  Color shading is in proportion to the value of the response variable and is relative across the plotted months.  The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  By default, the plots are constrained to the fifth and ninety-fifth percentile of observed salinity values during each month to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument, although the predicted values of the response variable that are outside of the salinity range for the plotted month are typically unrealistic.  
 #' 
 #' @import dplyr ggplot2 RColorBrewer
 #' 
@@ -109,12 +109,12 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
   # reshape data frame
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 5:ncol(to_plo)) %>% 
+  to_plo <- tidyr::gather(to_plo, 'sal', 'res', 5:ncol(to_plo)) %>% 
     mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
     select(-date, -day) %>% 
     group_by(year, month, sal) %>% 
     summarize(
-      chla = mean(chla, na.rm = TRUE)
+      res = mean(res, na.rm = TRUE)
     )
   
   # subset years to plot
@@ -145,23 +145,23 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
         split(x, x$year), 
 
         function(y){
-          out <- stats::approx(y$sal, y$chla, xout = sal_fac)
+          out <- stats::approx(y$sal, y$res, xout = sal_fac)
           out <- data.frame(year = unique(y$year), month = unique(y$month), out)
           return(out)
         })
       interped <- do.call('rbind', interped)
-      names(interped) <- c('year', 'month', 'sal', 'chla')
+      names(interped) <- c('year', 'month', 'sal', 'res')
       
       # interp across years
       interped <- lapply(
         split(interped, interped$sal), 
         function(y){
-          out <- approx(y$year, y$chla, xout = yr_fac)
-          out <- data.frame(year = out$x, month = unique(y$month), sal = unique(y$sal), chla = out$y)
+          out <- approx(y$year, y$res, xout = yr_fac)
+          out <- data.frame(year = out$x, month = unique(y$month), sal = unique(y$sal), res = out$y)
           return(out)
         })
       interped <- do.call('rbind', interped)
-      names(interped) <- c('year', 'month', 'sal', 'chla')
+      names(interped) <- c('year', 'month', 'sal', 'res')
     
       return(interped)
     
@@ -214,9 +214,9 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   }
     
   # make plot
-  p <- ggplot(to_plo, aes(x = year, y = sal, fill = chla)) + 
-    geom_tile(data = subset(to_plo, !is.na(to_plo$chla)), aes(fill = chla)) +
-    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0) 
+  p <- ggplot(to_plo, aes(x = year, y = sal, fill = res)) + 
+    geom_tile(data = subset(to_plo, !is.na(to_plo$res)), aes(fill = res)) +
+    geom_tile(data = subset(to_plo,  is.na(to_plo$res)), fill = 'black', alpha = 0) 
 
   if(!allmo) p <- p + facet_wrap(~month, ncol = ncol)
   
@@ -287,12 +287,12 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # reshape data frame
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
-  to_plo <- tidyr::gather(to_plo, 'sal', 'chla', 5:ncol(to_plo)) %>% 
+  to_plo <- tidyr::gather(to_plo, 'sal', 'res', 5:ncol(to_plo)) %>% 
     mutate(sal = as.numeric(gsub('^sal ', '', sal))) %>% 
     select(-date, -day) %>% 
     group_by(year, month, sal) %>% 
     summarize(
-      chla = mean(chla, na.rm = TRUE)
+      res = mean(res, na.rm = TRUE)
     )
   
   # subset years to plot
@@ -322,23 +322,23 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
       interped <- lapply(
         split(x, x$year), 
         function(y){
-          out <- approx(y$sal, y$chla, xout = sal_fac)
+          out <- approx(y$sal, y$res, xout = sal_fac)
           out <- data.frame(year = unique(y$year), month = unique(y$month), out)
           return(out)
         })
       interped <- do.call('rbind', interped)
-      names(interped) <- c('year', 'month', 'sal', 'chla')
+      names(interped) <- c('year', 'month', 'sal', 'res')
       
       # interp across years
       interped <- lapply(
         split(interped, interped$sal), 
         function(y){
-          out <- approx(y$year, y$chla, xout = yr_fac)
-          out <- data.frame(year = out$x, month = unique(y$month), sal = unique(y$sal), chla = out$y)
+          out <- approx(y$year, y$res, xout = yr_fac)
+          out <- data.frame(year = out$x, month = unique(y$month), sal = unique(y$sal), res = out$y)
           return(out)
         })
       interped <- do.call('rbind', interped)
-      names(interped) <- c('year', 'month', 'sal', 'chla')
+      names(interped) <- c('year', 'month', 'sal', 'res')
     
       return(interped)
     
@@ -392,9 +392,9 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     
   
   # make plot
-  p <- ggplot(to_plo, aes(x = year, y = sal, fill = chla)) + 
-    geom_tile(data = subset(to_plo, !is.na(to_plo$chla)), aes(fill = chla)) +
-    geom_tile(data = subset(to_plo,  is.na(to_plo$chla)), fill = 'black', alpha = 0)
+  p <- ggplot(to_plo, aes(x = year, y = sal, fill = res)) + 
+    geom_tile(data = subset(to_plo, !is.na(to_plo$res)), aes(fill = res)) +
+    geom_tile(data = subset(to_plo,  is.na(to_plo$res)), fill = 'black', alpha = 0)
   
   if(!allmo) p <- p + facet_wrap(~month, ncol = ncol)
   

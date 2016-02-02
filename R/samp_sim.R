@@ -1,17 +1,17 @@
-#' Sample a daily chlorophyll time series at a set frequency
+#' Sample a daily time series at a set frequency
 #'
-#' Sample a daily chlorophyll time series at a set monthly frequency
+#' Sample a daily water quality time series at a set monthly frequency
 #'
-#' @param dat_in input \code{\link[base]{data.frame}} that is returned from \code{\link{lnchla_sim}} or \code{\link{all_sims}}
+#' @param dat_in input \code{\link[base]{data.frame}} that is returned from \code{\link{lnres_sim}} or \code{\link{all_sims}}
 #' @param month_samps numeric indicating sampling interval, defaults to once a month and is random within the month.  Multiple samples per month are based on sampling with replacement. 
 #' 
-#' @details This function is intended for sampling a simulated daily time series of chlorophyll that is returned by \code{\link{lnchla_sim}} or \code{\link{all_sims}}.
+#' @details This function is intended for sampling a simulated daily time series of water quality that is returned by \code{\link{lnres_sim}} or \code{\link{all_sims}}.
 #' 
 #' @return Original data frame with rows subset based on number of desired monthly samples.
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{lnchla_sim}}, \code{\link{all_sims}}
+#' @seealso \code{\link{lnres_sim}}, \code{\link{all_sims}}
 #' 
 #' @examples
 #' \dontrun{

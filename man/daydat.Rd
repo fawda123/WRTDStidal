@@ -8,7 +8,7 @@
 \describe{
   \item{\code{date}}{Date as daily time step} 
   \item{\code{sal}}{numeric for salinity, ppt}
-  \item{\code{lnchla}}{numeric for chloropyll fluorescence as ln-transformed ug/l}
+  \item{\code{lnres}}{numeric for chlorophyll fluorescence as ln-transformed ug/l}
   \item{\code{Q}}{numeric for daily discharge m3/s}
   \item{\code{lnQ}}{numeric for daily discharge ln-transformed m3/s}
   \item{\code{jday}}{numeric for julian day}

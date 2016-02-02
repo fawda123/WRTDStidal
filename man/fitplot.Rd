@@ -47,7 +47,7 @@ fitplot(dat_in, ...)
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot a tidal object to view chlorophyll observations, predictions, and normalized results.
+Plot a tidal object to view response variable observations, predictions, and normalized results.
 }
 \examples{
 

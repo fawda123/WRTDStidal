@@ -138,7 +138,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   ##
   #ggplot showing point size and color in relation to total weight
   p_dat <- data.frame(
-    dat_in[, c('date', 'chla', 'sal')],
+    dat_in[, c('date', 'res', 'sal')],
     ref_wts
   )
   

@@ -5,23 +5,23 @@
 \title{Create a tidalmean class object}
 \usage{
 tidalmean(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
-  chllog = TRUE, ...)
+  reslog = TRUE, ...)
 }
 \arguments{
-\item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), chlorophyll concentation (ug/L), salinity, and detection limit for left-censored data}
+\item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), response variable, salinity, and detection limit for left-censored data}
 
-\item{ind}{four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame}
+\item{ind}{four element numeric vector indicating column positions of date, response variable, salinity, and detection limit of input data frame}
 
 \item{reslab}{character string or expression for labelling the response variable in plots, defaults to log-chlorophyll in ug/L}
 
 \item{flolab}{character string or expression for labelling the flow variable in plots, defaults to Salinity}
 
-\item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
+\item{reslog}{logical indicating if input response variable is already in log-space, default \code{TRUE}}
 
 \item{...}{arguments passed from other methods}
 }
 \value{
-A tidalmean object as a data frame and attributes.  The data frame has columns ordered as date, chlorophyll, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
+A tidalmean object as a data frame and attributes.  The data frame has columns ordered as date, response variable, salinity (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
 \describe{
  \item{\code{names}}{Column names of the data frame}
  \item{\code{row.names}}{Row names of the data frame}
@@ -40,7 +40,7 @@ A tidalmean object as a data frame and attributes.  The data frame has columns o
 Prepare water quality data for weighted regression for the mean response by creating a tidalmean class object
 }
 \details{
-This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidalmean object for use with weighted regression in tidal waters, specifically to model the mean response as compared to a conditional quantile. Input data should be a four-column \code{\link[base]{data.frame}} with date, chlorophyll, salinity data, and detection limit for each chlorophyll observation.  Chlorophyll data are assumed to be log-transformed, otherwise use \code{chllog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.  Missing observations are also removed.  
+This function is a simple wrapper to \code{\link[base]{structure}} that is used to create a tidalmean object for use with weighted regression in tidal waters, specifically to model the mean response as compared to a conditional quantile. Input data should be a four-column \code{\link[base]{data.frame}} with date, response variable, salinity data, and detection limit for each observation of the response.  The response data are assumed to be log-transformed, otherwise use \code{reslog = FALSE}.  Salinity data can be provided as fraction of freshwater or as parts per thousand.  The limit column can be entered as a sufficiently small number if all values are above the detection limit or no limit exists.  The current implementation of weighted regression for tidal waters only handles left-censored data.  Missing observations are also removed.  
  
 The tidalmean object structure is almost identical to the tidal object, with the exception of an additional attribute for the back-transformed interpolation grid.  This is included to account for retransformation bias of log-transformed variables associated with mean models.
 }

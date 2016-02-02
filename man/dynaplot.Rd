@@ -4,7 +4,7 @@
 \alias{dynaplot}
 \alias{dynaplot.tidal}
 \alias{dynaplot.tidalmean}
-\title{Plot chlorophyll response to salinity as a lineplot for all months}
+\title{Plot model response to salinity as a lineplot for all months}
 \usage{
 dynaplot(dat_in, ...)
 
@@ -55,10 +55,10 @@ dynaplot(dat_in, ...)
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
 }
 \description{
-Plot the relationship between chlorophyll and salinity across the time series using line plots for each month.  Each line corresponds to a unique year.  This can be used to evaluate temporal variation between the two.
+Plot the relationship between the modelled response and salinity across the time series using line plots for each month.  Each line corresponds to a unique year.  This can be used to evaluate temporal variation between the two.
 }
 \details{
-These plots can be used to examine how the relationship between chlorophyll and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of chlorophyll with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument. 
+These plots can be used to examine how the relationship between the response variable and salinity varies throughout the time series.  It is essentially identical to the plot produced by \code{\link{gridplot}}, except lines plots are returned that show the relationship of the response variable with salinity using different lines for each year. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot.  Each plot is limited to the same month throughout the time series to limit seasonal variation.  Plots are also constrained to the fifth and ninety-fifth percentile of observed salinity values during the month of interest to limit the predictions within the data domain. This behavior can be suppressed by changing the \code{allsal} argument. 
 
 Note that the year variable used for color mapping is treated as a continuous variable although it is an integer by definition.
 }

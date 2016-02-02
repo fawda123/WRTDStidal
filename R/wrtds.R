@@ -1,7 +1,7 @@
 ######
 #' Get WRTDS prediction grid
 #'
-#' Get WRTDS prediction grid for chlorophyll observations in a tidal or tidalmean object
+#' Get WRTDS prediction grid for observations of the response variable in a tidal or tidalmean object
 #'
 #' @param dat_in input tidal or tidalmean object
 #' @param sal_div numeric indicating number of divisions across the range of salinity to create the interpolation grid
@@ -92,7 +92,7 @@ wrtds.tidal <- function(dat_in, sal_div = 10, tau = 0.5, trace = TRUE, ...){
       
       # crq model, estimates all quants
       mod <- quantreg::crq(
-        survival::Surv(chla, not_cens, type = "left") ~ 
+        survival::Surv(res, not_cens, type = "left") ~ 
           dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
         weights = ref_wts,
         data = dat_in, 
@@ -221,7 +221,7 @@ wrtds.tidalmean <- function(dat_in, sal_div = 10, trace = TRUE, ...){
       
       # parametric survival mod
       mod <- try({survival::survreg(
-        survival::Surv(chla, not_cens, type = "left")
+        survival::Surv(res, not_cens, type = "left")
           ~ dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time),
         weights = ref_wts,
         data = to_mod, 

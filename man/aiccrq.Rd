@@ -27,7 +27,7 @@ ref_wts <- getwts(tidobj, ref_in)
 
 # get the model
 mod <- quantreg::crq(
-   survival::Surv(chla, not_cens, type = "left") ~ 
+   survival::Surv(res, not_cens, type = "left") ~ 
      dec_time + sal + sin(2*pi*dec_time) + cos(2*pi*dec_time), 
    weights = ref_wts,
    data = tidobj, 

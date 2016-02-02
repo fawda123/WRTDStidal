@@ -11,9 +11,9 @@
 #' @export
 #' 
 #' @details
-#' This function is used after \code{wrtds} to estimate predicted values of chlorophyll from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted chlorophyll values at two salinity and two date values nearest to the observed salinity and date values to predict.  
+#' This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity and two date values nearest to the observed salinity and date values to predict.  
 #' 
-#' @return Appends columns to the data.frame for the predicted chlorophyll values.  For tidal objects, Columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits' and `bt_fits'.
+#' @return Appends columns to the data.frame for the predicted values.  For tidal objects, columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits' and `bt_fits'.
 #'  
 #' @examples
 #' ##
@@ -22,22 +22,22 @@
 #' data(tidobj)
 #' 
 #' # get fitted values for each quantile
-#' res <- chlpred(tidobj)
+#' res <- respred(tidobj)
 #' 
 #' # load a tidalmean object
 #' data(tidobjmean)
 #' 
 #' # get predicted values
-#' res <- chlpred(tidobjmean)
+#' res <- respred(tidobjmean)
 #' 
-chlpred <- function(dat_in, ...) UseMethod('chlpred')
+respred <- function(dat_in, ...) UseMethod('respred')
 
-#' @rdname chlpred
+#' @rdname respred
 #'
 #' @export
 #'
-#' @method chlpred tidal
-chlpred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
+#' @method respred tidal
+respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   
   fits <- attr(dat_in, 'fits')
   sal_grd <- attr(dat_in, 'sal_grd')
@@ -45,7 +45,7 @@ chlpred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
-  if(trace) cat('\nEstimating chlorophyll predictions\n')
+  if(trace) cat('\nEstimating predictions\n')
   
   # quantiles to predict
   tau <- names(fits)
@@ -70,8 +70,8 @@ chlpred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
       
       function(x){
         
-        # interp the chl for given date, sal in to_pred
-        chlinterp(x['date'], x['sal'], fit_grd, sal_grd)
+        # interp the response for given date, sal in to_pred
+        resinterp(x['date'], x['sal'], fit_grd, sal_grd)
     
     })          
 
@@ -96,12 +96,12 @@ chlpred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
     
 }
 
-#' @rdname chlpred
+#' @rdname respred
 #'
 #' @export
 #'
-#' @method chlpred tidalmean
-chlpred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
+#' @method respred tidalmean
+respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   
   fits <- attr(dat_in, 'fits')
   bt_fits <- attr(dat_in, 'bt_fits')
@@ -110,7 +110,7 @@ chlpred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
-  if(trace) cat('\nEstimating chlorophyll predictions\n')
+  if(trace) cat('\nEstimating predictions\n')
   
   # interp grids
   fit_grd <- fits[[1]]
@@ -125,9 +125,9 @@ chlpred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
     
     function(x){
 
-      # interp the chl for given date, sal in to_pred with relevant grid
-      out <- chlinterp(x['date'], x['sal'], fit_grd, sal_grd)
-      bt_out <- chlinterp(x['date'], x['sal'], btfit_grd, sal_grd)
+      # interp the response for given date, sal in to_pred with relevant grid
+      out <- resinterp(x['date'], x['sal'], fit_grd, sal_grd)
+      bt_out <- resinterp(x['date'], x['sal'], btfit_grd, sal_grd)
       
       c(out, bt_out)
     
