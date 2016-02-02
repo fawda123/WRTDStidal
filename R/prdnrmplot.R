@@ -100,7 +100,6 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
     
   }
   
-  
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){
     
@@ -134,7 +133,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
     mutate(taus = gsub('^fit', '', taus))
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
 
   # back-transform if needed
   if(!logspace){
@@ -227,7 +226,7 @@ prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng
   fits <- select(to_plo, date, fits, bt_fits)
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
   
   # use back-transformed if TRUE
   if(!logspace){

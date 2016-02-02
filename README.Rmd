@@ -168,7 +168,7 @@ data(tidfit)
 # plot using fitplot function
 fitplot(tidfit)
 
-# plot as annual aggregations
+# plot non-aggregated results
 fitplot(tidfit, annuals = FALSE)
 ```
 
@@ -182,7 +182,7 @@ sliceplot(tidfit)
 Similar to `sliceplot`, the `fitmoplot` creates facetted plots for each month rather than showing each month on the same plot.  
 
 ```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
-# plot january, july as defaults
+# fits by month, normalized
 fitmoplot(tidfit, predicted = F)
 ```
 
@@ -200,7 +200,7 @@ The `dynaplot` function can be used to examine how the relationship between chlo
 
 ```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 # plot using defaults
-# defaults to the fiftieth quantile for July for all years
+# defaults to the fiftieth quantile
 dynaplot(tidfit)
 ```
 
@@ -208,7 +208,7 @@ Similar plots can be returned using the `gridplot` function.  These are essentia
 
 ```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 # create a gridded plot
-# defaults to the fiftieth quantile for July for all years
+# defaults to the fiftieth quantile
 gridplot(tidfit)
 ```
 

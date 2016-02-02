@@ -4,12 +4,17 @@
 \alias{tidalmean}
 \title{Create a tidalmean class object}
 \usage{
-tidalmean(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...)
+tidalmean(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
+  chllog = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), chlorophyll concentation (ug/L), salinity, and detection limit for left-censored data}
 
 \item{ind}{four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame}
+
+\item{reslab}{character string or expression for labelling the response variable in plots, defaults to log-chlorophyll in ug/L}
+
+\item{flolab}{character string or expression for labelling the flow variable in plots, defaults to Salinity}
 
 \item{chllog}{logical indicating if input chlorophyll is already in log-space, default \code{TRUE}}
 
@@ -27,6 +32,8 @@ A tidalmean object as a data frame and attributes.  The data frame has columns o
  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
  \item{\code{salobs_rng}}{Two element vector indicating the salinity range of the observed data}
  \item{\code{nobs}}{List with one matrix showing the number of weights greater than zero for each date and salinity combination used to create the fit matrices in \code{fits}.  Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
+ \item{\code{reslab}}{expression or character string for response variable label in plots}
+ \item{\code{flolab}}{expression or character string for flow variable label in plots}
 }
 }
 \description{

@@ -53,7 +53,7 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   
   # backtransform chl
   if(!logspace) to_plo$chla <- exp(to_plo$chla)
-  label <- chllab(logspace)
+  label <- attr(dat_in, 'reslab')
   
   # subset data by dt_rng
   if(!is.null(dt_rng)){ 
@@ -70,6 +70,12 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   # long format
   to_plo <- tidyr::gather(to_plo, 'variable', 'value', c(2:3))
   
+  # change variable labels for plotting facet
+  to_plo$variable <- factor(to_plo$variable, 
+    levels = c('chla', 'sal'), 
+    labels = c(as.character(label), 'Salinity')
+    )
+  
   # plot
   base <- ggplot(to_plo, aes(x = date, y = value)) + 
     facet_grid(variable ~ ., scales = 'free_y')
@@ -85,15 +91,9 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   if(lines) p <- base + geom_line(alpha = alpha, size = lwd, colour = col) 
   else p <- base + geom_point(alpha = alpha,  size = size, colour = col)
   
-  
-  # facet labeller
-  fac_look <- list('chla' = label, 'sal' = 'Salinity')
-  fac_labs <- function(variable, value){
-    return(fac_look[value])
-  }
-  
+  # final
   p <- p + 
-    facet_grid(variable ~ ., scales = 'free_y', labeller = fac_labs) +
+    facet_grid(variable ~ ., scales = 'free_y', labeller = label_parsed) +
     theme_bw() +
     theme(axis.title.x = element_blank())
   

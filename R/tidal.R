@@ -5,6 +5,8 @@
 #' 
 #' @param dat_in Input data frame for a water quality time series with four columns for date (Y-m-d format), chlorophyll concentation (ug/L), salinity, and detection limit for left-censored data
 #' @param ind four element numeric vector indicating column positions of date, chlorophyll, salinity, and detection limit of input data frame
+#' @param reslab character string or expression for labelling the response variable in plots, defaults to log-chlorophyll in ug/L
+#' @param flolab character string or expression for labelling the flow variable in plots, defaults to Salinity
 #' @param chllog logical indicating if input chlorophyll is already in log-space, default \code{TRUE}
 #' @param ... arguments passed from other methods
 #' 
@@ -18,6 +20,8 @@
 #'  \item{\code{sal_grd}}{Numeric vector of salinity values that was used for the interpolation grids}
 #'  \item{\code{salobs_rng}}{Two element vector indicating the salinity range of the observed data}
 #'  \item{\code{nobs}}{List with one matrix showing the number of weights greater than zero for each date and salinity combination used to create the fit matrices in \code{fits}.  Number of observations are the same for each quantile model.  Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
+#'  \item{\code{reslab}}{expression or character string for response variable label in plots}
+#'  \item{\code{flolab}}{expression or character string for flow variable label in plots}
 #' }
 #'
 #' @details
@@ -33,7 +37,7 @@
 #' ## format
 #' chldat <- tidal(chldat)
 #' 
-tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
+tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, chllog = TRUE, ...){
   
   # sanity checks
   if(!any(c('Date', 'POSIXct', 'POSIXlt') %in% class(dat_in[, ind[1]])))
@@ -79,6 +83,12 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
   # organize by date
   dat_in <- dat_in[order(dat_in$date), ]
   
+  # plot labels
+  if(is.null(reslab))
+    reslab <- chllab(chllog)
+  if(is.null(flolab))
+    flolab <- 'Salinity'
+  
   # create class, with multiple attributes
   tidal <- structure(
     .Data = dat_in, 
@@ -87,7 +97,9 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), chllog = TRUE, ...){
     fits = NULL, 
     sal_grd = NULL,
     salobs_rng = salobs_rng,
-    nobs = NULL
+    nobs = NULL, 
+    reslab = reslab,
+    flolab = flolab
     )
   
   return(tidal)

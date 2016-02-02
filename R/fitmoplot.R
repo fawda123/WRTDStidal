@@ -125,7 +125,7 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
     select(date, month, fits_variable, fits_value)
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
   
   # back-transform if needed
   if(!logspace){
@@ -257,7 +257,7 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   fits <- select(to_plo, date, month, fits, bt_fits)
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
   
   # use back-transformed if TRUE
   if(!logspace){

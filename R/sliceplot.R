@@ -122,7 +122,7 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
     select(date, month, year, fits_variable, fits_value)
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
   
   # back-transform if needed
   if(!logspace){
@@ -229,7 +229,7 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
   fits <- select(to_plo, date, month, fits, bt_fits)
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
   
   # use back-transformed if TRUE
   if(!logspace){

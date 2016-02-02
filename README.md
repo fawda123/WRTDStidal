@@ -7,7 +7,7 @@ Windows: [![AppVeyor Build Status](http://ci.appveyor.com/api/projects/status/gi
 
 This is the development repository for the WRTDStidal package.  Functions within this package can be used to model chlorophyll time series from coastal monitoring data.  The approach follows on previous methods described in the [EGRET](https://github.com/USGS-R/EGRET) package developed by USGS for non-tidal waters.  Details are forthcoming: 
 
-*Beck MW, Hagy JD. 2015. Adaptation of a weighted regression approach to evaluate water quality trends in an Estuary. Environmental Modelling and Assessment. [http://dx.doi.org/10.1007/s10666-015-9452-8](http://dx.doi.org/10.1007/s10666-015-9452-8)*
+*Beck MW, Hagy JD. 2015. Adaptation of a weighted regression approach to evaluate water quality trends in an Estuary. Environmental Modelling and Assessment. 20(6):637-855. [http://dx.doi.org/10.1007/s10666-015-9452-8](http://dx.doi.org/10.1007/s10666-015-9452-8)*
 
 Please send an email to beck.marcus@epa.gov for the accepted draft.  The original method for streams and rivers is described here:
 
@@ -119,7 +119,8 @@ names(attributes(tidobj))
 ```
 
 ```
-## [1] "names"      "row.names"  "class"      "salobs_rng"
+## [1] "names"      "row.names"  "class"      "salobs_rng" "reslab"    
+## [6] "flolab"
 ```
 
 ```r
@@ -153,8 +154,8 @@ names(attributes(tidfit))
 ```
 
 ```
-## [1] "names"      "row.names"  "salobs_rng" "half_wins"  "fits"      
-## [6] "sal_grd"    "nobs"       "class"
+##  [1] "names"      "row.names"  "salobs_rng" "reslab"     "flolab"    
+##  [6] "half_wins"  "fits"       "sal_grd"    "nobs"       "class"
 ```
 
 ### Fitting a WRTDS tidal model
@@ -253,7 +254,7 @@ fitplot(tidfit)
 ![](README_files/figure-html/unnamed-chunk-10-1.png) 
 
 ```r
-# plot as annual aggregations
+# plot non-aggregated results
 fitplot(tidfit, annuals = FALSE)
 ```
 
@@ -273,7 +274,7 @@ Similar to `sliceplot`, the `fitmoplot` creates facetted plots for each month ra
 
 
 ```r
-# plot january, july as defaults
+# fits by month, normalized
 fitmoplot(tidfit, predicted = F)
 ```
 
@@ -301,7 +302,7 @@ The `dynaplot` function can be used to examine how the relationship between chlo
 
 ```r
 # plot using defaults
-# defaults to the fiftieth quantile for July for all years
+# defaults to the fiftieth quantile
 dynaplot(tidfit)
 ```
 
@@ -312,7 +313,7 @@ Similar plots can be returned using the `gridplot` function.  These are essentia
 
 ```r
 # create a gridded plot
-# defaults to the fiftieth quantile for July for all years
+# defaults to the fiftieth quantile
 gridplot(tidfit)
 ```
 

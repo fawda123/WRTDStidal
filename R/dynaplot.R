@@ -91,7 +91,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
 
   # back-transform if needed
   if(!logspace){
@@ -221,7 +221,7 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   to_plo <- attr(dat_in, 'fits')[[1]]
 
   # y-axis label
-  ylabel <- chllab(logspace)
+  ylabel <- attr(dat_in, 'reslab')
 
   # use bt grid if not log-space
   if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
