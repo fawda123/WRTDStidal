@@ -9,7 +9,7 @@ getwts(dat_in, ...)
 
 \method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num", "dec_time",
   "flo"), wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
-  ngrzero = FALSE, wins_only = FALSE, min_obs = TRUE, ...)
+  ngrzero = FALSE, wins_only = FALSE, min_obs = 100, ...)
 }
 \arguments{
 \item{dat_in}{input tidal object}
@@ -30,7 +30,7 @@ getwts(dat_in, ...)
 
 \item{wins_only}{logical if the half-window widths should be returned as a list}
 
-\item{min_obs}{logical to use window widening if less than 100 non-zero weights are found, default \code{TRUE}}
+\item{min_obs}{numeric vector for window widening if the number of observations with non-zero weights is less than the specified value, use \code{min_obs = NULL} to suppress this behavior}
 }
 \value{
 A vector of weights with length equal to the number of observations (rows) in the tidal object.  Vectors for all three weighting variables are returned if \code{all = TRUE}.
@@ -39,7 +39,7 @@ A vector of weights with length equal to the number of observations (rows) in th
 Get weights for WRTDS for a single observation using a tri-cubic weighting function
 }
 \details{
-The default half-window widths for \code{day_num}, \code{year}, and \code{flow} are half a day (12 hours), 10 years, and half the range of salinity/flow in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{min_obs = FALSE}.
+The default half-window widths for \code{day_num}, \code{year}, and \code{flow} are half a day (12 hours), 10 years, and half the range of salinity/flow in the input data.  The half-window widths are expanded by 10\% until at least 100 observations have weights greater than zero.  This behavior can be suppressed by setting \code{min_obs = NULL}.
 }
 \examples{
 ##
