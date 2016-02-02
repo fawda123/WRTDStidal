@@ -9,7 +9,6 @@
 #' @param slice logical indicating if only weights bounded by the year window (i.e., the limiting window for the combined weights) are shown, passed to \code{\link{getwts}}
 #' @param dt_rng Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.
 #' @param pt_rng numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.
-#' @param ylabs two element chr string to use as alternative y-axis titles
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param col_lns chr string of line color in plots
 #' @param alpha numeric value from zero to one indicating transparency of points and lines
@@ -46,7 +45,7 @@ wtsplot <- function(dat_in, ...) UseMethod('wtsplot')
 #' @export 
 #' 
 #' @method wtsplot default
-wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12), ylabs = c('Salinity', 'Weights'), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
+wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...){
   
   # format reference position
   if(is.null(ref)){
@@ -88,7 +87,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   yr_sub <- dat_in$year == ref$year
   yr_val<- ref$year
   mo_val <- ref$mo
-  sal_val <- paste(ylabs[1], round(ref$sal, 2))
+  sal_val <- paste(attr(dat_in, 'flolab'), round(ref$sal, 2))
 
   # colors
   cols <- gradcols(col_vec = col_vec)
@@ -106,7 +105,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     geom_line(colour = col_lns, alpha = alpha) + 
     ggtitle('Month') +
     scale_y_continuous(name = element_blank(), limits = c(0, 1)) +
-    scale_x_date(labels = scales::date_format("%b"), name = element_blank()) +
+    scale_x_date(date_labels = '%b', name = element_blank()) +
     theme_bw()
   
   # year wts
@@ -124,7 +123,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
     geom_line(colour = col_lns, alpha = alpha) + 
     scale_y_continuous(name = element_blank(),limits=c(0,1)) +
     scale_x_date(name = element_blank(), limits = dt_rng) +
-    ggtitle('Salinity') +
+    ggtitle(attr(dat_in, 'flolab')) +
     theme_bw()
   
   # all weights
@@ -148,7 +147,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
       colour = 'allwts', size = 'allwts')) +
     geom_point(alpha = alpha) +
     scale_colour_gradientn(colours = rev(cols)) +
-    scale_y_continuous(limits = c(0, max(dat_in$sal)), name = ylabs[1]) +
+    scale_y_continuous(limits = c(0, max(dat_in$sal)), name = attr(dat_in, 'flolab')) +
     scale_x_date(name = element_blank(), limits = dt_rng) +
     scale_size(range = pt_rng) +
     ggtitle(paste(ref$date, sal_val, paste0(grzero, ' obs with wts > 0'), sep = ', ')) + 
@@ -165,7 +164,7 @@ wtsplot.default <- function(dat_in, ref = NULL, wins = list(0.5, 10, NULL), min_
   gridExtra::grid.arrange(
     p_dat_plo,
     gridExtra::arrangeGrob(p1, p2, p3, p4, nrow = 2, 
-      left = grid::textGrob(ylabs[2],rot = 90)),
+      left = grid::textGrob('Weights', rot = 90)),
     bottom = 'Date',
     heights = c(0.7, 1)
     )

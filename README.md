@@ -1,7 +1,7 @@
 # WRTDStidal: evaluating long-term chlorophyll trends in tidal waters
 Marcus W. Beck, beck.marcus@epa.gov, James D. Hagy III, hagy.jim@epa.gov  
 
-Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/wtreg_for_estuaries.png?branch=master)](http://travis-ci.org/fawda123/wtreg_for_estuaries)
+Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/WRTDStidal.png?branch=master)](http://travis-ci.org/fawda123/WRTDStidal)
 
 Windows: [![AppVeyor Build Status](http://ci.appveyor.com/api/projects/status/github/fawda123/wtreg_for_estuaries?branch=master)](http://ci.appveyor.com/project/fawda123/wtreg_for_estuaries)
 

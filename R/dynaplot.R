@@ -90,9 +90,10 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   to_plo <- attr(dat_in, 'fits')[[tau_fits]]
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   
-  # y-axis label
+  # axis labels
   ylabel <- attr(dat_in, 'reslab')
-
+  xlabel <- attr(dat_in, 'flolab')
+  
   # back-transform if needed
   if(!logspace){
   
@@ -180,7 +181,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   p <- p + 
     geom_line(size = size, aes(colour = year), alpha = alpha) +
     scale_y_continuous(ylabel, expand = c(0, 0)) +
-    scale_x_continuous('Salinity', expand = c(0, 0)) +
+    scale_x_continuous(xlabel, expand = c(0, 0)) +
     theme(
       legend.position = 'top'
     ) +
@@ -220,8 +221,9 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # get the grid
   to_plo <- attr(dat_in, 'fits')[[1]]
 
-  # y-axis label
+  # axis labels
   ylabel <- attr(dat_in, 'reslab')
+  xlabel <- attr(dat_in, 'flolab')
 
   # use bt grid if not log-space
   if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
@@ -307,7 +309,7 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   p <- p + 
     geom_line(size = size, aes(colour = year), alpha = alpha) +
     scale_y_continuous(ylabel, expand = c(0, 0)) +
-    scale_x_continuous('Salinity', expand = c(0, 0)) +
+    scale_x_continuous(xlabel, expand = c(0, 0)) +
     theme(
       legend.position = 'top'
     ) +

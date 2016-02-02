@@ -53,7 +53,7 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   
   # backtransform chl
   if(!logspace) to_plo$chla <- exp(to_plo$chla)
-  label <- attr(dat_in, 'reslab')
+  labels <- unlist(attributes(dat_in)[c('reslab', 'flolab')])
   
   # subset data by dt_rng
   if(!is.null(dt_rng)){ 
@@ -73,7 +73,7 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   # change variable labels for plotting facet
   to_plo$variable <- factor(to_plo$variable, 
     levels = c('chla', 'sal'), 
-    labels = c(as.character(label), 'Salinity')
+    labels = labels
     )
   
   # plot

@@ -11,8 +11,7 @@ wtsplot(dat_in, ...)
 
 \method{wtsplot}{default}(dat_in, ref = NULL, wins = list(0.5, 10, NULL),
   min_obs = TRUE, slice = FALSE, dt_rng = NULL, pt_rng = c(1, 12),
-  ylabs = c("Salinity", "Weights"), col_vec = NULL, col_lns = NULL,
-  alpha = 1, as_list = FALSE, ...)
+  col_vec = NULL, col_lns = NULL, alpha = 1, as_list = FALSE, ...)
 
 \method{wtsplot}{tidal}(dat_in, ...)
 
@@ -34,8 +33,6 @@ wtsplot(dat_in, ...)
 \item{dt_rng}{Optional chr string indicating the date range for all plots except seasonal (day) weights. Must be two values in the format 'YYYY-mm-dd' which is passed to \code{\link{as.Date}}.}
 
 \item{pt_rng}{numeric vector of two elements indicating point scaling for all weights in the plot of salinity vs time.}
-
-\item{ylabs}{two element chr string to use as alternative y-axis titles}
 
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for weight shading.  The last value in the vector is used as the line color if \code{col_lns = NULL}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 

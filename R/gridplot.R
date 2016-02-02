@@ -96,8 +96,9 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   to_plo <- attr(dat_in, 'fits')[[tau_fits]]
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   
-  # y-axis label
+  # axis labels
   ylabel <- attr(dat_in, 'reslab')
+  xlabel <- attr(dat_in, 'flolab')
 
   # back-transform if needed
   if(!logspace){
@@ -232,7 +233,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
       axis.title.x = element_blank()
       )  +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous('Salinity', expand = c(0,0)) +
+    scale_y_continuous(xlabel, expand = c(0,0)) +
     scale_fill_gradientn(ylabel, colours = rev(cols)) +
     guides(fill = guide_colourbar(barwidth = 10)) 
 
@@ -276,8 +277,9 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # get the selected months
   to_plo <- attr(dat_in, 'fits')[[1]]
   
-  # y-axis label
+  # axis labels
   ylabel <- attr(dat_in, 'reslab')
+  xlabel <- attr(dat_in, 'flolab')
 
   # use bt grid if not log-space
   if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
@@ -409,7 +411,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
       axis.title.x = element_blank()
       )  +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous('Salinity', expand = c(0,0)) +
+    scale_y_continuous(xlabel, expand = c(0,0)) +
     scale_fill_gradientn(ylabel, colours = rev(cols)) +
     guides(fill = guide_colourbar(barwidth = 10)) 
     

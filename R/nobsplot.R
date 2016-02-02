@@ -75,8 +75,9 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
   to_plo <- attr(dat_in, 'nobs')[[1]]
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   
-  # y-axis label
+  # axis labels
   ylabel <- 'Observations'
+  xlabel <- attr(dat_in, 'flolab')
 
   # reshape data frame
   names(to_plo)[grep('^X', names(to_plo))] <- paste('sal', sal_grd)
@@ -154,7 +155,7 @@ nobsplot.default <- function(dat_in, month = 'all', years = NULL, col_vec = NULL
       axis.title.x = element_blank()
       )  +
     scale_x_continuous(expand = c(0, 0)) +
-    scale_y_continuous('Salinity', expand = c(0,0)) +
+    scale_y_continuous(xlabel, expand = c(0,0)) +
     scale_fill_gradientn(ylabel, colours = rev(cols)) +
     guides(fill = guide_colourbar(barwidth = 10)) 
 
