@@ -70,6 +70,28 @@ modfit.default <- function(dat_in, ...){
 #'
 #' @export
 #'
+#' @method modfit tidal
+modfit.tidal <- function(dat_in, ...){
+  
+  modfit.default(dat_in = dat, ...)
+  
+}
+
+#' @rdname modfit
+#'
+#' @export
+#'
+#' @method modfit tidalmean
+modfit.tidalmean <- function(dat_in, ...){
+  
+  modfit.default(dat_in = dat, ...)
+  
+}
+
+#' @rdname modfit
+#'
+#' @export
+#'
 #' @method modfit data.frame
 modfit.data.frame <- function(dat_in, resp_type = 'quantile', ...){
   

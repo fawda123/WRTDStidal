@@ -4,11 +4,17 @@
 \alias{modfit}
 \alias{modfit.data.frame}
 \alias{modfit.default}
+\alias{modfit.tidal}
+\alias{modfit.tidalmean}
 \title{Fit weighted regression and get predicted/normalized response variable}
 \usage{
 modfit(dat_in, ...)
 
 \method{modfit}{default}(dat_in, ...)
+
+\method{modfit}{tidal}(dat_in, ...)
+
+\method{modfit}{tidalmean}(dat_in, ...)
 
 \method{modfit}{data.frame}(dat_in, resp_type = "quantile", ...)
 }
