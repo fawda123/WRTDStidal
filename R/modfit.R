@@ -73,7 +73,7 @@ modfit.default <- function(dat_in, ...){
 #' @method modfit tidal
 modfit.tidal <- function(dat_in, ...){
   
-  modfit.default(dat_in = dat, ...)
+  modfit.default(dat_in = dat_in, ...)
   
 }
 
@@ -84,7 +84,7 @@ modfit.tidal <- function(dat_in, ...){
 #' @method modfit tidalmean
 modfit.tidalmean <- function(dat_in, ...){
   
-  modfit.default(dat_in = dat, ...)
+  modfit.default(dat_in = dat_in, ...)
   
 }
 
@@ -102,15 +102,15 @@ modfit.data.frame <- function(dat_in, resp_type = 'quantile', ...){
   if(resp_type == 'quantile'){
     # append data to arguments, create tidal object
     args <- c(list(dat_in = dat_in), list(...))
-    dat <- do.call(tidal, args)
+    dat_in <- do.call(tidal, args)
   }
   
   if(resp_type == 'mean'){
     # append data to arguments, create tidalmean object
     args <- c(list(dat_in = dat_in), list(...))
-    dat <- do.call(tidalmean, args)
+    dat_in <- do.call(tidalmean, args)
   }
  
-  modfit.default(dat_in = dat, ...)
+  modfit.default(dat_in = dat_in, ...)
 
 }
