@@ -3,9 +3,12 @@
 \name{modfit}
 \alias{modfit}
 \alias{modfit.data.frame}
+\alias{modfit.default}
 \title{Fit weighted regression and get predicted/normalized response variable}
 \usage{
 modfit(dat_in, ...)
+
+\method{modfit}{default}(dat_in, ...)
 
 \method{modfit}{data.frame}(dat_in, resp_type = "quantile", ...)
 }

@@ -46,6 +46,30 @@ modfit <- function(dat_in, ...) UseMethod('modfit')
 #'
 #' @export
 #'
+#' @method modfit default
+modfit.default <- function(dat_in, ...){
+  
+  # update args, get interpolation grids
+  args <- c(list(dat_in = dat_in, all = F), list(...))
+  dat <- do.call(wrtds, args)
+  
+  # update args, get predictions
+  args[['dat_in']] <- dat
+  dat <- do.call(respred, args)
+  
+  # get normalized predictions
+  args[['dat_in']] <- dat
+  dat <- do.call(resnorm, args)
+  
+  # return output
+  return(dat)
+  
+}
+
+#' @rdname modfit
+#'
+#' @export
+#'
 #' @method modfit data.frame
 modfit.data.frame <- function(dat_in, resp_type = 'quantile', ...){
   
@@ -64,21 +88,7 @@ modfit.data.frame <- function(dat_in, resp_type = 'quantile', ...){
     args <- c(list(dat_in = dat_in), list(...))
     dat <- do.call(tidalmean, args)
   }
-    
-  # update args, get interpolation grids
-  args <- c(list(dat_in = dat, all = F), list(...))
-  dat <- do.call(wrtds, args)
-  
-  # update args, get predictions
-  args[['dat_in']] <- dat
-  dat <- do.call(respred, args)
-  
-  # get normalized predictions
-  args[['dat_in']] <- dat
-  dat <- do.call(resnorm, args)
-  
-  # return output
-  return(dat)
-  
-}
+ 
+  modfit.default(dat_in = dat, ...)
 
+}
