@@ -103,7 +103,8 @@ seasplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, span = 0.4, lwd
 
   # base plot
   p <- ggplot(to_plo, aes_string(x = 'fake_date', y = 'res')) + 
-    geom_point(alpha = alpha, size = size)
+    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    scale_size_manual('', values = size)
 
   # create plot, fits or nrms
   if(predicted){
@@ -140,9 +141,9 @@ seasplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, span = 0.4, lwd
       values = cols, 
       guide = guide_legend(reverse = TRUE)
     ) +
+    guides(colour = guide_legend(order = 2), size = guide_legend(order = 1)) +
     theme(
-      axis.text.x = element_text(angle = 90, vjust = 0.5, size = 8),
-      legend.box = 'horizontal'
+      axis.text.x = element_text(angle = 90, vjust = 0.5, size = 8)
       ) +
     scale_y_continuous(ylabel) +
     scale_x_date(xlab, date_labels = "%m/%d")
@@ -204,8 +205,9 @@ seasplot.tidalmean <- function(dat_in, predicted = TRUE, span = 0.4, lwd = 1, si
 
   # base plot
   p <- ggplot(to_plo, aes_string(x = 'fake_date', y = 'res')) + 
-    geom_point(alpha = alpha, size = size)
-
+    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    scale_size_manual('', values = size)
+  
   # create plot, fits or nrms
   if(predicted){
     
@@ -236,10 +238,10 @@ seasplot.tidalmean <- function(dat_in, predicted = TRUE, span = 0.4, lwd = 1, si
       labels = leglab,
       values = cols
     ) +
+    guides(colour = guide_legend(order = 2), size = guide_legend(order = 1)) +
     theme(
       axis.text.x = element_text(angle = 90, vjust = 0.5, size = 8),
-      legend.title = element_blank(), 
-      legend.box = 'horizontal'
+      legend.title = element_blank()
       ) +
     scale_y_continuous(ylabel) +
     scale_x_date(xlab, date_labels = "%m/%d")
