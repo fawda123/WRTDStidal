@@ -314,7 +314,6 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   # change aesthetics
   
   # pick colors
-  # special case for three quantiles
   cols <- gradcols(col_vec = col_vec)
   
   p <- p + 

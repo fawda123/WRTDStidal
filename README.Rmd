@@ -183,11 +183,17 @@ The `sliceplot` function is a modification of `fitplot` that can be used to plot
 sliceplot(tidfit)
 ```
 
-Similar to `sliceplot`, the `fitmoplot` creates facetted plots for each month rather than showing each month on the same plot.  
+Similar to `sliceplot`, the `fitmoplot` function creates facetted plots for each month rather than showing each month on the same plot.  
 
 ```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
 # fits by month, normalized
 fitmoplot(tidfit, predicted = F)
+```
+
+Seasonal variation across all years can be viewed with the `seasplot` function by showing the observed annual data on a common y-axis.  The year value is removed from the results such that the y-axis shows only the day of the year.  A simple loess (locally estimated) polynomial smooth is added to show the seasonal trend in the results, where the smoother is fit through the model results for the observed data.  The fit can be smoothed through the model predictions or the flow-normalized predictions, neither of which are shown on the plot. 
+
+```{r fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
+seasplot(tidfit)
 ```
 
 The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed values from the original response variable are also removed.  This plot would typically be used to evaluate the relative effects of salinity or flow changes on the response variable given that the normalized results are independent of changes in freshwater inputs.
