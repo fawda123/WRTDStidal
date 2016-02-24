@@ -43,7 +43,7 @@ seasplot(dat_in, ...)
 Plot seasonal trends by combining annual data
 }
 \details{
-Seasonal variation across all years can be viewed by showing the observed data on a common y-axis.  The year value is removed from the results such that the y-axis shows only the day of the year.  A simple loess (locally estimated) polynomial smooth is added to show the seasonal trend in the results, where the smoother is fit through the model results for the observed data.
+Seasonal variation across all years can be viewed by showing the observed annual data on a common y-axis.  The year value is removed from the results such that the y-axis shows only the day of the year.  A simple loess (locally estimated) polynomial smooth is added to show the seasonal trend in the results, where the smoother is fit through the model results for the observed data.  The fit can be smoothed through the model predictions or the flow-normalized predictions, neither of which are shown on the plot.
 }
 \examples{
 # load a fitted tidal object

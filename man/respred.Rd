@@ -17,7 +17,7 @@ respred(dat_in, ...)
 
 \item{...}{arguments passed to or from other methods}
 
-\item{dat_pred}{optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied}
+\item{dat_pred}{optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied, see details}
 
 \item{trace}{logical indicating if progress is shown in the console}
 }
@@ -28,7 +28,9 @@ Appends columns to the data.frame for the predicted values.  For tidal objects, 
 Get model predictions from WRTDS using linear interpolation of values in grids
 }
 \details{
-This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity/flow and two date values nearest to the observed salinity/flow and date values to predict.
+This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity/flow and two date values nearest to the observed salinity/flow and date values to predict.  
+
+Data for \code{dat_pred} must be a data frame of two columns for date and flow variables (\code{date} and \code{numeric} objects).  The columns must be named 'date' and 'flo'.  Values that are outside of the range of data used to fit the model are removed with a warning.
 }
 \examples{
 ##

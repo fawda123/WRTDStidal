@@ -46,7 +46,7 @@ resinterp.default <- function(date_in, flo_in, fit_grd, flo_grd, ...){
   # date as date class if not
   if(!inherits(date_in, 'date'))
     date_in <- as.Date(date_in, format = '%Y-%m-%d')
-  if(!inherits(date_in, 'numeric'))
+  if(!inherits(flo_in, 'numeric'))
     flo_in <- as.numeric(flo_in)
   
   # find bounding salinity/flow value
