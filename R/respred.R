@@ -15,7 +15,7 @@
 #' @details
 #' This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity/flow and two date values nearest to the observed salinity/flow and date values to predict.  
 #' 
-#' Data for \code{dat_pred} must be a data frame of two columns for date and flow variables (\code{date} and \code{numeric} objects).  The columns must be named 'date' and 'flo'.  Values that are outside of the range of data used to fit the model are removed with a warning.
+#' Data for \code{dat_pred} must be a data frame of two columns for date and flow variables (\code{date} and \code{numeric} objects).  The columns must be named 'date' and 'flo'.  Values that are outside of the range of data used to fit the model are removed with a warning.  The dimensions of the output data are modified to match \code{dat_pred} if supplied.
 #' 
 #' @return Appends columns to the data.frame for the predicted values.  For tidal objects, columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits' and `bt_fits'.
 #'  
@@ -135,17 +135,33 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   # exit function, return original object with fits, otherwise expand input object with novel data
   if(is.null(dat_pred)){ 
     
-    return(dat_in)
+    out <- dat_in
     
   } else {
+
+    # combine predicted with orig data
+    out <- do.call('cbind', out_pred)
+    out <- data.frame(dat_pred, out)
+    out <- right_join(dat_in, out, by = 'date') %>% 
+      mutate(flo.x = flo.y) %>% 
+      select(-flo.y) %>% 
+      rename(flo = flo.x)
     
-    browser()
-    out_pred <- do.call('cbind', out_pred)
-    out_pred <- data.frame(dat_pred, out_pred)
-    tmp <- right_join(dat_in, out_pred, by = 'date')
-    return(out_pred)
+    # reformat decimal time columns
+    dect <- dec_time(out$date)
+    out$day_num <- dect$day_num
+    out$month <- dect$month
+    out$year <- dect$year
+    out$dec_time <- dect$dec_time
     
+    # some dirty hack to make new data a tidal object with same atts as before
+    class(out) <- c('tidal', 'data.frame')
+    att_add <- attributes(dat_in)
+    attributes(out) <- c(attributes(out), att_add[!names(att_add) %in% c('names', 'row.names',  'class')])
+  
   }
+  
+  return(out)
     
 }
 
@@ -216,24 +232,40 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   
   if(trace) cat('\n')
   
-  # return results for optional supplied data 
-  if(!is.null(dat_pred)){
+  # create output depending on obs data or predicted data
+  if(is.null(dat_pred)){
+    
+    # append to dat_in object
+    dat_in$fits <- preds[1, ]
+    dat_in$bt_fits <- preds[2, ]
+    out <- dat_in
+    
+  } else {
+    
+    # combine predicted with orig data
     out <- as.data.frame(t(preds))
     names(out) <- c('fits', 'bt_fits')
     out <- data.frame(dat_pred, out)
-    return(out)
+    out <- right_join(dat_in, out, by = 'date') %>% 
+      mutate(flo.x = flo.y) %>% 
+      select(-flo.y) %>% 
+      rename(flo = flo.x)
+    
+    # reformat decimal time columns
+    dect <- dec_time(out$date)
+    out$day_num <- dect$day_num
+    out$month <- dect$month
+    out$year <- dect$year
+    out$dec_time <- dect$dec_time
+    
+    # some dirty hack to make new data a tidalmean object with same atts as before
+    class(out) <- c('tidalmean', 'data.frame')
+    att_add <- attributes(dat_in)
+    attributes(out) <- c(attributes(out), att_add[!names(att_add) %in% c('names', 'row.names',  'class')])
+    
   }
-  
-  # append to dat_in object
-  dat_in$fits <- preds[1, ]
-  dat_in$bt_fits <- preds[2, ]
 
   # exit function
-  return(dat_in)
+  return(out)
     
 }
-
-
-
-
-

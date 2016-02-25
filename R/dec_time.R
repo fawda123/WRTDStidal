@@ -2,9 +2,11 @@
 #'
 #' Create decimal time on an annual scale from an input time vector
 #'
-#' @param input time vector, usually a \code{date} object
+#' @param date_in input time vector, usually a \code{date} object
 #' 
 #' @details Function is used internally within the package.
+#' 
+#' @export
 #' 
 #' @return A named list of four numeric vecors including \code{day_num} (decimal day on an annual scale), \code{month} (month of the year as integer), \code{year}, and \code{dec_time} (decimal time as sum of \code{year} and \code{day_num})
 #' 

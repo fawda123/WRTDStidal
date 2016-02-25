@@ -10,7 +10,7 @@ dec_time(date_in)
 \method{dec_time}{Date}(date_in)
 }
 \arguments{
-\item{input}{time vector, usually a \code{date} object}
+\item{date_in}{input time vector, usually a \code{date} object}
 }
 \value{
 A named list of four numeric vecors including \code{day_num} (decimal day on an annual scale), \code{month} (month of the year as integer), \code{year}, and \code{dec_time} (decimal time as sum of \code{year} and \code{day_num})
