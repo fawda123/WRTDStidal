@@ -8,6 +8,8 @@
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
 #' 
+#' @import dplyr
+#' 
 #' @export
 #' 
 #' @details
@@ -97,6 +99,7 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
       cat(txt)
     }
     
+    # get predictions for the quantile form the fit grd
     preds <- sapply(1:nrow(to_pred), 
       
       function(x){
@@ -113,24 +116,35 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
     })  
 
     if(is.null(dat_pred)){
-      # append to dat_in object
+      
+      # append vector to dat_in object
       dat_in$fits <- preds
       names(dat_in)[grepl('^fits$', names(dat_in))] <- tau[i]
+      
     } else {
+      
+      # add vector of novel prediction to list
       out_pred[[i]] <- preds
+      
     }
     
     if(trace) cat('\n')
-    browser()
+
   }
-  browser()
-  # exit function, return original object with fits, otherwise data frame of predicted values from input
+
+  # exit function, return original object with fits, otherwise expand input object with novel data
   if(is.null(dat_pred)){ 
+    
     return(dat_in)
+    
   } else {
+    
+    browser()
     out_pred <- do.call('cbind', out_pred)
     out_pred <- data.frame(dat_pred, out_pred)
+    tmp <- right_join(dat_in, out_pred, by = 'date')
     return(out_pred)
+    
   }
     
 }

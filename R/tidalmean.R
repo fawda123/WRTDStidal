@@ -72,16 +72,11 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
   dat_in$not_cens <- with(dat_in, res > lim)
   
   # get decimal time
-  day_num <- as.numeric(strftime(dat_in$date, '%j')) + 1
-  year <- as.numeric(strftime(dat_in$date, '%Y'))
-  month <- as.numeric(strftime(dat_in$date, '%m'))
-  lp_days <- day_num %in% c(61, 92, 122, 153, 183, 214, 245, 275, 306, 336)
-  day_num[lp_days] <- day_num[lp_days] - 1
-  day_num <- day_num/365
-  dat_in$day_num <- day_num
-  dat_in$month <- month
-  dat_in$year <- year
-  dat_in$dec_time <- year + day_num
+  dect <- dec_time(dat_in$date)
+  dat_in$day_num <- dect$day_num
+  dat_in$month <- dect$month
+  dat_in$year <- dect$year
+  dat_in$dec_time <- dect$dec_time
   
   # organize by date
   dat_in <- dat_in[order(dat_in$date), ]
