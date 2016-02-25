@@ -45,8 +45,11 @@ resnorm.tidal <- function(dat_in, trace = TRUE, ...){
   
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
-
-  if(trace) cat('\nNormalizing predictions\n\n')
+  
+  if(trace){
+    cat('\nNormalizing predictions, % complete...\n\n')
+    counts <- round(seq(1, nrow(dat_in), length = 20))
+  }
   
   # quantiles to predict
   tau <- names(fits)
@@ -54,12 +57,24 @@ resnorm.tidal <- function(dat_in, trace = TRUE, ...){
   # normalize predictions for each quantile
   for(i in seq_along(tau)){
   
+    # progress
+    if(trace){
+      txt <- paste0('tau = ', gsub('fit', '', tau[i]), '\n')
+      cat(txt)
+    }
+    
     # interp grid and flo values to interp
     fit_grd <- fits[[i]]
 
     norms <- rep(NA_real_, num_obs)
     for(row in 1:num_obs){
 
+      # progress
+      if(trace){
+        perc <- 5 * which(row == counts)
+        if(length(perc) != 0) cat(perc, '\t')
+      }
+      
       # get flo values across all dates for the row
       flo_vals <- flofind(dat_in, row)
       
@@ -77,6 +92,8 @@ resnorm.tidal <- function(dat_in, trace = TRUE, ...){
     dat_in$norm <- norms
     colnm <- gsub('^fit', 'norm', tau[i])
     names(dat_in)[grepl('^norm$', names(dat_in))] <- colnm
+   
+    if(trace) cat('\n')
     
   }
   
@@ -100,7 +117,10 @@ resnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
 
-  if(trace) cat('\nNormalizing predictions\n\n')
+  if(trace){
+    cat('\nNormalizing predictions, % complete...\n\n')
+    counts <- round(seq(1, nrow(dat_in), length = 20))
+  }
 
   # prep interp grids by adding month, year columns
   fit_grd <- fits[[1]]
@@ -110,6 +130,12 @@ resnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
   btnorms <- norms
   for(row in 1:num_obs){
 
+    # progress
+    if(trace){
+      perc <- 5 * which(row == counts)
+      if(length(perc) != 0) cat(perc, '\t')
+    }
+    
     # get flo values across all dates for the row
     flo_vals <- flofind(dat_in, row)
     
@@ -133,6 +159,8 @@ resnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
     dat_in$bt_norm <- btnorms
     
   }
+  
+  if(trace) cat('\n')
   
   # exit function
   return(dat_in)

@@ -47,7 +47,10 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
-  if(trace) cat('\nEstimating predictions\n')
+  if(trace){
+    cat('\nEstimating predictions, % complete...\n\n')
+    counts <- round(seq(1, nrow(dat_in), length = 20))
+  }
   
   # quantiles to predict
   tau <- names(fits)
@@ -89,14 +92,25 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
     # interp grids
     fit_grd <- fits[[i]]
   
-    preds <- apply(to_pred, 1, 
+    if(trace){
+      txt <- paste0('tau = ', gsub('fit', '', tau[i]), '\n')
+      cat(txt)
+    }
+    
+    preds <- sapply(1:nrow(to_pred), 
       
       function(x){
-
+        
+        # progress
+        if(trace){
+          perc <- 5 * which(x == counts)
+          if(length(perc) != 0) cat(perc, '\t')
+        }
+        
         # interp the response for given date, flo in to_pred
-        resinterp(x['date'], x['flo'], fit_grd, flo_grd)
+        resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], fit_grd, flo_grd)
     
-    })          
+    })  
 
     if(is.null(dat_pred)){
       # append to dat_in object
@@ -106,8 +120,10 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
       out_pred[[i]] <- preds
     }
     
+    if(trace) cat('\n')
+    browser()
   }
-  
+  browser()
   # exit function, return original object with fits, otherwise data frame of predicted values from input
   if(is.null(dat_pred)){ 
     return(dat_in)
@@ -133,7 +149,10 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   # sanity checks
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
-  if(trace) cat('\nEstimating predictions\n')
+  if(trace){
+    cat('\nEstimating predictions, % complete...\n\n')
+    counts <- round(seq(1, nrow(dat_in), length = 20))
+  }
   
   # interp grids
   fit_grd <- fits[[1]]
@@ -163,18 +182,26 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
   }
   to_pred <- to_pred[, c('flo', 'date')]
   
-  preds <- apply(to_pred, 1, 
+  preds <- sapply(1:nrow(to_pred), 
     
     function(x){
 
+      # progress
+        if(trace){
+          perc <- 5 * which(x == counts)
+          if(length(perc) != 0) cat(perc, '\t')
+        }
+        
       # interp the response for given date, flo in to_pred with relevant grid
-      out <- resinterp(x['date'], x['flo'], fit_grd, flo_grd)
-      bt_out <- resinterp(x['date'], x['flo'], btfit_grd, flo_grd)
+      out <- resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], fit_grd, flo_grd)
+      bt_out <- resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], btfit_grd, flo_grd)
       
       c(out, bt_out)
     
   })      
-
+  
+  if(trace) cat('\n')
+  
   # return results for optional supplied data 
   if(!is.null(dat_pred)){
     out <- as.data.frame(t(preds))
