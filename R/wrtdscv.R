@@ -67,7 +67,7 @@ wrtdscv.default <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, 
 
   # model eval with each fold
   errs <- foreach(i = 1:k, .export = c('wrtds', 'respred'), .packages = 'WRTDStidal') %dopar% {
-    
+
     # training and test datasets 
     dat_trn <- sort(unlist(folds[-i]))
     dat_trn <- dat_in[dat_trn, ]
@@ -80,10 +80,10 @@ wrtdscv.default <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, 
     mod <- do.call(wrtds, args)
 
     # predictions on test
-    prd_tst <- respred(mod, dat_tst, trace = FALSE)
+    prd_tst <- respred(mod, dat_tst[, c('date', 'flo')], trace = FALSE)
 
     # residual, cv score for the sample
-    rsd <- na.omit(prd_tst[, 'res'] - prd_tst[, grep('^fit', names(prd_tst))])
+    rsd <- na.omit(dat_tst[, 'res'] - prd_tst[, grep('^fit', names(prd_tst))])
     err <- sum(rsd^2)/length(rsd)
     
     return(err)
