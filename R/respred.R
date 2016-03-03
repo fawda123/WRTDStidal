@@ -66,6 +66,9 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
     
   } else{
     
+    # remove NA if present
+    dat_pred <- na.omit(dat_pred)
+    
     # stop if names are incorrect for input data
     if(!any(names(dat_pred) %in% c('flo', 'date')))
       stop('Names in data to predict must be flo and date')
@@ -196,6 +199,9 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
   if(is.null(dat_pred)) to_pred <- dat_in
   else{
    
+    # remove NA if present
+    dat_pred <- na.omit(dat_pred)
+    
     # stop if names are incorrect for input data
     if(!any(names(dat_pred) %in% c('flo', 'date')))
       stop('Names in data to predict must be flo and date')
