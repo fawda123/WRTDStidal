@@ -80,7 +80,7 @@ wrtdscv.default <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, 
     mod <- do.call(wrtds, args)
 
     # predictions on test
-    prd_tst <- respred(mod, dat_tst[, c('date', 'flo')], trace = FALSE)
+    prd_tst <- respred(mod, dat_tst[, c('date', 'flo')], trace = FALSE, omit = FALSE)
 
     # residual, cv score for the sample
     rsd <- na.omit(dat_tst[, 'res'] - prd_tst[, grep('^fit', names(prd_tst))])

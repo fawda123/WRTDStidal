@@ -6,6 +6,7 @@
 #' @param dat_in input tidal or tidalmean object
 #' @param dat_pred optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied, see details
 #' @param trace logical indicating if progress is shown in the console
+#' @param omit logical indicating if observations in \code{dat_pred} that are outside of the range of data used to fit the model are removed, see details
 #' @param ... arguments passed to or from other methods
 #' 
 #' @import dplyr
@@ -15,9 +16,9 @@
 #' @details
 #' This function is used after \code{wrtds} to estimate predicted values of the response variable from the interpolation grids.  The estimated values are based on a bilinear interpolation of the four predicted response values at two salinity/flow and two date values nearest to the observed salinity/flow and date values to predict.  
 #' 
-#' Data for \code{dat_pred} must be a data frame of two columns for date and flow variables (\code{date} and \code{numeric} objects).  The columns must be named 'date' and 'flo'.  Values that are outside of the range of data used to fit the model are removed with a warning.  The dimensions of the output data are modified to match \code{dat_pred} if supplied.
+#' Data for \code{dat_pred} must be a data frame of two columns for date and flow variables (\code{date} and \code{numeric} objects).  The columns must be named 'date' and 'flo'.  Values that are outside of the range of data used to fit the model are removed with a warning.  It is assumed that the flow variable is not scaled (i.e., raw data) as in a \code{tidal} or \code{tidalmean} object. The dimensions of the output data are modified to match \code{dat_pred} if observations are removed.  The \code{omit} argument should not equal \code{FALSE} and is included only for use with \code{\link{wrtdscv}} to evaluate folds of the original dataset.
 #' 
-#' @return Appends columns to the data.frame for the predicted values.  For tidal objects, columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits' and `bt_fits'.
+#' @return Appends columns to the input data.frame for the predicted values.  For tidal objects, columns are named starting with the prefix `fit', e.g., `fit0.5' are the predicted values for the fit through the median.  For tidalmean objects, predicted values are appended for the mean model in log-space and the observed values from the back-transformed grids.  Columns are named as `fits' and `bt_fits'.
 #'  
 #' @examples
 #' ##
@@ -41,7 +42,7 @@ respred <- function(dat_in, ...) UseMethod('respred')
 #' @export
 #'
 #' @method respred tidal
-respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
+respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ...){
   
   fits <- attr(dat_in, 'fits')
   flo_grd <- attr(dat_in, 'flo_grd')
@@ -68,21 +69,24 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
     # stop if names are incorrect for input data
     if(!any(names(dat_pred) %in% c('flo', 'date')))
       stop('Names in data to predict must be flo and date')
-    
+
     out_pred <- vector('list', length(tau))
     names(out_pred) <- tau
     
     # dat_pred flo must be in same range as flo used to fit mod
     # those outside of range are removed
-    floobs_rng <- attr(dat_in, 'floobs_rng')
     dat_pred$flo <- as.numeric(dat_pred$flo)
+    if(omit){
+      
+      floobs_rng <- attr(dat_in, 'floobs_rng')
+      torm <- with(dat_pred, flo < floobs_rng[1] | flo > floobs_rng[2])
+      if(any(torm))
+        warning(paste('Data for prediction outside of range are removed:' , sum(torm), 'obs'))
+      
+      dat_pred <- dat_pred[!torm, ]
+      dat_pred$flo <- with(dat_pred, (flo - floobs_rng[1])/diff(floobs_rng))
+    }
     
-    torm <- with(dat_pred, flo < floobs_rng[1] | flo > floobs_rng[2])
-    if(any(torm))
-      warning(paste('Data for prediction outside of range are removed:' , sum(torm), 'obs'))
-    
-    dat_pred <- dat_pred[!torm, ]
-    dat_pred$flo <- with(dat_pred, (flo - floobs_rng[1])/diff(floobs_rng))
     to_pred <- dat_pred
     
   }
@@ -170,7 +174,7 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
 #' @export
 #'
 #' @method respred tidalmean
-respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
+respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ...){
   
   fits <- attr(dat_in, 'fits')
   bt_fits <- attr(dat_in, 'bt_fits')
@@ -198,15 +202,18 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, ...){
 
     # dat_pred flo must be in same range as flo used to fit mod
     # those outside of range are removed
-    floobs_rng <- attr(dat_in, 'floobs_rng')
     dat_pred$flo <- as.numeric(dat_pred$flo)
+    if(omit){
+      
+      floobs_rng <- attr(dat_in, 'floobs_rng')
+      torm <- with(dat_pred, flo < floobs_rng[1] | flo > floobs_rng[2])
+      if(any(torm))
+        warning(paste('Data for prediction outside of range are removed:' , sum(torm), 'obs'))
+      
+      dat_pred <- dat_pred[!torm, ]
+      dat_pred$flo <- with(dat_pred, (flo - floobs_rng[1])/diff(floobs_rng))
+    }
     
-    torm <- with(dat_pred, flo < floobs_rng[1] | flo > floobs_rng[2])
-    if(any(torm))
-      warning(paste('Data for prediction outside of range are removed:' , sum(torm), 'obs'))
-    
-    dat_pred <- dat_pred[!torm, ]
-    dat_pred$flo <- with(dat_pred, (flo - floobs_rng[1])/diff(floobs_rng))
     to_pred <- dat_pred
 
   }
