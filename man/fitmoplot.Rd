@@ -53,7 +53,7 @@ A \code{\link[ggplot2]{ggplot}} object that can be further modified
 Plot a tidal object to view the response variable observations, predictions, and normalized results separately for each month.
 }
 \details{
-The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.
+The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.  Multiple observations within each month for each year are averaged for a smoother plot.
 }
 \examples{
 

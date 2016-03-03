@@ -17,7 +17,7 @@
 #' @param alpha numeric value indicating transparency of points or lines
 #' @param ... arguments passed to other methods
 #' 
-#' @details The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.  
+#' @details The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.  Multiple observations within each month for each year are averaged for a smoother plot.
 #' 
 #' @import dplyr ggplot2 RColorBrewer
 #' 
@@ -84,7 +84,7 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^month$|^res$|^fit|^norm', names(to_plo))
+  sel_vec <- grepl('^date$|^year$|^month$|^res$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # get selected months
@@ -117,12 +117,38 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
     tau_fits <- grep(paste0('fit', tau, collapse = '|'), names(to_plo))
     
   }
- 
+
+  
   # long format for plotting
+  # need to average by month for smoother plots if multiple days per month
   nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
-    select(date, month, nrms_variable, nrms_value)
+    select(year, month, nrms_variable, nrms_value) %>% 
+    group_by(year, month, nrms_variable) %>% 
+    summarize(
+      nrms_value = mean(nrms_value, na.rm = TRUE)
+    ) %>% 
+    ungroup %>% 
+    mutate(
+      day = '01', 
+      month2 = month
+    ) %>% 
+    tidyr::unite('date', year, month, day, sep = '-') %>% 
+    mutate(date = as.Date(date, '%Y-%m-%d')) %>% 
+    rename(month = month2)
   fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
-    select(date, month, fits_variable, fits_value)
+    select(year, month, fits_variable, fits_value)%>% 
+    group_by(year, month, fits_variable) %>% 
+    summarize(
+      fits_value = mean(fits_value, na.rm = TRUE)
+    ) %>% 
+    ungroup %>% 
+    mutate(
+      day = '01', 
+      month2 = month
+    ) %>% 
+    tidyr::unite('date', year, month, day, sep = '-') %>% 
+    mutate(date = as.Date(date, '%Y-%m-%d')) %>% 
+    rename(month = month2)
   
   # y-axis label
   ylabel <- attr(dat_in, 'reslab')
@@ -234,7 +260,7 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)
-  sel_vec <- grepl('^date$|^month$|^res$|fit|norm', names(to_plo))
+  sel_vec <- grepl('^date$|^year$|^month$|^res$|fit|norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
   # get selected months
@@ -252,30 +278,56 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
     
   }
   
-  # separate nrms and fits objects for plotting
-  nrms <- select(to_plo, date, month, norm, bt_norm)
-  fits <- select(to_plo, date, month, fits, bt_fits)
-  
-  # y-axis label
-  ylabel <- attr(dat_in, 'reslab')
+  # select preds and norms
+  fits <- select(to_plo, date, year, month, fits, bt_fits)
+  nrms <- select(to_plo, date, year, month, norm, bt_norm)
   
   # use back-transformed if TRUE
   if(!logspace){
 
     to_plo$res <- exp(to_plo$res)
     nrms <- mutate(nrms, nrms_variable = bt_norm)
-    nrms <- select(nrms, -norm, -bt_norm)
+    nrms <- select(nrms, -norm, -bt_norm, -date)
     fits <- mutate(fits, fits_variable = bt_fits)
-    fits <- select(fits, -fits, -bt_fits)
+    fits <- select(fits, -fits, -bt_fits, -date)
     
   } else {
 
     nrms <- mutate(nrms, nrms_variable = norm)    
-    nrms <- select(nrms, -bt_norm, -norm)
+    nrms <- select(nrms, -bt_norm, -norm, -date)
     fits <- mutate(fits, fits_variable = fits)
-    fits <- select(fits, -bt_fits, -fits)
+    fits <- select(fits, -bt_fits, -fits, -date)
     
   }
+  
+  # need to average by month for smoother plots if multiple days per month
+  nrms <- group_by(nrms, year, month) %>% 
+    summarize(
+      nrms_variable = mean(nrms_variable, na.rm = TRUE)
+    ) %>% 
+    ungroup %>% 
+    mutate(
+      day = '01', 
+      month2 = month
+    ) %>% 
+    tidyr::unite('date', year, month, day, sep = '-') %>% 
+    mutate(date = as.Date(date, '%Y-%m-%d')) %>% 
+    rename(month = month2)
+  fits <- group_by(fits, year, month) %>% 
+    summarize(
+      fits_variable = mean(fits_variable, na.rm = TRUE)
+    ) %>% 
+    ungroup %>% 
+    mutate(
+      day = '01', 
+      month2 = month
+    ) %>%
+    tidyr::unite('date', year, month, day, sep = '-') %>% 
+    mutate(date = as.Date(date, '%Y-%m-%d')) %>% 
+    rename(month = month2)
+  
+  # y-axis label
+  ylabel <- attr(dat_in, 'reslab')
   
   # months labels as text
   mo_lab <- data.frame(

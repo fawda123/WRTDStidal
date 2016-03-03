@@ -61,7 +61,7 @@ resinterp.default <- function(date_in, flo_in, fit_grd, flo_grd, ...){
   bnd_dts <- with(fit_grd, c(date[min_dts], date[max_dts]))
   bnd_flo <- c(flo_grd[min_flo], flo_grd[max_flo])
   not_flo <- grep('^X', names(fit_grd), invert = T)
-  bnd_res <- try({fit_grd[c(min_dts, max_dts), length(not_flo) + c(min_flo, max_flo)]})
+  bnd_res <- try({fit_grd[c(min_dts, max_dts), length(not_flo) + c(min_flo, max_flo)]}, silent = TRUE)
   
   # fails if flo_in outside of range
   if(class(bnd_res) %in% 'try-error') return(NA) 

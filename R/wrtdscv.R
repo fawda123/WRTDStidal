@@ -78,7 +78,7 @@ wrtdscv.default <- function(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, 
 
     # model on training
     mod <- do.call(wrtds, args)
-
+   
     # predictions on test
     prd_tst <- respred(mod, dat_tst[, c('date', 'flo')], trace = FALSE, omit = FALSE)
 
