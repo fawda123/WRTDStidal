@@ -68,7 +68,8 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   }
   
   # long format
-  to_plo <- tidyr::gather(to_plo, 'variable', 'value', c(2:3))
+  to_plo <- tidyr::gather(to_plo, 'variable', 'value', c(2:3)) %>% 
+    na.omit
   
   # change variable labels for plotting facet
   to_plo$variable <- factor(to_plo$variable, 
@@ -76,6 +77,7 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
     labels = labels
     )
   
+  browser()
   # plot
   base <- ggplot(to_plo, aes(x = date, y = value)) + 
     facet_grid(variable ~ ., scales = 'free_y')
