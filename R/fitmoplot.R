@@ -180,7 +180,7 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
   
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
-    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    geom_point(aes(size = 'Observed'), alpha = alpha, na.rm = TRUE) + 
     facet_wrap(~ month, ncol = ncol) + 
     scale_size_manual('', values = size)
       
@@ -341,7 +341,7 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
-    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    geom_point(aes(size = 'Observed'), alpha = alpha, na.rm = TRUE) + 
     facet_wrap(~ month, ncol = ncol) + 
     scale_size_manual('', values = size)
       

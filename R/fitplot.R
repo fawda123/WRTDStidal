@@ -118,18 +118,20 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
     
   }
  
-  # annual aggregations if TRUE
+  # annual aggregations if TRUE, otherwise monthly agg
   if(annuals){
     to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
       group_by(date) %>% 
       summarise_each(funs(mean(., na.rm = TRUE)))
-  }
-    
+  } 
+  
   # long format for plotting
-  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
-    select(date, nrms_variable, nrms_value)
+  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms ) %>% 
+    select(date, nrms_variable, nrms_value) %>% 
+    na.omit
   fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
-    select(date, fits_variable, fits_value)
+    select(date, fits_variable, fits_value) %>% 
+    na.omit
   
   # y-axis label
   ylabel <- attr(dat_in, 'reslab')
@@ -151,21 +153,21 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = res)) + 
-    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    geom_point(aes(size = 'Observed'), alpha = alpha, na.rm = TRUE) + 
     scale_size_manual('', values = size)
       
   # plot fits or nrms
   if(predicted){
     p <- p + 
       geom_line(data = fits, aes(y = fits_value, group = fits_variable, 
-        colour = fits_variable), size = lwd, alpha = alpha)
+        colour = fits_variable), size = lwd, alpha = alpha, na.rm = TRUE)
     
     leglab <- c('Predicted')
     
   } else {
     p <- p + 
       geom_line(data = nrms, aes(y = nrms_value, group = nrms_variable, 
-        colour = nrms_variable), size = lwd, alpha = alpha)
+        colour = nrms_variable), size = lwd, alpha = alpha, na.rm = TRUE)
     
     leglab <- c('Normalized')
   }
@@ -245,8 +247,10 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
   }
     
   # separate nrms and fits objects for plotting
-  nrms <- select(to_plo, date, norm, bt_norm)
-  fits <- select(to_plo, date, fits, bt_fits)
+  nrms <- select(to_plo, date, norm, bt_norm) %>% 
+    na.omit
+  fits <- select(to_plo, date, fits, bt_fits) %>% 
+    na.omit
   
   # y-axis label
   ylabel <- attr(dat_in, 'reslab')
@@ -271,19 +275,19 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
   
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = res)) + 
-    geom_point(aes(size = 'Observed'), alpha = alpha) + 
+    geom_point(aes(size = 'Observed'), alpha = alpha, na.rm = TRUE) + 
     scale_size_manual('', values = size)
       
   # plot fits or nrms
   if(predicted){
     p <- p + 
-      geom_line(data = fits, aes(y = fits_variable, colour = 'fits_variable'), size = lwd, alpha = alpha)
+      geom_line(data = fits, aes(y = fits_variable, colour = 'fits_variable'), size = lwd, alpha = alpha, na.rm = TRUE)
     
     leglab <- c('Predicted')
     
   } else {
     p <- p + 
-      geom_line(data = nrms, aes(y = nrms_variable, colour = 'nrms_variable'), size = lwd, alpha = alpha)
+      geom_line(data = nrms, aes(y = nrms_variable, colour = 'nrms_variable'), size = lwd, alpha = alpha, na.rm = TRUE)
     
     leglab <- c('Normalized')
   }
