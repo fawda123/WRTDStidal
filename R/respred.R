@@ -145,11 +145,12 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
     out <- dat_in
     
   } else {
-
+    
     # combine predicted with orig data
     out <- do.call('cbind', out_pred)
     out <- data.frame(dat_pred, out)
-    out <- right_join(dat_in, out, by = 'date') %>% 
+    out <- full_join(dat_in, out, by = 'date') %>% 
+      arrange(date) %>% 
       mutate(flo.x = flo.y) %>% 
       select(-flo.y) %>% 
       rename(flo = flo.x)
@@ -259,7 +260,8 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
     out <- as.data.frame(t(preds))
     names(out) <- c('fits', 'bt_fits')
     out <- data.frame(dat_pred, out)
-    out <- right_join(dat_in, out, by = 'date') %>% 
+    out <- full_join(dat_in, out, by = 'date') %>% 
+      arrange(date) %>% 
       mutate(flo.x = flo.y) %>% 
       select(-flo.y) %>% 
       rename(flo = flo.x)

@@ -114,13 +114,27 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
 
   # get months
   to_plo <- to_plo[as.numeric(to_plo$month) %in% slices, ]
-  
-  # long format for plotting
+
+  # long format for plotting, take monthly average for multiple obs per month, year
   nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms) %>% 
-    select(date, month, year, nrms_variable, nrms_value)
+    select(date, month, year, nrms_variable, nrms_value) %>% 
+    na.omit %>% 
+    group_by(month, year, nrms_variable) %>% 
+    summarize(
+      date = mean(date, na.rm = TRUE), 
+      nrms_value = mean(nrms_value, na.rm = TRUE)
+    ) %>% 
+    ungroup
   fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
-    select(date, month, year, fits_variable, fits_value)
-  
+    select(date, month, year, fits_variable, fits_value) %>% 
+    na.omit %>% 
+    group_by(month, year, fits_variable) %>% 
+    summarize(
+      date = mean(date, na.rm = TRUE), 
+      fits_value = mean(fits_value, na.rm = TRUE)
+    ) %>% 
+    ungroup
+
   # y-axis label
   ylabel <- attr(dat_in, 'reslab')
   
@@ -138,7 +152,7 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
   
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
-    geom_point(aes(colour = month), size = size, alpha = alpha)
+    geom_point(aes(colour = month), size = size, alpha = alpha, na.rm = TRUE)
      
   # plot fits or nrms
   if(predicted){
@@ -249,9 +263,25 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
     
   }
   
+  # take monthly average for multiple obs per month, year
+  nrms <- mutate(nrms, year = strftime(date, '%Y')) %>% 
+    group_by(year, month) %>% 
+    summarize(
+      date = mean(date, na.rm = TRUE), 
+      nrms_variable = mean(nrms_variable, na.rm = TRUE)
+    ) %>% 
+    ungroup
+  fits <- mutate(fits, year = strftime(date, '%Y')) %>% 
+    group_by(year, month) %>% 
+    summarize(
+      date = mean(date, na.rm = TRUE), 
+      fits_variable = mean(fits_variable, na.rm = TRUE)
+    ) %>% 
+    ungroup
+  
   # bare bones plot
   p <- ggplot(to_plo, aes(x = date, y = res, group = month)) + 
-    geom_point(aes(colour = month), size = size, alpha = alpha)
+    geom_point(aes(colour = month), size = size, alpha = alpha, na.rm = TRUE)
      
   # plot fits or nrms
   if(predicted){
