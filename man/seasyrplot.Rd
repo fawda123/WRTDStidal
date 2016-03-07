@@ -47,6 +47,10 @@ Plot seasonal model response by years on a common axis
 }
 \details{
 The plot is similar to that produced by \code{\link{seasplot}} except the model estimates are plotted for each year as connected lines, as compared to loess lines fit to the model results.  \code{\link{seasyrplot}} is also similar to \code{\link{sliceplot}} except the x-axis and legend grouping variable are flipped. This is useful for evaluating between-year differences in seasonal trends.
+
+Multiple predictions per month are averaged for a smoother plot. 
+
+Note that the year variable used for color mapping is treated as a continuous variable although it is an integer by definition.
 }
 \examples{
 

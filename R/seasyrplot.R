@@ -14,7 +14,11 @@
 #' @param alpha numeric value indicating transparency of points or lines
 #' @param ... arguments passed to other methods
 #' 
-#' @details The plot is similar to that produced by \code{\link{seasplot}} except the model estimates are plotted for each year as connected lines, as compared to loess lines fit to the model results.  \code{\link{seasyrplot}} is also similar to \code{\link{sliceplot}} except the x-axis and legend grouping variable are flipped. This is useful for evaluating between-year differences in seasonal trends. 
+#' @details The plot is similar to that produced by \code{\link{seasplot}} except the model estimates are plotted for each year as connected lines, as compared to loess lines fit to the model results.  \code{\link{seasyrplot}} is also similar to \code{\link{sliceplot}} except the x-axis and legend grouping variable are flipped. This is useful for evaluating between-year differences in seasonal trends.
+#' 
+#' Multiple predictions per month are averaged for a smoother plot. 
+#' 
+#' Note that the year variable used for color mapping is treated as a continuous variable although it is an integer by definition.
 #' 
 #' @import dplyr ggplot2 RColorBrewer
 #' 
@@ -105,12 +109,12 @@ seasyrplot.tidal <- function(dat_in, years = NULL, tau = NULL, predicted = TRUE,
   names(to_plo)[names(to_plo) %in% tau_nrms] <- 'nrm'
   names(to_plo)[names(to_plo) %in% tau_fits] <- 'fit'
   to_plo <- select(to_plo, year, month, nrm, fit) %>% 
-#     group_by(year, month) %>% 
-#     summarize(
-#       nrm = mean(nrm, na.rm = TRUE), 
-#       fit = mean(fit, na.rm = TRUE)
-#     ) %>% 
-#     ungroup %>% 
+    group_by(year, month) %>% 
+    summarize(
+      nrm = mean(nrm, na.rm = TRUE), 
+      fit = mean(fit, na.rm = TRUE)
+    ) %>% 
+    ungroup %>% 
     mutate(
       year_dum = '2000',   
       day = '01'
@@ -203,7 +207,15 @@ seasyrplot.tidalmean <- function(dat_in, years = NULL, tau = NULL, predicted = T
   }
 
   # create date vector with common year
-  to_plo <- mutate(to_plo,
+  to_plo <- group_by(to_plo, year, month) %>% 
+    summarize(
+      fits = mean(fits, na.rm = TRUE),
+      bt_fits = mean(bt_fits, na.rm = TRUE), 
+      norm = mean(norm, na.rm = TRUE),
+      bt_norm = mean(bt_norm, na.rm = TRUE)
+    ) %>% 
+    ungroup %>% 
+    mutate(
       year_dum = '2000',   
       day = '01'
     ) %>% 
