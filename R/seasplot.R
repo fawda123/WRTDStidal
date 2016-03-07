@@ -1,5 +1,3 @@
-# check fit v nrm plots
-# check tau specification
 #' Plot seasonal trends across all years
 #' 
 #' Plot seasonal trends by combining annual data
