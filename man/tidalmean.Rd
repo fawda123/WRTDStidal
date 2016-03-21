@@ -28,6 +28,7 @@ A tidalmean object as a data frame and attributes.  The data frame has columns o
  \item{\code{class}}{Class of the object}
  \item{\code{half_wins}}{List of numeric values used for half-window widths for model fitting, in the same order as the wt_vars argument passed to \code{\link{getwts}}. Initially will be \code{NULL} if \code{\link{wrtds}} has not been used.}
  \item{\code{fits}}{List with a single element with fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
+ \item{\code{predonobs}}{A \code{data.frame} of predictions using the observed data that were used to fit the model.  This is required for \code{wrtdsperf} if a novel dataset is used for predictions after fitting the model. Initially will be NULL if \code{respred} has not been used.}
  \item{\code{bt_fits}}{List with a single element with back-transformed fits for the WRTDS mean interpolation grid.  Initially will be NULL if \code{wrtds} has not been used.}
  \item{\code{flo_grd}}{Numeric vector of salinity/flow values that was used for the interpolation grids}
  \item{\code{floobs_rng}}{Two element vector indicating the salinity/flow range of the observed data}

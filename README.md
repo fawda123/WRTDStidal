@@ -90,22 +90,6 @@ tidobj <- tidal(chldat)
 obsplot(tidobj)
 ```
 
-```
-## Called from: obsplot.default(dat_in, ...)
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#82: base <- ggplot(to_plo, aes(x = date, y = value)) + facet_grid(variable ~ 
-##     ., scales = "free_y")
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#86: if (lines) p <- base + geom_line(alpha = alpha, size = lwd) else p <- base + 
-##     geom_point(alpha = alpha, size = size)
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#86: p <- base + geom_line(alpha = alpha, size = lwd)
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#90: if (!pretty) return(p)
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#93: if (lines) p <- base + geom_line(alpha = alpha, size = lwd, colour = col) else p <- base + 
-##     geom_point(alpha = alpha, size = size, colour = col)
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#93: p <- base + geom_line(alpha = alpha, size = lwd, colour = col)
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#97: p <- p + facet_grid(variable ~ ., scales = "free_y", labeller = label_parsed) + 
-##     theme_bw() + theme(axis.title.x = element_blank())
-## debug at M:\docs\wtreg_for_estuaries/R/obsplot.R#102: return(p)
-```
-
 ![](README_files/figure-html/unnamed-chunk-5-1.png)
 
 The `tidal` and `tidalmean` object classes contain the data and multiple attributes.  The data and attributes are updated after the WRTDS model is created.
@@ -175,7 +159,8 @@ names(attributes(tidfit))
 
 ```
 ##  [1] "names"      "row.names"  "floobs_rng" "reslab"     "flolab"    
-##  [6] "half_wins"  "fits"       "flo_grd"    "nobs"       "class"
+##  [6] "half_wins"  "fits"       "flo_grd"    "nobs"       "predonobs" 
+## [11] "class"
 ```
 
 ### Fitting a WRTDS tidal model

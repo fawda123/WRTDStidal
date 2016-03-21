@@ -66,6 +66,10 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
     
   } else{
     
+    # get predictions from observed data for predonobs attributes
+    # only relevant if novel prediction data used
+    dat_in <- fillpo(dat_in)
+    
     # remove NA if present
     dat_pred <- na.omit(dat_pred)
     
@@ -88,6 +92,7 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
       
       dat_pred <- dat_pred[!torm, ]
       dat_pred$flo <- with(dat_pred, (flo - floobs_rng[1])/diff(floobs_rng))
+      
     }
     
     to_pred <- dat_pred
@@ -142,8 +147,12 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
   # exit function, return original object with fits, otherwise expand input object with novel data
   if(is.null(dat_pred)){ 
     
+    # output is input with predicted data
     out <- dat_in
     
+    # add the predictions predonobs attributes for perf metrics
+    attr(out, 'predonobs') <- dat_in[, grepl('^res|^not_cens$|^fit', names(dat_in))]
+
   } else {
     
     # combine predicted with orig data
@@ -166,7 +175,7 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
     class(out) <- c('tidal', 'data.frame')
     att_add <- attributes(dat_in)
     attributes(out) <- c(attributes(out), att_add[!names(att_add) %in% c('names', 'row.names',  'class')])
-  
+    
   }
   
   return(out)
@@ -197,9 +206,16 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
   btfit_grd <- bt_fits[[1]]
   
   # data to predict, uses dat_in if dat_pred is NULL
-  if(is.null(dat_pred)) to_pred <- dat_in
-  else{
+  if(is.null(dat_pred)){
+    
+    to_pred <- dat_in
+    
+  } else{
    
+    # get predictions from observed data for predonobs attribute
+    # only relevant if novel prediction data used
+    dat_in <- fillpo(dat_in)
+    
     # remove NA if present
     dat_pred <- na.omit(dat_pred)
     
@@ -253,6 +269,9 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
     dat_in$fits <- preds[1, ]
     dat_in$bt_fits <- preds[2, ]
     out <- dat_in
+    
+    # add the predictions predonobs attributes for perf metrics
+    attr(out, 'predonobs') <- dat_in[, grepl('^res|^fit', names(dat_in))]
     
   } else {
     

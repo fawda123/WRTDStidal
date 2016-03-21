@@ -77,7 +77,6 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
     labels = labels
     )
   
-  browser()
   # plot
   base <- ggplot(to_plo, aes(x = date, y = value)) + 
     facet_grid(variable ~ ., scales = 'free_y')

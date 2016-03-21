@@ -13,7 +13,7 @@
 #' 
 #' @seealso \code{\link{wrtds}}, \code{\link{wrtdsperf}}, \code{\link{goodfit}}
 #' 
-#' @return A tidal object with columns for the residuals ('rsd') and non-conditional residuals ('rsdnl') of each quantile model.
+#' @return A tidal object with columns added to the \code{predonobs} attribute for the residuals ('rsd') and non-conditional residuals ('rsdnl') of each quantile model or a tidalmean object with columns added to the \code{predonobs} attribute for the residuals ('rsd') and back-transformed residuals ('bt_rsd').
 #' 
 #' @references Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference processes for quantile regression. Journal of the American Statistical Association. 94(448):1296-1310.
 #' 
@@ -34,30 +34,33 @@ wrtdsrsd <- function(dat_in, ...) UseMethod('wrtdsrsd')
 #'
 #' @method wrtdsrsd tidal
 wrtdsrsd.tidal <- function(dat_in, trace = TRUE, ...){
-  
+
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
+  # use predonobs attr for resids
+  predonobs <- attr(dat_in, 'predonobs')  
+
   # get taus from model
   tau <- as.numeric(gsub('^fit', '', names(attr(tidfit, 'fits'))))
   
   # null model
   mod_nl <- quantreg::crq(
     survival::Surv(res, not_cens, type = "left") ~ 1, 
-    data = dat_in, 
+    data = predonobs, 
     method = "Portnoy"
     )
   
   # residuals from null model
   parms <- data.frame(coef(mod_nl, tau))
-  rsd_nl <- apply(parms, 1, function(x) dat_in$res - x)
+  rsd_nl <- apply(parms, 1, function(x) predonobs$res - x)
   
   # get residuals for conditional quantile models
   rsd <- apply(
-    dat_in[, paste0('fit', tau)], 
+    predonobs[, paste0('fit', tau)], 
     2, 
-    function(x) dat_in$res - x
+    function(x) predonobs$res - x
     )
   
   # create output
@@ -65,8 +68,9 @@ wrtdsrsd.tidal <- function(dat_in, trace = TRUE, ...){
   rsd_out <- data.frame(rsd, rsd_nl)
   names(rsd_out) <- nms
   
-  # append to tidal object
-  dat_in[, nms] <- rsd_out
+  # append to predonobs attribute tidal object
+  predonobs[, nms] <- rsd_out
+  attr(dat_in, 'predonobs') <- predonobs
   
   return(dat_in) 
   
@@ -83,9 +87,15 @@ wrtdsrsd.tidalmean <- function(dat_in, trace = TRUE, ...){
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
+  predonobs <- attr(dat_in, 'predonobs')
+  
   # get residuals for predicted and backtransformed predicted
-  dat_in$rsd <- with(dat_in, res - fits)
-  dat_in$bt_rsd <- with(dat_in, exp(res) - bt_fits)
+  # att to predonobs
+  predonobs$rsd <- with(predonobs, res - fits)
+  predonobs$bt_rsd <- with(predonobs, exp(res) - bt_fits)
+  
+  # update attribute
+  attr(dat_in, 'predonobs') <- predonobs
   
   return(dat_in) 
   

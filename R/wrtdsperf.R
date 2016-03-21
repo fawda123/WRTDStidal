@@ -37,14 +37,15 @@ wrtdsperf <- function(dat_in, ...) UseMethod('wrtdsperf')
 #' @method wrtdsperf tidal
 wrtdsperf.tidal <- function(dat_in, logspace = TRUE, ...){
   
-  if(!any(grepl('^rsd|^rsdnl', names(dat_in))))
-    dat_in <- wrtdsrsd(dat_in, trace = FALSE)
+  # get residuals on the predonobs attribute
+  dat_in <- wrtdsrsd(dat_in, trace = FALSE)
+  predonobs <- attr(dat_in, 'predonobs')
   
   # get taus from model
   tau <- as.numeric(gsub('^fit', '', names(attr(tidfit, 'fits'))))
   
-  # get residuals, back-transform if needed
-  rsd <- dat_in[, grepl('^rsd|res', names(dat_in))]
+  # get residuals
+  rsd <- predonobs[, grepl('^rsd|res', names(predonobs))]
   
   # make long format by type
   rsd$id <- 1:nrow(rsd)
@@ -88,11 +89,13 @@ wrtdsperf.tidal <- function(dat_in, logspace = TRUE, ...){
 #' @method wrtdsperf tidalmean
 wrtdsperf.tidalmean <- function(dat_in, logspace = TRUE, ...){
   
-  if(!any(grepl('^rsd|^bt_rsd', names(dat_in))))
-    dat_in <- wrtdsrsd(dat_in, trace = FALSE)
+  # get residuals on the predonobs attribute
+  dat_in <- wrtdsrsd(dat_in, trace = FALSE)
+  
+  predonobs <- attr(dat_in, 'predonobs')
   
   # get residuals, back-transform if needed
-  rsd <- dat_in[, grepl('^rsd|^bt_rsd|res', names(dat_in))]
+  rsd <- predonobs[, grepl('^rsd|^bt_rsd|res', names(predonobs))]
   
   # get performance measures
   # use back-transformed, otherwise use logspace

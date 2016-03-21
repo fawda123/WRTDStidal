@@ -22,7 +22,7 @@ wrtdsrsd(dat_in, ...)
 \value{
 Columns are added to the data of the tidal object for residuals and non-conditional residuals. Both are required to assess the goodness of fit measure described for quantile regression in Koenker and Machado (1999).
 
-A tidal object with columns for the residuals ('rsd') and non-conditional residuals ('rsdnl') of each quantile model.
+A tidal object with columns added to the \code{predonobs} attribute for the residuals ('rsd') and non-conditional residuals ('rsdnl') of each quantile model or a tidalmean object with columns added to the \code{predonobs} attribute for the residuals ('rsd') and back-transformed residuals ('bt_rsd').
 }
 \description{
 Get WRTDS residuals for each quantile model. These are used to estimate goodness of fit of the model predictions.
