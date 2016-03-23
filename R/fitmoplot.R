@@ -160,6 +160,10 @@ fitmoplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, predicted = TRU
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
   }
   
   # formatting for quantile legend labels
@@ -290,6 +294,11 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
     nrms <- select(nrms, -norm, -bt_norm, -date)
     fits <- mutate(fits, fits_variable = bt_fits)
     fits <- select(fits, -fits, -bt_fits, -date)
+    
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
     
   } else {
 

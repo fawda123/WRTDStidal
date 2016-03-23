@@ -134,6 +134,10 @@ seasyrplot.tidal <- function(dat_in, years = NULL, tau = NULL, predicted = TRUE,
     nrms$nrm <- exp(nrms$nrm)
     fits$fit <- exp(fits$fit)
     
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
   }
 
   # plot fits or nrms
@@ -233,6 +237,10 @@ seasyrplot.tidalmean <- function(dat_in, years = NULL, tau = NULL, predicted = T
     
     nrms$nrm <- nrms$bt_norm
     fits$fit <- fits$bt_fits
+    
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
     
   } else {
     

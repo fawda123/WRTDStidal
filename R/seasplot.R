@@ -80,12 +80,20 @@ seasplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, span = 0.4, lwd
   fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
     select(fake_date, fits_variable, fits_value)
 
+  # axis labels
+  ylabel <- attr(dat_in, 'reslab')
+  xlab <- 'Day of year'
+  
   # back-transform if needed
   if(!logspace){
 
     to_plo$res <- exp(to_plo$res)
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
+    
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
     
   }
   
@@ -94,10 +102,6 @@ seasplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, span = 0.4, lwd
   quants <- lapply(as.list(quants), 
     function(x) bquote(italic('\u03c4') ~ .(x))
   )
-  
-  # axis labels
-  ylabel <- attr(dat_in, 'reslab')
-  xlab <- 'Day of year'
 
   # base plot
   p <- ggplot(to_plo, aes_string(x = 'fake_date', y = 'res')) + 
@@ -188,6 +192,10 @@ seasplot.tidalmean <- function(dat_in, predicted = TRUE, span = 0.4, lwd = 1, si
   fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', fits) %>% 
     select(fake_date, fits_variable, fits_value)
 
+  # axis labels
+  ylabel <- attr(dat_in, 'reslab')
+  xlab <- 'Day of year'
+
   # back-transform if needed
   if(!logspace){
 
@@ -195,11 +203,11 @@ seasplot.tidalmean <- function(dat_in, predicted = TRUE, span = 0.4, lwd = 1, si
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
   }
-  
-  # axis labels
-  ylabel <- attr(dat_in, 'reslab')
-  xlab <- 'Day of year'
 
   # base plot
   p <- ggplot(to_plo, aes_string(x = 'fake_date', y = 'res')) + 

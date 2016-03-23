@@ -143,6 +143,10 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
   }
   
   # formatting for quantile legend labels
@@ -263,6 +267,10 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
     nrms <- select(nrms, -norm, -bt_norm)
     fits <- mutate(fits, fits_variable = bt_fits)
     fits <- select(fits, -fits, -bt_fits)
+    
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
     
   } else {
 

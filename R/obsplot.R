@@ -50,10 +50,20 @@ obsplot.default <- function(dat_in, lines = TRUE, logspace = TRUE, dt_rng = NULL
   # salinity/flow back to observed range
   floobs_rng <- attr(dat_in, 'floobs_rng')
   to_plo$flo <- to_plo$flo * diff(floobs_rng) + floobs_rng[1]
-  
-  # backtransform res
-  if(!logspace) to_plo$res <- exp(to_plo$res)
+
+  # facet labels
   labels <- unlist(attributes(dat_in)[c('reslab', 'flolab')])
+
+  # backtransform res
+  if(!logspace){
+    
+    to_plo$res <- exp(to_plo$res)
+   
+    # strip log, ln  from res label if there
+    labels[1] <- gsub('ln-|log-', '', as.character(labels[1]))
+    labels[1] <- as.expression(parse(text = labels[1]))
+     
+  }
   
   # subset data by dt_rng
   if(!is.null(dt_rng)){ 

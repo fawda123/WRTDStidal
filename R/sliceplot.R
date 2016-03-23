@@ -145,6 +145,10 @@ sliceplot.tidal <- function(dat_in, slices = c(1, 7), tau = NULL, dt_rng = NULL,
     nrms$nrms_value <- exp(nrms$nrms_value)
     fits$fits_value <- exp(fits$fits_value)
     
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
   }
   
   # quantile on legend title
@@ -253,6 +257,10 @@ sliceplot.tidalmean <- function(dat_in, slices = c(1, 7), predicted = TRUE, dt_r
     nrms <- select(nrms, -norm, -bt_norm)
     fits <- mutate(fits, fits_variable = bt_fits)
     fits <- select(fits, -fits, -bt_fits)
+    
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
     
   } else {
 

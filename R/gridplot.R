@@ -105,6 +105,10 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
     to_plo[, -c(1:4)] <- exp(to_plo[, -c(1:4)])
 
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
   }
   
   # reshape data frame
@@ -282,7 +286,15 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   xlabel <- attr(dat_in, 'flolab')
 
   # use bt grid if not log-space
-  if(!logspace) to_plo <- attr(dat_in, 'bt_fits')[[1]]
+  if(!logspace){
+    
+    to_plo <- attr(dat_in, 'bt_fits')[[1]]
+   
+    # strip log, ln  from yaxs label if there
+    ylabel <- gsub('ln-|log-', '', as.character(ylabel))
+    ylabel <- as.expression(parse(text = ylabel))
+    
+  }
   
   # reshape data frame
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
