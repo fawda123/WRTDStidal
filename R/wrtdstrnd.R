@@ -93,7 +93,7 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
   if(is.null(tau)){
 
     tau <- grep('^norm', names(dat_in))
-    tau<- names(dat_in)[floor(median(tau))]
+    tau<- gsub('^norm', '', names(dat_in)[floor(median(tau))])
      
   } else {
     
@@ -105,7 +105,7 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
   }
 
   # columns to get with regex
-  toget <- c('^date$', paste0('^', tau, '$'))
+  toget <- c('^date$', paste0('^norm', tau, '$'))
   toget <- paste(toget, collapse = '|')
 
   # select columns, format date as year, month
