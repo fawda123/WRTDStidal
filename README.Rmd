@@ -242,6 +242,18 @@ An alternative method to evaluate model weights is to plot a grid of the number 
 nobsplot(tidfit)
 ```
 
+Tabular summaries of model performance and trends over time can be obtained for fitted model objects.  See the help files for `wrtdsperf` and `wrtdstrnd` for more information.
+
+```{r}
+wrtdsperf(tidfit)
+# setup month, year categories for trend summaries
+mobrks <- c(-Inf, 3, 6, 9, Inf)
+yrbrks <- c(-Inf, 1985, 1994, 2003, Inf)
+molabs <- c('JFM', 'AMJ', 'JAS', 'OND')
+yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')
+wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs)
+```
+
 ### Selecting window widths
 
 The selection of window widths for fitting weighted regression is a challenge that represents a tradeoff between model precision and ability to generalize to novel datasets.  Overfitting a model with excessively small window widths will minimize prediction error but prevent extrapolation of results to different datasets.  Similarly, underfitting a model with large window widths will reduce precision but will improve the ability to generalize results to a different dataset.  From a statistical perspective, the optimal window widths are those that find a balance between over- and under-fitting.  Three functions are available for determining the optimal window widths: `wrtdscv`, `winsrch_grid`, and `winsrch_optim`. The `wrtdscv` evaluates model fit for a specific combination of window widths and is used iteratively within `winsrch_grid` and `winsrch_optim`.  `wrtdscv` uses k-fold cross-validation to evaluate the error associated with model predictions on a novel dataset.  The default behavior is to evaluate model performance with ten folds (k) for the window width combination.  The function separates the dataset into ten disjoint sets, such that ten models are evaluated for every combination of k - 1 training and remaining test datasets.  That is, the training dataset for each fold is all k - 1 folds and the test dataset is the remaining fold, repeated k times.  The average prediction error of the training datasets across k folds provides an indication of model performance.  Optimum window widths will provide errors for the training data that are minimized.
