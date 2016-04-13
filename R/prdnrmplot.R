@@ -12,6 +12,7 @@
 #' @param size numeric value indicating size of points
 #' @param alpha numeric value indicating transparency of points or lines
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
+#' @param plot logical if plot is returned, otherwise data used in the plot
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
 #' 
 #' @import dplyr ggplot2 RColorBrewer
@@ -77,7 +78,7 @@ prdnrmplot <- function(dat_in, ...) UseMethod('prdnrmplot')
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
+prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, plot = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -147,6 +148,14 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
 
   }
   
+  # return data if F
+  if(!plot){
+  
+    out <- list(fits = fits, nrms = nrms)
+    return(out)
+  
+  }
+  
   # formatting for quantile legend labels
   quants <- gsub('^fit', '', names(to_plo)[tau_fits])
   quants <- lapply(as.list(quants), 
@@ -195,7 +204,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
 #' @export 
 #' 
 #' @method prdnrmplot tidalmean
-prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, ...){
+prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, plot = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -252,6 +261,14 @@ prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng
     fits <- mutate(fits, fits_variable = fits)
     fits <- select(fits, -bt_fits, -fits)
     
+  }
+  
+  # return data if F
+  if(!plot){
+  
+    out <- list(fits = fits, nrms = nrms)
+    return(out)
+  
   }
   
   # bare bones plot, fits as points, nrms as lines

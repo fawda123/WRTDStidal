@@ -10,11 +10,11 @@ prdnrmplot(dat_in, ...)
 
 \method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = TRUE,
   logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
-  alpha = 1, pretty = TRUE, ...)
+  alpha = 1, pretty = TRUE, plot = TRUE, ...)
 
 \method{prdnrmplot}{tidalmean}(dat_in, annuals = TRUE, logspace = TRUE,
   dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1,
-  pretty = TRUE, ...)
+  pretty = TRUE, plot = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -38,6 +38,8 @@ prdnrmplot(dat_in, ...)
 \item{alpha}{numeric value indicating transparency of points or lines}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
+
+\item{plot}{logical if plot is returned, otherwise data used in the plot}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object that can be further modified
