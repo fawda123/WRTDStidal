@@ -9,7 +9,7 @@
 #' @param omit logical indicating if observations in \code{dat_pred} that are outside of the range of data used to fit the model are removed, see details
 #' @param ... arguments passed to or from other methods
 #' 
-#' @import dplyr
+#' @import dplyr fields
 #' 
 #' @export
 #' 
@@ -51,7 +51,7 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
   if(trace){
-    cat('\nEstimating predictions, % complete...\n\n')
+    cat('\nEstimating predictions...\n\n')
     counts <- round(seq(1, nrow(dat_in), length = 20))
   }
   
@@ -98,35 +98,32 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
     to_pred <- dat_pred
     
   }
-  to_pred <- to_pred[, c('flo', 'date')]
+  to_pred <- to_pred[, c('date', 'flo')]
 
   # get predictions for each quantile
   for(i in seq_along(tau)){
     
-    # interp grids
+    # interp grids, as matrix
     fit_grd <- fits[[i]]
-  
+    dts <- fit_grd$date
+    fit_grd <- select(fit_grd, -year, -month, -day, -date)
+
     if(trace){
       txt <- paste0('tau = ', gsub('fit', '', tau[i]), '\n')
       cat(txt)
     }
     
-    # get predictions for the quantile form the fit grd
-    preds <- sapply(1:nrow(to_pred), 
-      
-      function(x){
-        
-        # progress
-        if(trace){
-          perc <- 5 * which(x == counts)
-          if(length(perc) != 0) cat(perc, '\t')
-        }
-        
-        # interp the response for given date, flo in to_pred
-        resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], fit_grd, flo_grd)
+    # bilinear interpolatoin of fit grid with data to predict
+    preds <- interp.surface(
+      obj = list(
+        y = attr(dat_in, 'flo_grd'),
+        x = dts,
+        z = fit_grd
+      ), 
+      loc = to_pred
+    )
     
-    })  
-
+    # add results to input object
     if(is.null(dat_pred)){
       
       # append vector to dat_in object
@@ -197,14 +194,17 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
   if(is.null(fits)) stop('No fits attribute, run wrtds function')
   
   if(trace){
-    cat('\nEstimating predictions, % complete...\n\n')
+    cat('\nEstimating predictions... \n\n')
     counts <- round(seq(1, nrow(dat_in), length = 20))
   }
   
   # interp grids
   fit_grd <- fits[[1]]
-  btfit_grd <- bt_fits[[1]]
-  
+  dts <- fit_grd$date
+  fit_grd <- select(fit_grd, -year, -month, -day, -date)
+  btfit_grd <- bt_fits[[1]] %>% 
+    select(-year, -month, -day, -date)
+
   # data to predict, uses dat_in if dat_pred is NULL
   if(is.null(dat_pred)){
     
@@ -240,25 +240,27 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
     to_pred <- dat_pred
 
   }
-  to_pred <- to_pred[, c('flo', 'date')]
-  
-  preds <- sapply(1:nrow(to_pred), 
-    
-    function(x){
+  to_pred <- to_pred[, c('date', 'flo')]
 
-      # progress
-        if(trace){
-          perc <- 5 * which(x == counts)
-          if(length(perc) != 0) cat(perc, '\t')
-        }
-        
-      # interp the response for given date, flo in to_pred with relevant grid
-      out <- resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], fit_grd, flo_grd)
-      bt_out <- resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], btfit_grd, flo_grd)
-      
-      c(out, bt_out)
-    
-  })      
+  # bilinear interpolatoin of fit grid with data to predict
+  preds <- interp.surface(
+    obj = list(
+      y = attr(dat_in, 'flo_grd'),
+      x = dts,
+      z = fit_grd
+    ), 
+    loc = to_pred
+  )
+  
+  # bilinear interpolatoin of bt fit grid with data to predict
+  bt_preds <- interp.surface(
+    obj = list(
+      y = attr(dat_in, 'flo_grd'),
+      x = dts,
+      z = btfit_grd
+    ), 
+    loc = to_pred
+  )
   
   if(trace) cat('\n')
   
@@ -266,8 +268,8 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
   if(is.null(dat_pred)){
     
     # append to dat_in object
-    dat_in$fits <- preds[1, ]
-    dat_in$bt_fits <- preds[2, ]
+    dat_in$fits <- preds
+    dat_in$bt_fits <- bt_preds
     out <- dat_in
     
     # add the predictions predonobs attributes for perf metrics
@@ -276,7 +278,7 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
   } else {
     
     # combine predicted with orig data
-    out <- as.data.frame(t(preds))
+    out <- as.data.frame(preds, bt_preds)
     names(out) <- c('fits', 'bt_fits')
     out <- data.frame(dat_pred, out)
     out <- full_join(dat_in, out, by = 'date') %>% 

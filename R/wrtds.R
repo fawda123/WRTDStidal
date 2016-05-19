@@ -7,6 +7,7 @@
 #' @param flo_div numeric indicating number of divisions across the range of salinity/flow to create the interpolation grid
 #' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
 #' @param rem_low logical to remove predictions less than three times the lower detection limit, see details
+#' @param fill_empty logical to fill missing values in interpolation grid using bilinear interpolation by season
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
 #' 
@@ -41,7 +42,7 @@ wrtds <- function(dat_in, ...) UseMethod('wrtds')
 #' @export
 #'
 #' @method wrtds tidal
-wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, rem_low = TRUE, ...){
+wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, rem_low = TRUE, fill_empty = TRUE, ...){
   
   #salinity/flow values to estimate
   flo_grd <- seq(
@@ -133,33 +134,19 @@ wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, rem_low =
     
   }
   
-  # remove really bad low predictions
-  if(rem_low){
-
-    fit_grds <- lapply(fit_grds, function(x) {
-      out <- apply(cbind(dat_in$lim, x), 1, function(grd){
-        lim <- grd[1]
-        grd <- grd[-1]
-        grd[grd < 3 * lim] <- NA
-        grd
-      })
-      t(out)
-    })
-
-  }
-  
   # half-window widths for attributes
   ref_wts <- getwts(dat_in, ref_in, wins_only = TRUE, ...)
   
   # add year, month, day to interp grids
   fit_grds <- lapply(fit_grds, function(x) {
-    fill_grd(x, dat_in)
+    fill_grd(x, dat_in, rem_low = rem_low, interp = fill_empty)
   })
   
   # add year, month, day to nobs grids
   nobs_grds <- lapply(nobs_grds, function(x) {
-    fill_grd(x, dat_in)
+    fill_grd(x, dat_in, rem_low = FALSE, interp = FALSE)
   })
+  
   
   # add grids to tidal object, return
   attr(dat_out, 'half_wins') <- ref_wts
@@ -178,7 +165,7 @@ wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, rem_low =
 #' @export
 #'
 #' @method wrtds tidalmean
-wrtds.tidalmean <- function(dat_in, flo_div = 10, trace = TRUE, ...){
+wrtds.tidalmean <- function(dat_in, flo_div = 10, fill_empty = TRUE, trace = TRUE, ...){
   
   #salinity/flow values to estimate
   flo_grd <- seq(
@@ -286,22 +273,22 @@ wrtds.tidalmean <- function(dat_in, flo_div = 10, trace = TRUE, ...){
   # add year, month to fit grids
   # expand for full month, year combo 
   fit_grds <- lapply(fit_grds, function(x) {
-    fill_grd(x, dat_in)
+    fill_grd(x, dat_in, rem_low = FALSE, interp = fill_empty)
   })
   
   # add year, month to bt grids
   bt_grds <- lapply(bt_grds, function(x) {
-    fill_grd(x, dat_in)
+    fill_grd(x, dat_in, rem_low = FALSE, interp = fill_empty)
   })
-  
+
   # add year, month to scl grids
   scl_grds <- lapply(scl_grds, function(x) {
-    fill_grd(x, dat_in)
+    fill_grd(x, dat_in, rem_low = FALSE, interp = fill_empty)
   })
   
   # add year, month to nobs grids
   nobs_grds <- lapply(nobs_grds, function(x) {
-    fill_grd(x, dat_in)
+    fill_grd(x, dat_in, rem_low = FALSE, interp = fill_empty)
   })
   
   # add grids to tidal object, return

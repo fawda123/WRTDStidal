@@ -66,6 +66,7 @@ resnorm.tidal <- function(dat_in, trace = TRUE, ...){
     # interp grid and flo values to interp
     fit_grd <- fits[[i]]
 
+    # vectorize this beast......
     norms <- rep(NA_real_, num_obs)
     for(row in 1:num_obs){
 

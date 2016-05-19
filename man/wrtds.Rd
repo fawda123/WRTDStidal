@@ -9,9 +9,10 @@
 wrtds(dat_in, ...)
 
 \method{wrtds}{tidal}(dat_in, flo_div = 10, tau = 0.5, trace = TRUE,
-  rem_low = TRUE, ...)
+  rem_low = TRUE, fill_empty = TRUE, ...)
 
-\method{wrtds}{tidalmean}(dat_in, flo_div = 10, trace = TRUE, ...)
+\method{wrtds}{tidalmean}(dat_in, flo_div = 10, fill_empty = TRUE,
+  trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -25,6 +26,8 @@ wrtds(dat_in, ...)
 \item{trace}{logical indicating if progress is shown in the console}
 
 \item{rem_low}{logical to remove predictions less than three times the lower detection limit, see details}
+
+\item{fill_empty}{logical to fill missing values in interpolation grid using bilinear interpolation by season}
 }
 \value{
 Appends interpolation grid attributes to the input object.  For a tidal object, this could include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition to a back-transformed grid as the `bt_fits' attribute and a grid of the scale parameter of each prediction as the `scls' attribute.  Grid rows correspond to the dates in the input data.

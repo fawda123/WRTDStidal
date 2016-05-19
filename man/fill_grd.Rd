@@ -2,16 +2,20 @@
 % Please edit documentation in R/fill_grd.R
 \name{fill_grd}
 \alias{fill_grd}
-\title{Add additional date columns to the interpolation grids.}
+\title{Add date columns and fill missing values in the interpolation grids}
 \usage{
-fill_grd(grd_in, dat_in)
+fill_grd(grd_in, dat_in, rem_low = TRUE, interp = TRUE)
 }
 \arguments{
 \item{grd_in}{interpolation grid to fill, either a single mean grid or an individual quantile grid created within \code{\link{wrtds}}}
 
 \item{dat_in}{\code{\link{tidal}} or \code{\link{tidalmean}} object}
+
+\item{rem_low}{logical to remove predictions less than three times the lower detection limit}
+
+\item{interp}{logical for interpolation}
 }
 \description{
-Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}.  Function is used in \code{\link{wrtds}}.
+Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}. The \code{\link[akima]{interp}} function is used after splitting the interpolation matrix by month to fill missing values.  Function is used in \code{\link{wrtds}}.
 }
 
