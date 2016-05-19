@@ -38,7 +38,7 @@ wrtdsrsd.tidal <- function(dat_in, trace = TRUE, ...){
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
-  
+
   # use predonobs attr for resids
   predonobs <- attr(dat_in, 'predonobs')  
 
@@ -58,7 +58,7 @@ wrtdsrsd.tidal <- function(dat_in, trace = TRUE, ...){
   
   # get residuals for conditional quantile models
   rsd <- apply(
-    predonobs[, paste0('fit', tau)], 
+    predonobs[, paste0('fit', tau), drop = FALSE], 
     2, 
     function(x) predonobs$res - x
     )
