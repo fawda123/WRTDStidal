@@ -43,7 +43,7 @@ wrtdsrsd.tidal <- function(dat_in, trace = TRUE, ...){
   predonobs <- attr(dat_in, 'predonobs')  
 
   # get taus from model
-  tau <- as.numeric(gsub('^fit', '', names(attr(tidfit, 'fits'))))
+  tau <- as.numeric(gsub('^fit', '', names(attr(dat_in, 'fits'))))
   
   # null model
   mod_nl <- quantreg::crq(
