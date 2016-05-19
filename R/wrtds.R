@@ -6,12 +6,15 @@
 #' @param dat_in input tidal or tidalmean object
 #' @param flo_div numeric indicating number of divisions across the range of salinity/flow to create the interpolation grid
 #' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
+#' @param rem_low logical to remove predictions less than three times the lower detection limit, see details
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
 #' 
 #' @export
 #' 
 #' @return Appends interpolation grid attributes to the input object.  For a tidal object, this could include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition to a back-transformed grid as the `bt_fits' attribute and a grid of the scale parameter of each prediction as the `scls' attribute.  Grid rows correspond to the dates in the input data.
+#' 
+#' The \code{rem_low} argument can be used to manually remove predictions that are less than three times the lower detection limit.  The fitting routine for quantile regression can produce excessively small predictions for observations near the detection limit, particularly for lower conditional quantiles.  These inaccurate predictions rarely occur but they should be removed to improve plotting and to prevent skew of performance metrics.  
 #' 
 #' @examples
 #' \dontrun{
@@ -38,7 +41,7 @@ wrtds <- function(dat_in, ...) UseMethod('wrtds')
 #' @export
 #'
 #' @method wrtds tidal
-wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, ...){
+wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, rem_low = TRUE, ...){
   
   #salinity/flow values to estimate
   flo_grd <- seq(
@@ -128,6 +131,21 @@ wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, ...){
     
     }
     
+  }
+  
+  # remove really bad low predictions
+  if(rem_low){
+
+    fit_grds <- lapply(fit_grds, function(x) {
+      out <- apply(cbind(dat_in$lim, x), 1, function(grd){
+        lim <- grd[1]
+        grd <- grd[-1]
+        grd[grd < 3 * lim] <- NA
+        grd
+      })
+      t(out)
+    })
+
   }
   
   # half-window widths for attributes
