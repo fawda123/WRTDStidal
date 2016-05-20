@@ -10,6 +10,8 @@
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
 #' @param grids logical indicating if grid lines are present
+#' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.
+#' @param mo_strt numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param lwd numeric value indicating width of lines
 #' @param size numeric value indicating size of points
@@ -79,14 +81,14 @@ fitplot <- function(dat_in, ...) UseMethod('fitplot')
 #' @export 
 #' 
 #' @method fitplot tidal
-fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE, min_mo = 9, mo_strt = 10, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(dat_in)
+  to_plo <- dat_in
   sel_vec <- grepl('^date$|^res$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
@@ -105,31 +107,31 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){
     
-    tau_nrms <- grep('^norm', names(to_plo))
-    tau_fits <- grep('^fit', names(to_plo))
+    tau_nrms <- grep('^norm', names(to_plo), value = TRUE)
+    tau_fits <- grep('^fit', names(to_plo), value = TRUE)
      
   } else {
    
     if(length(grep(paste0(tau, '$', collapse = '|'), names(to_plo))) == 0)
       stop('Specified tau not in object')
     
-    tau_nrms <- grep(paste0('norm', tau, collapse = '|'), names(to_plo))
-    tau_fits <- grep(paste0('fit', tau, collapse = '|'), names(to_plo))
+    tau_nrms <- grep(paste0('norm', tau, collapse = '|'), names(to_plo), value = TRUE)
+    tau_fits <- grep(paste0('fit', tau, collapse = '|'), names(to_plo), value = TRUE)
     
   }
  
   # annual aggregations if TRUE, otherwise monthly agg
   if(annuals){
-    to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
-      group_by(date) %>% 
-      summarise_each(funs(mean(., na.rm = TRUE)))
+    
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    
   } 
   
   # long format for plotting
-  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', tau_nrms ) %>% 
+  nrms <- tidyr::gather(to_plo, 'nrms_variable', 'nrms_value', one_of(tau_nrms)) %>% 
     select(date, nrms_variable, nrms_value) %>% 
     na.omit
-  fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', tau_fits) %>% 
+  fits <- tidyr::gather(to_plo, 'fits_variable', 'fits_value', one_of(tau_fits)) %>% 
     select(date, fits_variable, fits_value) %>% 
     na.omit
   
@@ -150,7 +152,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   }
   
   # formatting for quantile legend labels
-  quants <- gsub('^fit', '', names(to_plo)[tau_fits])
+  quants <- gsub('^fit', '', tau_fits)
   quants <- lapply(as.list(quants), 
     function(x) bquote(italic('\u03c4') ~ .(x))
   )
@@ -220,14 +222,14 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
 #' @export 
 #' 
 #' @method fitplot tidalmean
-fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
+fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE, min_mo = 9, mo_strt = 10, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(dat_in)
+  to_plo <- dat_in
   sel_vec <- grepl('^date$|^res$|fit|norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
@@ -242,13 +244,13 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
     to_plo <- to_plo[sel_vec, ]
     
   }
-  
-  # annual aggregations if TRUE
+
+  # annual aggregations if TRUE, otherwise monthly agg
   if(annuals){
-    to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
-      group_by(date) %>% 
-      summarise_each(funs(mean(., na.rm = TRUE)))
-  }
+    
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    
+  } 
     
   # separate nrms and fits objects for plotting
   nrms <- select(to_plo, date, norm, bt_norm) %>% 

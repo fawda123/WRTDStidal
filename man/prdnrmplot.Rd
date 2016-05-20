@@ -10,11 +10,12 @@ prdnrmplot(dat_in, ...)
 
 \method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = TRUE,
   logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
-  alpha = 1, pretty = TRUE, plot = TRUE, ...)
+  alpha = 1, min_mo = 9, mo_strt = 10, pretty = TRUE, plot = TRUE,
+  ...)
 
 \method{prdnrmplot}{tidalmean}(dat_in, annuals = TRUE, logspace = TRUE,
   dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1,
-  pretty = TRUE, plot = TRUE, ...)
+  min_mo = 9, mo_strt = 10, pretty = TRUE, plot = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -36,6 +37,10 @@ prdnrmplot(dat_in, ...)
 \item{size}{numeric value indicating size of points}
 
 \item{alpha}{numeric value indicating transparency of points or lines}
+
+\item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.}
+
+\item{mo_strt}{numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 

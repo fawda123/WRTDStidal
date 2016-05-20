@@ -10,7 +10,8 @@ fitplot(dat_in, ...)
 
 \method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
   annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL,
-  grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+  grids = TRUE, min_mo = 9, mo_strt = 10, pretty = TRUE, lwd = 1,
+  size = 2, alpha = 1, ...)
 
 \method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = TRUE,
   logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
@@ -34,6 +35,10 @@ fitplot(dat_in, ...)
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}}.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 
 \item{grids}{logical indicating if grid lines are present}
+
+\item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.}
+
+\item{mo_strt}{numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.}
 
 \item{pretty}{logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used}
 

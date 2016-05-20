@@ -11,6 +11,8 @@
 #' @param lwd numeric value indicating width of lines
 #' @param size numeric value indicating size of points
 #' @param alpha numeric value indicating transparency of points or lines
+#' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.
+#' @param mo_strt numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September, applies only if \code{annuals = TRUE}.  See \code{\link{annual_agg}}.
 #' @param pretty logical indicating if my subjective idea of plot aesthetics is applied, otherwise the \code{\link[ggplot2]{ggplot}} default themes are used
 #' @param plot logical if plot is returned, otherwise data used in the plot
 #' @param ... arguments passed to \code{\link[ggplot2]{geom_line}}
@@ -78,7 +80,7 @@ prdnrmplot <- function(dat_in, ...) UseMethod('prdnrmplot')
 #' @export 
 #' 
 #' @method prdnrmplot tidal
-prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, plot = TRUE, ...){
+prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, min_mo = 9, mo_strt = 10, pretty = TRUE, plot = TRUE, ...){
  
   # sanity checks
   if(!any(grepl('^fit', names(dat_in))))
@@ -87,7 +89,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
     stop('No normalized data in tidal object, run resnorm or modfit function')
   
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(dat_in)
+  to_plo <- dat_in
   sel_vec <- grepl('^date$|^res$|^fit|^norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
@@ -106,32 +108,32 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){
     
-    tau_nrms <- grep('^norm', names(to_plo))
-    tau_fits <- grep('^fit', names(to_plo))
+    tau_nrms <- grep('^norm', names(to_plo), value = TRUE)
+    tau_fits <- grep('^fit', names(to_plo), value = TRUE)
      
   } else {
    
     if(length(grep(paste0(tau, '$', collapse = '|'), names(to_plo))) == 0)
       stop('Specified tau not in object')
     
-    tau_nrms <- grep(paste0('norm', tau, collapse = '|'), names(to_plo))
-    tau_fits <- grep(paste0('fit', tau, collapse = '|'), names(to_plo))
+    tau_nrms <- grep(paste0('norm', tau, collapse = '|'), names(to_plo), value = TRUE)
+    tau_fits <- grep(paste0('fit', tau, collapse = '|'), names(to_plo), value = TRUE)
     
   }
- 
+  
   # annual aggregations if TRUE
   if(annuals){
-    to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
-      group_by(date) %>% 
-      summarise_each(funs(mean(., na.rm = TRUE)))
-  }
     
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+
+  }
+   
   # long format for plotting
   # remove 'norm' and 'fit' to combine mapping
-  nrms <- tidyr::gather(to_plo, 'taus', 'nrms_value', tau_nrms) %>% 
+  nrms <- tidyr::gather(to_plo, 'taus', 'nrms_value', one_of(tau_nrms)) %>% 
     select(date, taus, nrms_value) %>% 
     mutate(taus = gsub('^norm', '', taus))
-  fits <- tidyr::gather(to_plo, 'taus', 'fits_value', tau_fits) %>% 
+  fits <- tidyr::gather(to_plo, 'taus', 'fits_value', one_of(tau_fits)) %>% 
     select(date, taus, fits_value) %>% 
     mutate(taus = gsub('^fit', '', taus))
   
@@ -159,7 +161,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
   }
   
   # formatting for quantile legend labels
-  quants <- gsub('^fit', '', names(to_plo)[tau_fits])
+  quants <- gsub('^fit', '', tau_fits)
   quants <- lapply(as.list(quants), 
     function(x) bquote(italic('\u03c4' ~ .(x)))
   )
@@ -206,14 +208,14 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
 #' @export 
 #' 
 #' @method prdnrmplot tidalmean
-prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, plot = TRUE, ...){
+prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, min_mo = 9, mo_strt = 10, pretty = TRUE, plot = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
     stop('No fitted data in tidal object, run modfit function')
   
   # convert to df for plotting, get relevant columns
-  to_plo <- data.frame(dat_in)
+  to_plo <- dat_in
   sel_vec <- grepl('^date$|^res$|fit|norm', names(to_plo))
   to_plo <- to_plo[, sel_vec]
   
@@ -228,12 +230,12 @@ prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng
     to_plo <- to_plo[sel_vec, ]
     
   }
-  
+
   # annual aggregations if TRUE
   if(annuals){
-    to_plo <- mutate(to_plo, date = as.numeric(strftime(date, '%Y'))) %>% 
-      group_by(date) %>% 
-      summarise_each(funs(mean(., na.rm = TRUE)))
+    
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    
   }
 
   # separate nrms and fits objects for plotting
