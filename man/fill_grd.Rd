@@ -4,14 +4,12 @@
 \alias{fill_grd}
 \title{Add date columns and fill missing values in the interpolation grids}
 \usage{
-fill_grd(grd_in, dat_in, rem_low = TRUE, interp = TRUE)
+fill_grd(grd_in, dat_in, interp = FALSE)
 }
 \arguments{
 \item{grd_in}{interpolation grid to fill, either a single mean grid or an individual quantile grid created within \code{\link{wrtds}}}
 
 \item{dat_in}{\code{\link{tidal}} or \code{\link{tidalmean}} object}
-
-\item{rem_low}{logical to remove predictions less than three times the lower detection limit}
 
 \item{interp}{logical for interpolation}
 }

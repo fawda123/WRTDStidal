@@ -80,9 +80,11 @@ prdnrmplot <- function(dat_in, ...) UseMethod('prdnrmplot')
 #' @method prdnrmplot tidal
 prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1, pretty = TRUE, plot = TRUE, ...){
  
-  # sanity check
-  if(!any(grepl('^fit|^norm', names(dat_in))))
-    stop('No fitted data in tidal object, run modfit function')
+  # sanity checks
+  if(!any(grepl('^fit', names(dat_in))))
+    stop('No fitted data in tidal object, run respred or modfit function')
+  if(!any(grepl('^norm', names(dat_in))))
+    stop('No normalized data in tidal object, run resnorm or modfit function')
   
   # convert to df for plotting, get relevant columns
   to_plo <- data.frame(dat_in)

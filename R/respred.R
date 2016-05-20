@@ -103,16 +103,16 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
   # get predictions for each quantile
   for(i in seq_along(tau)){
     
-    # interp grids, as matrix
-    fit_grd <- fits[[i]]
-    dts <- fit_grd$date
-    fit_grd <- select(fit_grd, -year, -month, -day, -date)
-
     if(trace){
       txt <- paste0('tau = ', gsub('fit', '', tau[i]), '\n')
       cat(txt)
     }
     
+    # interp grids, as matrix
+    fit_grd <- fits[[i]]
+    dts <- fit_grd$date
+    fit_grd <- select(fit_grd, -year, -month, -day, -date)
+
     # bilinear interpolatoin of fit grid with data to predict
     preds <- interp.surface(
       obj = list(
@@ -261,8 +261,6 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
     ), 
     loc = to_pred
   )
-  
-  if(trace) cat('\n')
   
   # create output depending on obs data or predicted data
   if(is.null(dat_pred)){

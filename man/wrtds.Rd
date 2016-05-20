@@ -9,9 +9,9 @@
 wrtds(dat_in, ...)
 
 \method{wrtds}{tidal}(dat_in, flo_div = 10, tau = 0.5, trace = TRUE,
-  rem_low = TRUE, fill_empty = TRUE, ...)
+  fill_empty = FALSE, ...)
 
-\method{wrtds}{tidalmean}(dat_in, flo_div = 10, fill_empty = TRUE,
+\method{wrtds}{tidalmean}(dat_in, flo_div = 10, fill_empty = FALSE,
   trace = TRUE, ...)
 }
 \arguments{
@@ -25,14 +25,12 @@ wrtds(dat_in, ...)
 
 \item{trace}{logical indicating if progress is shown in the console}
 
-\item{rem_low}{logical to remove predictions less than three times the lower detection limit, see details}
-
-\item{fill_empty}{logical to fill missing values in interpolation grid using bilinear interpolation by season}
+\item{fill_empty}{logical to fill missing values in interpolation grid using bilinear interpolation by season, see details}
 }
 \value{
 Appends interpolation grid attributes to the input object.  For a tidal object, this could include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition to a back-transformed grid as the `bt_fits' attribute and a grid of the scale parameter of each prediction as the `scls' attribute.  Grid rows correspond to the dates in the input data.
 
-The \code{rem_low} argument can be used to manually remove predictions that are less than three times the lower detection limit.  The fitting routine for quantile regression can produce excessively small predictions for observations near the detection limit, particularly for lower conditional quantiles.  These inaccurate predictions rarely occur but they should be removed to improve plotting and to prevent skew of performance metrics.
+The \code{fill_empty} arguments uses bilinear interpolation of time by flow to fill missing data in the interpolation grids.  The grids are subset by month before interpolating to retain the seasonal variation captured by the models.  In gneral, this argument should not be used if more than ten percent of the interpolation grids are missing data.  It may be helpful to improve visual appearance of some of the plotting results.
 }
 \description{
 Get WRTDS prediction grid for observations of the response variable in a tidal or tidalmean object

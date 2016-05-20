@@ -4,28 +4,15 @@
 #'
 #' @param grd_in interpolation grid to fill, either a single mean grid or an individual quantile grid created within \code{\link{wrtds}}
 #' @param dat_in \code{\link{tidal}} or \code{\link{tidalmean}} object
-#' @param rem_low logical to remove predictions less than three times the lower detection limit
 #' @param interp logical for interpolation
 #' 
 #' @import akima dplyr
 #' 
-fill_grd <- function(grd_in, dat_in, rem_low = TRUE, interp = TRUE){
+fill_grd <- function(grd_in, dat_in, interp = FALSE){
 
   # infinite to NA, this means a really bad fit
-  # remove values that are much lower than detection limit
-  if(rem_low){
-    
-    grd_in[is.infinite(grd_in)] <- NA
-    grd_in <- apply(cbind(dat_in$lim, grd_in), 1, function(grd){
-          lim <- grd[1]
-          grd <- grd[-1]
-          grd[grd < 3 * lim] <- NA
-          grd
-        })
-    grd_in <- t(grd_in)
-    
-  }
-  
+  grd_in[is.infinite(grd_in)] <- NA
+
   # fill missing values
   if(interp){
     

@@ -179,15 +179,14 @@ mod <- modfit(chldat)
 ## 
 ## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Estimating predictions, % complete...
+## Estimating predictions...
 ## 
 ## tau = 0.5
-## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Normalizing predictions, % complete...
+## 
+## Normalizing predictions...
 ## 
 ## tau = 0.5
-## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ```
 
 ```r
@@ -201,13 +200,10 @@ mod <- modfit(chldat, resp_type = 'mean')
 ## 
 ## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Estimating predictions, % complete...
+## Estimating predictions... 
 ## 
-## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
 ## 
-## Normalizing predictions, % complete...
-## 
-## 5 	10 	15 	20 	25 	30 	35 	40 	45 	50 	55 	60 	65 	70 	75 	80 	85 	90 	95 	100 	
+## Normalizing predictions...
 ```
 
 The results include the original `data.frame` with additional columns for parameters used to fit the model, model predictions, and the respective normalized predictions.  The `modfit` function implements four individual functions which can be used separately to create the model. 
@@ -381,7 +377,7 @@ wrtdsperf(tidfit)
 
 ```
 ##   tau      gfit      rmse      nmse
-## 1 0.1 0.4439787 0.7060361 1.0572657
+## 1 0.1 0.4460786 0.7062318 1.0530866
 ## 2 0.5 0.4314374 0.4113140 0.3652858
 ## 3 0.9 0.4622937 0.6486773 0.9085381
 ```

@@ -7,6 +7,8 @@
 #' @param dat_pred optional data to predict using the interpolation grids in dat_in, defaults to observed data in \code{dat_in} if not supplied
 #' @param ... arguments passed to or from other methods
 #' 
+#' @import dplyr
+#' 
 #' @export
 #' 
 #' @details
@@ -33,29 +35,30 @@ resscls <- function(dat_in, ...) UseMethod('resscls')
 resscls.tidalmean <- function(dat_in, dat_pred = NULL, ...){
   
   scls <- attr(dat_in, 'scls')
-  flo_grd <- attr(dat_in, 'flo_grd')
   
   # sanity checks
   if(is.null(scls)) stop('No scls attribute, run wrtds function')
   
   # interp grids
   scl_grd <- scls[[1]]
+  dts <- scl_grd$date
+  scl_grd <- select(scl_grd, -year, -month, -day, -date)
   
   # data to predict, uses dat_in if dat_pred is NULL
   if(is.null(dat_pred)) to_pred <- dat_in
   else to_pred <- dat_pred
-  to_pred <- to_pred[, c('flo', 'date')]
+  to_pred <- to_pred[, c('date', 'flo')]
   
-  preds <- apply(to_pred, 1, 
-    
-    function(x){
-
-      # interp the scl paramter for given date, flo in to_pred
-      out <- resinterp(x['date'], x['flo'], scl_grd, flo_grd)
-      out
-    
-  })      
-
+  # bilinear interpolatoin of scl grid with data to predict
+  preds <- interp.surface(
+    obj = list(
+      y = attr(dat_in, 'flo_grd'),
+      x = dts,
+      z = scl_grd
+    ), 
+    loc = to_pred
+  )
+  
   # return results for optional supplied data 
   if(!is.null(dat_pred)){
     out <- as.data.frame(preds)

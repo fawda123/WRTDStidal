@@ -28,23 +28,25 @@ fillpo.tidal <- function(dat_in, ...){
 
   # data to predict, obseved
   to_pred <- dat_in
-  to_pred <- to_pred[, c('flo', 'date')]
+  to_pred <- to_pred[, c('date', 'flo')]
 
   # get predictions for each quantile
   for(i in seq_along(tau)){
-    
+
     # interp grids
     fit_grd <- fits[[i]]
-  
-    # get predictions for the quantile form the fit grd
-    preds <- sapply(1:nrow(to_pred), 
-      
-      function(x){
-        
-        # interp the response for given date, flo in to_pred
-        resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], fit_grd, flo_grd)
-    
-    })  
+    dts <- fit_grd$date
+    fit_grd <- select(fit_grd, -year, -month, -day, -date)
+
+    # bilinear interpolatoin of fit grid with data to predict
+    preds <- interp.surface(
+      obj = list(
+        y = attr(dat_in, 'flo_grd'),
+        x = dts,
+        z = fit_grd
+      ), 
+      loc = to_pred
+    )
 
     # append vector to dat_in object
     predonobs <- cbind(predonobs, preds)
@@ -74,29 +76,40 @@ fillpo.tidalmean <- function(dat_in, ...){
   
   # interp grids
   fit_grd <- fits[[1]]
-  btfit_grd <- bt_fits[[1]]
+  dts <- fit_grd$date
+  fit_grd <- select(fit_grd, -year, -month, -day, -date)
+  btfit_grd <- bt_fits[[1]] %>% 
+    select(-year, -month, -day, -date)
   
   # observed data to predict
   to_pred <- dat_in
-  to_pred <- to_pred[, c('flo', 'date')]
+  to_pred <- to_pred[, c('date', 'flo')]
   
-  preds <- sapply(1:nrow(to_pred), 
-    
-    function(x){
-
-      # interp the response for given date, flo in to_pred with relevant grid
-      out <- resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], fit_grd, flo_grd)
-      bt_out <- resinterp(to_pred[x, 'date'], to_pred[x, 'flo'], btfit_grd, flo_grd)
-      
-      c(out, bt_out)
-    
-  })      
+  # bilinear interpolatoin of fit grid with data to predict
+  preds <- interp.surface(
+    obj = list(
+      y = attr(dat_in, 'flo_grd'),
+      x = dts,
+      z = fit_grd
+    ), 
+    loc = to_pred
+  )
+  
+  # bilinear interpolatoin of bt fit grid with data to predict
+  bt_preds <- interp.surface(
+    obj = list(
+      y = attr(dat_in, 'flo_grd'),
+      x = dts,
+      z = btfit_grd
+    ), 
+    loc = to_pred
+  )     
   
   # add the predictions predonobs attributes for perf metrics
   predonobs <- data.frame(
     res = dat_in$res,
-    fits = preds[1, ],
-    bt_fits = preds[2, ]
+    fits = preds,
+    bt_fits = bt_preds
   )
   attr(dat_in, 'predonobs') <- predonobs
   out <- dat_in
