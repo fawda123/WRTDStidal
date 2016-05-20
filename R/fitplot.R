@@ -53,7 +53,7 @@
 #' library(ggplot2)
 #' 
 #' fitplot(tidfit, annual = TRUE) + 
-#'  scale_x_continuous(breaks = seq(2000, 2012, by = 4))
+#'  scale_x_date(limits = as.Date(c('2000-01-01', '2012-01-01')))
 #'
 #' # modify the plot as needed using ggplot scales, etc.
 #' 

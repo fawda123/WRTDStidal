@@ -5,22 +5,24 @@
 #' @param dat_in input tidal or tidalmean object
 #' @param mo_strt numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September
 #' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}
-#' @param ...
+#' @param ... arguments passed to or from other methods
 #' 
 #' @details WRTDS output is averaged by year for both predictions and flow-normalized predictions. Years are averaged only if one observation is contained in each of the minimum number of months specified by \code{min_mo} averaging, otherwise results are not returned for the given year.  Note that setting \code{min_mo} to values smaller than the default can produce inaccurate trends for years with very few results. 
 #'
+#' The function is used internally within \code{\link{prdnrmplot}} and \code{\link{fitplot}}.
+#' 
 #' @export
 #' 
 #' @import dplyr
 #' 
-#' @return 
+#' @return An aggregated data object for plotting, returns only model output and response variable.  
 #' 
 #' @examples
-#' 
-#' data(tidfit)
-#' 
+#' ## tidal object
 #' annual_agg(tidfit)
 #'
+#' ## tidalmean object
+#' annual_agg(tidfitmean)
 annual_agg <- function(dat_in, ...) UseMethod('annual_agg')
 
 #' @rdname annual_agg
@@ -34,7 +36,8 @@ annual_agg.default <- function(dat_in, mo_strt = 10, min_mo = 9,  ...){
   # split by response variable
   # create new year column based on mo_strt
   # average by new year column only if minimum number of months are present
-  dat_agg <- tidyr::gather(dat_in, 'var', 'val', -date) %>% 
+  dat_agg <- select(dat_in, matches('date|fit|norm|res')) %>% 
+    tidyr::gather('var', 'val', -date) %>% 
     split(.$var) %>% 
     lapply(., function(x){
 

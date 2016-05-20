@@ -12,26 +12,28 @@ annual_agg(dat_in, ...)
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
 
-\item{...}{}
+\item{...}{arguments passed to or from other methods}
 
 \item{mo_strt}{numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September}
 
 \item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}}
 }
 \value{
-
+An aggregated data object for plotting, returns only model output and response variable.
 }
 \description{
 Create annual aggregations of WRTDS output
 }
 \details{
-WRTDS output is averaged by year for both predictions and flow-normalized predictions. Years are averaged only if one observation is contained in each of the minimum number of months specified by \code{min_mo} averaging, otherwise results are not returned for the given year.  Note that setting \code{min_mo} to values smaller than the default can produce inaccurate trends for years with very few results.
+WRTDS output is averaged by year for both predictions and flow-normalized predictions. Years are averaged only if one observation is contained in each of the minimum number of months specified by \code{min_mo} averaging, otherwise results are not returned for the given year.  Note that setting \code{min_mo} to values smaller than the default can produce inaccurate trends for years with very few results. 
+
+The function is used internally within \code{\link{prdnrmplot}} and \code{\link{fitplot}}.
 }
 \examples{
-
-data(tidfit)
-
+## tidal object
 annual_agg(tidfit)
 
+## tidalmean object
+annual_agg(tidfitmean)
 }
 

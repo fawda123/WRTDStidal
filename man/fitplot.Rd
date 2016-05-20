@@ -15,7 +15,8 @@ fitplot(dat_in, ...)
 
 \method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = TRUE,
   logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
-  pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+  min_mo = 9, mo_strt = 10, pretty = TRUE, lwd = 1, size = 2,
+  alpha = 1, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -81,7 +82,7 @@ fitplot(tidfit, annuals = FALSE)
 library(ggplot2)
 
 fitplot(tidfit, annual = TRUE) + 
- scale_x_continuous(breaks = seq(2000, 2012, by = 4))
+ scale_x_date(limits = as.Date(c('2000-01-01', '2012-01-01')))
 
 # modify the plot as needed using ggplot scales, etc.
 
