@@ -9,11 +9,14 @@
 #' @param molabs character vector of names for month breaks, see examples
 #' @param yrlabs character vector of names for year breaks, see examples
 #' @param tau numeric vector of quantile for estimating trends
+#' @param aves logical if averages within each period are also returned
 #' @param ... methods passed to or from other methods
 #' 
 #' @export
 #' 
-#' @details Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on average of the first three and last three annaul averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages.  
+#' @details Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on an average of the first three and last three annual averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages.
+#' 
+#' Averages in each period can be returned if \code{aves = TRUE}.  These averages are based on annual averages within each period for congruency with the trend estimates.  
 #' 
 #' All trends are based on back-transformed, flow-normalized results. 
 #' 
@@ -39,6 +42,9 @@
 #'
 #' wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs)
 #' wrtdstrnd(tidfitmean, mobrks, yrbrks, molabs, yrlabs)
+#' 
+#' # get averages in each period
+#' wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs, aves = TRUE)
 wrtdstrnd <- function(dat_in, ...) UseMethod('wrtdstrnd')
   
 #' @rdname wrtdstrnd
@@ -46,7 +52,7 @@ wrtdstrnd <- function(dat_in, ...) UseMethod('wrtdstrnd')
 #' @export
 #'
 #' @method wrtdstrnd default
-wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
+wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, ...){
 
   # aggregate/summarize separately for each category
   
@@ -56,15 +62,19 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
     rename(cat = yrcat) %>% 
     group_by(cat) %>% 
     summarise(
-      chg = chngest(date, norm, single = T) # important!
+      chg = chngest(date, norm, single = T), # important!
+      ave = mean(norm, na.rm = TRUE)
     )
-  
+
   # monthly aggs
   modat <- group_by(dat_in, date, mocat) %>% 
     summarise(norm = mean(norm, na.rm = T)) %>% 
     rename(cat = mocat) %>% 
     group_by(cat) %>% 
-    summarise(chg = chngest(date, norm))
+    summarise(
+      chg = chngest(date, norm), 
+      ave = mean(norm, na.rm  = TRUE)
+      )
   
   # combine
   out <- rbind(yrdat, modat) %>% 
@@ -78,6 +88,9 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
     arrange(cat) %>% 
     data.frame
   
+  # remove average if F
+  if(!aves) out <- select(out, -ave)
+  
   return(out)
     
 }
@@ -87,7 +100,7 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
 #' @export
 #'
 #' @method wrtdstrnd tidal
-wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, ...){
+wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, aves = FALSE, ...){
 
   # get tau if null, otherwise run checks
   if(is.null(tau)){
@@ -118,7 +131,7 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
       norm = exp(norm)
     )
 
-  wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs) 
+  wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves) 
     
 }
 
@@ -127,7 +140,7 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
 #' @export
 #'
 #' @method wrtdstrnd tidalmean
-wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
+wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, ...){
 
   # columns to get with regex
   toget <- c('^date$|^bt_norm$')
@@ -141,6 +154,6 @@ wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
       date = year(date)
     )
  
-    wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs) 
+    wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves) 
   
 }

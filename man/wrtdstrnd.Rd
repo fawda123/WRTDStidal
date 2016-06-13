@@ -9,12 +9,14 @@
 \usage{
 wrtdstrnd(dat_in, ...)
 
-\method{wrtdstrnd}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs, ...)
+\method{wrtdstrnd}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs,
+  aves = FALSE, ...)
 
 \method{wrtdstrnd}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL,
-  ...)
+  aves = FALSE, ...)
 
-\method{wrtdstrnd}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs, ...)
+\method{wrtdstrnd}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs,
+  aves = FALSE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object which must already have fitted model data}
@@ -29,6 +31,8 @@ wrtdstrnd(dat_in, ...)
 
 \item{yrlabs}{character vector of names for year breaks, see examples}
 
+\item{aves}{logical if averages within each period are also returned}
+
 \item{tau}{numeric vector of quantile for estimating trends}
 }
 \value{
@@ -38,7 +42,9 @@ A \code{\link[base]{data.frame}} with summary trends for each grouping
 Get WRTDS trends for annual and monthly groupings
 }
 \details{
-Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on average of the first three and last three annaul averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages.  
+Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on an average of the first three and last three annual averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages.
+
+Averages in each period can be returned if \code{aves = TRUE}.  These averages are based on annual averages within each period for congruency with the trend estimates.  
 
 All trends are based on back-transformed, flow-normalized results. 
 
@@ -59,5 +65,8 @@ yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')
 
 wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs)
 wrtdstrnd(tidfitmean, mobrks, yrbrks, molabs, yrlabs)
+
+# get averages in each period
+wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs, aves = TRUE)
 }
 
