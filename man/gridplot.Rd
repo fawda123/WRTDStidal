@@ -10,13 +10,13 @@ gridplot(dat_in, ...)
 
 \method{gridplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
   years = NULL, col_vec = NULL, logspace = TRUE, floscl = TRUE,
-  allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL,
-  grids = FALSE, pretty = TRUE, ...)
+  allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE,
+  pretty = TRUE, ...)
 
 \method{gridplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
   col_vec = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE,
-  interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE,
-  pretty = TRUE, ...)
+  flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE,
+  ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -36,8 +36,6 @@ gridplot(dat_in, ...)
 \item{floscl}{logical indicating if salinity/flow on x-axis is standardized (default) or in original scale}
 
 \item{allflo}{logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest}
-
-\item{interp}{logical indicating if the response variable between integer years and salinity/flow is linearly interpolated to create a smoother grid}
 
 \item{flo_fac}{numeric value indicating the factor for smoothing the response variable across salinity/flow values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.}
 

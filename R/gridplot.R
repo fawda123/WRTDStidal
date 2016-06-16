@@ -10,7 +10,6 @@
 #' @param logspace logical indicating if plots are in log space
 #' @param floscl logical indicating if salinity/flow on x-axis is standardized (default) or in original scale
 #' @param allflo logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest
-#' @param interp logical indicating if the response variable between integer years and salinity/flow is linearly interpolated to create a smoother grid 
 #' @param flo_fac numeric value indicating the factor for smoothing the response variable across salinity/flow values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
 #' @param yr_fac numeric value indicating the factor for smoothing the response variable across integer years. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
 #' @param ncol numeric argument passed to \code{\link[ggplot2]{facet_wrap}} indicating number of facet columns
@@ -56,7 +55,7 @@ gridplot <- function(dat_in, ...) UseMethod('gridplot')
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE,  floscl = TRUE, allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE,  floscl = TRUE, allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -71,7 +70,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
   month <- month[month %in% dat_in$month]
   if(length(month) == 0) stop('No observable data for the chosen month')
-  
+
   # salinity/flow grid values
   flo_grd <- attr(dat_in, 'flo_grd')
   
@@ -130,9 +129,9 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     if(nrow(to_plo) == 0) stop('No data to plot for the date range')
   
   }
-  
+
   ## use linear interpolation to make a smoother plot
-  if(interp & !allmo){
+  if(!allmo){
     
     # these are factors by which salinity/flow and years are multiplied for interpolation
     flo_fac <- length(flo_grd) * flo_fac
@@ -177,6 +176,39 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
       
   }
   
+  ## use linear interpolation to make a smoother plot, handle differently if allmo
+  if(allmo){
+    
+    # format to_plo for interp (wide, as matrix)
+    to_interp <- to_plo
+    to_interp$date <- with(to_interp, as.Date(paste(year, month, '1', sep = '-')))
+    to_interp <- ungroup(to_interp) %>% 
+      select(date, flo, res) %>% 
+      tidyr::spread(flo, res)
+    
+    # values to pass to interp
+    dts <- dec_time(to_interp$date)$dec_time
+    fit_grd <- select(to_interp, -date)
+    flo_fac <- length(flo_grd) * flo_fac
+    flo_fac <- seq(min(flo_grd), max(flo_grd), length.out = flo_fac)
+    yr_fac <- seq(min(dts), max(dts), length.out = length(dts) *  yr_fac)
+    to_norm <- expand.grid(yr_fac, flo_fac)
+          
+    # bilinear interpolation of fit grid with data to average for norms
+    norms <- interp.surface(
+      obj = list(
+        y = flo_grd,
+        x = dts,
+        z = data.frame(fit_grd)
+      ), 
+      loc = to_norm
+    )
+    
+    to_plo <- data.frame(to_norm, norms)
+    names(to_plo) <- c('year', 'flo', 'res')
+    
+  }
+  
   # constrain plots to salinity/flow limits for the selected month
   if(!allflo & !allmo){
     
@@ -203,7 +235,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     
   }
 
-  # change month vector of not plotting all months in same plot
+  # change month vector if not plotting all months in same plot
   if(!allmo){
     # months labels as text
     mo_lab <- data.frame(
@@ -212,10 +244,6 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     )
     mo_lab <- mo_lab[mo_lab$num %in% month, ]
     to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
-  } else {
-    
-    to_plo$year <- with(to_plo, year + (month - 1)/12)
-    
   }
     
   # change flo to original scale
@@ -268,7 +296,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method gridplot tidalmean
-gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -327,7 +355,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   }
   
   ## use linear interpolation to make a smoother plot
-  if(interp & !allmo){
+  if(!allmo){
     
     # these are factors by which salinity/flow and years are multiplied for interpolation
     flo_fac <- length(flo_grd) * flo_fac
@@ -371,6 +399,39 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
       
   }
   
+  ## use linear interpolation to make a smoother plot, handle differently if allmo
+  if(allmo){
+    
+    # format to_plo for interp (wide, as matrix)
+    to_interp <- to_plo
+    to_interp$date <- with(to_interp, as.Date(paste(year, month, '1', sep = '-')))
+    to_interp <- ungroup(to_interp) %>% 
+      select(date, flo, res) %>% 
+      tidyr::spread(flo, res)
+    
+    # values to pass to interp
+    dts <- dec_time(to_interp$date)$dec_time
+    fit_grd <- select(to_interp, -date)
+    flo_fac <- length(flo_grd) * flo_fac
+    flo_fac <- seq(min(flo_grd), max(flo_grd), length.out = flo_fac)
+    yr_fac <- seq(min(dts), max(dts), length.out = length(dts) *  yr_fac)
+    to_norm <- expand.grid(yr_fac, flo_fac)
+          
+    # bilinear interpolation of fit grid with data to average for norms
+    norms <- interp.surface(
+      obj = list(
+        y = flo_grd,
+        x = dts,
+        z = data.frame(fit_grd)
+      ), 
+      loc = to_norm
+    )
+    
+    to_plo <- data.frame(to_norm, norms)
+    names(to_plo) <- c('year', 'flo', 'res')
+    
+  }
+  
   # constrain plots to salinity/flow limits for the selected month
   if(!allflo & !allmo){
     
@@ -406,11 +467,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     )
     mo_lab <- mo_lab[mo_lab$num %in% month, ]
     to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
-  } else {
-    
-    to_plo$year <- with(to_plo, year + (month - 1)/12)
-    
-  }
+  } 
     
   # change flo to original scale
   if(!floscl){
