@@ -9,14 +9,14 @@
 gridplot(dat_in, ...)
 
 \method{gridplot}{tidal}(dat_in, month = c(1:12), tau = NULL,
-  years = NULL, col_vec = NULL, logspace = TRUE, allflo = FALSE,
-  interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE,
-  pretty = TRUE, ...)
+  years = NULL, col_vec = NULL, logspace = TRUE, floscl = TRUE,
+  allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL,
+  grids = FALSE, pretty = TRUE, ...)
 
 \method{gridplot}{tidalmean}(dat_in, month = c(1:12), years = NULL,
-  col_vec = NULL, logspace = TRUE, allflo = FALSE, interp = TRUE,
-  flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE,
-  ...)
+  col_vec = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE,
+  interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE,
+  pretty = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -32,6 +32,8 @@ gridplot(dat_in, ...)
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 
 \item{logspace}{logical indicating if plots are in log space}
+
+\item{floscl}{logical indicating if salinity/flow on x-axis is standardized (default) or in original scale}
 
 \item{allflo}{logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest}
 

@@ -8,6 +8,7 @@
 #' @param years numeric vector of years to plot, defaults to all
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param logspace logical indicating if plots are in log space
+#' @param floscl logical indicating if salinity/flow on x-axis is standardized (default) or in original scale
 #' @param allflo logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest
 #' @param interp logical indicating if the response variable between integer years and salinity/flow is linearly interpolated to create a smoother grid 
 #' @param flo_fac numeric value indicating the factor for smoothing the response variable across salinity/flow values. Increasing the value creates more smoothing and setting the value to 1 removes all smoothing.
@@ -55,7 +56,7 @@ gridplot <- function(dat_in, ...) UseMethod('gridplot')
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE, allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE,  floscl = TRUE, allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -217,6 +218,15 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     
   }
     
+  # change flo to original scale
+  if(!floscl){
+   
+    floobs_rng <- attr(dat_in, 'floobs_rng') 
+    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
+    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+   
+  }
+  
   # make plot
   p <- ggplot(to_plo, aes(x = year, y = flo, fill = res)) + 
     geom_tile(data = subset(to_plo, !is.na(to_plo$res)), aes(fill = res)) +
@@ -258,7 +268,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method gridplot tidalmean
-gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE, interp = TRUE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -402,6 +412,14 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     
   }
     
+  # change flo to original scale
+  if(!floscl){
+   
+    floobs_rng <- attr(dat_in, 'floobs_rng') 
+    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
+    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+   
+  }
   
   # make plot
   p <- ggplot(to_plo, aes(x = year, y = flo, fill = res)) + 
