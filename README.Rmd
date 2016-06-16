@@ -226,6 +226,7 @@ Similar plots can be returned using the `gridplot` function.  These are essentia
 # create a gridded plot
 # defaults to the fiftieth quantile
 gridplot(tidfit)
+gridplot(tidfit, month = 'all')
 ```
 
 The `wtsplot` function can be used to create diagnostic plots to view different weighting windows and how they are implemented during weighted regression.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity/flow over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity/flow) and the final combined vector. 
