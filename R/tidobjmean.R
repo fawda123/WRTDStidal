@@ -1,0 +1,18 @@
+#' Monthly chlorophyll time series for Hillsborough Bay as a tidal object, conditional mean model
+#'
+#' Monthly chlorophyll time series for the Hillsborough Bay segment of Tampa Bay as a tidal object.  Raw data are those in \code{\link{chldat}} with the addition of further processing using the \code{\link{tidalmean}} and \code{\link{wrtds}} functions.  Model predictions are obtained using weighted regression for the conditional mean of chlorophyll. The object also inherits methods from the \code{\link[base]{data.frame}} class.  The processed data includes columns for date, chlorophyll-a (\code{res}, in log-space), salinity as fraction of freshwater (\code{flo}, i.e., 0 - 1, with higher values indicating more freshwater), the detection limit for all stations for the respective date, a logical column indicating if the observed chlorophyll is at or below the detection limit, the date as decimal time minus the year, the month from 1 to 12, the year, and total decimal time.  Attributes include column names, row names, class of the object, an interpolation grid from the weighted regression for the mean response, a back-transformed interpolation grid from the weighted regression for the mean response, and vector of salinity values that were used to create the interpolation grids.
+#' @format A \code{\link{tidalmean}} and \code{\link[base]{data.frame}} object with 156 rows and 9 variables:
+#' \describe{
+#'   \item{\code{date}}{Date}
+#'   \item{\code{res}}{numeric}
+#'   \item{\code{flo}}{numeric}
+#'   \item{\code{lim}}{numeric}
+#'   \item{\code{not_cens}}{logical}
+#'   \item{\code{day_num}}{numeric}
+#'   \item{\code{month}}{numeric}
+#'   \item{\code{year}}{numeric}
+#'   \item{\code{dec_time}}{numeric}
+#' }
+#' 
+#' @seealso \code{\link{tidalmean}} for full list of attributes in tidalmean objects and \code{\link{wrtds}} for creating the \code{fits}, \code{bt_fits}, and \code{scls} interpolation grids.
+"tidobjmean"
