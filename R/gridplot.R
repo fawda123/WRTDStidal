@@ -7,6 +7,7 @@
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
 #' @param years numeric vector of years to plot, defaults to all
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
+#' @param col_lim numeric vector of length two that defines the range of the color ramp in the legend, passed to \code{\link[ggplot2]{scale_fill_gradient}}.  This is useful for fixing the color range to evaluate multiple plots.
 #' @param logspace logical indicating if plots are in log space
 #' @param floscl logical indicating if salinity/flow on x-axis is standardized (default) or in original scale
 #' @param allflo logical indicating if the salinity/flow values for plotting are limited to the fifth and ninety-fifth percentile of observed values for the month of interest
@@ -55,7 +56,7 @@ gridplot <- function(dat_in, ...) UseMethod('gridplot')
 #' @export 
 #' 
 #' @method gridplot tidal
-gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, logspace = TRUE,  floscl = TRUE, allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, col_vec = NULL, col_lim = NULL, logspace = TRUE,  floscl = TRUE, allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -276,7 +277,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(xlabel, expand = c(0,0)) +
-    scale_fill_gradientn(ylabel, colours = rev(cols)) +
+    scale_fill_gradientn(ylabel, colours = rev(cols), limits = col_lim) +
     guides(fill = guide_colourbar(barwidth = 10)) 
 
   # add grid lines
@@ -296,7 +297,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
 #' @export 
 #' 
 #' @method gridplot tidalmean
-gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
+gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = NULL, col_lim = NULL, logspace = TRUE, floscl = TRUE, allflo = FALSE, flo_fac = 3, yr_fac = 3, ncol = NULL, grids = FALSE, pretty = TRUE, ...){
  
   # sanity check
   if(!any(grepl('^fit|^norm', names(dat_in))))
@@ -499,7 +500,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
       )  +
     scale_x_continuous(expand = c(0, 0)) +
     scale_y_continuous(xlabel, expand = c(0,0)) +
-    scale_fill_gradientn(ylabel, colours = rev(cols)) +
+    scale_fill_gradientn(ylabel, colours = rev(cols), limits = col_lim) +
     guides(fill = guide_colourbar(barwidth = 10)) 
     
   # add grid lines
