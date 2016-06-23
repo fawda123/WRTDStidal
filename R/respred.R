@@ -185,7 +185,7 @@ respred.tidal <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ..
 #'
 #' @method respred tidalmean
 respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ...){
-  
+
   fits <- attr(dat_in, 'fits')
   bt_fits <- attr(dat_in, 'bt_fits')
   flo_grd <- attr(dat_in, 'flo_grd')
@@ -274,9 +274,9 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
     attr(out, 'predonobs') <- dat_in[, grepl('^res|^fit', names(dat_in))]
     
   } else {
-    
+
     # combine predicted with orig data
-    out <- as.data.frame(preds, bt_preds)
+    out <- data.frame(preds, bt_preds)
     names(out) <- c('fits', 'bt_fits')
     out <- data.frame(dat_pred, out)
     out <- full_join(dat_in, out, by = 'date') %>% 
