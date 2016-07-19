@@ -10,13 +10,13 @@
 wrtdstrnd(dat_in, ...)
 
 \method{wrtdstrnd}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs,
-  aves = FALSE, ...)
+  aves = FALSE, mo_strt = 10, min_mo = 9, ...)
 
 \method{wrtdstrnd}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL,
-  aves = FALSE, ...)
+  aves = FALSE, mo_strt = 10, min_mo = 9, ...)
 
 \method{wrtdstrnd}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs,
-  aves = FALSE, ...)
+  aves = FALSE, mo_strt = 10, min_mo = 9, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object which must already have fitted model data}
@@ -33,6 +33,10 @@ wrtdstrnd(dat_in, ...)
 
 \item{aves}{logical if averages within each period are also returned}
 
+\item{mo_strt}{numeric indicating month to start aggregation years for annual trends, defaults to October for USGS water year from October to September, passed to \code{\link{annual_agg}}}
+
+\item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, passed to \code{\link{annual_agg}}}
+
 \item{tau}{numeric vector of quantile for estimating trends}
 }
 \value{
@@ -42,7 +46,9 @@ A \code{\link[base]{data.frame}} with summary trends for each grouping
 Get WRTDS trends for annual and monthly groupings
 }
 \details{
-Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on an average of the first three and last three annual averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages.
+Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on an average of the first three and last three annual averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages as returned by \code{\link{annual_agg}}.  
+
+Note that the default minimum number of months argument (\code{min_mo}) may not be appropriate for all cases.  Annual estimates should first be evaluated with \code{\link{prdnrmplot}} to verify that odd years with missing months are not driving results for the annual percent changes.  
 
 Averages in each period can be returned if \code{aves = TRUE}.  These averages are based on annual averages within each period for congruency with the trend estimates.  
 
@@ -58,8 +64,9 @@ data(tidfitmean)
 ## get trends
 
 # setup month, year categories
-mobrks <- c(-Inf, 3, 6, 9, Inf)
-yrbrks <- c(-Inf, 1985, 1994, 2003, Inf)
+# intervals are closed on the right
+mobrks <- c(0, 3, 6, 9, 12) 
+yrbrks <- c(1973, 1985, 1994, 2003, 2012)
 molabs <- c('JFM', 'AMJ', 'JAS', 'OND')
 yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')
 

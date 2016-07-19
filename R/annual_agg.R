@@ -4,7 +4,7 @@
 #' 
 #' @param dat_in input tidal or tidalmean object
 #' @param mo_strt numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September
-#' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}
+#' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years
 #' @param ... arguments passed to or from other methods
 #' 
 #' @details WRTDS output is averaged by year for both predictions and flow-normalized predictions. Years are averaged only if one observation is contained in each of the minimum number of months specified by \code{min_mo} averaging, otherwise results are not returned for the given year.  Note that setting \code{min_mo} to values smaller than the default can produce inaccurate trends for years with very few results. 

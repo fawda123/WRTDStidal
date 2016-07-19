@@ -16,7 +16,7 @@ annual_agg(dat_in, ...)
 
 \item{mo_strt}{numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September}
 
-\item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, applies only if \code{annuals = TRUE}}
+\item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years}
 }
 \value{
 An aggregated data object for plotting, returns only model output and response variable.

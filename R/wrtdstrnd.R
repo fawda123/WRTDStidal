@@ -10,11 +10,15 @@
 #' @param yrlabs character vector of names for year breaks, see examples
 #' @param tau numeric vector of quantile for estimating trends
 #' @param aves logical if averages within each period are also returned
+#' @param mo_strt numeric indicating month to start aggregation years for annual trends, defaults to October for USGS water year from October to September, passed to \code{\link{annual_agg}}
+#' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years, passed to \code{\link{annual_agg}}
 #' @param ... methods passed to or from other methods
 #' 
 #' @export
 #' 
-#' @details Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on an average of the first three and last three annual averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages.
+#' @details Trends are reported as percent changes of annual averages from the beginning to the end of each period.  To reduce the effects of odd years at the beginning and end of each period, percent changes are based on an average of the first three and last three annual averages.  For example, percent changes for January throughout an an entire time series from 1980 to 2000 would be the change of the average from January in 1980-1982 to the average from January in 1998-2000.  Annual trends, e.g., percent changes from 1980-1986, 1987-1993, etc. do not average by the first and last three years in each grouping because the values are already based on annual averages as returned by \code{\link{annual_agg}}.  
+#' 
+#' Note that the default minimum number of months argument (\code{min_mo}) may not be appropriate for all cases.  Annual estimates should first be evaluated with \code{\link{prdnrmplot}} to verify that odd years with missing months are not driving results for the annual percent changes.  
 #' 
 #' Averages in each period can be returned if \code{aves = TRUE}.  These averages are based on annual averages within each period for congruency with the trend estimates.  
 #' 
@@ -35,8 +39,9 @@
 #' ## get trends
 #' 
 #' # setup month, year categories
-#' mobrks <- c(-Inf, 3, 6, 9, Inf)
-#' yrbrks <- c(-Inf, 1985, 1994, 2003, Inf)
+#' # intervals are closed on the right
+#' mobrks <- c(0, 3, 6, 9, 12) 
+#' yrbrks <- c(1973, 1985, 1994, 2003, 2012)
 #' molabs <- c('JFM', 'AMJ', 'JAS', 'OND')
 #' yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')
 #'
@@ -52,22 +57,30 @@ wrtdstrnd <- function(dat_in, ...) UseMethod('wrtdstrnd')
 #' @export
 #'
 #' @method wrtdstrnd default
-wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, ...){
+wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, mo_strt = 10, min_mo = 9, ...){
 
   # aggregate/summarize separately for each category
-  
+
   # annual aggs
-  yrdat <- group_by(dat_in, date, yrcat) %>% 
-    summarise(norm = mean(norm, na.rm = T)) %>% 
+  yrdat <- annual_agg(dat_in, mo_strt = mo_strt, min_mo = min_mo) %>% 
+    mutate(
+      date = year(date), 
+      yrcat = cut(date, breaks = yrbrks, labels = yrlabs)
+      ) %>% 
+    na.omit %>% 
     rename(cat = yrcat) %>% 
     group_by(cat) %>% 
     summarise(
       chg = chngest(date, norm, single = T), # important!
       ave = mean(norm, na.rm = TRUE)
-    )
+      )
 
   # monthly aggs
-  modat <- group_by(dat_in, date, mocat) %>% 
+  modat <- mutate(dat_in, 
+      mocat = cut(month(date), breaks = mobrks, labels = molabs),
+      date = year(date)
+      ) %>% 
+    group_by(date, mocat) %>% 
     summarise(norm = mean(norm, na.rm = T)) %>% 
     rename(cat = mocat) %>% 
     group_by(cat) %>% 
@@ -100,7 +113,7 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FAL
 #' @export
 #'
 #' @method wrtdstrnd tidal
-wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, aves = FALSE, ...){
+wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, aves = FALSE, mo_strt = 10, min_mo = 9,...){
 
   # get tau if null, otherwise run checks
   if(is.null(tau)){
@@ -125,13 +138,10 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
   toeval <- select(dat_in, matches(toget))
   names(toeval) <- c('date', 'norm')
   toeval <- mutate(toeval,
-      yrcat = cut(year(date), breaks = yrbrks, labels = yrlabs),
-      mocat = cut(month(date), breaks = mobrks, labels = molabs),
-      date = year(date),
       norm = exp(norm)
     )
 
-  wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves) 
+  wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves, mo_strt = mo_strt, min_mo = min_mo) 
     
 }
 
@@ -140,7 +150,7 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
 #' @export
 #'
 #' @method wrtdstrnd tidalmean
-wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, ...){
+wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, mo_strt = 10, min_mo = 9, ...){
 
   # columns to get with regex
   toget <- c('^date$|^bt_norm$')
@@ -148,12 +158,7 @@ wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = F
   # select columns, format date as year, month
   toeval <- select(dat_in, matches(toget))
   names(toeval) <- c('date', 'norm')
-  toeval <- mutate(toeval,
-      yrcat = cut(year(date), breaks = yrbrks, labels = yrlabs),
-      mocat = cut(month(date), breaks = mobrks, labels = molabs),
-      date = year(date)
-    )
- 
-    wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves) 
+
+  wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves, mo_strt = mo_strt, min_mo = min_mo) 
   
 }
