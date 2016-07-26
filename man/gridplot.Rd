@@ -27,7 +27,7 @@ gridplot(dat_in, ...)
 
 \item{tau}{numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.}
 
-\item{years}{numeric vector of years to plot, defaults to all}
+\item{years}{numeric vector for range of years to plot}
 
 \item{col_vec}{chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 

@@ -5,7 +5,7 @@
 #' @param dat_in input tidal or tidalmean object
 #' @param month numeric input from 1 to 12 indicating the monthly predictions to plot
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
-#' @param years numeric vector of years to plot, defaults to all
+#' @param years numeric vector of years to plot, one to many, defaults to all
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_colour_gradientn}} for line shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param alpha numeric value from zero to one indicating line transparency
 #' @param size numeric value for line size

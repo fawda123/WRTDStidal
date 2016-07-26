@@ -5,7 +5,7 @@
 #' @param dat_in input tidal or tidalmean object
 #' @param month numeric indicating months to plot or chr string 'all' to indicate all months with no plot facets
 #' @param tau numeric vector of quantile to plot.  The function will plot the 'middle' quantile if none is specified, e.g., if 0.2, 0.3, and 0.4 are present in the fitted model object then 0.3 will be plotted.
-#' @param years numeric vector of years to plot, defaults to all
+#' @param years numeric vector for range of years to plot
 #' @param col_vec chr string of plot colors to use, passed to \code{\link{gradcols}} and \code{\link[ggplot2]{scale_fill_gradientn}} for grid shading.  Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.
 #' @param col_lim numeric vector of length two that defines the range of the color ramp in the legend, passed to \code{\link[ggplot2]{scale_fill_gradient}}.  This is useful for fixing the color range to evaluate multiple plots.
 #' @param logspace logical indicating if plots are in log space
@@ -124,7 +124,11 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
   # subset years to plot
   if(!is.null(years)){
-    
+   
+    if(length(years) != 2)
+      stop('years argument must have two values for first and last')
+  
+    years <- seq(years[1], years[2])
     to_plo <- to_plo[to_plo$year %in% years, ]
      
     if(nrow(to_plo) == 0) stop('No data to plot for the date range')
@@ -348,7 +352,11 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   
   # subset years to plot
   if(!is.null(years)){
-    
+   
+    if(length(years) != 2)
+      stop('years argument must have two values for first and last')
+  
+    years <- seq(years[1], years[2])
     to_plo <- to_plo[to_plo$year %in% years, ]
      
     if(nrow(to_plo) == 0) stop('No data to plot for the date range')
