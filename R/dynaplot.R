@@ -68,7 +68,7 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
   # flow grid values
   flo_grd <- attr(dat_in, 'flo_grd')
-  
+
   # get names of the quantiles for norms and preds to plot
   if(is.null(tau)){
     
@@ -115,6 +115,20 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     summarize(
       res = mean(res, na.rm = TRUE)
     )
+  
+  # change flo to original scale
+  if(!floscl){
+   
+    # grid data
+    floobs_rng <- attr(dat_in, 'floobs_rng') 
+    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
+    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+    #input data
+    floscl_rng <- range(dat_in$flo, na.rm = TRUE)
+    dat_in$flo <- (dat_in$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+  }
   
   # subset years to plot
   if(!is.null(years)){
@@ -168,15 +182,6 @@ dynaplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   
     to_plo$month <- factor(to_plo$month, labels = fac_nms)
     
-  }
-  
-  # change flo to original scale
-  if(!floscl){
-   
-    floobs_rng <- attr(dat_in, 'floobs_rng') 
-    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
-    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
-   
   }
   
   # make plot
@@ -261,6 +266,20 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
       res = mean(res, na.rm = TRUE)
     )
   
+  # change flo to original scale
+  if(!floscl){
+   
+    # grid data
+    floobs_rng <- attr(dat_in, 'floobs_rng') 
+    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
+    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+    #input data
+    floscl_rng <- range(dat_in$flo, na.rm = TRUE)
+    dat_in$flo <- (dat_in$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+  }
+  
   # subset years to plot
   if(!is.null(years)){
     
@@ -313,15 +332,6 @@ dynaplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   
     to_plo$month <- factor(to_plo$month, labels = fac_nms)
     
-  }
-  
-  # change flo to original scale
-  if(!floscl){
-   
-    floobs_rng <- attr(dat_in, 'floobs_rng') 
-    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
-    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
-   
   }
   
   # make plot

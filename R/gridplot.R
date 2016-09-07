@@ -122,6 +122,23 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
       res = mean(res, na.rm = TRUE)
     )
   
+  # change flo to original scale
+  if(!floscl){
+   
+    # grid data
+    floobs_rng <- attr(dat_in, 'floobs_rng') 
+    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
+    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+    # input data
+    floscl_rng <- range(dat_in$flo, na.rm = TRUE)
+    dat_in$flo <- (dat_in$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+    # flo_grd to raw scale
+    flo_grd <- seq(floobs_rng[1], floobs_rng[2], length = length(flo_grd))
+    
+  }
+  
   # subset years to plot
   if(!is.null(years)){
    
@@ -250,15 +267,6 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     mo_lab <- mo_lab[mo_lab$num %in% month, ]
     to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
   }
-    
-  # change flo to original scale
-  if(!floscl){
-   
-    floobs_rng <- attr(dat_in, 'floobs_rng') 
-    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
-    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
-   
-  }
   
   # make plot
   p <- ggplot(to_plo, aes(x = year, y = flo, fill = res)) + 
@@ -349,6 +357,23 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     summarize(
       res = mean(res, na.rm = TRUE)
     )
+  
+  # change flo to original scale
+  if(!floscl){
+   
+    # grid data
+    floobs_rng <- attr(dat_in, 'floobs_rng') 
+    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
+    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+    #input data
+    floscl_rng <- range(dat_in$flo, na.rm = TRUE)
+    dat_in$flo <- (dat_in$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
+    
+    # flo_grd to raw scale
+    flo_grd <- seq(floobs_rng[1], floobs_rng[2], length = length(flo_grd))
+    
+  }
   
   # subset years to plot
   if(!is.null(years)){
@@ -477,15 +502,6 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     mo_lab <- mo_lab[mo_lab$num %in% month, ]
     to_plo$month <- factor(to_plo$month, levels =  mo_lab$num, labels = mo_lab$txt)
   } 
-    
-  # change flo to original scale
-  if(!floscl){
-   
-    floobs_rng <- attr(dat_in, 'floobs_rng') 
-    floscl_rng <- range(to_plo$flo, na.rm = TRUE)
-    to_plo$flo <- (to_plo$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
-   
-  }
   
   # make plot
   p <- ggplot(to_plo, aes(x = year, y = flo, fill = res)) + 
