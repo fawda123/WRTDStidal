@@ -12,7 +12,7 @@ lnres_sim(dat_in, lnQ_coef = NULL)
 \item{lnQ_coef}{numeric vector of coefficients of the same length of the time series in \code{dat_in} that is multiplied by the discharge vector, see details}
 }
 \value{
-The original data frame with additional columns for a flow-independent water quality time series (\code{lnres_noQ}) and a flow-dependent time series (\code{lnres_Q}).
+The original data frame with additional columns for the seasonal water quality model (\code{lnres_seas}), a flow-independent water quality time series (\code{lnres_noQ}), and a flow-dependent time series (\code{lnres_Q}).
 }
 \description{
 Simulate a water quality time series with an estimated error structure and simulated discharge effect
