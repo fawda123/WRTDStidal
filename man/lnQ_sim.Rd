@@ -4,13 +4,17 @@
 \alias{lnQ_sim}
 \title{Simulate a discharge time series}
 \usage{
-lnQ_sim(dat_in)
+lnQ_sim(dat_in, comps = FALSE, seed = NULL)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that must include discharge and decimal time columns, see example dataset \code{\link{daydat}}}
+
+\item{comps}{logical indicating if components of the simulated time series are returned, see value.}
+
+\item{seed}{optional numeric value for random generation seed}
 }
 \value{
-The original data frame with an additional column of simulated data named \code{lnQ_sim}
+The original data frame with an additional column of simulated data named \code{lnQ_sim} if \code{comps = FALSE}.  Otherwise, a two-element list is returned where the first element is 1) a list with the linear seasonal model fit to the observed time series and ARIMA model fit to the seasonal residuals, and 2) a data frame with the original data, the fit from the seasonal linear model (\code{seas_fit}), residuals from observed flow and seasonal fit (\code{seas_res}), standard deviation of seasonal residuals (\code{sd_seas}), simulated errors from the ARIMA model (\code{errs}), and simulated discharge time series (\code{sim_out}).  Note that \code{sim_out} vector is converted to the same range as the input flow record.
 }
 \description{
 Simulate a discharge time series by modelling the statistical properties of an existing daily time series

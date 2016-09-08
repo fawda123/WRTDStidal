@@ -4,15 +4,19 @@
 \alias{lnres_err}
 \title{Simulate random errors from a time series}
 \usage{
-lnres_err(dat_in, yr = NULL)
+lnres_err(dat_in, yr = NULL, comps = FALSE, seed = NULL)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that must include discharge and decimal time columns, see example dataset \code{\link{daydat}}}
 
 \item{yr}{numeric year value to use for the stationary model, defaults to the median year}
+
+\item{comps}{logical indicating ifthe WRTDS model used to get response error measures is also returned, see value.}
+
+\item{seed}{optional numeric value for random generation seed}
 }
 \value{
-The original data frame with additional columns for the random errors (\code{errs}) and the standard error estimates for each residual (\code{scls}).
+The original data frame with additional columns for the random errors (\code{errs}) and the standard error estimates for each residual (\code{scls}).  If \code{comps = TRUE}, a two-element list is returned that also includes the WRTDS model used as a basis for errors and scale values.
 }
 \description{
 Simulate random errors of a water quality time series by modelling the statistical properties of an observed dataset
