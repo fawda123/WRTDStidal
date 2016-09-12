@@ -4,7 +4,8 @@
 \alias{samp_sim}
 \title{Sample a daily time series at a set frequency}
 \usage{
-samp_sim(dat_in, unit = "month", irregular = TRUE)
+samp_sim(dat_in, unit = "month", irregular = TRUE, missper = 0,
+  blck = 1)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that is returned from \code{\link{lnres_sim}} or \code{\link{all_sims}}}
@@ -12,15 +13,21 @@ samp_sim(dat_in, unit = "month", irregular = TRUE)
 \item{unit}{chr string indicating sampling unit, must be year, quarter, month, or week for equivalent lubridate function}
 
 \item{irregular}{logical indicating if monthly sampling is done randomly within each \code{unit}, otherwise the first value is returned}
+
+\item{missper}{numeric from 0-1 indicating percentage of observations used for test dataset}
+
+\item{blck}{numeric indicating block size for resampling test dataset, see details}
 }
 \value{
-Original data frame with rows subset based on number of desired monthly samples.
+Original data frame with rows subset based on number of desired monthly samples.  If \code{missper > 0}, a list is returned where the first element is the index values for the test dataset and the second is the complete subsampled dataset.
 }
 \description{
 Sample a daily water quality time series at a set monthly frequency
 }
 \details{
 This function is intended for sampling a simulated daily time series of water quality that is returned by \code{\link{lnres_sim}} or \code{\link{all_sims}}.
+
+The \code{missper} argument is used to create a test dataset as a proportion of all observations in the sub-sampled output dataset.  The test dataset is created with random block sampling appropriate for time series.  Block sampling of the output dataset occurs until the number of unique observations is equal to the percentage defined by \code{missper}.  Overlap of blocks are not doubly considered towards the observation counts to satisfy \code{missper}, i.e., sets of continuous observations longer than \code{blck} can be returned because of sampling overlap.  Setting \code{blck = 1} is completely random sampling.
 }
 \examples{
 \dontrun{
@@ -32,6 +39,10 @@ tosamp <- all_sims(daydat)
 
 ## sample
 samp_sim(tosamp)
+
+## sample and create test dataset
+# test dataset is 30\% size of original using block sampling with size = 4
+samp_sim(tosamp, missper = 0.3, blck = 4)
 }
 }
 \seealso{
