@@ -12,7 +12,7 @@
 #' 
 #' @export
 #' 
-#' @import dplyr lubridate
+#' @import dplyr
 #' 
 #' @seealso \code{\link{lnres_sim}}, \code{\link{all_sims}}
 #' 
@@ -34,7 +34,7 @@ samp_sim <- function(dat_in, unit = 'month', irregular = TRUE){
     stop('unit must year, quarter, month, or week')
   
   # get sampling unit
-  uni_str <- paste0(unit, '(dat_in$date)')
+  uni_str <- paste0('lubridate::', unit, '(dat_in$date)')
   unit <- eval(parse(text = uni_str))
   
   # get indices in dat_in for sampling
