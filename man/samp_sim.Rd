@@ -4,12 +4,14 @@
 \alias{samp_sim}
 \title{Sample a daily time series at a set frequency}
 \usage{
-samp_sim(dat_in, month_samps = 1)
+samp_sim(dat_in, unit = "month", irregular = TRUE)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that is returned from \code{\link{lnres_sim}} or \code{\link{all_sims}}}
 
-\item{month_samps}{numeric indicating sampling interval, defaults to once a month and is random within the month.  Multiple samples per month are based on sampling with replacement.}
+\item{unit}{chr string indicating sampling unit, must be year, quarter, month, or week for equivalent lubridate function}
+
+\item{irregular}{logical indicating if monthly sampling is done randomly within each \code{unit}, otherwise the first value is returned}
 }
 \value{
 Original data frame with rows subset based on number of desired monthly samples.
