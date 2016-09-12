@@ -38,7 +38,7 @@ samp_sim <- function(dat_in, unit = 'month', irregular = TRUE){
   unit <- eval(parse(text = uni_str))
   
   # get indices in dat_in for sampling
-  inds <- data.frame(inds = 1:nrow(dat_in), year = dat_in$year, unit = unit) %>% 
+  inds <- data.frame(inds = 1:nrow(dat_in), year = lubridate::year(dat_in$date), unit = unit) %>% 
     group_by(year, unit) %>% 
     summarize(inds = ifelse(irregular, sample(inds, 1), inds[1])) %>% 
     .$inds
