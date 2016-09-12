@@ -1,5 +1,5 @@
 # WRTDStidal: evaluating long-term water quality trends in tidal waters
-Marcus W. Beck, beck.marcus@epa.gov, James D. Hagy III, hagy.jim@epa.gov  
+Marcus W. Beck, beck.marcus@epa.gov  
 
 Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/WRTDStidal.png?branch=master)](http://travis-ci.org/fawda123/WRTDStidal)
 
@@ -90,7 +90,7 @@ tidobj <- tidal(chldat)
 obsplot(tidobj)
 ```
 
-![](README_files/figure-html/unnamed-chunk-5-1.png)
+![](README_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 The `tidal` and `tidalmean` object classes contain the data and multiple attributes.  The data and attributes are updated after the WRTDS model is created.
 
@@ -262,14 +262,14 @@ data(tidfit)
 fitplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-10-1.png)
+![](README_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 ```r
 # plot non-aggregated results
 fitplot(tidfit, annuals = FALSE)
 ```
 
-![](README_files/figure-html/unnamed-chunk-10-2.png)
+![](README_files/figure-html/unnamed-chunk-10-2.png)<!-- -->
 
 The `sliceplot` function is a modification of `fitplot` that can be used to plot selected time slices from the results.  Specically, all results for a particular month across all years can be viewed.  This is useful for evaluating between-year differences in results for constant season.  The `slices` argument is used to specify which months to view.
 
@@ -279,7 +279,7 @@ The `sliceplot` function is a modification of `fitplot` that can be used to plot
 sliceplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-11-1.png)
+![](README_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Similar to `sliceplot`, the `fitmoplot` function creates facetted plots for each month rather than showing each month on the same plot.  
 
@@ -289,7 +289,7 @@ Similar to `sliceplot`, the `fitmoplot` function creates facetted plots for each
 fitmoplot(tidfit, predicted = F)
 ```
 
-![](README_files/figure-html/unnamed-chunk-12-1.png)
+![](README_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 Seasonal variation from the observed data can be viewed with the `seasplot` function by showing the observed annual data on a common y-axis.  The year value is removed from the results such that the y-axis shows only the day of the year.  A simple loess (locally estimated) polynomial smooth is added to show the seasonal trend in the results, where the smoother is fit through the model results for the observed data.  The fit can be smoothed through the model predictions or the flow-normalized predictions, neither of which are shown on the plot. 
 
@@ -298,7 +298,7 @@ Seasonal variation from the observed data can be viewed with the `seasplot` func
 seasplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-13-1.png)
+![](README_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 The `seasyrplot` function is similar to`seasplot` except the model estimates are plotted for each year as connected lines, as compared to loess lines fit to the model results.  `seasyrplot` is also similar to `sliceplot` except the x-axis and legend grouping variable are flipped. This is useful for evaluating between-year differences in seasonal trends. 
 
@@ -307,7 +307,7 @@ The `seasyrplot` function is similar to`seasplot` except the model estimates are
 seasyrplot(tidfitmean, predicted = F)
 ```
 
-![](README_files/figure-html/unnamed-chunk-14-1.png)
+![](README_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 The `prdnrmplot` function is similar to the `fitplot` function with the exception that predicted and normalized results are shown together.  Observed values from the original response variable are also removed.  This plot would typically be used to evaluate the relative effects of salinity or flow changes on the response variable given that the normalized results are independent of changes in freshwater inputs.
 
@@ -317,14 +317,14 @@ The `prdnrmplot` function is similar to the `fitplot` function with the exceptio
 prdnrmplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-15-1.png)
+![](README_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 ```r
 # plot as monthly values
 prdnrmplot(tidfit, annuals = FALSE)
 ```
 
-![](README_files/figure-html/unnamed-chunk-15-2.png)
+![](README_files/figure-html/unnamed-chunk-15-2.png)<!-- -->
 
 The `dynaplot` function can be used to examine how the relationship between the resposne varaible and salinity/flow varies throughout the time series. The interpolation grid that is stored as an attribute in a fitted tidal object is used to create the plot. All predicted values for a selected month across all years are plotted in relation to the range of salinity/flow values that were used to create the interpolation grid. The plot is limited to the same month throughout the time series to limit seasonal variation.  By default, the function constrains the salinity/flow values to the fifth and ninety-fifth percentile of observed values during the month of interest to limit the predictions within the data domain.
 
@@ -335,7 +335,7 @@ The `dynaplot` function can be used to examine how the relationship between the 
 dynaplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-16-1.png)
+![](README_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 Similar plots can be returned using the `gridplot` function.  These are essentially identical to the plot produced by `dynaplot` except a gridded plot is returned that shows salinity/flow over time with cells colored by values of the response variable.  Multiple months can also be viewed for comparison.  Options are also available to interpolate values for a smoother grid, which is the default plotting behavior.
 
@@ -346,13 +346,13 @@ Similar plots can be returned using the `gridplot` function.  These are essentia
 gridplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-17-1.png)
+![](README_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ```r
 gridplot(tidfit, month = 'all')
 ```
 
-![](README_files/figure-html/unnamed-chunk-17-2.png)
+![](README_files/figure-html/unnamed-chunk-17-2.png)<!-- -->
 
 The `wtsplot` function can be used to create diagnostic plots to view different weighting windows and how they are implemented during weighted regression.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity/flow over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity/flow) and the final combined vector. 
 
@@ -362,7 +362,7 @@ The `wtsplot` function can be used to create diagnostic plots to view different 
 wtsplot(tidfit, ref = '1995-07-01')
 ```
 
-![](README_files/figure-html/unnamed-chunk-18-1.png)
+![](README_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 An alternative method to evaluate model weights is to plot a grid of the number of observations with weights greater than zero for each unique date and salinity/flow combination.  The `nobs` grid attribute in a fitted model has the same dimensions as the interpolation grid, where each row is a unique date in the original dataset and each column is a salinity/flow value used to fit each regression (i.e., values in the `flo_grd` attribute). The `nobsplot` function creates a gridded plot similar to `gridplot` showing the number of observations for each point.  In general, low points may indicate locations in the domain space of the time series where insufficient data could affect model fit.  Note that the minimum number of observations for any point never falls below 100.  The default setting for `getwts`, `min_obs = TRUE`, widens the window widths in succession until a minimum sample size is returned.
 
@@ -372,7 +372,7 @@ An alternative method to evaluate model weights is to plot a grid of the number 
 nobsplot(tidfit)
 ```
 
-![](README_files/figure-html/unnamed-chunk-19-1.png)
+![](README_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 Tabular summaries of model performance and trends over time can be obtained for fitted model objects.  See the help files for `wrtdsperf` and `wrtdstrnd` for more information.
 
@@ -398,15 +398,15 @@ wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs)
 ```
 
 ```
-##         cat        chg
-## 1 1974-1985 -16.775087
-## 2 1986-1994 -26.540914
-## 3 1995-2003 -12.834059
-## 4 2004-2012   1.678721
-## 5       JFM -72.066641
-## 6       AMJ -50.708073
-## 7       JAS -33.119810
-## 8       OND -58.495963
+##         cat         chg
+## 1 1974-1985 -10.8098920
+## 2 1986-1994 -26.8103223
+## 3 1995-2003 -12.6940068
+## 4 2004-2012   0.3881047
+## 5       JFM -72.0666410
+## 6       AMJ -50.7080726
+## 7       JAS -33.1198103
+## 8       OND -58.4959633
 ```
 
 ### Selecting window widths

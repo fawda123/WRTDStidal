@@ -1,6 +1,6 @@
 ---
 title: 'WRTDStidal: evaluating long-term water quality trends in tidal waters'
-author: "Marcus W. Beck, beck.marcus@epa.gov, James D. Hagy III, hagy.jim@epa.gov"
+author: "Marcus W. Beck, beck.marcus@epa.gov"
 output:
   html_document:
     keep_md: yes
