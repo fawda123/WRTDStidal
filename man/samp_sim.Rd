@@ -10,7 +10,7 @@ samp_sim(dat_in, unit = "month", irregular = TRUE, missper = 0,
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that is returned from \code{\link{lnres_sim}} or \code{\link{all_sims}}}
 
-\item{unit}{chr string indicating sampling unit, must be year, quarter, month, or week for equivalent lubridate function}
+\item{unit}{chr string indicating sampling unit, must be year, quarter, month, week, or yday for equivalent lubridate function}
 
 \item{irregular}{logical indicating if monthly sampling is done randomly within each \code{unit}, otherwise the first value is returned}
 
@@ -41,7 +41,7 @@ tosamp <- all_sims(daydat)
 samp_sim(tosamp)
 
 ## sample and create test dataset
-# test dataset is 30\% size of original using block sampling with size = 4
+# test dataset is 30\% size of monthly subample using block sampling with size = 4
 samp_sim(tosamp, missper = 0.3, blck = 4)
 }
 }

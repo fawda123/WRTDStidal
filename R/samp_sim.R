@@ -3,7 +3,7 @@
 #' Sample a daily water quality time series at a set monthly frequency
 #'
 #' @param dat_in input \code{\link[base]{data.frame}} that is returned from \code{\link{lnres_sim}} or \code{\link{all_sims}}
-#' @param unit chr string indicating sampling unit, must be year, quarter, month, or week for equivalent lubridate function
+#' @param unit chr string indicating sampling unit, must be year, quarter, month, week, or yday for equivalent lubridate function
 #' @param irregular logical indicating if monthly sampling is done randomly within each \code{unit}, otherwise the first value is returned
 #' @param missper numeric from 0-1 indicating percentage of observations used for test dataset
 #' @param blck numeric indicating block size for resampling test dataset, see details
@@ -32,25 +32,29 @@
 #' samp_sim(tosamp)
 #' 
 #' ## sample and create test dataset
-#' # test dataset is 30% size of original using block sampling with size = 4
+#' # test dataset is 30% size of monthly subample using block sampling with size = 4
 #' samp_sim(tosamp, missper = 0.3, blck = 4)
 #' }
 samp_sim <- function(dat_in, unit = 'month', irregular = TRUE, missper = 0, blck = 1){
 
   # sanity check
-  if(!unit %in% c('year', 'quarter', 'month', 'week'))
-    stop('unit must year, quarter, month, or week')
-  
+  if(!unit %in% c('year', 'quarter', 'month', 'week', 'yday'))
+    stop('unit must year, quarter, month, week,  or yday')
+
   # get sampling unit
   uni_str <- paste0('lubridate::', unit, '(dat_in$date)')
-  unit <- eval(parse(text = uni_str))
+  units <- eval(parse(text = uni_str))
   
-  # get indices in dat_in for sampling
-  inds <- data.frame(inds = 1:nrow(dat_in), year = lubridate::year(dat_in$date), unit = unit) %>% 
-    group_by(year, unit) %>% 
-    summarize(inds = ifelse(irregular, sample(inds, 1), inds[1])) %>% 
-    .$inds
-  
+  # get indices in dat_in for sampling, only if not by day
+  if(unit != 'yday'){
+    inds <- data.frame(inds = 1:nrow(dat_in), year = lubridate::year(dat_in$date), units = units) %>% 
+      group_by(year, units) %>% 
+      summarize(inds = ifelse(irregular, sample(inds, 1), inds[1])) %>% 
+      .$inds
+  } else {
+    inds <- 1:nrow(dat_in)
+  }
+
   # output
   out <- dat_in[inds, ]
   
