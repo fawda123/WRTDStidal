@@ -271,7 +271,7 @@ respred.tidalmean <- function(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE
     out <- dat_in
     
     # add the predictions predonobs attributes for perf metrics
-    attr(out, 'predonobs') <- dat_in[, grepl('^res|^fit', names(dat_in))]
+    attr(out, 'predonobs') <- dat_in[, grepl('^res|^fit|^bt_fit', names(dat_in))]
     
   } else {
 
