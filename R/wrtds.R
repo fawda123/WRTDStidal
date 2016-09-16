@@ -75,7 +75,7 @@ wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, fill_empt
   
   # iterate through rows of dat_in
   for(row in 1:nrow(dat_in)){
-    
+
     ref_in <- dat_in[row, ]
     
     # progress
@@ -165,7 +165,7 @@ wrtds.tidal <- function(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, fill_empt
 #'
 #' @method wrtds tidalmean
 wrtds.tidalmean <- function(dat_in, flo_div = 10, fill_empty = FALSE, trace = TRUE, ...){
-  
+
   #salinity/flow values to estimate
   flo_grd <- seq(
     min(dat_in$flo, na.rm = TRUE), 
@@ -201,7 +201,7 @@ wrtds.tidalmean <- function(dat_in, flo_div = 10, fill_empty = FALSE, trace = TR
   
   # iterate through rows of dat_in
   for(row in 1:nrow(dat_in)){
-    
+
     ref_in <- dat_in[row, ]
     
     # progress

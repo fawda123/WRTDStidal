@@ -140,6 +140,11 @@ getwts.default <- function(dat_in, ref_in,
   
   # extend window widths of weight vector is less than 100
   if(!is.null(min_obs)){
+    
+    # stop if insufficient sample size
+    if(nrow(dat_in) < min_obs)
+      stop('min_obs argument greater than sample size')
+
     while(any(gr_zero < min_obs)){
       
       # increase window size by 10%
