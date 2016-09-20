@@ -8,6 +8,7 @@
 #' @param reslab character string or expression for labelling the response variable in plots, defaults to log-chlorophyll in ug/L
 #' @param flolab character string or expression for labelling the flow variable in plots, defaults to Salinity
 #' @param reslog logical indicating if input response variable is already in log-space, default \code{TRUE}
+#' @param rm_miss logical indicating if missing observations in the input data are removed
 #' @param ... arguments passed from other methods
 #' 
 #' @return A tidalmean object as a data frame and attributes.  The data frame has columns ordered as date, response variable, salinity/flow (rescaled to 0, 1 range), detection limit, logical for detection limit, day number, month, year, and decimal time.  The attributes are as follows:
@@ -41,7 +42,7 @@
 #' ## format
 #' chldat <- tidalmean(chldat)
 #' 
-tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, reslog = TRUE, ...){
+tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, reslog = TRUE, rm_miss = FALSE, ...){
   
   # sanity checks
   if(!any(c('Date', 'POSIXct', 'POSIXlt') %in% class(dat_in[, ind[1]])))
@@ -57,10 +58,10 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
   dat_in[, 2:4] <- apply(dat_in[, 2:4], 2, function(x) as.numeric(as.character(x)))
   
   # retain only complete data
-  if(nrow(na.omit(dat_in)) != nrow(dat_in)){
+  if(nrow(na.omit(dat_in)) != nrow(dat_in) & rm_miss){
     warning('Missing observations removed from original dataset')
   }
-  dat_in <-na.omit(dat_in)
+  dat_in <- na.omit(dat_in)
   
   # log transform res if T
   if(!reslog) dat_in$res <- log(dat_in$res)

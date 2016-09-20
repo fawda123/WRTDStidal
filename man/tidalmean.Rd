@@ -5,7 +5,7 @@
 \title{Create a tidalmean class object}
 \usage{
 tidalmean(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
-  reslog = TRUE, ...)
+  reslog = TRUE, rm_miss = FALSE, ...)
 }
 \arguments{
 \item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), response variable, salinity/flow, and detection limit for left-censored data}
@@ -17,6 +17,8 @@ tidalmean(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
 \item{flolab}{character string or expression for labelling the flow variable in plots, defaults to Salinity}
 
 \item{reslog}{logical indicating if input response variable is already in log-space, default \code{TRUE}}
+
+\item{rm_miss}{logical indicating if missing observations in the input data are removed}
 
 \item{...}{arguments passed from other methods}
 }
