@@ -60,9 +60,9 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
   # retain only complete data
   if(nrow(na.omit(dat_in)) != nrow(dat_in) & rm_miss){
     warning('Missing observations removed from original dataset')
+    dat_in <- na.omit(dat_in)
   }
-  dat_in <- na.omit(dat_in)
-  
+
   # log transform res if T
   if(!reslog) dat_in$res <- log(dat_in$res)
   

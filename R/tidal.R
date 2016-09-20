@@ -57,8 +57,8 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, res
   # retain only complete data
   if(nrow(na.omit(dat_in)) != nrow(dat_in) & rm_miss){
     warning('Missing observations removed from original dataset')
+    dat_in <-na.omit(dat_in)
   }
-  dat_in <-na.omit(dat_in)
   
   # rescale salinity/flow to 0 - 1, save rng
   floobs_rng <- range(dat_in$flo)
