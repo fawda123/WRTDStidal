@@ -135,7 +135,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     dat_in$flo <- (dat_in$flo - floscl_rng[1]) / diff(floscl_rng) * diff(floobs_rng) + floobs_rng[1]
     
     # flo_grd to raw scale
-    flo_grd <- seq(floobs_rng[1], floobs_rng[2], length = length(flo_grd))
+    flo_grd <- (flo_grd - min(flo_grd)) / diff(range(flo_grd)) * diff(floobs_rng) + floobs_rng[1]
     
   }
   
@@ -160,12 +160,11 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     flo_fac <- seq(min(flo_grd), max(flo_grd), length.out = flo_fac)
     yr_fac <- length(unique(to_plo$year)) * yr_fac
     yr_fac <- seq(min(to_plo$year), max(to_plo$year), length.out = yr_fac)
-    
+  
     # separately by month
-    to_plo <- split(to_plo, to_plo$month)
+    to_plo <- split(data.frame(to_plo), to_plo$month)
 
     to_plo <- lapply(to_plo, function(x){
-      
       # interp across salinity/flow first
       interped <- lapply(
         split(x, x$year), 
