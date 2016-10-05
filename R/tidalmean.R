@@ -53,7 +53,7 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
   # get relevant columns and set names
   dat_in <- dat_in[, ind, drop = F]
   names(dat_in) <- c('date', 'res', 'flo', 'lim')
-  
+
   # columns as numeric
   dat_in[, 2:4] <- apply(dat_in[, 2:4], 2, function(x) as.numeric(as.character(x)))
   
@@ -67,7 +67,7 @@ tidalmean <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
   if(!reslog) dat_in$res <- log(dat_in$res)
   
   # rescale salinity/flow to 0 - 1, save rng
-  floobs_rng <- range(dat_in$flo)
+  floobs_rng <- range(dat_in$flo, na.rm = TRUE)
   dat_in$flo <- with(dat_in, (flo - floobs_rng[1])/diff(floobs_rng))
   
   # TF column of limits for surv regression

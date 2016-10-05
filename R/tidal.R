@@ -61,7 +61,7 @@ tidal <- function(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL, res
   }
   
   # rescale salinity/flow to 0 - 1, save rng
-  floobs_rng <- range(dat_in$flo)
+  floobs_rng <- range(dat_in$flo, na.rm = TRUE)
   dat_in$flo <- with(dat_in, (flo - floobs_rng[1])/diff(floobs_rng))
   
   # log transform res if T
