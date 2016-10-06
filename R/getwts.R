@@ -133,7 +133,7 @@ getwts.default <- function(dat_in, ref_in,
   # all as product 
   out <- wts_1 * wts_2 * wts_3
   
-  gr_zero <- sum(out > 0)
+  gr_zero <- sum(out > 0, na.rm = TRUE)
   
   # return count of wts greater than zero if T
   if(ngrzero) return(gr_zero)
@@ -169,7 +169,7 @@ getwts.default <- function(dat_in, ref_in,
       
       out <- wts_1 * wts_2 * wts_3
       
-      gr_zero <- sum(out > 0)
+      gr_zero <- sum(out > 0, na.rm = TRUE)
       
     }
   }
