@@ -37,6 +37,7 @@ annual_agg.default <- function(dat_in, mo_strt = 10, min_mo = 9,  ...){
   # create new year column based on mo_strt
   # average by new year column only if minimum number of months are present
   dat_agg <- select(dat_in, matches('date|fit|norm|res')) %>% 
+    mutate(res = exp(res)) %>% # this has to be back-transformed before average 
     tidyr::gather('var', 'val', -date) %>% 
     split(.$var) %>% 
     lapply(., function(x){
@@ -59,7 +60,10 @@ annual_agg.default <- function(dat_in, mo_strt = 10, min_mo = 9,  ...){
     tidyr::spread(var, val) %>%
     ungroup %>% 
     rename(date = yrchg) %>% 
-    mutate(date = as.Date(paste0(mo_strt, '-01-', date), format = '%m-%d-%Y'))
+    mutate(
+      date = as.Date(paste0(mo_strt, '-01-', date), format = '%m-%d-%Y'),
+      res = log(res)  # transform res back to log)
+      )
   
   return(dat_agg)
   
