@@ -63,6 +63,7 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FAL
 
   # annual aggs
   yrdat <- annual_agg(dat_in, mo_strt = mo_strt, min_mo = min_mo) %>% 
+    select(date, norm) %>% 
     mutate(
       date = year(date), 
       yrcat = cut(date, breaks = yrbrks, labels = yrlabs)
@@ -131,12 +132,12 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
   }
 
   # columns to get with regex
-  toget <- c('^date$', paste0('^norm', tau, '$'))
+  toget <- c('^date$|^res$', paste0('^norm', tau, '$'))
   toget <- paste(toget, collapse = '|')
 
   # select columns, format date as year, month
   toeval <- select(dat_in, matches(toget))
-  names(toeval) <- c('date', 'norm')
+  names(toeval) <- c('date', 'res', 'norm')
   toeval <- mutate(toeval,
       norm = exp(norm)
     )
@@ -153,11 +154,11 @@ wrtdstrnd.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, 
 wrtdstrnd.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, mo_strt = 10, min_mo = 9, ...){
 
   # columns to get with regex
-  toget <- c('^date$|^bt_norm$')
+  toget <- c('^date$|^res$|^bt_norm$')
 
   # select columns, format date as year, month
   toeval <- select(dat_in, matches(toget))
-  names(toeval) <- c('date', 'norm')
+  names(toeval) <- c('date', 'res', 'norm')
 
   wrtdstrnd.default(toeval, mobrks, yrbrks, molabs, yrlabs, aves = aves, mo_strt = mo_strt, min_mo = min_mo) 
   
