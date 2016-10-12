@@ -23,7 +23,7 @@ wrtdstrnd(dat_in, ...)
 
 \item{...}{methods passed to or from other methods}
 
-\item{mobrks}{numeric vector of breaks for months, see examples}
+\item{mobrks}{list of month groupings where each month is an integer from 1 to 12, see examples}
 
 \item{yrbrks}{numeric vector of breaks for years, see examples}
 
@@ -64,8 +64,7 @@ data(tidfitmean)
 ## get trends
 
 # setup month, year categories
-# intervals are closed on the right
-mobrks <- c(0, 3, 6, 9, 12) 
+mobrks <- list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9), c(10, 11, 12))
 yrbrks <- c(1973, 1985, 1994, 2003, 2012)
 molabs <- c('JFM', 'AMJ', 'JAS', 'OND')
 yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')

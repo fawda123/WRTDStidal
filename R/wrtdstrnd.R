@@ -4,7 +4,7 @@
 #' Get WRTDS trends for annual and monthly groupings
 #' 
 #' @param dat_in input tidal or tidalmean object which must already have fitted model data
-#' @param mobrks numeric vector of breaks for months, see examples
+#' @param mobrks list of month groupings where each month is an integer from 1 to 12, see examples
 #' @param yrbrks numeric vector of breaks for years, see examples
 #' @param molabs character vector of names for month breaks, see examples
 #' @param yrlabs character vector of names for year breaks, see examples
@@ -39,8 +39,7 @@
 #' ## get trends
 #' 
 #' # setup month, year categories
-#' # intervals are closed on the right
-#' mobrks <- c(0, 3, 6, 9, 12) 
+#' mobrks <- list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9), c(10, 11, 12))
 #' yrbrks <- c(1973, 1985, 1994, 2003, 2012)
 #' molabs <- c('JFM', 'AMJ', 'JAS', 'OND')
 #' yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')
@@ -76,12 +75,22 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FAL
       ave = mean(norm, na.rm = TRUE)
       )
 
+  # setup monthly categories
+  if(length(molabs) != length(mobrks))
+    stop('molabs are not matched to mobrks')
+  names(mobrks) <- molabs
+  mobrks <- as.data.frame(mobrks) %>% 
+    tidyr::gather(.) %>% 
+    arrange(value)
+
   # monthly aggs
   modat <- mutate(dat_in, 
-      mocat = cut(month(date), breaks = mobrks, labels = molabs),
+      month = month(date),
+      mocat = factor(month),
       date = year(date)
-      ) %>% 
-    group_by(date, mocat) %>% 
+      ) 
+  levels(modat$mocat) <- mobrks$key
+  modat <- group_by(modat, date, mocat) %>% 
     summarise(norm = mean(norm, na.rm = T)) %>% 
     rename(cat = mocat) %>% 
     group_by(cat) %>% 
