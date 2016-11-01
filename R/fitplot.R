@@ -123,7 +123,7 @@ fitplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, annuals = TRUE, 
   # annual aggregations if TRUE, otherwise monthly agg
   if(annuals){
     
-    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt, logspace = logspace)
     
   } 
   
@@ -248,7 +248,7 @@ fitplot.tidalmean <- function(dat_in, predicted = TRUE, annuals = TRUE, logspace
   # annual aggregations if TRUE, otherwise monthly agg
   if(annuals){
     
-    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt, logspace = logspace)
     
   } 
     

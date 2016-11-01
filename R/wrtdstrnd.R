@@ -61,7 +61,7 @@ wrtdstrnd.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FAL
   # aggregate/summarize separately for each category
 
   # annual aggs
-  yrdat <- annual_agg(dat_in, mo_strt = mo_strt, min_mo = min_mo) %>% 
+  yrdat <- annual_agg(dat_in, mo_strt = mo_strt, min_mo = min_mo, logspace = FALSE) %>% 
     select(date, norm) %>% 
     mutate(
       date = year(date), 

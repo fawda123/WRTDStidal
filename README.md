@@ -390,7 +390,7 @@ wrtdsperf(tidfit)
 
 ```r
 # setup month, year categories for trend summaries
-mobrks <- c(-Inf, 3, 6, 9, Inf)
+mobrks <- list(c(1, 2, 3), c(4, 5, 6), c(7, 8, 9), c(10, 11, 12))
 yrbrks <- c(-Inf, 1985, 1994, 2003, Inf)
 molabs <- c('JFM', 'AMJ', 'JAS', 'OND')
 yrlabs <- c('1974-1985', '1986-1994', '1995-2003', '2004-2012')

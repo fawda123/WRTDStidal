@@ -124,7 +124,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
   # annual aggregations if TRUE
   if(annuals){
     
-    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt, logspace = logspace)
 
   }
    
@@ -234,7 +234,7 @@ prdnrmplot.tidalmean <- function(dat_in, annuals = TRUE, logspace = TRUE, dt_rng
   # annual aggregations if TRUE
   if(annuals){
     
-    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt)
+    to_plo <- annual_agg(to_plo, min_mo = min_mo, mo_strt = mo_strt, logspace = logspace)
     
   }
 

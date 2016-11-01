@@ -5,6 +5,7 @@
 #' @param dat_in input tidal or tidalmean object
 #' @param mo_strt numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September
 #' @param min_mo numeric value from one to twelve indicating the minimum number of months with observations for averaging by years
+#' @param logspace logical indicating if aggregated data are to be shown in log-space or not
 #' @param ... arguments passed to or from other methods
 #' 
 #' @details WRTDS output is averaged by year for both predictions and flow-normalized predictions. Years are averaged only if one observation is contained in each of the minimum number of months specified by \code{min_mo} averaging, otherwise results are not returned for the given year.  Note that setting \code{min_mo} to values smaller than the default can produce inaccurate trends for years with very few results. 
@@ -30,15 +31,20 @@ annual_agg <- function(dat_in, ...) UseMethod('annual_agg')
 #' @export
 #'
 #' @method annual_agg default
-annual_agg.default <- function(dat_in, mo_strt = 10, min_mo = 9,  ...){
+annual_agg.default <- function(dat_in, mo_strt = 10, min_mo = 9, logspace = TRUE, ...){
   
   # put data in long format by response, fits, norms
   # split by response variable
   # create new year column based on mo_strt
   # average by new year column only if minimum number of months are present
-  dat_agg <- select(dat_in, matches('date|fit|norm|res')) %>% 
-    mutate(res = exp(res)) %>% # this has to be back-transformed before average 
-    tidyr::gather('var', 'val', -date) %>% 
+  dat_agg <- select(dat_in, matches('date|fit|norm|res')) 
+  
+  # this has to be back-transformed before average if values are not shown in logspace
+  if(!logspace)
+    dat_agg <- mutate(dat_agg, res = exp(res))
+ 
+  # take annual averages
+  dat_agg <- tidyr::gather(dat_agg, 'var', 'val', -date) %>% 
     split(.$var) %>% 
     lapply(., function(x){
 
@@ -61,9 +67,12 @@ annual_agg.default <- function(dat_in, mo_strt = 10, min_mo = 9,  ...){
     ungroup %>% 
     rename(date = yrchg) %>% 
     mutate(
-      date = as.Date(paste0(mo_strt, '-01-', date), format = '%m-%d-%Y'),
-      res = log(res)  # transform res back to log)
+      date = as.Date(paste0(mo_strt, '-01-', date), format = '%m-%d-%Y')
       )
+  
+  # transform back to log if values not shown in logspace
+  if(!logspace)
+    dat_agg <- mutate(dat_agg, res = log(res))
   
   return(dat_agg)
   

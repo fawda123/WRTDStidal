@@ -7,7 +7,8 @@
 \usage{
 annual_agg(dat_in, ...)
 
-\method{annual_agg}{default}(dat_in, mo_strt = 10, min_mo = 9, ...)
+\method{annual_agg}{default}(dat_in, mo_strt = 10, min_mo = 9,
+  logspace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}
@@ -17,6 +18,8 @@ annual_agg(dat_in, ...)
 \item{mo_strt}{numeric indicating month to start aggregation years, defaults to October for USGS water year from October to September}
 
 \item{min_mo}{numeric value from one to twelve indicating the minimum number of months with observations for averaging by years}
+
+\item{logspace}{logical indicating if aggregated data are to be shown in log-space or not}
 }
 \value{
 An aggregated data object for plotting, returns only model output and response variable.
