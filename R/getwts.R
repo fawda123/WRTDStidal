@@ -63,7 +63,7 @@ getwts.default <- function(dat_in, ref_in,
   wins_3 <- wins[[3]]
   
   # default window width for third variable is half its range
-  if(is.null(wins[[3]])) wins_3 <- diff(range(dat_in[, wt_vars[3]]))/2
+  if(is.null(wins[[3]])) wins_3 <- diff(range(dat_in[, wt_vars[3]], na.rm = TRUE))/2
   
   # return windows if T, for tidal attributes
   if(wins_only) return(list(wins_1, wins_2, wins_3))
