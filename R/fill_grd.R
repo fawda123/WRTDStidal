@@ -1,12 +1,12 @@
 #' Add date columns and fill missing values in the interpolation grids
 #' 
-#' Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}. The \code{\link[akima]{interp}} function is used after splitting the interpolation matrix by month to fill missing values.  Function is used in \code{\link{wrtds}}.
+#' Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}. The \code{\link[fields]{interp.surface}} function is used after splitting the interpolation matrix by month to fill missing values.  Function is used in \code{\link{wrtds}}.
 #'
 #' @param grd_in interpolation grid to fill, either a single mean grid or an individual quantile grid created within \code{\link{wrtds}}
 #' @param dat_in \code{\link{tidal}} or \code{\link{tidalmean}} object
 #' @param interp logical for interpolation
 #' 
-#' @import akima dplyr
+#' @import dplyr
 #' 
 fill_grd <- function(grd_in, dat_in, interp = FALSE){
 
@@ -24,22 +24,16 @@ fill_grd <- function(grd_in, dat_in, interp = FALSE){
       # remove missing values in long format
       sel <- mos %in% x
       dts <- dat_in$date[sel]
-      out <- grd_in[sel, ]
-      out <- data.frame(date = dts, out) %>% 
+      toint <- grd_in[sel, ]
+      out <- data.frame(date = dts, toint) %>% 
         tidyr::gather('xvar', 'val', -date) %>% 
         na.omit %>% 
         mutate(xvar = as.numeric(gsub('X', '', xvar)))
-      
+
       # interpolate each month for original grd space
-      newvals <- interp(
-        x = out$xvar, 
-        y = as.numeric(out$date),
-        z = out$val, 
-        xo = 1:ncol(grd_in),
-        yo = as.numeric(dts)
-        ) %>% 
-        .$z %>% 
-        t %>% 
+      newvals <- fields::interp.surface(obj = list( x = as.numeric(dts), y = 1:ncol(toint), z = toint),
+                                    loc = data.frame(as.numeric(out$date), out$xvar)) %>% 
+        matrix(., nrow = length(dts), ncol = ncol(toint)) %>% 
         data.frame(date = dts, .)
       
       newvals

@@ -14,6 +14,6 @@ fill_grd(grd_in, dat_in, interp = FALSE)
 \item{interp}{logical for interpolation}
 }
 \description{
-Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}. The \code{\link[akima]{interp}} function is used after splitting the interpolation matrix by month to fill missing values.  Function is used in \code{\link{wrtds}}.
+Add date, year, month, and day columns to the interpolation grids using dates from \code{dat_in}. The \code{\link[fields]{interp.surface}} function is used after splitting the interpolation matrix by month to fill missing values.  Function is used in \code{\link{wrtds}}.
 }
 

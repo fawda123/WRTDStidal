@@ -10,3 +10,6 @@ cran-comments.md
 ^README_files/.*
 ^README_cache/.*
 ^appveyor\.yml$
+appveyor.yml
+travis-tool.sh
+.travis.yml
