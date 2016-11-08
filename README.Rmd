@@ -35,6 +35,13 @@ Predicted values are based on an interpolation matrix from the regression.  A se
 
 ## Installing the package
 
+The stable release can be installed from CRAN:
+
+```{r eval = FALSE}
+install.packages('WRTDStidal')
+library(WRTDStidal)
+```
+
 The development version of this package can be installed as follows:
 
 ```{r eval = FALSE}
