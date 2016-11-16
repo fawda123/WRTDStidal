@@ -5,6 +5,8 @@ Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/WRTDStidal.png?b
 
 Windows: [![AppVeyor Build Status](http://ci.appveyor.com/api/projects/status/github/fawda123/WRTDStidal?branch=master)](http://ci.appveyor.com/project/fawda123/WRTDStidal)
 
+[![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/grand-total/WRTDStidal)](http://cran.rstudio.com/package=WRTDStidal)
+
 This is the development repository for the WRTDStidal package.  Functions within this package can be used to model water quality time series from coastal monitoring data.  The approach follows on previous methods described in the [EGRET](https://github.com/USGS-R/EGRET) package developed by USGS for non-tidal waters.  
 
 Additional details: 
