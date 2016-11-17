@@ -13,11 +13,13 @@ LazyData: true
 Imports:
     caret,
     dplyr,
+    EnvStats,
     fields,
     foreach,
     forecast,
     gridExtra,
     lubridate,
+    purrr,
     quantreg,
     RColorBrewer,
     survival,

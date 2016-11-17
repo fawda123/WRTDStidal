@@ -419,6 +419,25 @@ wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs)
 ## 8       OND -58.4959633
 ```
 
+Seasonal Kendall tests can be used to evaluate flow-normalized predictions. This test evaluates monotonic trends using a non-parametric approach that accounts for seasonal variation in the time series. 
+
+
+```r
+wrtdstrnd_sk(tidfit, mobrks, yrbrks, molabs, yrlabs)
+```
+
+```
+##         cat       med        tau       slope      chitest        ztest
+## 1 1974-1985 21.171745 -0.4882334 -0.62562353 2.368091e-02 5.398681e-12
+## 2 1986-1994 11.360865 -0.9766355 -0.40860507 1.000000e+00 2.627767e-36
+## 3 1995-2003  9.246354 -0.9166667 -0.14861032 9.996939e-01 1.364710e-32
+## 4 2004-2012  8.717610  0.1990741  0.02080644 7.639788e-07 1.052157e-02
+## 5       JFM  7.372369 -0.9508020 -0.31484132 9.802877e-01 8.455010e-49
+## 6       AMJ 10.819629 -0.8347669 -0.30022373 8.774386e-01 2.308578e-37
+## 7       JAS 17.679262 -0.7595646 -0.33248583 9.544791e-01 1.683405e-31
+## 8       OND 12.055548 -0.8586627 -0.28668848 7.801474e-01 1.104585e-36
+```
+
 ### Selecting window widths
 
 The selection of window widths for fitting weighted regression is a challenge that represents a tradeoff between model precision and ability to generalize to novel datasets.  Overfitting a model with excessively small window widths will minimize prediction error but prevent extrapolation of results to different datasets.  Similarly, underfitting a model with large window widths will reduce precision but will improve the ability to generalize results to a different dataset.  From a statistical perspective, the optimal window widths are those that find a balance between over- and under-fitting.  Three functions are available for determining the optimal window widths: `wrtdscv`, `winsrch_grid`, and `winsrch_optim`. The `wrtdscv` evaluates model fit for a specific combination of window widths and is used iteratively within `winsrch_grid` and `winsrch_optim`.  `wrtdscv` uses k-fold cross-validation to evaluate the error associated with model predictions on a novel dataset.  The default behavior is to evaluate model performance with ten folds (k) for the window width combination.  The function separates the dataset into ten disjoint sets, such that ten models are evaluated for every combination of k - 1 training and remaining test datasets.  That is, the training dataset for each fold is all k - 1 folds and the test dataset is the remaining fold, repeated k times.  The average prediction error of the training datasets across k folds provides an indication of model performance.  Optimum window widths will provide errors for the training data that are minimized.
