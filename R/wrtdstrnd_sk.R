@@ -25,7 +25,9 @@
 #' @importFrom purrr map
 #' @importFrom tidyr nest unnest
 #' 
-#' @return A \code{\link[base]{data.frame}} with summary trends for each grouping, including \code{med} as the median value for the period of observation, \code{tau} as the magnitude and direction of the trend, \code{slope} as the Thiel-Sen slope for change per year, \code{chitest} as the signifiance test evaluating heterogeneity between seasons, and \code{ztest} indicating significance of the overall trend.  As noted in the documentation for \code{\link[EnvStats]{kendallSeasonalTrendTest}}, the overall test is not appropriate if \code{chitest} indicates a small p-value.  
+#' @return A \code{\link[base]{data.frame}} with summary trends for each grouping, including \code{med} as the median value for the period of observation, \code{tau} as the magnitude and direction of the trend, \code{slope} as the Thiel-Sen slope for change per year, \code{chitest} as the signifiance test evaluating heterogeneity between seasons, \code{ztest} indicating significance of the overall trend, and \code{perchg} as 100 multiplied by the ratio of the annual slope to the median estimate of the time period (percent change per year).  
+#' 
+#' As noted in \code{\link[EnvStats]{kendallSeasonalTrendTest}}, the overall test is not appropriate if \code{chitest} indicates a small p-value.  
 #' 
 #' @references Hirsch, R.M., Slack, J.R., Smith, R.A. 1982. Techniques of trend analysis for monthly water quality data. Water Resources Research, 18:107-121.
 #' 
@@ -119,7 +121,8 @@ wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = 
       cat = factor(cat, 
         levels = c(yrlabs, molabs),
         labels = c(yrlabs, molabs)
-      )
+      ), 
+      perchg = 100 * slope/med
     ) %>% 
     arrange(cat) %>% 
     data.frame
