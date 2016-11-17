@@ -56,7 +56,7 @@ wrtdstrnd_sk <- function(dat_in, ...) UseMethod('wrtdstrnd_sk')
 #' @export
 #'
 #' @method wrtdstrnd_sk default
-wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, aves = FALSE, mo_strt = 10, min_mo = 9, ...){
+wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
 
   # create year mo cats
   dat_in <- select(dat_in, date, norm) %>% 

@@ -9,8 +9,7 @@
 \usage{
 wrtdstrnd_sk(dat_in, ...)
 
-\method{wrtdstrnd_sk}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs,
-  aves = FALSE, mo_strt = 10, min_mo = 9, ...)
+\method{wrtdstrnd_sk}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs, ...)
 
 \method{wrtdstrnd_sk}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs,
   tau = NULL, ...)
@@ -33,7 +32,7 @@ wrtdstrnd_sk(dat_in, ...)
 \item{tau}{numeric vector of quantile for estimating trends}
 }
 \value{
-A \code{\link[base]{data.frame}} with summary trends for each grouping, including \code{med} as the median value for the period of observation, \code{tau} as the magnitude and direction of the trend, \code{slope} as the Thiel-Sen slope for change per year, \code{chitest} as the signifiance test evaluating heterogeneity between seasons, \code{ztest} indicating significance of the overall trend, and \code{perchg} as 100 multiplied by the ratio of the slope to the median estimate of the time period.  
+A \code{\link[base]{data.frame}} with summary trends for each grouping, including \code{med} as the median value for the period of observation, \code{tau} as the magnitude and direction of the trend, \code{slope} as the Thiel-Sen slope for change per year, \code{chitest} as the signifiance test evaluating heterogeneity between seasons, \code{ztest} indicating significance of the overall trend, and \code{perchg} as 100 multiplied by the ratio of the annual slope to the median estimate of the time period (percent change per year).  
 
 As noted in \code{\link[EnvStats]{kendallSeasonalTrendTest}}, the overall test is not appropriate if \code{chitest} indicates a small p-value.
 }
