@@ -286,6 +286,9 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
   fits <- select(to_plo, date, year, month, fits, bt_fits)
   nrms <- select(to_plo, date, year, month, norm, bt_norm)
   
+  # y-axis label
+  ylabel <- attr(dat_in, 'reslab')
+  
   # use back-transformed if TRUE
   if(!logspace){
 
@@ -334,9 +337,6 @@ fitmoplot.tidalmean <- function(dat_in, month = c(1:12), predicted = TRUE, logsp
     tidyr::unite('date', year, month, day, sep = '-') %>% 
     mutate(date = as.Date(date, '%Y-%m-%d')) %>% 
     rename(month = month2)
-  
-  # y-axis label
-  ylabel <- attr(dat_in, 'reslab')
   
   # months labels as text
   mo_lab <- data.frame(
