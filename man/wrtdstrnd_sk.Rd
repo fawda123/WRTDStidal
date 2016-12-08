@@ -12,9 +12,10 @@ wrtdstrnd_sk(dat_in, ...)
 \method{wrtdstrnd_sk}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs, ...)
 
 \method{wrtdstrnd_sk}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs,
-  tau = NULL, ...)
+  tau = NULL, trndvar = "norm", ...)
 
-\method{wrtdstrnd_sk}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs, ...)
+\method{wrtdstrnd_sk}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs,
+  trndvar = "bt_norm", ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object which must already have fitted model data}
@@ -30,6 +31,8 @@ wrtdstrnd_sk(dat_in, ...)
 \item{yrlabs}{character vector of names for year breaks, see examples}
 
 \item{tau}{numeric vector of quantile for estimating trends}
+
+\item{trndvar}{chr string of variable for trend evaluation, usually back-transformed, flow-normalized results, see details}
 }
 \value{
 A \code{\link[base]{data.frame}} with summary trends for each grouping, including \code{med} as the median value for the period of observation, \code{tau} as the magnitude and direction of the trend, \code{slope} as the Thiel-Sen slope for change per year, \code{chitest} as the signifiance test evaluating heterogeneity between seasons, \code{ztest} indicating significance of the overall trend, and \code{perchg} as 100 multiplied by the ratio of the annual slope to the median estimate of the time period (percent change per year).  
@@ -42,7 +45,7 @@ Get WRTDS trends using seasonal Kendall tests
 \details{
 Trends are based on \code{\link[EnvStats]{kendallSeasonalTrendTest}} for user-specified time periods.  In general, the seasonal Kendall test evaluates monotonic trends using a non-parametric approach that accounts for seasonal variation in the time series.  
 
-All trends are based on back-transformed, flow-normalized results. 
+All trends are based on back-transformed, flow-normalized results by default. The variable for evaluating trends can be changed with \code{'resvar'} as \code{'res'}, \code{'norm'}, or \code{'fit'} for \code{tidal} objects and as \code{'res'}, \code{'bt_norm'}, or \code{'bt_fits'} for \code{tidalmean} objects.  In all cases, back-transformed variables are evaluated.
 
 The user must supply the annual and monthly aggregation periods to the appropriate arguments. These are passed to \code{\link[base]{cut}} and are left-open, right-closed along the interval.
 }

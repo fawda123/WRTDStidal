@@ -9,13 +9,14 @@
 #' @param molabs character vector of names for month breaks, see examples
 #' @param yrlabs character vector of names for year breaks, see examples
 #' @param tau numeric vector of quantile for estimating trends
+#' @param trndvar chr string of variable for trend evaluation, usually back-transformed, flow-normalized results, see details
 #' @param ... methods passed to or from other methods
 #' 
 #' @export
 #' 
 #' @details Trends are based on \code{\link[EnvStats]{kendallSeasonalTrendTest}} for user-specified time periods.  In general, the seasonal Kendall test evaluates monotonic trends using a non-parametric approach that accounts for seasonal variation in the time series.  
 #' 
-#' All trends are based on back-transformed, flow-normalized results. 
+#' All trends are based on back-transformed, flow-normalized results by default. The variable for evaluating trends can be changed with \code{'resvar'} as \code{'res'}, \code{'norm'}, or \code{'fit'} for \code{tidal} objects and as \code{'res'}, \code{'bt_norm'}, or \code{'bt_fits'} for \code{tidalmean} objects.  In all cases, back-transformed variables are evaluated.
 #' 
 #' The user must supply the annual and monthly aggregation periods to the appropriate arguments. These are passed to \code{\link[base]{cut}} and are left-open, right-closed along the interval. 
 #' 
@@ -59,7 +60,7 @@ wrtdstrnd_sk <- function(dat_in, ...) UseMethod('wrtdstrnd_sk')
 wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
 
   # create year mo cats
-  dat_in <- select(dat_in, date, norm) %>% 
+  dat_in <- select(dat_in, date, trndvar) %>% 
     mutate(
       yr = year(date), 
       mo = month(date)
@@ -74,8 +75,8 @@ wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
     group_by(cat) %>% 
     nest %>% 
     mutate(
-      sk_res = map(data, ~ kendallSeasonalTrendTest(norm ~ mo + yr, .)), 
-      med = map(data, ~ median(.$norm, na.rm = TRUE)), 
+      sk_res = map(data, ~ kendallSeasonalTrendTest(trndvar ~ mo + yr, .)), 
+      med = map(data, ~ median(.$trndvar, na.rm = TRUE)), 
       tau = map(sk_res, ~ .$estimate[1]), 
       slope = map(sk_res, ~ .$estimate[2]), 
       chitest = map(sk_res, ~ .$p.value[1]), 
@@ -98,14 +99,14 @@ wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
     ) 
   levels(modat$mocat) <- mobrks$key
   modat <- group_by(modat, yr, mo, mocat) %>% 
-    summarise(norm = mean(norm, na.rm = T)) %>% 
+    summarise(trndvar = mean(trndvar, na.rm = T)) %>% 
     arrange(yr, mo) %>% 
     rename(cat = mocat) %>% 
     group_by(cat) %>% 
     nest %>% 
     mutate(
-      sk_res = map(data, ~ kendallSeasonalTrendTest(norm ~ mo + yr, .)), 
-      med = map(data, ~ median(.$norm, na.rm = TRUE)), 
+      sk_res = map(data, ~ kendallSeasonalTrendTest(trndvar ~ mo + yr, .)), 
+      med = map(data, ~ median(.$trndvar, na.rm = TRUE)), 
       tau = map(sk_res, ~ .$estimate[1]), 
       slope = map(sk_res, ~ .$estimate[2]), 
       chitest = map(sk_res, ~ .$p.value[1]), 
@@ -136,32 +137,45 @@ wrtdstrnd_sk.default <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
 #' @export
 #'
 #' @method wrtdstrnd_sk tidal
-wrtdstrnd_sk.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL,...){
+wrtdstrnd_sk.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL, trndvar = 'norm', ...){
 
-  # get tau if null, otherwise run checks
-  if(is.null(tau)){
-
-    tau <- grep('^norm', names(dat_in))
-    tau<- gsub('^norm', '', names(dat_in)[floor(median(tau))])
-     
+  # stop if trndvar not one of these
+  if(!trndvar %in% c('res', 'norm', 'fit'))
+    stop('var must be one of res, norm, or fit')
+  
+  # get names if trndvar isn't res
+  if(trndvar != 'res'){
+    
+    # get tau if null, otherwise run checks
+    if(is.null(tau)){
+  
+      fstr <- paste0('^', trndvar)
+      tau <- grep(fstr, names(dat_in))
+      tau<- gsub(fstr, '', names(dat_in)[floor(median(tau))])
+      toget <- c('^date$', paste0(fstr, tau, '$'))       
+      
+    } else {
+      
+      if(length(grep(paste0(tau, '$'), names(dat_in))) == 0)
+        stop('Specified tau not in object')
+      
+    }
+    
   } else {
     
-    if(length(tau) > 1) 
-      stop('Only one quantile can be plotted')
-    if(length(grep(paste0(tau, '$'), names(dat_in))) == 0)
-      stop('Specified tau not in object')
-    
+    toget <- c('^date$', paste0('^', trndvar, '$'))  
+     
   }
 
   # columns to get with regex
-  toget <- c('^date$|^res$', paste0('^norm', tau, '$'))
   toget <- paste(toget, collapse = '|')
 
   # select columns, format date as year, month
+  # back transform
   toeval <- select(dat_in, matches(toget))
-  names(toeval) <- c('date', 'res', 'norm')
+  names(toeval) <- c('date', 'trndvar')
   toeval <- mutate(toeval,
-      norm = exp(norm)
+      trndvar = exp(trndvar)
     )
 
   wrtdstrnd_sk.default(toeval, mobrks, yrbrks, molabs, yrlabs, ...) 
@@ -173,15 +187,25 @@ wrtdstrnd_sk.tidal <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NUL
 #' @export
 #'
 #' @method wrtdstrnd_sk tidalmean
-wrtdstrnd_sk.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, ...){
+wrtdstrnd_sk.tidalmean <- function(dat_in, mobrks, yrbrks, molabs, yrlabs, trndvar = 'bt_norm', ...){
 
+  # stop if trndvar not one of these
+  if(!trndvar %in% c('res', 'bt_norm', 'bt_fits'))
+    stop('var must be one of res, bt_norm, or bt_fits')
+  
   # columns to get with regex
-  toget <- c('^date$|^res$|^bt_norm$')
+  toget <- paste0('^date$|^', trndvar, '$')
 
   # select columns, format date as year, month
   toeval <- select(dat_in, matches(toget))
-  names(toeval) <- c('date', 'res', 'norm')
+  names(toeval) <- c('date', 'trndvar')
 
+  # need to back-transform res if used
+  if(trndvar == 'res')
+    toeval <- mutate(toeval, 
+      trndvar = exp(trndvar)
+    )
+  
   wrtdstrnd_sk.default(toeval, mobrks, yrbrks, molabs, yrlabs, ...) 
   
 }
