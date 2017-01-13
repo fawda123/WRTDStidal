@@ -112,6 +112,19 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     
   }
   
+  # subset years to plot
+  if(!is.null(years)){
+   
+    if(length(years) != 2)
+      stop('years argument must have two values for first and last')
+  
+    years <- seq(years[1], years[2])
+    to_plo <- to_plo[to_plo$year %in% years, ]
+     
+    if(nrow(to_plo) == 0) stop('No data to plot for the date range')
+  
+  }
+  
   # reshape data frame
   names(to_plo)[grep('^X', names(to_plo))] <- paste('flo', flo_grd)
   to_plo <- tidyr::gather(to_plo, 'flo', 'res', 5:ncol(to_plo)) %>% 
@@ -137,19 +150,6 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
     # flo_grd to raw scale
     flo_grd <- (flo_grd - min(flo_grd)) / diff(range(flo_grd)) * diff(floobs_rng) + floobs_rng[1]
     
-  }
-  
-  # subset years to plot
-  if(!is.null(years)){
-   
-    if(length(years) != 2)
-      stop('years argument must have two values for first and last')
-  
-    years <- seq(years[1], years[2])
-    to_plo <- to_plo[to_plo$year %in% years, ]
-     
-    if(nrow(to_plo) == 0) stop('No data to plot for the date range')
-  
   }
 
   ## use linear interpolation to make a smoother plot
@@ -353,6 +353,19 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     
   }
   
+  # subset years to plot
+  if(!is.null(years)){
+   
+    if(length(years) != 2)
+      stop('years argument must have two values for first and last')
+  
+    years <- seq(years[1], years[2])
+    to_plo <- to_plo[to_plo$year %in% years, ]
+     
+    if(nrow(to_plo) == 0) stop('No data to plot for the date range')
+  
+  }
+  
   # reshape data frame
   to_plo <- to_plo[to_plo$month %in% month, , drop = FALSE]
   names(to_plo)[grep('^X', names(to_plo))] <- paste('flo', flo_grd)
@@ -380,20 +393,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     flo_grd <- seq(floobs_rng[1], floobs_rng[2], length = length(flo_grd))
     
   }
-  
-  # subset years to plot
-  if(!is.null(years)){
-   
-    if(length(years) != 2)
-      stop('years argument must have two values for first and last')
-  
-    years <- seq(years[1], years[2])
-    to_plo <- to_plo[to_plo$year %in% years, ]
-     
-    if(nrow(to_plo) == 0) stop('No data to plot for the date range')
-  
-  }
-  
+    
   ## use linear interpolation to make a smoother plot
   if(!allmo){
     
@@ -501,7 +501,7 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
   # contstrain all data by quantiles if not separated by month    
   if(!allflo & allmo){
    
-    quants <- quantile(to_plo$flo, c(0.05, 0.95), na.rm = TRUE)
+    quants <- quantile(dat_in$flo, c(0.05, 0.95), na.rm = TRUE)
     to_plo <- to_plo[with(to_plo, flo >= quants[1] & flo <= quants[2]), ]
      
   }
