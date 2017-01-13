@@ -498,6 +498,14 @@ gridplot.tidalmean <- function(dat_in, month = c(1:12), years = NULL, col_vec = 
     
   }
   
+  # contstrain all data by quantiles if not separated by month    
+  if(!allflo & allmo){
+   
+    quants <- quantile(to_plo$flo, c(0.05, 0.95), na.rm = TRUE)
+    to_plo <- to_plo[with(to_plo, flo >= quants[1] & flo <= quants[2]), ]
+     
+  }
+  
   # change month vector of not plotting all months in same plot
   if(!allmo){
     # months labels as text
