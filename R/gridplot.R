@@ -253,7 +253,14 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
       )
     to_plo <- to_plo[sel_vec, !names(to_plo) %in% c('Low', 'High')]
     to_plo <- arrange(to_plo, year, month)
-    
+  }
+
+  # contstrain all data by quantiles if not separated by month    
+  if(!allflo & allmo){
+   
+    quants <- quantile(to_plo$flo, c(0.05, 0.95), na.rm = TRUE)
+    to_plo <- to_plo[with(to_plo, flo >= quants[1] & flo <= quants[2]), ]
+     
   }
 
   # change month vector if not plotting all months in same plot
@@ -271,7 +278,7 @@ gridplot.tidal <- function(dat_in, month = c(1:12), tau = NULL, years = NULL, co
   p <- ggplot(to_plo, aes(x = year, y = flo, fill = res)) + 
     geom_tile(data = subset(to_plo, !is.na(to_plo$res)), aes(fill = res)) +
     geom_tile(data = subset(to_plo,  is.na(to_plo$res)), fill = 'black', alpha = 0) 
-
+  
   if(!allmo) p <- p + facet_wrap(~month, ncol = ncol)
   
   # return bare bones if FALSE

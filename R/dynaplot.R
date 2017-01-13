@@ -38,7 +38,7 @@
 #' data(tidfit)
 #' 
 #' # plot using defaults, 
-#' # defaults to the fiftieth quantile for July for all years
+#' # defaults to the fiftieth quantile for all years
 #' dynaplot(tidfit)
 #' 
 #' # change the defaults
