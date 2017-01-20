@@ -3,5 +3,4 @@
 cache/*
 .RData
 *.rdb
-README.html
 *.Rproj
