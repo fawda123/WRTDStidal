@@ -238,6 +238,27 @@ gridplot(tidfit)
 gridplot(tidfit, month = 'all')
 ```
 
+Three-dimensional gridplots can be recreated with plotly:
+
+```{r fig.height=6, fig.width=8, message=FALSE, warning=FALSE}
+library(dplyr)
+library(plotly)
+
+dat <- attr(tidfitmean, 'fits') %>% 
+  .[[1]] %>% 
+  select(-date, -year, -month, -day) %>% 
+  as.matrix
+
+scene <- list(
+  aspectmode = 'manual', 
+  aspectratio = list(x = 0.5, y = 1, z = 0.3)
+  )
+
+p <- plot_ly(z = ~dat) %>% add_surface() %>% 
+  layout(scene = scene)
+p
+```
+
 The `wtsplot` function can be used to create diagnostic plots to view different weighting windows and how they are implemented during weighted regression.  The plots illustrate the weights that are used when fitting a weighted regression in reference to a single observation.  Five plots are produced by the function, each showing the weights in relation to time and the selected observation (i.e., center of the weighting window).  The top plot shows salinity/flow over time with the points colored and sized by the combined weight vector.  The remaining four plots show the weights over time for each separate weighting component (months/days, year, and salinity/flow) and the final combined vector. 
 
 ```{r fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
