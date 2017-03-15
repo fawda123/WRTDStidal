@@ -4,7 +4,7 @@ author: "Marcus W. Beck, beck.marcus@epa.gov"
 output:
   html_document:
     keep_md: yes
-    self_contained: no
+    self_contained: yes
   pdf_document:
     toc: yes
 ---

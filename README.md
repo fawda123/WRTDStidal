@@ -366,6 +366,7 @@ gridplot(tidfit, month = 'all')
 
 Three-dimensional gridplots can be recreated with plotly:
 
+
 ```r
 library(dplyr)
 library(plotly)
