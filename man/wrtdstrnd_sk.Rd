@@ -45,7 +45,7 @@ Get WRTDS trends using seasonal Kendall tests
 \details{
 Trends are based on \code{\link[EnvStats]{kendallSeasonalTrendTest}} for user-specified time periods.  In general, the seasonal Kendall test evaluates monotonic trends using a non-parametric approach that accounts for seasonal variation in the time series.  
 
-All trends are based on back-transformed, flow-normalized results by default. The variable for evaluating trends can be changed with \code{'tnrdvar'} as \code{'res'}, \code{'norm'}, or \code{'fit'} for \code{tidal} objects and as \code{'res'}, \code{'bt_norm'}, or \code{'bt_fits'} for \code{tidalmean} objects.  In all cases, back-transformed variables are evaluated.
+All trends are based on back-transformed, flow-normalized results by default. The variable for evaluating trends can be changed with \code{'trndvar'} as \code{'res'}, \code{'norm'}, or \code{'fit'} for \code{tidal} objects and as \code{'res'}, \code{'bt_norm'}, or \code{'bt_fits'} for \code{tidalmean} objects.  In all cases, back-transformed variables are evaluated.
 
 The user must supply the annual and monthly aggregation periods to the appropriate arguments. These are passed to \code{\link[base]{cut}} and are left-open, right-closed along the interval.
 }
