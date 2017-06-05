@@ -12,3 +12,8 @@ cran-comments.md
 appveyor.yml
 travis-tool.sh
 .travis.yml
+descrip.Rmd
+descrip.md
+descrip.html
+^descrip_cache/.*
+^descrip_files/.*
