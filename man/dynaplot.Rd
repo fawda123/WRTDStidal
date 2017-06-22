@@ -70,7 +70,7 @@ Note that the year variable used for color mapping is treated as a continuous va
 data(tidfit)
 
 # plot using defaults, 
-# defaults to the fiftieth quantile for July for all years
+# defaults to the fiftieth quantile for all years
 dynaplot(tidfit)
 
 # change the defaults

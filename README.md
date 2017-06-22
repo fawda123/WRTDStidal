@@ -40,5 +40,11 @@ library(WRTDStidal)
 ```
 
 ## Package description
+<<<<<<< HEAD
 
 Read the complete package description [here](https://fawda123.github.io/WRTDStidal/descrip). 
+=======
+
+Read the complete package description [here](https://fawda123.github.io/WRTDStidal/descrip). 
+
+>>>>>>> development
