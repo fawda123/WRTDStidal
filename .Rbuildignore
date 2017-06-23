@@ -3,6 +3,8 @@
 ^data-raw$
 README.Rmd
 README.md
+README.html
+^README_FILES/.*
 cran-comments.md
 .gitignore
 .Rhistory

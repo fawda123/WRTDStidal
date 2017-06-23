@@ -63,4 +63,3 @@ obsplot(tidfitmean)
 \seealso{
 \code{\link{fitplot}}
 }
-

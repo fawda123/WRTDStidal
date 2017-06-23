@@ -34,4 +34,3 @@ lnQ_sim(daydat)
 \seealso{
 \code{\link{daydat}}
 }
-

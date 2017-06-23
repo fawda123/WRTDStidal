@@ -53,4 +53,3 @@ data(chldat)
 chldat <- tidal(chldat)
 
 }
-

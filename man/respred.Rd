@@ -52,4 +52,3 @@ data(tidobjmean)
 res <- respred(tidobjmean)
 
 }
-

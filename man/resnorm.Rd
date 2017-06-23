@@ -45,4 +45,3 @@ data(tidobjmean)
 res <- resnorm(tidobjmean)
 }
 }
-

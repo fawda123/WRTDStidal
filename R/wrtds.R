@@ -5,7 +5,7 @@
 #'
 #' @param dat_in input tidal or tidalmean object
 #' @param flo_div numeric indicating number of divisions across the range of salinity/flow to create the interpolation grid
-#' @param tau numeric vector indicating conitional quantiles to fit in the weighted regression, can be many
+#' @param tau numeric vector indicating conditional quantiles to fit in the weighted regression, can be many
 #' @param fill_empty logical to fill missing values in interpolation grid using bilinear interpolation by season, see details
 #' @param trace logical indicating if progress is shown in the console
 #' @param ... arguments passed to or from other methods
@@ -14,7 +14,7 @@
 #' 
 #' @return Appends interpolation grid attributes to the input object.  For a tidal object, this could include multiple grids for each quantile.  For tidalmean objects, only one grid is appended to the `fits' attribute, in addition to a back-transformed grid as the `bt_fits' attribute and a grid of the scale parameter of each prediction as the `scls' attribute.  Grid rows correspond to the dates in the input data.
 #' 
-#' The \code{fill_empty} arguments uses bilinear interpolation of time by flow to fill missing data in the interpolation grids.  The grids are subset by month before interpolating to retain the seasonal variation captured by the models.  In gneral, this argument should not be used if more than ten percent of the interpolation grids are missing data.  It may be helpful to improve visual appearance of some of the plotting results. 
+#' The \code{fill_empty} arguments uses bilinear interpolation of time by flow to fill missing data in the interpolation grids.  The grids are subset by month before interpolating to retain the seasonal variation captured by the models.  In general, this argument should not be used if more than ten percent of the interpolation grids are missing data.  It may be helpful to improve visual appearance of some of the plotting results. 
 #' 
 #' @examples
 #' \dontrun{

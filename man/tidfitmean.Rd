@@ -30,4 +30,3 @@ An identical object as \code{\link{tidobjmean}} with the addition of predicted a
 \code{\link{tidalmean}} for full list of attributes in tidalmean objects, \code{\link{wrtds}} for creating the \code{fits}, \code{bt_fits}, and \code{scls} interpolation grids in the attributes, and \code{\link{respred}} and \code{\link{resnorm}} for interpolating predicted and normalized values from the grids.
 }
 \keyword{datasets}
-

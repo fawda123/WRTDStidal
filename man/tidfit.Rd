@@ -32,4 +32,3 @@ An identical object as \code{\link{tidobj}} with the addition of chlorophyll pre
 \code{\link{tidal}} for full list of attributes in tidal objects, \code{\link{wrtds}} for creating the \code{fits} interpolation grids, and \code{\link{respred}} and \code{\link{resnorm}} for interpolating predicted and normalized values from the grids.
 }
 \keyword{datasets}
-

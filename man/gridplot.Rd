@@ -83,4 +83,3 @@ gridplot(tidfitmean)
 \seealso{
 \code{\link{dynaplot}}, \code{\link{fitplot}}, \code{\link{gridplot}}, \code{\link{prdnrmplot}}
 }
-

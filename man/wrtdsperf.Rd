@@ -4,7 +4,7 @@
 \alias{wrtdsperf}
 \alias{wrtdsperf.tidal}
 \alias{wrtdsperf.tidalmean}
-\title{Get WRTDS peformance metrics}
+\title{Get WRTDS performance metrics}
 \usage{
 wrtdsperf(dat_in, ...)
 
@@ -23,7 +23,7 @@ wrtdsperf(dat_in, ...)
 A \code{\link[base]{data.frame}} with the metrics for each quantile model
 }
 \description{
-Get WRTDS performance metrics indcluding goodness of fit, root mean square error, and normalized mean square error.
+Get WRTDS performance metrics including goodness of fit, root mean square error, and normalized mean square error.
 }
 \details{
 Goodness of fit is calculated using the \code{\link{goodfit}} function for quantile regression described in Koenker and Mochado 1999.  Root mean square error is based on square root of the mean of the squared residuals.  Normalized mean square error described in Gershenfeld and Weigend 1993 is the sum of the squared errors divided by the sum of the non-conditional errors (i.e., sum of the squared values of the observed minus the mean of the observed).  This measure allows comparability of error values for data with different ranges, although the interpretation for quantile models is not clear.  The value is provided as a means of comparison for WRTDS models created from the same data set but with different window widths during model fitting.
@@ -45,4 +45,3 @@ Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference process
 \seealso{
 \code{\link{wrtdsrsd}} for residuals, \code{\link{goodfit}}
 }
-

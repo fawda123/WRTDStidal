@@ -107,4 +107,3 @@ fitplot(tidfitmean)
 \seealso{
 \code{\link{fitmoplot}}, \code{\link{prdnrmplot}}, \code{\link{sliceplot}}
 }
-

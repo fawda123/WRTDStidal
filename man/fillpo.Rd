@@ -26,4 +26,3 @@ Fill the \code{predonobs} attribute
 \details{
 Used in \code{\link{respred}} to fill the \code{predonobs} attribute.  This attribute is used to estimate performance metrics with \code{\link{wrtdsperf}}.
 }
-

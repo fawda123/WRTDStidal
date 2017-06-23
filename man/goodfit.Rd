@@ -51,4 +51,3 @@ Koenker, R., Machado, J.A.F. 1999. Goodness of fit and related inference process
 \seealso{
 \code{\link{wrtdsrsd}} for residuals
 }
-

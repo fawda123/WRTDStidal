@@ -13,7 +13,7 @@
 #' 
 #' @details Processing time can be reduced by setting up a parallel backend, as in the examples.  Note that this is not effective for small k-values (e.g., < 4) because each fold is sent to a processor, whereas the window width combinations in \code{grid_in} are evaluated in sequence.  
 #' 
-#' This function should only be used to view the error surface assocatied with finite combinations of window-width combinations.  A faster function to identify the optimal window widths is provided by \code{\link{winsrch_optim}}. 
+#' This function should only be used to view the error surface associated with finite combinations of window-width combinations.  A faster function to identify the optimal window widths is provided by \code{\link{winsrch_optim}}. 
 #' 
 #' @return A data frame of the search grid with associated errors for each cross-validation result.  Errors for each grid row are averages of all errors for each fold used in cross-validation.
 #' 

@@ -56,4 +56,3 @@ data(chldat)
 chldat <- tidalmean(chldat)
 
 }
-

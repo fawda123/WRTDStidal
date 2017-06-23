@@ -38,4 +38,3 @@ lnres_sim(sims)
 \seealso{
 \code{\link{daydat}} for the format of an input dataset, \code{\link{lnQ_sim}} for simulating discharge, and \code{\link{lnres_err}} for estimating the error distribution of the water quality time series, \code{\link{all_sims}} for completing all steps at once.
 }
-

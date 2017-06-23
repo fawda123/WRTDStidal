@@ -10,7 +10,7 @@
 #' 
 #' @seealso \code{\link{dynaplot}}, \code{\link{gridplot}}, \code{\link{wtsplot}}
 #' 
-#' @return A character vector of colors in hexidecimal notation.
+#' @return A character vector of colors in hexadecimal notation.
 #' 
 #' @examples
 #' 

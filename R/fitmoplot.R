@@ -17,7 +17,7 @@
 #' @param alpha numeric value indicating transparency of points or lines
 #' @param ... arguments passed to other methods
 #' 
-#' @details The plots are similar to those produced by \code{\link{fitplot}} except the values are facetted by month.  This allows an evaluation of trends over time independent of seasonal variation.  Multiple observations within each month for each year are averaged for a smoother plot.
+#' @details The plots are similar to those produced by \code{\link{fitplot}} except the values are faceted by month.  This allows an evaluation of trends over time independent of seasonal variation.  Multiple observations within each month for each year are averaged for a smoother plot.
 #' 
 #' @import dplyr ggplot2 RColorBrewer
 #' 
@@ -34,7 +34,7 @@
 #' 
 #' # plot using defaults
 #' fitmoplot(tidfit)
-#' 
+#' \dontrun{ 
 #' # get the same plot but use default ggplot settings
 #' fitmoplot(tidfit, pretty = FALSE)
 #' 
@@ -45,7 +45,7 @@
 #' fitmoplot(tidfit, predicted = FALSE)
 #' 
 #' # modify the plot as needed using ggplot scales, etc.
-#' 
+#'
 #' library(ggplot2)
 #' 
 #' fitmoplot(tidfit, pretty = FALSE, linetype = 'dashed') + 
@@ -65,6 +65,7 @@
 #' data(tidfitmean)
 #' 
 #' fitmoplot(tidfitmean)    
+#' }
 fitmoplot <- function(dat_in, ...) UseMethod('fitmoplot')
 
 #' @rdname fitmoplot

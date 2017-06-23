@@ -1,6 +1,6 @@
 #' Create a grid of half-window widths to evaluate
 #' 
-#' Create a grid of all unique combintations of half-window widths to evaluate.  The result can be passed to \code{\link{winsrch_grid}}.
+#' Create a grid of all unique combinations of half-window widths to evaluate.  The result can be passed to \code{\link{winsrch_grid}}.
 #' 
 #' @param mos numeric vector of half-window widths for months, a value of one indicates twelve months
 #' @param yrs numeric vector of half-window widths for years, a value of one indicates one-year

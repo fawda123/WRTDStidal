@@ -18,7 +18,7 @@ getwts(dat_in, ...)
 
 \item{ref_in}{row of tidal object as reference for weights}
 
-\item{wt_vars}{chr string of three elements indicatings names of columns in tidal object that are used for reference row weights}
+\item{wt_vars}{chr string of three elements indicating names of columns in tidal object that are used for reference row weights}
 
 \item{wins}{list of half-window widths for time, year, and flow}
 
@@ -58,4 +58,3 @@ sapply(1:nrow(tidobj), function(row) getwts(tidobj, tidobj[row, ],
  ngrzero = TRUE))
 }
 }
-

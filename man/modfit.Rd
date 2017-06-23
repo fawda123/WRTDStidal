@@ -2,10 +2,10 @@
 % Please edit documentation in R/modfit.R
 \name{modfit}
 \alias{modfit}
-\alias{modfit.data.frame}
 \alias{modfit.default}
 \alias{modfit.tidal}
 \alias{modfit.tidalmean}
+\alias{modfit.data.frame}
 \title{Fit weighted regression and get predicted/normalized response variable}
 \usage{
 modfit(dat_in, ...)
@@ -63,4 +63,3 @@ res <- modfit(chldat, trace = FALSE)
 \seealso{
 See the help files for \code{\link{tidal}}, \code{\link{tidalmean}}, \code{\link{wrtds}}, \code{\link{getwts}}, \code{\link{respred}}, and \code{\link{resnorm}} for arguments that can be passed to this function.
 }
-

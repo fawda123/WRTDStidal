@@ -47,4 +47,3 @@ res <- winsrch_optim(tidobjmean)
 \seealso{
 \code{\link{wrtdscv}}, \code{\link{winsrch_grid}}
 }
-

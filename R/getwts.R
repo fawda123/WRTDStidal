@@ -5,7 +5,7 @@
 #' 
 #' @param dat_in input tidal object
 #' @param ref_in row of tidal object as reference for weights
-#' @param wt_vars chr string of three elements indicatings names of columns in tidal object that are used for reference row weights
+#' @param wt_vars chr string of three elements indicating names of columns in tidal object that are used for reference row weights
 #' @param wins list of half-window widths for time, year, and flow
 #' @param all logical to return individual weights rather than the product of all three, default \code{FALSE}
 #' @param slice logical indicating if data are subset by observations within the maximum window width for faster calculations

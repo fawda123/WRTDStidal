@@ -104,4 +104,3 @@ prdnrmplot(tidfit, pretty = FALSE, linetype = 'dashed') +
 \seealso{
 \code{\link{fitplot}}, \code{\link{sliceplot}}
 }
-

@@ -35,4 +35,3 @@ data(tidobjmean)
 res <- resscls(tidobjmean)
 
 }
-

@@ -45,7 +45,7 @@ Plot number of observations for each point in a WRTDS interpolation grid.  This 
 \details{
 The plots can be used sample size as an indication of model fit for each unique location in the domain space of the time series.  The plots show grids of the number of observations with weights greater than zero for each unique date and salinity/flow combination.  The \code{obs} attribute in the \code{tidal} or \code{tidalmean} object is created during model fitting and has the same dimensions as the interpolation grid.  Each row is a unique date in the original dataset and each column is a salinity/flow value used to fit each regression (i.e., values in the \code{flo_grd} attribute). In general, low points in the grid may indicate locations in the time series where insufficient data could affect model fit.
 
-Unlike \code{\link{gridplot}}, interpolation of the grids for a smoother appearance is not allowed because the objecive is to identify specific locations with low sample size.  For the former function, the objective is to characterize general trends over time rather values at specific locations.
+Unlike \code{\link{gridplot}}, interpolation of the grids for a smoother appearance is not allowed because the objective is to identify specific locations with low sample size.  For the former function, the objective is to characterize general trends over time rather values at specific locations.
 }
 \examples{
 \dontrun{
@@ -72,4 +72,3 @@ nobsplot(tidfitmean)
 \seealso{
 \code{\link{wtsplot}} for an alternative to evaluating weights with different window width combinations
 }
-

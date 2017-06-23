@@ -11,7 +11,7 @@ lnres_err(dat_in, yr = NULL, comps = FALSE, seed = NULL)
 
 \item{yr}{numeric year value to use for the stationary model, defaults to the median year}
 
-\item{comps}{logical indicating ifthe WRTDS model used to get response error measures is also returned, see value.}
+\item{comps}{logical indicating if the WRTDS model used to get response error measures is also returned, see value.}
 
 \item{seed}{optional numeric value for random generation seed}
 }
@@ -36,4 +36,3 @@ lnres_err(daydat)
 \seealso{
 \code{\link{daydat}}
 }
-

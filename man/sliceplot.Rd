@@ -87,4 +87,3 @@ ggtitle('Normalized predictions for all months, 90th percentile')
 \seealso{
 \code{\link{fitplot}}, \code{\link{prdnrmplot}}
 }
-

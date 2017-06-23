@@ -8,7 +8,7 @@
 #' 
 #' @export
 #' 
-#' @return A named list of four numeric vecors including \code{day_num} (decimal day on an annual scale), \code{month} (month of the year as integer), \code{year}, and \code{dec_time} (decimal time as sum of \code{year} and \code{day_num})
+#' @return A named list of four numeric vectors including \code{day_num} (decimal day on an annual scale), \code{month} (month of the year as integer), \code{year}, and \code{dec_time} (decimal time as sum of \code{year} and \code{day_num})
 #' 
 #' @examples
 #' dt <- Sys.Date()

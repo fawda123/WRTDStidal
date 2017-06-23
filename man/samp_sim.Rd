@@ -50,4 +50,3 @@ samp_sim(tosamp, missper = 0.3, blck = 4)
 \seealso{
 \code{\link{lnres_sim}}, \code{\link{all_sims}}
 }
-

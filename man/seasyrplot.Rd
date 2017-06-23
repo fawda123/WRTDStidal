@@ -88,4 +88,3 @@ seasyrplot(tidfitmean)
 \seealso{
 \code{\link{seasplot}}, \code{\link{sliceplot}}
 }
-

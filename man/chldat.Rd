@@ -18,4 +18,3 @@ chldat
 Monthly chlorophyll time series for the Hillsborough Bay segment of Tampa Bay.  Data are the median values of monthly observations across all water quality stations in Hillsborough Bay.  Date ranges are from January 1974 to December 2012 (452 observations).  Variables are date, chlorophyll-a (in log-space, labelled \code{res} for response), salinity as fraction of freshwater (i.e., 0 - 1, with higher values indicating more freshwater, label \code{flo} for flow), and the detection limit for all stations for the respective date.
 }
 \keyword{datasets}
-

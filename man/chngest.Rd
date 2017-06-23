@@ -19,4 +19,3 @@ Get trend for a single time period
 \details{
 Estimates trends using methods described in \code{\link{wrtdstrnd}}.  Used internally and is not to be called by the user. Function runs on individual time period groups defined by arguments in \code{\link{wrtdstrnd}}.
 }
-

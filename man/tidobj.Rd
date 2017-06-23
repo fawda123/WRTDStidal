@@ -26,4 +26,3 @@ Monthly chlorophyll time series for the Hillsborough Bay segment of Tampa Bay as
 \code{\link{tidal}} for full list of attributes in tidal objects and \code{\link{wrtds}} for creating the \code{fits} interpolation grids.
 }
 \keyword{datasets}
-

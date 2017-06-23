@@ -39,4 +39,3 @@ annual_agg(tidfit)
 ## tidalmean object
 annual_agg(tidfitmean)
 }
-

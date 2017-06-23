@@ -75,4 +75,3 @@ wrtdstrnd(tidfitmean, mobrks, yrbrks, molabs, yrlabs)
 # get averages in each period
 wrtdstrnd(tidfit, mobrks, yrbrks, molabs, yrlabs, aves = TRUE)
 }
-

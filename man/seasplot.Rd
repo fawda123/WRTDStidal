@@ -59,4 +59,3 @@ seasplot(tidfitmean)
 \seealso{
 \code{\link{dynaplot}}, \code{\link{fitmoplot}}, \code{\link{gridplot}}, and \code{\link{sliceplot}} produce similar graphics except variation in the same month across years is emphasized.
 }
-

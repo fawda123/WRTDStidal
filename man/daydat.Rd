@@ -23,4 +23,3 @@ daydat
 Combined daily flow observations from the USGS stream gage station 01594440 near Bowie, Maryland and daily chlorophyll and salinity records from the Jug Bay station of the Chesapeake Bay Maryland National Estuarine Research Reserve.  Daily chlorophyll concentrations were estimated from fluorescence values that did not include blue-green algae blooms.  These date are provided to illustrate examples with time series simulation.
 }
 \keyword{datasets}
-

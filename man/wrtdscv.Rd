@@ -11,7 +11,7 @@ wrtdscv(dat_in, ...)
   trace = TRUE, ...)
 }
 \arguments{
-\item{dat_in}{input tidal or tidamean object}
+\item{dat_in}{input tidal or tidalmean object}
 
 \item{...}{arguments passed to \code{\link{wrtds}} or \code{\link{getwts}}, e.g., \code{tau = 0.2} if a \code{tidal} object is used for \code{dat_in}}
 
@@ -53,4 +53,3 @@ wrtdscv(tidobj, wins = wins, tau = 0.2)
 \seealso{
 \code{\link{getwts}}, \code{\link{wtsplot}}, \code{\link{winsrch_grid}}, \code{\link{winsrch_optim}}
 }
-

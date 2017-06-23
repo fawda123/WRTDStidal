@@ -11,7 +11,7 @@
 #' 
 #' @export
 #' 
-#' @seealso \code{\link{daydat}} for example data, \code{\link{lnQ_sim}} for simulating discharge, \code{\link{lnres_err}} for estimating the eror structure of the response variable, and \code{\link{lnres_sim}} for simulating the response variable
+#' @seealso \code{\link{daydat}} for example data, \code{\link{lnQ_sim}} for simulating discharge, \code{\link{lnres_err}} for estimating the error structure of the response variable, and \code{\link{lnres_sim}} for simulating the response variable
 #' 
 #' @import dplyr
 #' 

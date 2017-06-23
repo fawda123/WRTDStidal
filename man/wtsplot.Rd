@@ -68,4 +68,3 @@ wtsplot(tidfit, ref = '2000-01-01', wins = list(0.5, 15, Inf),
 \seealso{
 \code{\link{getwts}}
 }
-

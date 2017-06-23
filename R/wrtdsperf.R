@@ -1,7 +1,7 @@
 ######
-#' Get WRTDS peformance metrics
+#' Get WRTDS performance metrics
 #'
-#' Get WRTDS performance metrics indcluding goodness of fit, root mean square error, and normalized mean square error.
+#' Get WRTDS performance metrics including goodness of fit, root mean square error, and normalized mean square error.
 #' 
 #' @param dat_in input tidal object which must already have fitted model data
 #' @param logspace logical if performance metrics use back-transformed residuals

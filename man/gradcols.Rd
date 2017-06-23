@@ -10,7 +10,7 @@ gradcols(col_vec = NULL)
 \item{col_vec}{chr string of plot colors to use, typically passed to \code{\link[ggplot2]{scale_colour_gradientn}} for shading. Any color palette from RColorBrewer can be used as a named input. Palettes from grDevices must be supplied as the returned string of colors for each palette.}
 }
 \value{
-A character vector of colors in hexidecimal notation.
+A character vector of colors in hexadecimal notation.
 }
 \description{
 Gets colors used for WRTDS plots
@@ -32,4 +32,3 @@ gradcols(rainbow(7))
 \seealso{
 \code{\link{dynaplot}}, \code{\link{gridplot}}, \code{\link{wtsplot}}
 }
-

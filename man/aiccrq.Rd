@@ -36,4 +36,3 @@ mod <- quantreg::crq(
 
 aiccrq(mod)
 }
-
