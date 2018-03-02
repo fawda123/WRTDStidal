@@ -1,11 +1,12 @@
 # WRTDStidal: evaluating long-term water quality trends in tidal waters
-Marcus W. Beck, beck.marcus@epa.gov  
+
+### Marcus W. Beck, marcusb@sccwrp.org
 
 Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/WRTDStidal.png?branch=master)](http://travis-ci.org/fawda123/WRTDStidal)
 
 Windows: [![AppVeyor Build Status](http://ci.appveyor.com/api/projects/status/github/fawda123/WRTDStidal?branch=master)](http://ci.appveyor.com/project/fawda123/WRTDStidal)
 
-[![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/grand-total/WRTDStidal)](http://cran.rstudio.com/package=WRTDStidal)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/WRTDStidal)](https://cran.rstudio.com/package=WRTDStidal)
 
 [![DOI](https://zenodo.org/badge/22622714.svg)](https://zenodo.org/badge/latestdoi/22622714)
 
@@ -25,16 +26,14 @@ The original method for streams and rivers is described here:
 
 The stable release can be installed from CRAN:
 
-
-```r
+```{r eval = FALSE}
 install.packages('WRTDStidal')
 library(WRTDStidal)
 ```
 
 The development version of this package can be installed as follows:
 
-
-```r
+```{r eval = FALSE}
 install.packages('devtools')
 library(devtools)
 install_github('fawda123/WRTDStidal', ref = 'development')
