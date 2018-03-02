@@ -1,6 +1,6 @@
 ---
 title: 'WRTDStidal: evaluating long-term water quality trends in tidal waters'
-author: "Marcus W. Beck, beck.marcus@epa.gov"
+author: "Marcus W. Beck, marcusb@sccwrp.org"
 output:
   html_document:
     keep_md: yes
@@ -215,10 +215,14 @@ dat <- attr(tidfitmean, 'fits') %>%
 
 scene <- list(
   aspectmode = 'manual', 
-  aspectratio = list(x = 0.5, y = 1, z = 0.3)
+  aspectratio = list(x = 0.5, y = 1, z = 0.3), 
+  xaxis = list(title = 'Salinity'), 
+  yaxis = list(title = 'Time'), 
+  zaxis = list(title = 'log-Chl')
   )
 
-p <- plot_ly(z = ~dat) %>% add_surface() %>% 
+p <- plot_ly(z = ~dat) %>% 
+  add_surface(colors = rev(RColorBrewer::brewer.pal(11, 'Spectral'))) %>% 
   layout(scene = scene)
 p
 ```
