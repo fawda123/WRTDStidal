@@ -19,11 +19,11 @@ Predicted values are based on an interpolation matrix from the regression.  A se
 
 ## Using the functions
 
-```{r echo = FALSE, message = FALSE}
+```{r echo = FALSE, message = FALSE, warning = F}
 devtools::load_all()
 ```
 
-The adapation of WRTDS in tidal waters is designed to predict or normalize a water quality variable as a function of time, season, and salinity/flow.  For example, Beck and Hagy (2015) describe an adaption of WRTDS to model chloropyll concentrations in estuaries as a function of time, season, and salinity.  The salinity or flow variable is meant to capture the variation in the response variable that is related to changes in freshwater inputs.  The choice of salinity or flow is problem-specific depending on the location.  For example, monitoring stations in upper estuaries are more strongly affected from stream inflow such that flow data from a dischage gage would be a more appropriate than a salinity time series.  Exploratory analyses should identify whether a water quality response variable is more linked to a salinity or discharge flow record.  The WRTDStidal package can use the time series interchangable. 
+The adaptation of WRTDS in tidal waters is designed to predict or normalize a water quality variable as a function of time, season, and salinity/flow.  For example, Beck and Hagy (2015) describe an adaptation of WRTDS to model chloropyll concentrations in estuaries as a function of time, season, and salinity.  The salinity or flow variable is meant to capture the variation in the response variable that is related to changes in freshwater inputs.  The choice of salinity or flow is problem-specific depending on the location.  For example, monitoring stations in upper estuaries are more strongly affected from stream inflow such that flow data from a dischage gage would be a more appropriate than a salinity time series.  Exploratory analyses should identify whether a water quality response variable is more linked to a salinity or discharge flow record.  The WRTDStidal package can use the time series interchangable. 
 
 The raw data are typically a `data.frame` with rows as monthly observations (ascending time) and four columns as date, response variable, salinity/flow, and lower detection limit for the response variable.  The `chldat` dataset that accompanies this package shows the proper format for using the functions.
 
