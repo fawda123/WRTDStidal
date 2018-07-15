@@ -37,13 +37,13 @@ wrtdstrnd_sk(dat_in, ...)
 \value{
 A \code{\link[base]{data.frame}} with summary trends for each grouping, including \code{med} as the median value for the period of observation, \code{tau} as the magnitude and direction of the trend, \code{slope} as the Thiel-Sen slope for change per year, \code{chitest} as the significance test evaluating heterogeneity between seasons, \code{ztest} indicating significance of the overall trend, and \code{perchg} as 100 multiplied by the ratio of the annual slope to the median estimate of the time period (percent change per year).  
 
-As noted in \code{\link[EnvStats]{kendallSeasonalTrendTest}}, the overall test is not appropriate if \code{chitest} indicates a small p-value.
+As noted in \code{\link{kendallSeasonalTrendTest}}, the overall test is not appropriate if \code{chitest} indicates a small p-value.
 }
 \description{
 Get WRTDS trends using seasonal Kendall tests
 }
 \details{
-Trends are based on \code{\link[EnvStats]{kendallSeasonalTrendTest}} for user-specified time periods.  In general, the seasonal Kendall test evaluates monotonic trends using a non-parametric approach that accounts for seasonal variation in the time series.  
+Trends are based on \code{\link{kendallSeasonalTrendTest}} for user-specified time periods.  In general, the seasonal Kendall test evaluates monotonic trends using a non-parametric approach that accounts for seasonal variation in the time series.  
 
 All trends are based on back-transformed, flow-normalized results by default. The variable for evaluating trends can be changed with \code{'trndvar'} as \code{'res'}, \code{'norm'}, or \code{'fit'} for \code{tidal} objects and as \code{'res'}, \code{'bt_norm'}, or \code{'bt_fits'} for \code{tidalmean} objects.  In all cases, back-transformed variables are evaluated.
 
