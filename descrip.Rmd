@@ -19,7 +19,7 @@ Predicted values are based on an interpolation matrix from the regression.  A se
 
 ## Using the functions
 
-```{r echo = FALSE, message = FALSE, warning = F}
+```{r echo = FALSE, message = FALSE, warning = FALSE}
 devtools::load_all()
 ```
 
