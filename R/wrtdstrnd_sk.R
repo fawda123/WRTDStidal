@@ -21,7 +21,6 @@
 #' The user must supply the annual and monthly aggregation periods to the appropriate arguments. These are passed to \code{\link[base]{cut}} and are left-open, right-closed along the interval. 
 #' 
 #' @import dplyr
-#' @importFrom EnvStats kendallSeasonalTrendTest
 #' @importFrom lubridate month year
 #' @importFrom purrr map
 #' @importFrom tidyr nest unnest
