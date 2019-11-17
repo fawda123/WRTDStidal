@@ -1,6 +1,6 @@
 ## Resubmission 
 
-This is a resubmission to remove a package dependency that will be removed from CRAN.
+This is a resubmission for a version update.
 
 ## Test environments
 
