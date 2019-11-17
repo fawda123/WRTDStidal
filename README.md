@@ -1,6 +1,6 @@
 # WRTDStidal: evaluating long-term water quality trends in tidal waters
 
-### Marcus W. Beck, marcusb@sccwrp.org
+### Marcus W. Beck, mbeck@tbep.org
 
 Linux: [![Travis-CI Build Status](http://travis-ci.org/fawda123/WRTDStidal.png?branch=master)](http://travis-ci.org/fawda123/WRTDStidal)
 

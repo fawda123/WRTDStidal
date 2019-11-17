@@ -19,3 +19,5 @@ descrip.md
 descrip.html
 ^descrip_cache/.*
 ^descrip_files/.*
+^doc$
+^Meta$

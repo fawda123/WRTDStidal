@@ -10,8 +10,9 @@ kendallTrendTest(y, ...)
 
 \method{kendallTrendTest}{default}(y, x = seq(along = y),
   alternative = "two.sided", correct = TRUE, ci.slope = TRUE,
-  conf.level = 0.95, warn = TRUE, data.name = NULL, data.name.x = NULL,
-  parent.of.data = NULL, subset.expression = NULL, ...)
+  conf.level = 0.95, warn = TRUE, data.name = NULL,
+  data.name.x = NULL, parent.of.data = NULL,
+  subset.expression = NULL, ...)
 
 \method{kendallTrendTest}{formula}(y, data = NULL, subset,
   na.action = na.pass, ...)

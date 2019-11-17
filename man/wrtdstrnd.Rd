@@ -12,8 +12,8 @@ wrtdstrnd(dat_in, ...)
 \method{wrtdstrnd}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs,
   aves = FALSE, mo_strt = 10, min_mo = 9, ...)
 
-\method{wrtdstrnd}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs, tau = NULL,
-  aves = FALSE, mo_strt = 10, min_mo = 9, ...)
+\method{wrtdstrnd}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs,
+  tau = NULL, aves = FALSE, mo_strt = 10, min_mo = 9, ...)
 
 \method{wrtdstrnd}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs,
   aves = FALSE, mo_strt = 10, min_mo = 9, ...)

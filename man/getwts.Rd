@@ -7,9 +7,10 @@
 \usage{
 getwts(dat_in, ...)
 
-\method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num", "dec_time",
-  "flo"), wins = list(0.5, 10, NULL), all = FALSE, slice = TRUE,
-  ngrzero = FALSE, wins_only = FALSE, min_obs = 100, ...)
+\method{getwts}{default}(dat_in, ref_in, wt_vars = c("day_num",
+  "dec_time", "flo"), wins = list(0.5, 10, NULL), all = FALSE,
+  slice = TRUE, ngrzero = FALSE, wins_only = FALSE, min_obs = 100,
+  ...)
 }
 \arguments{
 \item{dat_in}{input tidal object}

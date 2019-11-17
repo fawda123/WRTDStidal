@@ -12,9 +12,9 @@ sliceplot(dat_in, ...)
   dt_rng = NULL, col_vec = NULL, predicted = TRUE, logspace = TRUE,
   grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 
-\method{sliceplot}{tidalmean}(dat_in, slices = c(1, 7), predicted = TRUE,
-  dt_rng = NULL, col_vec = NULL, logspace = TRUE, grids = TRUE,
-  pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+\method{sliceplot}{tidalmean}(dat_in, slices = c(1, 7),
+  predicted = TRUE, dt_rng = NULL, col_vec = NULL, logspace = TRUE,
+  grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

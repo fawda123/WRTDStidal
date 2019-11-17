@@ -9,9 +9,9 @@
 prdnrmplot(dat_in, ...)
 
 \method{prdnrmplot}{tidal}(dat_in, tau = NULL, annuals = TRUE,
-  logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2,
-  alpha = 1, min_mo = 9, mo_strt = 10, pretty = TRUE, plot = TRUE,
-  ...)
+  logspace = TRUE, dt_rng = NULL, col_vec = NULL, lwd = 1,
+  size = 2, alpha = 1, min_mo = 9, mo_strt = 10, pretty = TRUE,
+  plot = TRUE, ...)
 
 \method{prdnrmplot}{tidalmean}(dat_in, annuals = TRUE, logspace = TRUE,
   dt_rng = NULL, col_vec = NULL, lwd = 1, size = 2, alpha = 1,

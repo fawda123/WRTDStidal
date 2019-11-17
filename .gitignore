@@ -4,3 +4,6 @@ cache/*
 .RData
 *.rdb
 *.Rproj
+inst/doc
+doc
+Meta

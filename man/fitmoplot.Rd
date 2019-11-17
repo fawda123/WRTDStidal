@@ -13,9 +13,10 @@ fitmoplot(dat_in, ...)
   col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2,
   alpha = 1, ...)
 
-\method{fitmoplot}{tidalmean}(dat_in, month = c(1:12), predicted = TRUE,
-  logspace = TRUE, dt_rng = NULL, ncol = NULL, col_vec = NULL,
-  grids = TRUE, pretty = TRUE, lwd = 1, size = 2, alpha = 1, ...)
+\method{fitmoplot}{tidalmean}(dat_in, month = c(1:12),
+  predicted = TRUE, logspace = TRUE, dt_rng = NULL, ncol = NULL,
+  col_vec = NULL, grids = TRUE, pretty = TRUE, lwd = 1, size = 2,
+  alpha = 1, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

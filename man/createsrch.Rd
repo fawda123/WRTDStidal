@@ -4,8 +4,8 @@
 \alias{createsrch}
 \title{Create a grid of half-window widths to evaluate}
 \usage{
-createsrch(mos = c(seq(0.5, 1, by = 0.25), 2, 10), yrs = c(seq(5, 15, by =
-  3), 50), flo = c(seq(0.5, 1, by = 0.1), 5))
+createsrch(mos = c(seq(0.5, 1, by = 0.25), 2, 10), yrs = c(seq(5, 15,
+  by = 3), 50), flo = c(seq(0.5, 1, by = 0.1), 5))
 }
 \arguments{
 \item{mos}{numeric vector of half-window widths for months, a value of one indicates twelve months}

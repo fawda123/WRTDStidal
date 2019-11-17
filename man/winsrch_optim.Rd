@@ -7,9 +7,9 @@
 \usage{
 winsrch_optim(dat_in, ...)
 
-\method{winsrch_optim}{default}(dat_in, wins_in = NULL, control = list(factr
-  = 1e+07, parscale = c(1, 10, 1)), lower = c(0.1, 1, 0.1), upper = c(2, 15,
-  2), ...)
+\method{winsrch_optim}{default}(dat_in, wins_in = NULL,
+  control = list(factr = 1e+07, parscale = c(1, 10, 1)), lower = c(0.1,
+  1, 0.1), upper = c(2, 15, 2), ...)
 }
 \arguments{
 \item{dat_in}{input data object to use with weighted regression}
