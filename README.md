@@ -26,14 +26,14 @@ The original method for streams and rivers is described here:
 
 The stable release can be installed from CRAN:
 
-```{r eval = FALSE}
+```
 install.packages('WRTDStidal')
 library(WRTDStidal)
 ```
 
 The development version of this package can be installed as follows:
 
-```{r eval = FALSE}
+```
 install.packages('devtools')
 library(devtools)
 install_github('fawda123/WRTDStidal', ref = 'development')
