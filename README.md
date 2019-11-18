@@ -42,4 +42,4 @@ library(WRTDStidal)
 
 ## Package description
 
-Read the complete package description [here](https://fawda123.github.io/WRTDStidal/descrip). 
+Read the complete package description [here](http://fawda123.github.io/WRTDStidal/articles/overview.html). 
