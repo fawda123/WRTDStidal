@@ -104,10 +104,10 @@ resnorm.tidal <- function(dat_in, trace = TRUE, ...){
     # averaging happens only if more than 80% of the predictions for a date are filled
     norms <- data.frame(date = to_norm$date, norms) %>% 
       group_by(date) %>% 
-      summarise(norms = ifelse(sum(is.na(norms))/length(norms) > 0.2, NA, mean(norms, na.rm = TRUE)))
+      summarise(norm = ifelse(sum(is.na(norms))/length(norms) > 0.2, NA, mean(norms, na.rm = TRUE)))
    
     # append to dat_in object for the grid
-    dat_in$norm <- norms$norms
+    dat_in <- dplyr::left_join(dat_in, norms, by = 'date')
     colnm <- gsub('^fit', 'norm', tau[i])
     names(dat_in)[grepl('^norm$', names(dat_in))] <- colnm
    
@@ -176,12 +176,12 @@ resnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
     ), 
     loc = to_norm
   )
-    
+  
   # append to normalization data, then average for unique dates
   # averaging happens only if more than 80% of the predictions for a date are filled
   norms <- data.frame(date = to_norm$date, norms) %>% 
     group_by(date) %>% 
-    summarise(norms = ifelse(sum(is.na(norms))/length(norms) > 0.2, NA, mean(norms, na.rm = TRUE)))
+    summarise(norm = ifelse(sum(is.na(norms))/length(norms) > 0.2, NA, mean(norms, na.rm = TRUE)))
    
   # bilinear interpolatoin of fit grid with data to average for norms
   btnorms <- interp.surface(
@@ -197,12 +197,12 @@ resnorm.tidalmean <- function(dat_in, trace = TRUE, ...){
   # averaging happens only if more than 80% of the predictions for a date are filled
   btnorms <- data.frame(date = to_norm$date, btnorms) %>% 
     group_by(date) %>% 
-    summarise(btnorms = ifelse(sum(is.na(btnorms))/length(btnorms) > 0.2, NA, mean(btnorms, na.rm = TRUE)))
+    summarise(bt_norm = ifelse(sum(is.na(btnorms))/length(btnorms) > 0.2, NA, mean(btnorms, na.rm = TRUE)))
    
   # append to dat_in object
-  dat_in$norm <- norms$norms
-  dat_in$bt_norm <- btnorms$btnorms
-  
+  dat_in <- dplyr::left_join(dat_in, norms, by = 'date')
+  dat_in <- dplyr::left_join(dat_in, btnorms, by = 'date')
+
   # exit function
   return(dat_in)
     
