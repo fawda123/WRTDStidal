@@ -1,9 +1,9 @@
 ---
-title: 'WRTDStidal: evaluating long-term water quality trends in tidal waters'
+title: 'Package overview'
 author: "Marcus W. Beck, mbeck@tbep.org"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{overview}
+  %\VignetteIndexEntry{Package overview}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

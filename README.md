@@ -36,7 +36,7 @@ The development version of this package can be installed as follows:
 ```
 install.packages('devtools')
 library(devtools)
-install_github('fawda123/WRTDStidal', ref = 'development')
+install_github('fawda123/WRTDStidal')
 library(WRTDStidal)
 ```
 
