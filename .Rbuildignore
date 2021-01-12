@@ -23,3 +23,4 @@ descrip.html
 ^docs$
 ^Meta$
 ^CRAN-RELEASE$
+^\.github$
