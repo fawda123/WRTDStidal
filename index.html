@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -34,23 +36,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">WRTDStidal</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/fawda123/wtreg_for_estuaries/">
+  <a href="https://github.com/fawda123/wtreg_for_estuaries/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -81,85 +77,96 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="wrtdstidal-evaluating-long-term-water-quality-trends-in-tidal-waters" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#wrtdstidal-evaluating-long-term-water-quality-trends-in-tidal-waters" class="anchor"></a>WRTDStidal: evaluating long-term water quality trends in tidal waters</h1></div>
-<div id="marcus-w-beck-mbecktbeporg" class="section level3">
-<h3 class="hasAnchor">
-<a href="#marcus-w-beck-mbecktbeporg" class="anchor"></a>Marcus W. Beck, <a href="mailto:mbeck@tbep.org" class="email">mbeck@tbep.org</a>
+<div class="section level1">
+<div class="page-header"><h1 id="wrtdstidal-evaluating-long-term-water-quality-trends-in-tidal-waters">WRTDStidal: evaluating long-term water quality trends in tidal waters<a class="anchor" aria-label="anchor" href="#wrtdstidal-evaluating-long-term-water-quality-trends-in-tidal-waters"></a>
+</h1></div>
+<div class="section level3">
+<h3 id="marcus-w-beck-mbecktbeporg">Marcus W. Beck, <a href="mailto:mbeck@tbep.org" class="email">mbeck@tbep.org</a>
+<a class="anchor" aria-label="anchor" href="#marcus-w-beck-mbecktbeporg"></a>
 </h3>
 
-<p>This is the development repository for the WRTDStidal package. Functions within this package can be used to model water quality time series from coastal monitoring data. The approach follows on previous methods described in the <a href="https://github.com/USGS-R/EGRET">EGRET</a> package developed by USGS for non-tidal waters.</p>
+<p>This is the development repository for the WRTDStidal package. Functions within this package can be used to model water quality time series from coastal monitoring data. The approach follows on previous methods described in the <a href="https://github.com/USGS-R/EGRET" class="external-link">EGRET</a> package developed by USGS for non-tidal waters.</p>
 <p>Additional details:</p>
-<p><em>Beck MW, Hagy JD. 2015. Adaptation of a weighted regression approach to evaluate water quality trends in an Estuary. Environmental Modelling and Assessment. 20(6):637-855. <a href="http://dx.doi.org/10.1007/s10666-015-9452-8">http://dx.doi.org/10.1007/s10666-015-9452-8</a></em></p>
+<p><em>Beck MW, Hagy JD. 2015. Adaptation of a weighted regression approach to evaluate water quality trends in an Estuary. Environmental Modelling and Assessment. 20(6):637-855. <a href="http://dx.doi.org/10.1007/s10666-015-9452-8" class="external-link">http://dx.doi.org/10.1007/s10666-015-9452-8</a></em></p>
 <p>The original method for streams and rivers is described here:</p>
-<p><em>Hirsch RM, De Cicco L. 2014. User guide to Exploration and Graphics for RivEr Trends (EGRET) and dataRetrieval: R packages for hydrologic data. Techniques and Methods book 4, ch. A10, US Geological Survey, Reston, Virginia. <a href="http://pubs.usgs.gov/tm/04/a10/" class="uri">http://pubs.usgs.gov/tm/04/a10/</a></em></p>
-<p><em>Hirsch RM, Moyer DL, Archfield SA. 2010. Weighted regressions on time, discharge, and season (WRTDS), with an application to Chesapeake Bay river inputs. Journal of the American Water Resources Association. 46(5):857-880. <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2010.00482.x/abstract">DOI: 10.1111/j.1752-1688.2010.00482.x</a></em></p>
+<p><em>Hirsch RM, De Cicco L. 2014. User guide to Exploration and Graphics for RivEr Trends (EGRET) and dataRetrieval: R packages for hydrologic data. Techniques and Methods book 4, ch. A10, US Geological Survey, Reston, Virginia. <a href="http://pubs.usgs.gov/tm/04/a10/" class="external-link uri">http://pubs.usgs.gov/tm/04/a10/</a></em></p>
+<p><em>Hirsch RM, Moyer DL, Archfield SA. 2010. Weighted regressions on time, discharge, and season (WRTDS), with an application to Chesapeake Bay river inputs. Journal of the American Water Resources Association. 46(5):857-880. <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1752-1688.2010.00482.x/abstract" class="external-link">DOI: 10.1111/j.1752-1688.2010.00482.x</a></em></p>
 </div>
-<div id="installing-the-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installing-the-package" class="anchor"></a>Installing the package</h2>
+<div class="section level2">
+<h2 id="installing-the-package">Installing the package<a class="anchor" aria-label="anchor" href="#installing-the-package"></a>
+</h2>
 <p>The stable release can be installed from CRAN:</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('WRTDStidal')
-library(WRTDStidal)</a></code></pre>
+<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'WRTDStidal'</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">WRTDStidal</span><span class="op">)</span></code></pre>
 <p>The development version of this package can be installed as follows:</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('devtools')
-library(devtools)
-install_github('fawda123/WRTDStidal')
-library(WRTDStidal)</a></code></pre>
+<pre><code><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'devtools'</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span>
+<span class="fu">install_github</span><span class="op">(</span><span class="st">'fawda123/WRTDStidal'</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">WRTDStidal</span><span class="op">)</span></code></pre>
 </div>
-<div id="package-description" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-description" class="anchor"></a>Package description</h2>
-<p>Read the complete package description <a href="http://fawda123.github.io/WRTDStidal/articles/overview.html">here</a>.</p>
+<div class="section level2">
+<h2 id="package-description">Package description<a class="anchor" aria-label="anchor" href="#package-description"></a>
+</h2>
+<p>Read the complete package description <a href="http://fawda123.github.io/WRTDStidal/articles/overview.html" class="external-link">here</a>.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=WRTDStidal">https://​cloud.r-project.org/​package=WRTDStidal</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/fawda123/wtreg_for_estuaries/">https://​github.com/​fawda123/​wtreg_for_estuaries/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/fawda123/wtreg_for_estuaries/issues">https://​github.com/​fawda123/​wtreg_for_estuaries/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=WRTDStidal" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/fawda123/wtreg_for_estuaries/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/fawda123/wtreg_for_estuaries/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>CC0</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing WRTDStidal</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Marcus W. Beck <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/fawda123/WRTDStidal/actions"><img src="https://github.com/fawda123/WRTDStidal/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://github.com/fawda123/WRTDStidal/actions"><img src="https://github.com/fawda123/WRTDStidal/workflows/pkgdown/badge.svg" alt="pkgdown"></a></li>
-<li><a href="https://cran.rstudio.com/package=WRTDStidal"><img src="https://cranlogs.r-pkg.org/badges/grand-total/WRTDStidal" alt="Downloads"></a></li>
-<li><a href="https://zenodo.org/badge/latestdoi/22622714"><img src="https://zenodo.org/badge/22622714.svg" alt="DOI"></a></li>
+<li><a href="https://github.com/fawda123/WRTDStidal/actions" class="external-link"><img src="https://github.com/fawda123/WRTDStidal/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/fawda123/WRTDStidal/actions" class="external-link"><img src="https://github.com/fawda123/WRTDStidal/workflows/pkgdown/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://CRAN.R-project.org/package=WRTDStidal" class="external-link"><img src="https://www.r-pkg.org/badges/version/WRTDStidal" alt="CRAN status"></a></li>
+<li><a href="https://cran.rstudio.com/package=WRTDStidal" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/WRTDStidal" alt="Downloads"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/22622714" class="external-link"><img src="https://zenodo.org/badge/22622714.svg" alt="DOI"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Marcus W. Beck.</p>
+  <p></p>
+<p>Developed by Marcus W. Beck.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
@@ -167,6 +174,8 @@ library(WRTDStidal)</a></code></pre>
 
   
 
+
+  
 
   </body>
 </html>
