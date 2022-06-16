@@ -4,6 +4,7 @@
 
 [![R-CMD-check](https://github.com/fawda123/WRTDStidal/workflows/R-CMD-check/badge.svg)](https://github.com/fawda123/WRTDStidal/actions)
 [![pkgdown](https://github.com/fawda123/WRTDStidal/workflows/pkgdown/badge.svg)](https://github.com/fawda123/WRTDStidal/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/WRTDStidal)](https://CRAN.R-project.org/package=WRTDStidal)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/WRTDStidal)](https://cran.rstudio.com/package=WRTDStidal)
 [![DOI](https://zenodo.org/badge/22622714.svg)](https://zenodo.org/badge/latestdoi/22622714)
 
