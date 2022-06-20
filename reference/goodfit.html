@@ -36,7 +36,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/fawda123/wtreg_for_estuaries/" class="external-link">
+  <a href="https://github.com/fawda123/WRTDStidal/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -51,7 +51,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Quantile regression goodness of fit</h1>
-    <small class="dont-index">Source: <a href="https://github.com/fawda123/wtreg_for_estuaries/blob/HEAD/R/goodfit.R" class="external-link"><code>R/goodfit.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/fawda123/WRTDStidal/blob/HEAD/R/goodfit.R" class="external-link"><code>R/goodfit.R</code></a></small>
     <div class="hidden name"><code>goodfit.Rd</code></div>
     </div>
 
@@ -121,13 +121,13 @@
 <span class="r-in"><span class="va">rsd_nl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">resid</a></span><span class="op">(</span><span class="va">mod_nl</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">goodfit</span><span class="op">(</span><span class="va">res</span>, <span class="va">rsd_nl</span>, <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.720453</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7180779</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## r2 of mean model for comparison</span></span>
 <span class="r-in"><span class="va">mod_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_lm</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9161167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9049301</span>
 </code></pre></div>
     </div>
   </div>
