@@ -9,9 +9,17 @@
 \usage{
 nobsplot(dat_in, ...)
 
-\method{nobsplot}{default}(dat_in, month = "all", years = NULL,
-  col_vec = NULL, allflo = TRUE, ncol = NULL, grids = FALSE,
-  pretty = TRUE, ...)
+\method{nobsplot}{default}(
+  dat_in,
+  month = "all",
+  years = NULL,
+  col_vec = NULL,
+  allflo = TRUE,
+  ncol = NULL,
+  grids = FALSE,
+  pretty = TRUE,
+  ...
+)
 
 \method{nobsplot}{tidal}(dat_in, ...)
 

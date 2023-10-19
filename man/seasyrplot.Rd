@@ -8,13 +8,33 @@
 \usage{
 seasyrplot(dat_in, ...)
 
-\method{seasyrplot}{tidal}(dat_in, years = NULL, tau = NULL,
-  predicted = TRUE, logspace = TRUE, col_vec = NULL, grids = TRUE,
-  pretty = TRUE, lwd = 0.5, alpha = 1, ...)
+\method{seasyrplot}{tidal}(
+  dat_in,
+  years = NULL,
+  tau = NULL,
+  predicted = TRUE,
+  logspace = TRUE,
+  col_vec = NULL,
+  grids = TRUE,
+  pretty = TRUE,
+  lwd = 0.5,
+  alpha = 1,
+  ...
+)
 
-\method{seasyrplot}{tidalmean}(dat_in, years = NULL, tau = NULL,
-  predicted = TRUE, logspace = TRUE, col_vec = NULL, grids = TRUE,
-  pretty = TRUE, lwd = 0.5, alpha = 1, ...)
+\method{seasyrplot}{tidalmean}(
+  dat_in,
+  years = NULL,
+  tau = NULL,
+  predicted = TRUE,
+  logspace = TRUE,
+  col_vec = NULL,
+  grids = TRUE,
+  pretty = TRUE,
+  lwd = 0.5,
+  alpha = 1,
+  ...
+)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

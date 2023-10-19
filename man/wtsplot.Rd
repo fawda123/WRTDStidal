@@ -9,10 +9,20 @@
 \usage{
 wtsplot(dat_in, ...)
 
-\method{wtsplot}{default}(dat_in, ref = NULL, wins = list(0.5, 10,
-  NULL), min_obs = TRUE, slice = FALSE, dt_rng = NULL,
-  pt_rng = c(1, 12), col_vec = NULL, col_lns = NULL, alpha = 1,
-  as_list = FALSE, ...)
+\method{wtsplot}{default}(
+  dat_in,
+  ref = NULL,
+  wins = list(0.5, 10, NULL),
+  min_obs = TRUE,
+  slice = FALSE,
+  dt_rng = NULL,
+  pt_rng = c(1, 12),
+  col_vec = NULL,
+  col_lns = NULL,
+  alpha = 1,
+  as_list = FALSE,
+  ...
+)
 
 \method{wtsplot}{tidal}(dat_in, ...)
 

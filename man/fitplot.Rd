@@ -8,15 +8,40 @@
 \usage{
 fitplot(dat_in, ...)
 
-\method{fitplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
-  annuals = TRUE, logspace = TRUE, dt_rng = NULL, col_vec = NULL,
-  grids = TRUE, min_mo = 9, mo_strt = 10, pretty = TRUE, lwd = 1,
-  size = 2, alpha = 1, ...)
+\method{fitplot}{tidal}(
+  dat_in,
+  tau = NULL,
+  predicted = TRUE,
+  annuals = TRUE,
+  logspace = TRUE,
+  dt_rng = NULL,
+  col_vec = NULL,
+  grids = TRUE,
+  min_mo = 9,
+  mo_strt = 10,
+  pretty = TRUE,
+  lwd = 1,
+  size = 2,
+  alpha = 1,
+  ...
+)
 
-\method{fitplot}{tidalmean}(dat_in, predicted = TRUE, annuals = TRUE,
-  logspace = TRUE, dt_rng = NULL, col_vec = NULL, grids = TRUE,
-  min_mo = 9, mo_strt = 10, pretty = TRUE, lwd = 1, size = 2,
-  alpha = 1, ...)
+\method{fitplot}{tidalmean}(
+  dat_in,
+  predicted = TRUE,
+  annuals = TRUE,
+  logspace = TRUE,
+  dt_rng = NULL,
+  col_vec = NULL,
+  grids = TRUE,
+  min_mo = 9,
+  mo_strt = 10,
+  pretty = TRUE,
+  lwd = 1,
+  size = 2,
+  alpha = 1,
+  ...
+)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

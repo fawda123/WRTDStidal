@@ -8,14 +8,22 @@
 \usage{
 kendallTrendTest(y, ...)
 
-\method{kendallTrendTest}{default}(y, x = seq(along = y),
-  alternative = "two.sided", correct = TRUE, ci.slope = TRUE,
-  conf.level = 0.95, warn = TRUE, data.name = NULL,
-  data.name.x = NULL, parent.of.data = NULL,
-  subset.expression = NULL, ...)
+\method{kendallTrendTest}{default}(
+  y,
+  x = seq(along = y),
+  alternative = "two.sided",
+  correct = TRUE,
+  ci.slope = TRUE,
+  conf.level = 0.95,
+  warn = TRUE,
+  data.name = NULL,
+  data.name.x = NULL,
+  parent.of.data = NULL,
+  subset.expression = NULL,
+  ...
+)
 
-\method{kendallTrendTest}{formula}(y, data = NULL, subset,
-  na.action = na.pass, ...)
+\method{kendallTrendTest}{formula}(y, data = NULL, subset, na.action = na.pass, ...)
 }
 \arguments{
 \item{y}{an object containing data for the trend test. In the default method, the argument \code{y} must be numeric vector of observations. In the formula method, \code{y} must be a formula of the form \code{y ~ 1} or \code{y ~ x}. The form \code{y ~ 1} indicates use the observations in the vector \code{y} for the test for trend and use the default value of the argument \code{x} in the call to \code{kendallTrendTest.default}. The form \code{y ~ x} indicates use the observations in the vector \code{y} for the test for trend and use the specified value of the argument \code{x} in the call to \code{kendallTrendTest.default}. Missing (\code{NA}), undefined (\code{NaN}), and infinite (\code{Inf, -Inf}) values are allowed but will be removed.}

@@ -11,11 +11,18 @@ wrtdstrnd_sk(dat_in, ...)
 
 \method{wrtdstrnd_sk}{default}(dat_in, mobrks, yrbrks, molabs, yrlabs, ...)
 
-\method{wrtdstrnd_sk}{tidal}(dat_in, mobrks, yrbrks, molabs, yrlabs,
-  tau = NULL, trndvar = "norm", ...)
+\method{wrtdstrnd_sk}{tidal}(
+  dat_in,
+  mobrks,
+  yrbrks,
+  molabs,
+  yrlabs,
+  tau = NULL,
+  trndvar = "norm",
+  ...
+)
 
-\method{wrtdstrnd_sk}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs,
-  trndvar = "bt_norm", ...)
+\method{wrtdstrnd_sk}{tidalmean}(dat_in, mobrks, yrbrks, molabs, yrlabs, trndvar = "bt_norm", ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object which must already have fitted model data}

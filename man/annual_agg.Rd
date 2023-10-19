@@ -7,8 +7,7 @@
 \usage{
 annual_agg(dat_in, ...)
 
-\method{annual_agg}{default}(dat_in, mo_strt = 10, min_mo = 9,
-  logspace = TRUE, ...)
+\method{annual_agg}{default}(dat_in, mo_strt = 10, min_mo = 9, logspace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

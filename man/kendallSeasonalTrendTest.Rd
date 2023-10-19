@@ -10,16 +10,26 @@
 \usage{
 kendallSeasonalTrendTest(y, ...)
 
-\method{kendallSeasonalTrendTest}{default}(y, season, year,
-  alternative = "two.sided", correct = TRUE, ci.slope = TRUE,
-  conf.level = 0.95, independent.obs = TRUE, data.name = NULL,
-  season.name = NULL, year.name = NULL, parent.of.data = NULL,
-  subset.expression = NULL, ...)
+\method{kendallSeasonalTrendTest}{default}(
+  y,
+  season,
+  year,
+  alternative = "two.sided",
+  correct = TRUE,
+  ci.slope = TRUE,
+  conf.level = 0.95,
+  independent.obs = TRUE,
+  data.name = NULL,
+  season.name = NULL,
+  year.name = NULL,
+  parent.of.data = NULL,
+  subset.expression = NULL,
+  ...
+)
 
 \method{kendallSeasonalTrendTest}{data.frame}(y, ...)
 
-\method{kendallSeasonalTrendTest}{formula}(y, data = NULL, subset,
-  na.action = na.pass, ...)
+\method{kendallSeasonalTrendTest}{formula}(y, data = NULL, subset, na.action = na.pass, ...)
 
 \method{kendallSeasonalTrendTest}{matrix}(y, ...)
 }

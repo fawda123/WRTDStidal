@@ -8,11 +8,9 @@
 \usage{
 wrtds(dat_in, ...)
 
-\method{wrtds}{tidal}(dat_in, flo_div = 10, tau = 0.5, trace = TRUE,
-  fill_empty = FALSE, ...)
+\method{wrtds}{tidal}(dat_in, flo_div = 10, tau = 0.5, trace = TRUE, fill_empty = FALSE, ...)
 
-\method{wrtds}{tidalmean}(dat_in, flo_div = 10, fill_empty = FALSE,
-  trace = TRUE, ...)
+\method{wrtds}{tidalmean}(dat_in, flo_div = 10, fill_empty = FALSE, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

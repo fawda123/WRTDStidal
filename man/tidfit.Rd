@@ -4,7 +4,8 @@
 \name{tidfit}
 \alias{tidfit}
 \title{Monthly chlorophyll time series for Hillsborough Bay as a tidal object}
-\format{A \code{\link{tidal}} and \code{\link[base]{data.frame}} object with 156 rows and 15 variables:
+\format{
+A \code{\link{tidal}} and \code{\link[base]{data.frame}} object with 156 rows and 15 variables:
 \describe{
   \item{\code{date}}{Date}
   \item{\code{res}}{numeric}
@@ -21,7 +22,8 @@
   \item{\code{norm0.1}}{numeric}
   \item{\code{norm0.5}}{numeric}
   \item{\code{norm0.9}}{numeric}
-}}
+}
+}
 \usage{
 tidfit
 }

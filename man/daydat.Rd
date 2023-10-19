@@ -4,7 +4,8 @@
 \name{daydat}
 \alias{daydat}
 \title{Daily chlorophyll, salinity, and discharge time series for the Upper Patuxent River Estuary}
-\format{A data frame with 3506 rows and 9 variables, 1985 to 2014:
+\format{
+A data frame with 3506 rows and 9 variables, 1985 to 2014:
 \describe{
   \item{\code{date}}{Date as daily time step} 
   \item{\code{flo}}{numeric for salinity, ppt}
@@ -15,7 +16,8 @@
   \item{\code{year}}{numeric for year}
   \item{\code{day}}{numeric for day from 1-31}
   \item{\code{dec_time}}{numeric for decimal time on the annual period}
-}}
+}
+}
 \usage{
 daydat
 }

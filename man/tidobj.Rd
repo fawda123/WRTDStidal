@@ -4,7 +4,8 @@
 \name{tidobj}
 \alias{tidobj}
 \title{Monthly chlorophyll time series for Hillsborough Bay as a tidal object}
-\format{A \code{\link{tidal}} and \code{\link[base]{data.frame}} object with 156 rows and 9 variables:
+\format{
+A \code{\link{tidal}} and \code{\link[base]{data.frame}} object with 156 rows and 9 variables:
 \describe{
   \item{\code{date}}{Date}
   \item{\code{res}}{numeric}
@@ -15,7 +16,8 @@
   \item{\code{month}}{numeric}
   \item{\code{year}}{numeric}
   \item{\code{dec_time}}{numeric}
-}}
+}
+}
 \usage{
 tidobj
 }

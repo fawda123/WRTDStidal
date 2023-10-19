@@ -8,13 +8,32 @@
 \usage{
 seasplot(dat_in, ...)
 
-\method{seasplot}{tidal}(dat_in, tau = NULL, predicted = TRUE,
-  span = 0.4, lwd = 1, size = 2, alpha = 1, col_vec = NULL,
-  grids = TRUE, logspace = TRUE, ...)
+\method{seasplot}{tidal}(
+  dat_in,
+  tau = NULL,
+  predicted = TRUE,
+  span = 0.4,
+  lwd = 1,
+  size = 2,
+  alpha = 1,
+  col_vec = NULL,
+  grids = TRUE,
+  logspace = TRUE,
+  ...
+)
 
-\method{seasplot}{tidalmean}(dat_in, predicted = TRUE, span = 0.4,
-  lwd = 1, size = 2, alpha = 1, col_vec = NULL, grids = TRUE,
-  logspace = TRUE, ...)
+\method{seasplot}{tidalmean}(
+  dat_in,
+  predicted = TRUE,
+  span = 0.4,
+  lwd = 1,
+  size = 2,
+  alpha = 1,
+  col_vec = NULL,
+  grids = TRUE,
+  logspace = TRUE,
+  ...
+)
 }
 \arguments{
 \item{dat_in}{Input data object}

@@ -4,13 +4,15 @@
 \name{chldat}
 \alias{chldat}
 \title{Monthly chlorophyll time series for Hillsborough Bay}
-\format{A data frame with 452 rows and 4 variables:
+\format{
+A data frame with 452 rows and 4 variables:
 \describe{
   \item{\code{date}}{Date}
   \item{\code{res}}{numeric}
   \item{\code{flo}}{numeric}
   \item{\code{lim}}{numeric}
-}}
+}
+}
 \usage{
 chldat
 }

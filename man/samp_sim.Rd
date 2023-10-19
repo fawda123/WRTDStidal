@@ -4,8 +4,14 @@
 \alias{samp_sim}
 \title{Sample a daily time series at a set frequency}
 \usage{
-samp_sim(dat_in, unit = "month", irregular = TRUE, missper = 0,
-  blck = 1, blckper = FALSE)
+samp_sim(
+  dat_in,
+  unit = "month",
+  irregular = TRUE,
+  missper = 0,
+  blck = 1,
+  blckper = FALSE
+)
 }
 \arguments{
 \item{dat_in}{input \code{\link[base]{data.frame}} that is returned from \code{\link{lnres_sim}} or \code{\link{all_sims}}}

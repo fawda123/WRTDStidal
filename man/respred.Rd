@@ -8,11 +8,9 @@
 \usage{
 respred(dat_in, ...)
 
-\method{respred}{tidal}(dat_in, dat_pred = NULL, trace = TRUE,
-  omit = TRUE, ...)
+\method{respred}{tidal}(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ...)
 
-\method{respred}{tidalmean}(dat_in, dat_pred = NULL, trace = TRUE,
-  omit = TRUE, ...)
+\method{respred}{tidalmean}(dat_in, dat_pred = NULL, trace = TRUE, omit = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

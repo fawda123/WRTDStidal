@@ -7,7 +7,7 @@ Author: Marcus W. Beck [aut, cre]
 Maintainer: Marcus W. Beck <mbeck@tbep.org>
 Description: An adaptation for estuaries (tidal waters) of weighted regression
     on time, discharge, and season to evaluate trends in water quality time series. 
-    Please see Beck and Hagy (2015) <https://doi.org/10.1007/s10666-015-9452-8> for 
+    Please see Beck and Hagy (2015) <doi:10.1007/s10666-015-9452-8> for 
     details.
 BugReports: https://github.com/fawda123/WRTDStidal/issues
 License: CC0
@@ -39,5 +39,5 @@ Depends:
 Authors@R: person(given = "Marcus W.", family = "Beck",
     role = c("aut","cre"),
     email = "mbeck@tbep.org")
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr

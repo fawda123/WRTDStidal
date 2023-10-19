@@ -4,8 +4,15 @@
 \alias{tidal}
 \title{Create a tidal class object}
 \usage{
-tidal(dat_in, ind = c(1, 2, 3, 4), reslab = NULL, flolab = NULL,
-  reslog = TRUE, rm_miss = FALSE, ...)
+tidal(
+  dat_in,
+  ind = c(1, 2, 3, 4),
+  reslab = NULL,
+  flolab = NULL,
+  reslog = TRUE,
+  rm_miss = FALSE,
+  ...
+)
 }
 \arguments{
 \item{dat_in}{Input data frame for a water quality time series with four columns for date (Y-m-d format), response variable, salinity/flow, and detection limit for left-censored data}

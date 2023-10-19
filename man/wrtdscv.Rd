@@ -7,8 +7,7 @@
 \usage{
 wrtdscv(dat_in, ...)
 
-\method{wrtdscv}{default}(dat_in, wins, k = 10, seed_val = 123,
-  trace = TRUE, ...)
+\method{wrtdscv}{default}(dat_in, wins, k = 10, seed_val = 123, trace = TRUE, ...)
 }
 \arguments{
 \item{dat_in}{input tidal or tidalmean object}

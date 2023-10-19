@@ -4,7 +4,8 @@
 \name{tidfitmean}
 \alias{tidfitmean}
 \title{Monthly chlorophyll time series for Hillsborough Bay as a tidal object for the conditional mean model}
-\format{A \code{\link{tidalmean}} and \code{\link[base]{data.frame}} object with 156 rows and 11 variables:
+\format{
+A \code{\link{tidalmean}} and \code{\link[base]{data.frame}} object with 156 rows and 11 variables:
 \describe{
   \item{\code{date}}{Date}
   \item{\code{res}}{numeric}
@@ -19,7 +20,8 @@
   \item{\code{bt_fits}}{numeric}
   \item{\code{norm}}{numeric}
   \item{\code{bt_norms}}{numeric}
-}}
+}
+}
 \usage{
 tidfitmean
 }
