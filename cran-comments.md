@@ -1,28 +1,22 @@
 ## Resubmission 
 
-This is a resubmission for a version update.
+This is a version update to remove Unicode Greek letters
 
 ## Test environments
 
-* Ubuntu 16.04.6 LTS (on travis-ci), R 3.6.1
-* local Windows 7 install, R 3.6.1
-* local Windows 7 install, Current r-devel (2019-11-17 r77425)
-* Windows install (on AppVeyor), R 3.6.1 Patched (2019-11-15 r77425)
-* win-builder [http://win-builder.r-project.org/](http://win-builder.r-project.org/) (devel and release)
+* ubuntu 22.04.3 (devel, release, old release)
+* OS X (R 4.3.1)
+* win-builder [http://win-builder.r-project.org/](http://win-builder.r-project.org/) (devel, release, old release)
+* local Windows 10 install (R 4.3.1)
 
 ## R CMD check results
 
 There were no ERRORs or WARNINGs.
 
-There was one NOTE for changing the maintainer email.
+There was one NOTE for incorrect spelling.  This is a surname and is correct.
 
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: 'Marcus W. Beck <mbeck@tbep.org>'
-
-New maintainer:
-  Marcus W. Beck <mbeck@tbep.org>
-Old maintainer(s):
-  Marcus W. Beck <marcusb@sccwrp.org>
+Possibly misspelled words in DESCRIPTION:
+  Hagy (10:25)
   
 ## Downstream dependencies
 
