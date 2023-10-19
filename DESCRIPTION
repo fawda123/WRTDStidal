@@ -34,10 +34,10 @@ Suggests:
     knitr,
     rmarkdown
 Depends:
-    R (>= 3.1.2),
+    R (>= 3.5.0),
     ggplot2
 Authors@R: person(given = "Marcus W.", family = "Beck",
     role = c("aut","cre"),
     email = "mbeck@tbep.org")
-RoxygenNote: 7.2.3
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
