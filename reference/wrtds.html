@@ -60,15 +60,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidal</span>
-<span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, flo_div <span class="op">=</span> <span class="fl">10</span>, tau <span class="op">=</span> <span class="fl">0.5</span>, trace <span class="op">=</span> <span class="cn">TRUE</span>,
-  fill_empty <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidalmean</span>
-<span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, flo_div <span class="op">=</span> <span class="fl">10</span>, fill_empty <span class="op">=</span> <span class="cn">FALSE</span>,
-  trace <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidal</span></span>
+<span><span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, flo_div <span class="op">=</span> <span class="fl">10</span>, tau <span class="op">=</span> <span class="fl">0.5</span>, trace <span class="op">=</span> <span class="cn">TRUE</span>, fill_empty <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidalmean</span></span>
+<span><span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, flo_div <span class="op">=</span> <span class="fl">10</span>, fill_empty <span class="op">=</span> <span class="cn">FALSE</span>, trace <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -109,21 +107,21 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">## load data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">chldat</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## as tidal object</span></span>
-<span class="r-in"><span class="va">dat_in</span> <span class="op">&lt;-</span> <span class="fu"><a href="tidal.html">tidal</a></span><span class="op">(</span><span class="va">chldat</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## as tidalmean object</span></span>
-<span class="r-in"><span class="va">dat_in</span> <span class="op">&lt;-</span> <span class="fu"><a href="tidalmean.html">tidalmean</a></span><span class="op">(</span><span class="va">chldat</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## multiple quantiles</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, tau <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## load data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">chldat</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## as tidal object</span></span></span>
+<span class="r-in"><span><span class="va">dat_in</span> <span class="op">&lt;-</span> <span class="fu"><a href="tidal.html">tidal</a></span><span class="op">(</span><span class="va">chldat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## as tidalmean object</span></span></span>
+<span class="r-in"><span><span class="va">dat_in</span> <span class="op">&lt;-</span> <span class="fu"><a href="tidalmean.html">tidalmean</a></span><span class="op">(</span><span class="va">chldat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## multiple quantiles</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">wrtds</span><span class="op">(</span><span class="va">dat_in</span>, tau <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -138,7 +136,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

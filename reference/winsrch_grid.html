@@ -60,10 +60,10 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">dat_in</span>, grid_in <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">dat_in</span>, grid_in <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -98,35 +98,35 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co"># setup parallel backend</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ncores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="va">ncores</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># run search function using default search grid - takes a while</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">tidobjmean</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># view the error surface </span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">mos</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">yrs</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">err</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">flo</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradientn</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="fu"><a href="gradcols.html">gradcols</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># optimal combo</span></span>
-<span class="r-in"><span class="va">res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">err</span><span class="op">)</span>, <span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co"># create a custom search grid, e.g. years only</span></span>
-<span class="r-in"><span class="va">grid_in</span> <span class="op">&lt;-</span> <span class="fu"><a href="createsrch.html">createsrch</a></span><span class="op">(</span>mos <span class="op">=</span> <span class="fl">1</span>, yrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, flo <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">tidobjmean</span>, <span class="va">grid_in</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co"># setup parallel backend</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ncores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span> </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span>cores <span class="op">=</span> <span class="va">ncores</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run search function using default search grid - takes a while</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">tidobjmean</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># view the error surface </span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">res</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">mos</span><span class="op">)</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">yrs</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">err</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">flo</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradientn</a></span><span class="op">(</span>colours <span class="op">=</span> <span class="fu"><a href="gradcols.html">gradcols</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># optimal combo</span></span></span>
+<span class="r-in"><span><span class="va">res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">err</span><span class="op">)</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co"># create a custom search grid, e.g. years only</span></span></span>
+<span class="r-in"><span><span class="va">grid_in</span> <span class="op">&lt;-</span> <span class="fu"><a href="createsrch.html">createsrch</a></span><span class="op">(</span>mos <span class="op">=</span> <span class="fl">1</span>, yrs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, flo <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">winsrch_grid</span><span class="op">(</span><span class="va">tidobjmean</span>, <span class="va">grid_in</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -141,7 +141,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

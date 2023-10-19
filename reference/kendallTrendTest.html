@@ -60,18 +60,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">y</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">y</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>along <span class="op">=</span> <span class="va">y</span><span class="op">)</span>,
-  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, correct <span class="op">=</span> <span class="cn">TRUE</span>, ci.slope <span class="op">=</span> <span class="cn">TRUE</span>,
-  conf.level <span class="op">=</span> <span class="fl">0.95</span>, warn <span class="op">=</span> <span class="cn">TRUE</span>, data.name <span class="op">=</span> <span class="cn">NULL</span>,
-  data.name.x <span class="op">=</span> <span class="cn">NULL</span>, parent.of.data <span class="op">=</span> <span class="cn">NULL</span>,
-  subset.expression <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for formula</span>
-<span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">y</span>, data <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">subset</span>,
-  na.action <span class="op">=</span> <span class="va">na.pass</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">y</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">kendallTrendTest</span><span class="op">(</span></span>
+<span>  <span class="va">y</span>,</span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>along <span class="op">=</span> <span class="va">y</span><span class="op">)</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
+<span>  correct <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ci.slope <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  conf.level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  warn <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  data.name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  data.name.x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parent.of.data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  subset.expression <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for formula</span></span>
+<span><span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">y</span>, data <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">subset</span>, na.action <span class="op">=</span> <span class="va">na.pass</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -155,7 +163,7 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">res</span> <span class="op">~</span> <span class="va">dec_time</span>, <span class="va">tidfitmean</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">kendallTrendTest</span><span class="op">(</span><span class="va">res</span> <span class="op">~</span> <span class="va">dec_time</span>, <span class="va">tidfitmean</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        z </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -10.9793 </span>
@@ -20244,7 +20252,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -60,7 +60,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">aiccrq</span><span class="op">(</span><span class="va">mod_in</span>, tau <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">aiccrq</span><span class="op">(</span><span class="va">mod_in</span>, tau <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,20 +86,20 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># get wts for a model centered on the first observation</span></span>
-<span class="r-in"><span class="va">ref_in</span> <span class="op">&lt;-</span> <span class="va">tidobj</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
-<span class="r-in"><span class="va">ref_wts</span> <span class="op">&lt;-</span> <span class="fu"><a href="getwts.html">getwts</a></span><span class="op">(</span><span class="va">tidobj</span>, <span class="va">ref_in</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get the model</span></span>
-<span class="r-in"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">quantreg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/quantreg/man/crq.html" class="external-link">crq</a></span><span class="op">(</span></span>
-<span class="r-in">   <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">not_cens</span>, type <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">~</span> </span>
-<span class="r-in">     <span class="va">dec_time</span> <span class="op">+</span> <span class="va">flo</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="va">dec_time</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="va">dec_time</span><span class="op">)</span>, </span>
-<span class="r-in">   weights <span class="op">=</span> <span class="va">ref_wts</span>,</span>
-<span class="r-in">   data <span class="op">=</span> <span class="va">tidobj</span>, </span>
-<span class="r-in">   method <span class="op">=</span> <span class="st">"Portnoy"</span></span>
-<span class="r-in">   <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">aiccrq</span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># get wts for a model centered on the first observation</span></span></span>
+<span class="r-in"><span><span class="va">ref_in</span> <span class="op">&lt;-</span> <span class="va">tidobj</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">ref_wts</span> <span class="op">&lt;-</span> <span class="fu"><a href="getwts.html">getwts</a></span><span class="op">(</span><span class="va">tidobj</span>, <span class="va">ref_in</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get the model</span></span></span>
+<span class="r-in"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">quantreg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/quantreg/man/crq.html" class="external-link">crq</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">res</span>, <span class="va">not_cens</span>, type <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span> <span class="op">~</span> </span></span>
+<span class="r-in"><span>     <span class="va">dec_time</span> <span class="op">+</span> <span class="va">flo</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="va">dec_time</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="va">pi</span><span class="op">*</span><span class="va">dec_time</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>   weights <span class="op">=</span> <span class="va">ref_wts</span>,</span></span>
+<span class="r-in"><span>   data <span class="op">=</span> <span class="va">tidobj</span>, </span></span>
+<span class="r-in"><span>   method <span class="op">=</span> <span class="st">"Portnoy"</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">aiccrq</span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1020.872</span>
 </code></pre></div>
     </div>
@@ -115,7 +115,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -60,17 +60,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidal</span>
-<span class="fu">seasyrplot</span><span class="op">(</span><span class="va">dat_in</span>, years <span class="op">=</span> <span class="cn">NULL</span>, tau <span class="op">=</span> <span class="cn">NULL</span>,
-  predicted <span class="op">=</span> <span class="cn">TRUE</span>, logspace <span class="op">=</span> <span class="cn">TRUE</span>, col_vec <span class="op">=</span> <span class="cn">NULL</span>, grids <span class="op">=</span> <span class="cn">TRUE</span>,
-  pretty <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">0.5</span>, alpha <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidalmean</span>
-<span class="fu">seasyrplot</span><span class="op">(</span><span class="va">dat_in</span>, years <span class="op">=</span> <span class="cn">NULL</span>, tau <span class="op">=</span> <span class="cn">NULL</span>,
-  predicted <span class="op">=</span> <span class="cn">TRUE</span>, logspace <span class="op">=</span> <span class="cn">TRUE</span>, col_vec <span class="op">=</span> <span class="cn">NULL</span>, grids <span class="op">=</span> <span class="cn">TRUE</span>,
-  pretty <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">0.5</span>, alpha <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidal</span></span>
+<span><span class="fu">seasyrplot</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  years <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tau <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predicted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  logspace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  col_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pretty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidalmean</span></span>
+<span><span class="fu">seasyrplot</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  years <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  tau <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predicted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  logspace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  col_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pretty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -138,42 +158,42 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co">## load a fitted tidal object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot using defaults</span></span>
-<span class="r-in"><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## load a fitted tidal object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot using defaults</span></span></span>
+<span class="r-in"><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="seasyrplot-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get the same plot but use default ggplot settings</span></span>
-<span class="r-in"><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, pretty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get the same plot but use default ggplot settings</span></span></span>
+<span class="r-in"><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, pretty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="seasyrplot-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot specific quantiles</span></span>
-<span class="r-in"><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, tau <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot specific quantiles</span></span></span>
+<span class="r-in"><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, tau <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="seasyrplot-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot the normalized predictions</span></span>
-<span class="r-in"><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, predicted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot the normalized predictions</span></span></span>
+<span class="r-in"><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, predicted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="seasyrplot-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># modify the plot as needed using ggplot scales, etc.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, pretty <span class="op">=</span> <span class="cn">FALSE</span>, linetype <span class="op">=</span> <span class="st">'dashed'</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in"> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in"> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span></span>
-<span class="r-in">   <span class="st">'Chlorophyll'</span>, </span>
-<span class="r-in">   limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in">   <span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># modify the plot as needed using ggplot scales, etc.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfit</span>, pretty <span class="op">=</span> <span class="cn">FALSE</span>, linetype <span class="op">=</span> <span class="st">'dashed'</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   <span class="st">'Chlorophyll'</span>, </span></span>
+<span class="r-in"><span>   limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="op">)</span></span></span>
 <span class="r-plt img"><img src="seasyrplot-5.png" alt="" width="700" height="433"></span>
-<span class="r-in">   </span>
-<span class="r-in"><span class="co"># plot a tidalmean object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span>    </span>
+<span class="r-in"><span>   </span></span>
+<span class="r-in"><span><span class="co"># plot a tidalmean object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">seasyrplot</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span>    </span></span>
 <span class="r-plt img"><img src="seasyrplot-6.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -189,7 +209,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

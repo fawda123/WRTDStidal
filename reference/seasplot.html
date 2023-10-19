@@ -60,17 +60,36 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">seasplot</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidal</span>
-<span class="fu">seasplot</span><span class="op">(</span><span class="va">dat_in</span>, tau <span class="op">=</span> <span class="cn">NULL</span>, predicted <span class="op">=</span> <span class="cn">TRUE</span>,
-  span <span class="op">=</span> <span class="fl">0.4</span>, lwd <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">1</span>, col_vec <span class="op">=</span> <span class="cn">NULL</span>,
-  grids <span class="op">=</span> <span class="cn">TRUE</span>, logspace <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidalmean</span>
-<span class="fu">seasplot</span><span class="op">(</span><span class="va">dat_in</span>, predicted <span class="op">=</span> <span class="cn">TRUE</span>, span <span class="op">=</span> <span class="fl">0.4</span>,
-  lwd <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">1</span>, col_vec <span class="op">=</span> <span class="cn">NULL</span>, grids <span class="op">=</span> <span class="cn">TRUE</span>,
-  logspace <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">seasplot</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidal</span></span>
+<span><span class="fu">seasplot</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  tau <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predicted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  span <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  col_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  logspace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidalmean</span></span>
+<span><span class="fu">seasplot</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  predicted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  span <span class="op">=</span> <span class="fl">0.4</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  col_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  logspace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -130,19 +149,19 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># load a fitted tidal object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot using defaults</span></span>
-<span class="r-in"><span class="co"># defaults to all quantiles for tidal object</span></span>
-<span class="r-in"><span class="fu">seasplot</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using method = 'loess' and formula 'y ~ x'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 10 rows containing non-finite values (stat_smooth).</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load a fitted tidal object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot using defaults</span></span></span>
+<span class="r-in"><span><span class="co"># defaults to all quantiles for tidal object</span></span></span>
+<span class="r-in"><span><span class="fu">seasplot</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 10 rows containing non-finite values (`stat_smooth()`).</span>
 <span class="r-plt img"><img src="seasplot-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># tidalmean object</span></span>
-<span class="r-in"><span class="fu">seasplot</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using method = 'loess' and formula 'y ~ x'</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># tidalmean object</span></span></span>
+<span class="r-in"><span><span class="fu">seasplot</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'</span>
 <span class="r-plt img"><img src="seasplot-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -158,7 +177,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -60,11 +60,10 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">annual_agg</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">annual_agg</span><span class="op">(</span><span class="va">dat_in</span>, mo_strt <span class="op">=</span> <span class="fl">10</span>, min_mo <span class="op">=</span> <span class="fl">9</span>,
-  logspace <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">annual_agg</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">annual_agg</span><span class="op">(</span><span class="va">dat_in</span>, mo_strt <span class="op">=</span> <span class="fl">10</span>, min_mo <span class="op">=</span> <span class="fl">9</span>, logspace <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -103,8 +102,8 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## tidal object</span></span>
-<span class="r-in"><span class="fu">annual_agg</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## tidal object</span></span></span>
+<span class="r-in"><span><span class="fu">annual_agg</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 40 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    date       fit0.1 fit0.5 fit0.9 norm0.1 norm0.5 norm0.9   res</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -118,10 +117,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1981-10-01   2.26   2.95   3.46    2.29    3.00    3.51  3.26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1982-10-01   2.26   2.97   3.48    2.24    2.94    3.46  3.21</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1983-10-01   2.32   2.97   3.54    2.16    2.90    3.42  3.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 30 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## tidalmean object</span></span>
-<span class="r-in"><span class="fu">annual_agg</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## tidalmean object</span></span></span>
+<span class="r-in"><span><span class="fu">annual_agg</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 40 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    date       bt_fits bt_norm  fits  norm   res</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -135,7 +134,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1981-10-01    21.5    22.3  2.93  2.97  3.26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1982-10-01    21.9    21.3  2.94  2.92  3.21</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1983-10-01    21.6    20.1  2.93  2.86  3.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 30 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 30 more rows</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,7 +149,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

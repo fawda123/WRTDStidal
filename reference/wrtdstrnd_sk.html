@@ -60,18 +60,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidal</span>
-<span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span>,
-  tau <span class="op">=</span> <span class="cn">NULL</span>, trndvar <span class="op">=</span> <span class="st">"norm"</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidalmean</span>
-<span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span>,
-  trndvar <span class="op">=</span> <span class="st">"bt_norm"</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidal</span></span>
+<span><span class="fu">wrtdstrnd_sk</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  <span class="va">mobrks</span>,</span>
+<span>  <span class="va">yrbrks</span>,</span>
+<span>  <span class="va">molabs</span>,</span>
+<span>  <span class="va">yrlabs</span>,</span>
+<span>  tau <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  trndvar <span class="op">=</span> <span class="st">"norm"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidalmean</span></span>
+<span><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span>, trndvar <span class="op">=</span> <span class="st">"bt_norm"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -131,23 +138,23 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## load a fitted model object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## get trends</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># setup month, year categories</span></span>
-<span class="r-in"><span class="va">mobrks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">yrbrks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1973</span>, <span class="fl">1985</span>, <span class="fl">1994</span>, <span class="fl">2003</span>, <span class="fl">2012</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">molabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'JFM'</span>, <span class="st">'AMJ'</span>, <span class="st">'JAS'</span>, <span class="st">'OND'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">yrlabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'1974-1985'</span>, <span class="st">'1986-1994'</span>, <span class="st">'1995-2003'</span>, <span class="st">'2004-2012'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">tidfit</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using unnest().</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please use `cols = c(med, tau, slope, chitest, ztest)`</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using unnest().</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please use `cols = c(med, tau, slope, chitest, ztest)`</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## load a fitted model object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## get trends</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># setup month, year categories</span></span></span>
+<span class="r-in"><span><span class="va">mobrks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">yrbrks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1973</span>, <span class="fl">1985</span>, <span class="fl">1994</span>, <span class="fl">2003</span>, <span class="fl">2012</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">molabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'JFM'</span>, <span class="st">'AMJ'</span>, <span class="st">'JAS'</span>, <span class="st">'OND'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">yrlabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'1974-1985'</span>, <span class="st">'1986-1994'</span>, <span class="st">'1995-2003'</span>, <span class="st">'2004-2012'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">tidfit</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using `unnest()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(med, tau, slope, chitest, ztest)`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using `unnest()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(med, tau, slope, chitest, ztest)`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         cat       med        tau       slope      chitest        ztest</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1974-1985 21.171745 -0.4882334 -0.62562353 2.368091e-02 5.398681e-12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1986-1994 11.360865 -0.9766355 -0.40860507 1.000000e+00 2.627767e-36</span>
@@ -166,11 +173,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 -2.7748061</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 -1.8806545</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 -2.3780626</span>
-<span class="r-in"><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">tidfitmean</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using unnest().</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please use `cols = c(med, tau, slope, chitest, ztest)`</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using unnest().</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please use `cols = c(med, tau, slope, chitest, ztest)`</span>
+<span class="r-in"><span><span class="fu">wrtdstrnd_sk</span><span class="op">(</span><span class="va">tidfitmean</span>, <span class="va">mobrks</span>, <span class="va">yrbrks</span>, <span class="va">molabs</span>, <span class="va">yrlabs</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using `unnest()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(med, tau, slope, chitest, ztest)`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`cols` is now required when using `unnest()`.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(med, tau, slope, chitest, ztest)`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         cat       med        tau       slope   chitest        ztest     perchg</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1974-1985 22.198997 -0.6890992 -0.78412359 0.1017271 1.697431e-23 -3.5322478</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1986-1994 12.555580 -0.9385848 -0.40268622 0.9979971 1.118780e-33 -3.2072292</span>
@@ -180,7 +187,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6       AMJ 11.446765 -0.9567656 -0.37814440 0.8472119 1.454361e-48 -3.3035047</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7       JAS 20.415325 -0.7883110 -0.37436019 0.9156738 8.225853e-34 -1.8337214</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8       OND 13.537128 -0.9005979 -0.33969478 0.7074333 4.224367e-40 -2.5093563</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -195,7 +202,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

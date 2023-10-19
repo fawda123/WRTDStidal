@@ -60,13 +60,21 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getwts</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for default</span>
-<span class="fu">getwts</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">ref_in</span>, wt_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"day_num"</span>,
-  <span class="st">"dec_time"</span>, <span class="st">"flo"</span><span class="op">)</span>, wins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">10</span>, <span class="cn">NULL</span><span class="op">)</span>, all <span class="op">=</span> <span class="cn">FALSE</span>,
-  slice <span class="op">=</span> <span class="cn">TRUE</span>, ngrzero <span class="op">=</span> <span class="cn">FALSE</span>, wins_only <span class="op">=</span> <span class="cn">FALSE</span>, min_obs <span class="op">=</span> <span class="fl">100</span>,
-  <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getwts</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">getwts</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  <span class="va">ref_in</span>,</span>
+<span>  wt_vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"day_num"</span>, <span class="st">"dec_time"</span>, <span class="st">"flo"</span><span class="op">)</span>,</span>
+<span>  wins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">10</span>, <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  all <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  slice <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ngrzero <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  wins_only <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  min_obs <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -124,22 +132,22 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidobj</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get weights for first row</span></span>
-<span class="r-in"><span class="va">first</span> <span class="op">&lt;-</span> <span class="va">tidobj</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
-<span class="r-in"><span class="va">wts</span> <span class="op">&lt;-</span> <span class="fu">getwts</span><span class="op">(</span><span class="va">tidobj</span>, <span class="va">first</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">wts</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidobj</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get weights for first row</span></span></span>
+<span class="r-in"><span><span class="va">first</span> <span class="op">&lt;-</span> <span class="va">tidobj</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">wts</span> <span class="op">&lt;-</span> <span class="fu">getwts</span><span class="op">(</span><span class="va">tidobj</span>, <span class="va">first</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">wts</span>, type <span class="op">=</span> <span class="st">'l'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="getwts-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get count of observations with grzero weights</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">tidobj</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu">getwts</span><span class="op">(</span><span class="va">tidobj</span>, <span class="va">tidobj</span><span class="op">[</span><span class="va">row</span>, <span class="op">]</span>, </span>
-<span class="r-in"> ngrzero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get count of observations with grzero weights</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">tidobj</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu">getwts</span><span class="op">(</span><span class="va">tidobj</span>, <span class="va">tidobj</span><span class="op">[</span><span class="va">row</span>, <span class="op">]</span>, </span></span>
+<span class="r-in"><span> ngrzero <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -154,7 +162,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

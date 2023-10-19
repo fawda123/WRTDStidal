@@ -60,10 +60,10 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dec_time</span><span class="op">(</span><span class="va">date_in</span><span class="op">)</span>
-
-<span class="co"># S3 method for Date</span>
-<span class="fu">dec_time</span><span class="op">(</span><span class="va">date_in</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dec_time</span><span class="op">(</span><span class="va">date_in</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for Date</span></span>
+<span><span class="fu">dec_time</span><span class="op">(</span><span class="va">date_in</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,164 +85,164 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">dts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span><span class="va">dt</span> <span class="op">-</span> <span class="fl">365</span>, <span class="va">dt</span>, by <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">dec_time</span><span class="op">(</span><span class="va">dts</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span><span class="va">dt</span> <span class="op">-</span> <span class="fl">365</span>, <span class="va">dt</span>, by <span class="op">=</span> <span class="st">'day'</span><span class="op">)</span> </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">dec_time</span><span class="op">(</span><span class="va">dts</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $day_num</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.471232877 0.473972603 0.476712329 0.479452055 0.482191781 0.484931507</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 0.487671233 0.490410959 0.493150685 0.495890411 0.498630137 0.498630137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 0.504109589 0.506849315 0.509589041 0.512328767 0.515068493 0.517808219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 0.520547945 0.523287671 0.526027397 0.528767123 0.531506849 0.534246575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 0.536986301 0.539726027 0.542465753 0.545205479 0.547945205 0.550684932</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 0.553424658 0.556164384 0.558904110 0.561643836 0.564383562 0.567123288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 0.569863014 0.572602740 0.575342466 0.578082192 0.580821918 0.583561644</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 0.583561644 0.589041096 0.591780822 0.594520548 0.597260274 0.600000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 0.602739726 0.605479452 0.608219178 0.610958904 0.613698630 0.616438356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 0.619178082 0.621917808 0.624657534 0.627397260 0.630136986 0.632876712</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 0.635616438 0.638356164 0.641095890 0.643835616 0.646575342 0.649315068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] 0.652054795 0.654794521 0.657534247 0.660273973 0.663013699 0.665753425</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 0.668493151 0.668493151 0.673972603 0.676712329 0.679452055 0.682191781</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] 0.684931507 0.687671233 0.690410959 0.693150685 0.695890411 0.698630137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 0.701369863 0.704109589 0.706849315 0.709589041 0.712328767 0.715068493</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 0.717808219 0.720547945 0.723287671 0.726027397 0.728767123 0.731506849</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 0.734246575 0.736986301 0.739726027 0.742465753 0.745205479 0.747945205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [103] 0.750684932 0.750684932 0.756164384 0.758904110 0.761643836 0.764383562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 0.767123288 0.769863014 0.772602740 0.775342466 0.778082192 0.780821918</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [115] 0.783561644 0.786301370 0.789041096 0.791780822 0.794520548 0.797260274</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 0.800000000 0.802739726 0.805479452 0.808219178 0.810958904 0.813698630</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 0.816438356 0.819178082 0.821917808 0.824657534 0.827397260 0.830136986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [133] 0.832876712 0.835616438 0.835616438 0.841095890 0.843835616 0.846575342</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [139] 0.849315068 0.852054795 0.854794521 0.857534247 0.860273973 0.863013699</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 0.865753425 0.868493151 0.871232877 0.873972603 0.876712329 0.879452055</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [151] 0.882191781 0.884931507 0.887671233 0.890410959 0.893150685 0.895890411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [157] 0.898630137 0.901369863 0.904109589 0.906849315 0.909589041 0.912328767</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 0.915068493 0.917808219 0.917808219 0.923287671 0.926027397 0.928767123</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [169] 0.931506849 0.934246575 0.936986301 0.939726027 0.942465753 0.945205479</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [175] 0.947945205 0.950684932 0.953424658 0.956164384 0.958904110 0.961643836</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 0.964383562 0.967123288 0.969863014 0.972602740 0.975342466 0.978082192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [187] 0.980821918 0.983561644 0.986301370 0.989041096 0.991780822 0.994520548</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [193] 0.997260274 1.000000000 1.002739726 0.005479452 0.008219178 0.010958904</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 0.013698630 0.016438356 0.019178082 0.021917808 0.024657534 0.027397260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [205] 0.030136986 0.032876712 0.035616438 0.038356164 0.041095890 0.043835616</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [211] 0.046575342 0.049315068 0.052054795 0.054794521 0.057534247 0.060273973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 0.063013699 0.065753425 0.068493151 0.071232877 0.073972603 0.076712329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [223] 0.079452055 0.082191781 0.084931507 0.087671233 0.090410959 0.093150685</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [229] 0.095890411 0.098630137 0.101369863 0.104109589 0.106849315 0.109589041</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [235] 0.112328767 0.115068493 0.117808219 0.120547945 0.123287671 0.126027397</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 0.128767123 0.131506849 0.134246575 0.136986301 0.139726027 0.142465753</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [247] 0.145205479 0.147945205 0.150684932 0.153424658 0.156164384 0.158904110</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 0.161643836 0.164383562 0.164383562 0.169863014 0.172602740 0.175342466</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [259] 0.178082192 0.180821918 0.183561644 0.186301370 0.189041096 0.191780822</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [265] 0.194520548 0.197260274 0.200000000 0.202739726 0.205479452 0.208219178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 0.210958904 0.213698630 0.216438356 0.219178082 0.221917808 0.224657534</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [277] 0.227397260 0.230136986 0.232876712 0.235616438 0.238356164 0.241095890</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [283] 0.243835616 0.246575342 0.249315068 0.249315068 0.254794521 0.257534247</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 0.260273973 0.263013699 0.265753425 0.268493151 0.271232877 0.273972603</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [295] 0.276712329 0.279452055 0.282191781 0.284931507 0.287671233 0.290410959</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [301] 0.293150685 0.295890411 0.298630137 0.301369863 0.304109589 0.306849315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [307] 0.309589041 0.312328767 0.315068493 0.317808219 0.320547945 0.323287671</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [313] 0.326027397 0.328767123 0.331506849 0.331506849 0.336986301 0.339726027</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [319] 0.342465753 0.345205479 0.347945205 0.350684932 0.353424658 0.356164384</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [325] 0.358904110 0.361643836 0.364383562 0.367123288 0.369863014 0.372602740</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [331] 0.375342466 0.378082192 0.380821918 0.383561644 0.386301370 0.389041096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [337] 0.391780822 0.394520548 0.397260274 0.400000000 0.402739726 0.405479452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [343] 0.408219178 0.410958904 0.413698630 0.416438356 0.416438356 0.421917808</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [349] 0.424657534 0.427397260 0.430136986 0.432876712 0.435616438 0.438356164</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [355] 0.441095890 0.443835616 0.446575342 0.449315068 0.452054795 0.454794521</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 0.457534247 0.460273973 0.463013699 0.465753425 0.468493151 0.471232877</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.802739726 0.805479452 0.808219178 0.810958904 0.813698630 0.816438356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 0.819178082 0.821917808 0.824657534 0.827397260 0.830136986 0.832876712</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 0.835616438 0.835616438 0.841095890 0.843835616 0.846575342 0.849315068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 0.852054795 0.854794521 0.857534247 0.860273973 0.863013699 0.865753425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 0.868493151 0.871232877 0.873972603 0.876712329 0.879452055 0.882191781</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 0.884931507 0.887671233 0.890410959 0.893150685 0.895890411 0.898630137</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 0.901369863 0.904109589 0.906849315 0.909589041 0.912328767 0.915068493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 0.917808219 0.917808219 0.923287671 0.926027397 0.928767123 0.931506849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 0.934246575 0.936986301 0.939726027 0.942465753 0.945205479 0.947945205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 0.950684932 0.953424658 0.956164384 0.958904110 0.961643836 0.964383562</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 0.967123288 0.969863014 0.972602740 0.975342466 0.978082192 0.980821918</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] 0.983561644 0.986301370 0.989041096 0.991780822 0.994520548 0.997260274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 1.000000000 1.002739726 0.005479452 0.008219178 0.010958904 0.013698630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] 0.016438356 0.019178082 0.021917808 0.024657534 0.027397260 0.030136986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 0.032876712 0.035616438 0.038356164 0.041095890 0.043835616 0.046575342</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 0.049315068 0.052054795 0.054794521 0.057534247 0.060273973 0.063013699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 0.065753425 0.068493151 0.071232877 0.073972603 0.076712329 0.079452055</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [103] 0.082191781 0.084931507 0.087671233 0.090410959 0.093150685 0.095890411</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 0.098630137 0.101369863 0.104109589 0.106849315 0.109589041 0.112328767</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [115] 0.115068493 0.117808219 0.120547945 0.123287671 0.126027397 0.128767123</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 0.131506849 0.134246575 0.136986301 0.139726027 0.142465753 0.145205479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 0.147945205 0.150684932 0.153424658 0.156164384 0.158904110 0.161643836</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [133] 0.164383562 0.164383562 0.169863014 0.172602740 0.175342466 0.178082192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [139] 0.180821918 0.183561644 0.186301370 0.189041096 0.191780822 0.194520548</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 0.197260274 0.200000000 0.202739726 0.205479452 0.208219178 0.210958904</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [151] 0.213698630 0.216438356 0.219178082 0.221917808 0.224657534 0.227397260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [157] 0.230136986 0.232876712 0.235616438 0.238356164 0.241095890 0.243835616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] 0.246575342 0.249315068 0.249315068 0.254794521 0.257534247 0.260273973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [169] 0.263013699 0.265753425 0.268493151 0.271232877 0.273972603 0.276712329</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [175] 0.279452055 0.282191781 0.284931507 0.287671233 0.290410959 0.293150685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 0.295890411 0.298630137 0.301369863 0.304109589 0.306849315 0.309589041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [187] 0.312328767 0.315068493 0.317808219 0.320547945 0.323287671 0.326027397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [193] 0.328767123 0.331506849 0.331506849 0.336986301 0.339726027 0.342465753</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] 0.345205479 0.347945205 0.350684932 0.353424658 0.356164384 0.358904110</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [205] 0.361643836 0.364383562 0.367123288 0.369863014 0.372602740 0.375342466</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [211] 0.378082192 0.380821918 0.383561644 0.386301370 0.389041096 0.391780822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 0.394520548 0.397260274 0.400000000 0.402739726 0.405479452 0.408219178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [223] 0.410958904 0.413698630 0.416438356 0.416438356 0.421917808 0.424657534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [229] 0.427397260 0.430136986 0.432876712 0.435616438 0.438356164 0.441095890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [235] 0.443835616 0.446575342 0.449315068 0.452054795 0.454794521 0.457534247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 0.460273973 0.463013699 0.465753425 0.468493151 0.471232877 0.473972603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [247] 0.476712329 0.479452055 0.482191781 0.484931507 0.487671233 0.490410959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 0.493150685 0.495890411 0.498630137 0.498630137 0.504109589 0.506849315</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [259] 0.509589041 0.512328767 0.515068493 0.517808219 0.520547945 0.523287671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [265] 0.526027397 0.528767123 0.531506849 0.534246575 0.536986301 0.539726027</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 0.542465753 0.545205479 0.547945205 0.550684932 0.553424658 0.556164384</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [277] 0.558904110 0.561643836 0.564383562 0.567123288 0.569863014 0.572602740</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [283] 0.575342466 0.578082192 0.580821918 0.583561644 0.583561644 0.589041096</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 0.591780822 0.594520548 0.597260274 0.600000000 0.602739726 0.605479452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [295] 0.608219178 0.610958904 0.613698630 0.616438356 0.619178082 0.621917808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [301] 0.624657534 0.627397260 0.630136986 0.632876712 0.635616438 0.638356164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [307] 0.641095890 0.643835616 0.646575342 0.649315068 0.652054795 0.654794521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [313] 0.657534247 0.660273973 0.663013699 0.665753425 0.668493151 0.668493151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [319] 0.673972603 0.676712329 0.679452055 0.682191781 0.684931507 0.687671233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [325] 0.690410959 0.693150685 0.695890411 0.698630137 0.701369863 0.704109589</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [331] 0.706849315 0.709589041 0.712328767 0.715068493 0.717808219 0.720547945</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [337] 0.723287671 0.726027397 0.728767123 0.731506849 0.734246575 0.736986301</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [343] 0.739726027 0.742465753 0.745205479 0.747945205 0.750684932 0.750684932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [349] 0.756164384 0.758904110 0.761643836 0.764383562 0.767123288 0.769863014</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [355] 0.772602740 0.775342466 0.778082192 0.780821918 0.783561644 0.786301370</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 0.789041096 0.791780822 0.794520548 0.797260274 0.800000000 0.802739726</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $month</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  6  6  6  6  6  6  6  6  6  6  6  7  7  7  7  7  7  7  7  7  7  7  7  7  7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [26]  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  8  8  8  8  8  8  8  8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [51]  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  9  9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76]  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [101]  9  9  9 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [126] 10 10 10 10 10 10 10 10 10 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [151] 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12 12 12 12 12 12 12 12 12 12 12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [176] 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12  1  1  1  1  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [201]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [226]  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [251]  2  2  2  2  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [276]  3  3  3  3  3  3  3  3  3  3  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [301]  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  5  5  5  5  5  5  5  5  5  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [326]  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  6  6  6  6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [351]  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 10 10 10 10 10 10 10 10 10 10 10 10 10 11 11 11 11 11 11 11 11 11 11 11 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [26] 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12 12 12 12 12 12 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [51] 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [101]  1  1  1  1  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [126]  2  2  2  2  2  2  2  2  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [151]  3  3  3  3  3  3  3  3  3  3  3  3  3  3  4  4  4  4  4  4  4  4  4  4  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [176]  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  4  5  5  5  5  5  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [201]  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [226]  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [251]  6  6  6  6  6  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7  7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [276]  7  7  7  7  7  7  7  7  7  7  7  8  8  8  8  8  8  8  8  8  8  8  8  8  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [301]  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  9  9  9  9  9  9  9  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [326]  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9 10 10 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [351] 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $year</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [106] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [136] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [151] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [166] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021 2021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [196] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [211] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [226] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [256] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [286] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [301] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [316] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [331] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [346] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 2022 2022 2022 2022 2022 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [106] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [136] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [151] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [166] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [196] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [211] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [226] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [256] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [271] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [286] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [301] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [316] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [331] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [346] 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023 2023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 2023 2023 2023 2023 2023 2023</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $dec_time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 2021.471 2021.474 2021.477 2021.479 2021.482 2021.485 2021.488 2021.490</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [9] 2021.493 2021.496 2021.499 2021.499 2021.504 2021.507 2021.510 2021.512</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [17] 2021.515 2021.518 2021.521 2021.523 2021.526 2021.529 2021.532 2021.534</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 2021.537 2021.540 2021.542 2021.545 2021.548 2021.551 2021.553 2021.556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [33] 2021.559 2021.562 2021.564 2021.567 2021.570 2021.573 2021.575 2021.578</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [41] 2021.581 2021.584 2021.584 2021.589 2021.592 2021.595 2021.597 2021.600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 2021.603 2021.605 2021.608 2021.611 2021.614 2021.616 2021.619 2021.622</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] 2021.625 2021.627 2021.630 2021.633 2021.636 2021.638 2021.641 2021.644</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [65] 2021.647 2021.649 2021.652 2021.655 2021.658 2021.660 2021.663 2021.666</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 2021.668 2021.668 2021.674 2021.677 2021.679 2021.682 2021.685 2021.688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [81] 2021.690 2021.693 2021.696 2021.699 2021.701 2021.704 2021.707 2021.710</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [89] 2021.712 2021.715 2021.718 2021.721 2021.723 2021.726 2021.729 2021.732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 2021.734 2021.737 2021.740 2021.742 2021.745 2021.748 2021.751 2021.751</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [105] 2021.756 2021.759 2021.762 2021.764 2021.767 2021.770 2021.773 2021.775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [113] 2021.778 2021.781 2021.784 2021.786 2021.789 2021.792 2021.795 2021.797</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 2021.800 2021.803 2021.805 2021.808 2021.811 2021.814 2021.816 2021.819</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [129] 2021.822 2021.825 2021.827 2021.830 2021.833 2021.836 2021.836 2021.841</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [137] 2021.844 2021.847 2021.849 2021.852 2021.855 2021.858 2021.860 2021.863</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 2021.866 2021.868 2021.871 2021.874 2021.877 2021.879 2021.882 2021.885</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [153] 2021.888 2021.890 2021.893 2021.896 2021.899 2021.901 2021.904 2021.907</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [161] 2021.910 2021.912 2021.915 2021.918 2021.918 2021.923 2021.926 2021.929</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [169] 2021.932 2021.934 2021.937 2021.940 2021.942 2021.945 2021.948 2021.951</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [177] 2021.953 2021.956 2021.959 2021.962 2021.964 2021.967 2021.970 2021.973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [185] 2021.975 2021.978 2021.981 2021.984 2021.986 2021.989 2021.992 2021.995</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [193] 2021.997 2022.000 2022.003 2022.005 2022.008 2022.011 2022.014 2022.016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [201] 2022.019 2022.022 2022.025 2022.027 2022.030 2022.033 2022.036 2022.038</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [209] 2022.041 2022.044 2022.047 2022.049 2022.052 2022.055 2022.058 2022.060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 2022.063 2022.066 2022.068 2022.071 2022.074 2022.077 2022.079 2022.082</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [225] 2022.085 2022.088 2022.090 2022.093 2022.096 2022.099 2022.101 2022.104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [233] 2022.107 2022.110 2022.112 2022.115 2022.118 2022.121 2022.123 2022.126</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 2022.129 2022.132 2022.134 2022.137 2022.140 2022.142 2022.145 2022.148</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [249] 2022.151 2022.153 2022.156 2022.159 2022.162 2022.164 2022.164 2022.170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [257] 2022.173 2022.175 2022.178 2022.181 2022.184 2022.186 2022.189 2022.192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [265] 2022.195 2022.197 2022.200 2022.203 2022.205 2022.208 2022.211 2022.214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [273] 2022.216 2022.219 2022.222 2022.225 2022.227 2022.230 2022.233 2022.236</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [281] 2022.238 2022.241 2022.244 2022.247 2022.249 2022.249 2022.255 2022.258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 2022.260 2022.263 2022.266 2022.268 2022.271 2022.274 2022.277 2022.279</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [297] 2022.282 2022.285 2022.288 2022.290 2022.293 2022.296 2022.299 2022.301</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [305] 2022.304 2022.307 2022.310 2022.312 2022.315 2022.318 2022.321 2022.323</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [313] 2022.326 2022.329 2022.332 2022.332 2022.337 2022.340 2022.342 2022.345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [321] 2022.348 2022.351 2022.353 2022.356 2022.359 2022.362 2022.364 2022.367</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [329] 2022.370 2022.373 2022.375 2022.378 2022.381 2022.384 2022.386 2022.389</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [337] 2022.392 2022.395 2022.397 2022.400 2022.403 2022.405 2022.408 2022.411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [345] 2022.414 2022.416 2022.416 2022.422 2022.425 2022.427 2022.430 2022.433</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [353] 2022.436 2022.438 2022.441 2022.444 2022.447 2022.449 2022.452 2022.455</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 2022.458 2022.460 2022.463 2022.466 2022.468 2022.471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 2022.803 2022.805 2022.808 2022.811 2022.814 2022.816 2022.819 2022.822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [9] 2022.825 2022.827 2022.830 2022.833 2022.836 2022.836 2022.841 2022.844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [17] 2022.847 2022.849 2022.852 2022.855 2022.858 2022.860 2022.863 2022.866</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 2022.868 2022.871 2022.874 2022.877 2022.879 2022.882 2022.885 2022.888</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [33] 2022.890 2022.893 2022.896 2022.899 2022.901 2022.904 2022.907 2022.910</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [41] 2022.912 2022.915 2022.918 2022.918 2022.923 2022.926 2022.929 2022.932</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 2022.934 2022.937 2022.940 2022.942 2022.945 2022.948 2022.951 2022.953</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] 2022.956 2022.959 2022.962 2022.964 2022.967 2022.970 2022.973 2022.975</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [65] 2022.978 2022.981 2022.984 2022.986 2022.989 2022.992 2022.995 2022.997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 2023.000 2023.003 2023.005 2023.008 2023.011 2023.014 2023.016 2023.019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [81] 2023.022 2023.025 2023.027 2023.030 2023.033 2023.036 2023.038 2023.041</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [89] 2023.044 2023.047 2023.049 2023.052 2023.055 2023.058 2023.060 2023.063</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] 2023.066 2023.068 2023.071 2023.074 2023.077 2023.079 2023.082 2023.085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [105] 2023.088 2023.090 2023.093 2023.096 2023.099 2023.101 2023.104 2023.107</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [113] 2023.110 2023.112 2023.115 2023.118 2023.121 2023.123 2023.126 2023.129</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [121] 2023.132 2023.134 2023.137 2023.140 2023.142 2023.145 2023.148 2023.151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [129] 2023.153 2023.156 2023.159 2023.162 2023.164 2023.164 2023.170 2023.173</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [137] 2023.175 2023.178 2023.181 2023.184 2023.186 2023.189 2023.192 2023.195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] 2023.197 2023.200 2023.203 2023.205 2023.208 2023.211 2023.214 2023.216</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [153] 2023.219 2023.222 2023.225 2023.227 2023.230 2023.233 2023.236 2023.238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [161] 2023.241 2023.244 2023.247 2023.249 2023.249 2023.255 2023.258 2023.260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [169] 2023.263 2023.266 2023.268 2023.271 2023.274 2023.277 2023.279 2023.282</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [177] 2023.285 2023.288 2023.290 2023.293 2023.296 2023.299 2023.301 2023.304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [185] 2023.307 2023.310 2023.312 2023.315 2023.318 2023.321 2023.323 2023.326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [193] 2023.329 2023.332 2023.332 2023.337 2023.340 2023.342 2023.345 2023.348</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [201] 2023.351 2023.353 2023.356 2023.359 2023.362 2023.364 2023.367 2023.370</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [209] 2023.373 2023.375 2023.378 2023.381 2023.384 2023.386 2023.389 2023.392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] 2023.395 2023.397 2023.400 2023.403 2023.405 2023.408 2023.411 2023.414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [225] 2023.416 2023.416 2023.422 2023.425 2023.427 2023.430 2023.433 2023.436</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [233] 2023.438 2023.441 2023.444 2023.447 2023.449 2023.452 2023.455 2023.458</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [241] 2023.460 2023.463 2023.466 2023.468 2023.471 2023.474 2023.477 2023.479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [249] 2023.482 2023.485 2023.488 2023.490 2023.493 2023.496 2023.499 2023.499</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [257] 2023.504 2023.507 2023.510 2023.512 2023.515 2023.518 2023.521 2023.523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [265] 2023.526 2023.529 2023.532 2023.534 2023.537 2023.540 2023.542 2023.545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [273] 2023.548 2023.551 2023.553 2023.556 2023.559 2023.562 2023.564 2023.567</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [281] 2023.570 2023.573 2023.575 2023.578 2023.581 2023.584 2023.584 2023.589</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289] 2023.592 2023.595 2023.597 2023.600 2023.603 2023.605 2023.608 2023.611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [297] 2023.614 2023.616 2023.619 2023.622 2023.625 2023.627 2023.630 2023.633</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [305] 2023.636 2023.638 2023.641 2023.644 2023.647 2023.649 2023.652 2023.655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [313] 2023.658 2023.660 2023.663 2023.666 2023.668 2023.668 2023.674 2023.677</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [321] 2023.679 2023.682 2023.685 2023.688 2023.690 2023.693 2023.696 2023.699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [329] 2023.701 2023.704 2023.707 2023.710 2023.712 2023.715 2023.718 2023.721</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [337] 2023.723 2023.726 2023.729 2023.732 2023.734 2023.737 2023.740 2023.742</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [345] 2023.745 2023.748 2023.751 2023.751 2023.756 2023.759 2023.762 2023.764</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [353] 2023.767 2023.770 2023.773 2023.775 2023.778 2023.781 2023.784 2023.786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [361] 2023.789 2023.792 2023.795 2023.797 2023.800 2023.803</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
@@ -258,7 +258,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

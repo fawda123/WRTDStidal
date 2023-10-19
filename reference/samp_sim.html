@@ -60,8 +60,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">samp_sim</span><span class="op">(</span><span class="va">dat_in</span>, unit <span class="op">=</span> <span class="st">"month"</span>, irregular <span class="op">=</span> <span class="cn">TRUE</span>, missper <span class="op">=</span> <span class="fl">0</span>,
-  blck <span class="op">=</span> <span class="fl">1</span>, blckper <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">samp_sim</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  unit <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>  irregular <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  missper <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  blck <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  blckper <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -108,20 +114,20 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">## example data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">daydat</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## simulate</span></span>
-<span class="r-in"><span class="va">tosamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="all_sims.html">all_sims</a></span><span class="op">(</span><span class="va">daydat</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## sample</span></span>
-<span class="r-in"><span class="fu">samp_sim</span><span class="op">(</span><span class="va">tosamp</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## sample and create test dataset</span></span>
-<span class="r-in"><span class="co"># test dataset is 30% size of monthly subsample using block sampling with size = 4</span></span>
-<span class="r-in"><span class="fu">samp_sim</span><span class="op">(</span><span class="va">tosamp</span>, missper <span class="op">=</span> <span class="fl">0.3</span>, blck <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">daydat</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## simulate</span></span></span>
+<span class="r-in"><span><span class="va">tosamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="all_sims.html">all_sims</a></span><span class="op">(</span><span class="va">daydat</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## sample</span></span></span>
+<span class="r-in"><span><span class="fu">samp_sim</span><span class="op">(</span><span class="va">tosamp</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## sample and create test dataset</span></span></span>
+<span class="r-in"><span><span class="co"># test dataset is 30% size of monthly subsample using block sampling with size = 4</span></span></span>
+<span class="r-in"><span><span class="fu">samp_sim</span><span class="op">(</span><span class="va">tosamp</span>, missper <span class="op">=</span> <span class="fl">0.3</span>, blck <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -136,7 +142,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

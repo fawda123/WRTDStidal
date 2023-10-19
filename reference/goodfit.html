@@ -60,7 +60,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">goodfit</span><span class="op">(</span><span class="va">resid</span>, <span class="va">resid_nl</span>, <span class="va">tau</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">goodfit</span><span class="op">(</span><span class="va">resid</span>, <span class="va">resid_nl</span>, <span class="va">tau</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -98,36 +98,36 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org" class="external-link">quantreg</a></span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.r-project.org" class="external-link">quantreg</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: SparseM</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘SparseM’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:base’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     backsolve</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## random variables</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## quantile model</span></span>
-<span class="r-in"><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quantreg/man/rq.html" class="external-link">rq</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, tau <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">resid</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## non-conditional quantile model</span></span>
-<span class="r-in"><span class="va">mod_nl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quantreg/man/rq.html" class="external-link">rq</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fl">1</span>, tau <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## random variables</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## quantile model</span></span></span>
+<span class="r-in"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quantreg/man/rq.html" class="external-link">rq</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, tau <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">resid</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## non-conditional quantile model</span></span></span>
+<span class="r-in"><span><span class="va">mod_nl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/quantreg/man/rq.html" class="external-link">rq</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fl">1</span>, tau <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Solution may be nonunique</span>
-<span class="r-in"><span class="va">rsd_nl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">resid</a></span><span class="op">(</span><span class="va">mod_nl</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">goodfit</span><span class="op">(</span><span class="va">res</span>, <span class="va">rsd_nl</span>, <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7180779</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## r2 of mean model for comparison</span></span>
-<span class="r-in"><span class="va">mod_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_lm</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9049301</span>
+<span class="r-in"><span><span class="va">rsd_nl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">resid</a></span><span class="op">(</span><span class="va">mod_nl</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">goodfit</span><span class="op">(</span><span class="va">res</span>, <span class="va">rsd_nl</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6466805</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## r2 of mean model for comparison</span></span></span>
+<span class="r-in"><span><span class="va">mod_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_lm</span><span class="op">)</span><span class="op">$</span><span class="va">r.squared</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8668546</span>
 </code></pre></div>
     </div>
   </div>
@@ -142,7 +142,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

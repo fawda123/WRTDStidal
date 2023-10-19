@@ -60,17 +60,40 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sliceplot</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidal</span>
-<span class="fu">sliceplot</span><span class="op">(</span><span class="va">dat_in</span>, slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>, tau <span class="op">=</span> <span class="cn">NULL</span>,
-  dt_rng <span class="op">=</span> <span class="cn">NULL</span>, col_vec <span class="op">=</span> <span class="cn">NULL</span>, predicted <span class="op">=</span> <span class="cn">TRUE</span>, logspace <span class="op">=</span> <span class="cn">TRUE</span>,
-  grids <span class="op">=</span> <span class="cn">TRUE</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tidalmean</span>
-<span class="fu">sliceplot</span><span class="op">(</span><span class="va">dat_in</span>, slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>,
-  predicted <span class="op">=</span> <span class="cn">TRUE</span>, dt_rng <span class="op">=</span> <span class="cn">NULL</span>, col_vec <span class="op">=</span> <span class="cn">NULL</span>, logspace <span class="op">=</span> <span class="cn">TRUE</span>,
-  grids <span class="op">=</span> <span class="cn">TRUE</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span>, lwd <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sliceplot</span><span class="op">(</span><span class="va">dat_in</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidal</span></span>
+<span><span class="fu">sliceplot</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>,</span>
+<span>  tau <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dt_rng <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predicted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  logspace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  grids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pretty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tidalmean</span></span>
+<span><span class="fu">sliceplot</span><span class="op">(</span></span>
+<span>  <span class="va">dat_in</span>,</span>
+<span>  slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>,</span>
+<span>  predicted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dt_rng <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  logspace <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  grids <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pretty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -144,40 +167,40 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co">## load a fitted tidal object</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot using defaults</span></span>
-<span class="r-in"><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## load a fitted tidal object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot using defaults</span></span></span>
+<span class="r-in"><span><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sliceplot-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get different months - march and september</span></span>
-<span class="r-in"><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span>, slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get different months - march and september</span></span></span>
+<span class="r-in"><span><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span>, slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sliceplot-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># normalized predictions, 10th percentile</span></span>
-<span class="r-in"><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span>, tau <span class="op">=</span> <span class="fl">0.1</span>, predicted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># normalized predictions, 10th percentile</span></span></span>
+<span class="r-in"><span><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span>, tau <span class="op">=</span> <span class="fl">0.1</span>, predicted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sliceplot-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># normalized values all months, change line aesthetics, log-space, 90th </span></span>
-<span class="r-in"><span class="co"># add title</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span>, </span>
-<span class="r-in"> slices <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, </span>
-<span class="r-in"> size <span class="op">=</span> <span class="fl">1.5</span>, </span>
-<span class="r-in"> tau <span class="op">=</span> <span class="fl">0.9</span>, </span>
-<span class="r-in"> alpha <span class="op">=</span> <span class="fl">0.6</span>, </span>
-<span class="r-in"> predicted <span class="op">=</span> <span class="cn">FALSE</span>, </span>
-<span class="r-in"> logspace <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Normalized predictions for all months, 90th percentile'</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># normalized values all months, change line aesthetics, log-space, 90th </span></span></span>
+<span class="r-in"><span><span class="co"># add title</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfit</span>, </span></span>
+<span class="r-in"><span> slices <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, </span></span>
+<span class="r-in"><span> size <span class="op">=</span> <span class="fl">1.5</span>, </span></span>
+<span class="r-in"><span> tau <span class="op">=</span> <span class="fl">0.9</span>, </span></span>
+<span class="r-in"><span> alpha <span class="op">=</span> <span class="fl">0.6</span>, </span></span>
+<span class="r-in"><span> predicted <span class="op">=</span> <span class="cn">FALSE</span>, </span></span>
+<span class="r-in"><span> logspace <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Normalized predictions for all months, 90th percentile'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sliceplot-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co">## plot a tidalmean object</span></span>
-<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span>
-<span class="r-in"> </span>
-<span class="r-in"> <span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co">## plot a tidalmean object</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span></span>
+<span class="r-in"><span> </span></span>
+<span class="r-in"><span> <span class="fu">sliceplot</span><span class="op">(</span><span class="va">tidfitmean</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sliceplot-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -193,7 +216,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
