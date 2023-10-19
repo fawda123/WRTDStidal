@@ -100,7 +100,7 @@ seasplot.tidal <- function(dat_in, tau = NULL, predicted = TRUE, span = 0.4, lwd
   # formatting for quantile legend labels
   quants <- gsub('^fit', '', names(to_plo)[tau_fits])
   quants <- lapply(as.list(quants), 
-    function(x) bquote(italic('\u03c4') ~ .(x))
+    function(x) bquote(italic(tau) ~ .(x))
   )
 
   # base plot

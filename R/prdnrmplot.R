@@ -163,7 +163,7 @@ prdnrmplot.tidal <- function(dat_in, tau = NULL, annuals = TRUE, logspace = TRUE
   # formatting for quantile legend labels
   quants <- gsub('^fit', '', tau_fits)
   quants <- lapply(as.list(quants), 
-    function(x) bquote(italic('\u03c4' ~ .(x)))
+    function(x) bquote(italic(tau ~ .(x)))
   )
   
   # bare bones plot, fits as points, nrms as lines
